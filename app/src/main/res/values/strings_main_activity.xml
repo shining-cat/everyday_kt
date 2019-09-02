@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!--MENU -->
+    <string name="settings_action_string" translatable="true">Préférences</string>
+    <string name="infos_action_string" translatable="true">Infos</string>
+
+<!-- BUTTONS -->
+    <string name="statistics" translatable="true">Statistiques</string>
+    <string name="view_rewards_btn_txt_default" translatable="true">Récompenses</string>
+    <string name="start_guided_session_btn_txt" translatable="true">Faire une session sur un support Audio</string>
+    <string name="launch_session_for" translatable="true">Démarrer une session de</string>
+    <string name="start_session_btn_or_more_txt" translatable="true">ou plus…</string>
+
+<!-- MESSAGES -->
+    <string name="checking_existing_rewards_message" translatable="true">Vérification de l\'existence des récompenses…</string>
+    <string name="generating_possible_rewards_message" translatable="true">Premier lancement, génération des récompenses…</string>
+    <string name="inserting_possible_rewards_message" translatable="true">Premier lancement, enregistrement des récompenses…</string>
+    <string name="looking_for_last_recorded_session_progress_dialog_title" translatable="true">Recherche de la dernière session enregistrée…</string>
+    <string name="checking_for_streaks_breaks_progress_dialog_title" translatable="true">Recherche de récompenses perdues…</string>
+
+<!-- INFOS SCREEN -->
+    <string name="app_made_by" translatable="true">Création et réalisation :</string>
+    <string name="app_made_name">Shiva Bernhard</string>
+    <string name="contact">shiva.bernhard@shining-cat.fr</string>
+    <string name="website">www.shining-cat.fr</string>
+    <string name="shining_cat_logo_content_description">Shining-cat logo</string>
+    <!--TODO: écrire texte "about"-->
+    <string name="infos_text_string" translatable="true">
+        <![CDATA[Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id vestibulum lectus, nec congue dui. Morbi sed fermentum tellus. Quisque consectetur ullamcorper ante a viverra. Fusce quis malesuada nisl. Cras egestas condimentum nisi et porttitor. Vivamus id arcu turpis. Cras dignissim vehicula metus, at feugiat purus cursus in. Quisque feugiat sem aliquam, consectetur odio id, accumsan mi. Vivamus dignissim feugiat ipsum vitae pretium. Praesent eu tortor sem. Maecenas eu purus ornare, posuere urna vitae, maximus lacus. Integer venenatis neque eu ultrices feugiat. Morbi hendrerit tellus massa, vel dignissim elit ullamcorper sed. In posuere dapibus ex sit amet tempus.
+Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex metus a risus. Nam rutrum neque orci, eget congue ipsum tincidunt non. Quisque pulvinar sed velit eu cursus. Vestibulum nec porta elit. In eget diam magna. Integer in eros interdum, ornare mi quis, sagittis diam. Aliquam ullamcorper quam a gravida lacinia. Maecenas a mattis metus. Nunc faucibus auctor tellus sed accumsan. Fusce posuere odio eget nibh iaculis vehicula. In hac habitasse platea dictumst. Donec dictum viverra diam sit amet tincidunt. Etiam pellentesque blandit massa, ut hendrerit purus accumsan eget. Cras viverra, nunc non semper ullamcorper, nisl ante sodales ante, at venenatis justo tellus a ipsum. Vestibulum aliquet accumsan pretium. Sed rhoncus a orci sit amet porta.
+        ]]>
+    </string>
+
+</resources>
