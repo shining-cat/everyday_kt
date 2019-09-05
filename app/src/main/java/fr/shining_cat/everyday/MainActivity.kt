@@ -1,11 +1,10 @@
 package fr.shining_cat.everyday
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import fr.shining_cat.everyday.utils.extensions.*
+import fr.shining_cat.everyday.utils.extensions.extensions.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,11 +26,11 @@ class MainActivity : AppCompatActivity() {
         val id = item?.itemId
         when(id){
             R.id.action_settings -> {
-//                startActivity(Intent(this, SettingsActivity.class))
+                //TODO: open settings
                 return true
             }
             R.id.action_infos -> {
-
+                //TODO: show "about" Dialog
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
