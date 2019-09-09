@@ -1,0 +1,20 @@
+android {
+    compileSdkVersion Versions.compileSdk
+    defaultConfig {
+        minSdkVersion Versions.minSdk
+        targetSdkVersion Versions.targetSdk
+        versionCode Releases.versionCode
+        versionName Releases.versionName
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+        }
+    }
+}
+
+dependencies {
+    implementation KotlinLibraries.kotlin
+    implementation KotlinLibraries.kotlinAndroidExtensions
+    implementation AndroidLibraries.liveData
+}

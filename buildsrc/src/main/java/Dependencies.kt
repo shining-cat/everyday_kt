@@ -4,15 +4,12 @@ object ApplicationId {
 
 object Versions {
     val kotlin = "1.3.50"
-    val core = "1.0.1"
-    val coroutine = "1.1.0"
-    val constraint_layout = "1.1.3"
-    val gradle = "3.3.0"
-    val lifecycle_extensions = "2.0.0"
-    val navigation = "1.0.0-beta02"
+    val gradle = "3.5.0"
     val room = "2.1.0"
-    val coroutines = "1.1.1"
-    val safeArgs = "2.1.0-alpha01"
+
+    val compileSdk = 28
+    val minSdk = 21
+    val targetSdk = 28
 }
 
 object Releases {
@@ -29,14 +26,20 @@ object Modules {
 
 }
 object Libraries {
-
+    // ROOM
+    val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
+    val roomRunTime = "androidx.room:room-runtime:${Versions.room}"
+    val roomKtx = "androidx.room:room-ktx:${Versions.room}"
+    //GRADLE
+    val gradle = "com.android.tools.build:gradle:${Versions.gradle}"
 }
 
 object KotlinLibraries {
     val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
-    val kotlinCoroutineCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
+    val kotlinAndroidExtensions = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
 }
 
 object AndroidLibraries {
-    
+    val appCompat = "com.android.support:appcompat-v7:27.1.1"
+    val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-alpha03"
 }

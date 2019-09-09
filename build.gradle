@@ -6,12 +6,9 @@ buildscript {
 
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:3.5.0"
-        classpath KotlinLibraries.kotlin
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.safeArgs}"
+        classpath Libraries.gradle
     }
 }
-
 
 allprojects {
     repositories {

@@ -1,5 +1,7 @@
 package fr.shining_cat.everyday.model
 
+import com.google.common.collect.ImmutableList
+import com.google.common.collect.ImmutableSet
 import fr.shining_cat.everyday.utils.extensions.logD
 import fr.shining_cat.everyday.utils.extensions.logE
 import kotlin.random.Random
@@ -54,6 +56,86 @@ abstract class Critter{
             val critterCode = randomParts.joinToString(CRITTER_CODE_SEPARATOR)
             logD("LOGGING::CRITTER", "getRandomCritterCode:: code = $critterCode")
             return critterCode
+        }
+
+        fun getAllPossibleCritterCodesCount() = getNumberOfCritterPossible(Level.LEVEL_1) + getNumberOfCritterPossible(Level.LEVEL_2) + getNumberOfCritterPossible(Level.LEVEL_3) + getNumberOfCritterPossible(Level.LEVEL_4) + getNumberOfCritterPossible(Level.LEVEL_4)
+
+        fun getNumberOfCritterPossible(critterLevel: Level): Int{
+            return when (critterLevel) {
+                Level.LEVEL_5 -> FLOWER_PARTS.size * MOUTH_PARTS.size * LEGS_PARTS.size * ARMS_PARTS.size * EYES_PARTS.size * HORNS_PARTS.size
+                Level.LEVEL_4 -> FLOWER_PARTS.size * MOUTH_PARTS.size * LEGS_PARTS.size * ARMS_PARTS.size * EYES_PARTS.size
+                Level.LEVEL_3 -> FLOWER_PARTS.size * MOUTH_PARTS.size * LEGS_PARTS.size * ARMS_PARTS.size
+                Level.LEVEL_2 -> FLOWER_PARTS.size * MOUTH_PARTS.size * LEGS_PARTS.size
+                Level.LEVEL_1 -> FLOWER_PARTS.size * MOUTH_PARTS.size
+            }
+        }
+
+        fun getAllPossibleCritterCodes(): ImmutableSet<String>{
+            val allPossibleCritterCodes: MutableSet<String> = HashSet()
+            for(i in 1..HORNS_PARTS.size) { // do not include eye = 0
+//////////////// ALL PARTS EXCLUDE index 0 => REWARD_LEVEL_5
+                if(i!=0){
+                    for (j in 1..EYES_PARTS.size) { // do not include eye = 0
+                        for (k in 0..MOUTH_PARTS.size) {// mouth has no "off" level
+                            for (l in 1..ARMS_PARTS.size) {// do not include arms = 0
+                                for (m in 1..LEGS_PARTS.size) {// do not include legs = 0
+                                    for (n in 0..FLOWER_PARTS.size) {// flower has no "off" level
+                                        val parts = arrayOf(n.toString(), m.toString(), l.toString(), k.toString(), j.toString(), i.toString())
+                                        allPossibleCritterCodes.add(parts.joinToString(CRITTER_CODE_SEPARATOR))
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }else{
+                    for (j in 0..EYES_PARTS.size) {
+//////////////// HORN_PART is HORNS_PART_OFF, ALL OTHER PARTS EXCLUDE index 0 => REWARD_LEVEL_4
+                        if(j != 0) {
+                            for (k in 0..MOUTH_PARTS.size) {// mouth has no "off" level
+                                for (l in 1..ARMS_PARTS.size) {// do not include arms = 0
+                                    for (m in 1..LEGS_PARTS.size) {// do not include legs = 0
+                                        for (n in 0..FLOWER_PARTS.size) {// flower has no "off" level
+                                            val parts = arrayOf(n.toString(), m.toString(), l.toString(), k.toString(), j.toString(), i.toString())
+                                            allPossibleCritterCodes.add(parts.joinToString(CRITTER_CODE_SEPARATOR))
+                                        }
+                                    }
+                                }
+                            }
+                        }else{
+                            for (k in 0..MOUTH_PARTS.size) {// mouth has no "off" level
+                                for (l in 0..ARMS_PARTS.size) {
+//////////////// HORN_PART is HORNS_PART_OFF, EYES_PARTS is EYES_PART_OFF, ALL OTHER PARTS EXCLUDE index 0 => REWARD_LEVEL_3
+                                    if(l != 0) {
+                                        for (m in 1..LEGS_PARTS.size) {// do not include legs = 0
+                                            for (n in 0..FLOWER_PARTS.size) {// flower has no "off" level
+                                                val parts = arrayOf(n.toString(), m.toString(), l.toString(), k.toString(), j.toString(), i.toString())
+                                                allPossibleCritterCodes.add(parts.joinToString(CRITTER_CODE_SEPARATOR))
+                                            }
+                                        }
+                                    }else{
+                                        for (m in 0..LEGS_PARTS.size) {
+//////////////// HORN_PART is HORNS_PART_OFF, EYES_PARTS is EYES_PART_OFF, ARMS_PARTS is ARMS_PART_OFF, ALL OTHER PARTS EXCLUDE index 0 => REWARD_LEVEL_2
+                                            if(m != 0) {//REWARD_LEVEL_2
+                                                for (n in 0..FLOWER_PARTS.size) {// flower has no "off" level
+                                                    val parts = arrayOf(n.toString(), m.toString(), l.toString(), k.toString(), j.toString(), i.toString())
+                                                    allPossibleCritterCodes.add(parts.joinToString(CRITTER_CODE_SEPARATOR))
+                                                }
+                                            }else{//REWARD_LEVEL_1
+//////////////// HORN_PART is HORNS_PART_OFF, EYES_PARTS is EYES_PART_OFF, ARMS_PARTS is ARMS_PART_OFF, LEGS_PARTS is LEGS_PART_OFF=> REWARD_LEVEL_1
+                                                for (n in 0..FLOWER_PARTS.size) {// flower has no "off" level
+                                                    val parts = arrayOf(n.toString(), m.toString(), l.toString(), k.toString(), j.toString(), i.toString())
+                                                    allPossibleCritterCodes.add(parts.joinToString(CRITTER_CODE_SEPARATOR))
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return ImmutableSet.copyOf(allPossibleCritterCodes)
         }
 
         fun getLevel(critterCode: String):Level {
@@ -111,8 +193,4 @@ abstract class Critter{
             }
         }
     }
-
-
-
-
 }

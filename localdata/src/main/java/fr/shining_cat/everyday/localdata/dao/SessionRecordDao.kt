@@ -29,10 +29,10 @@ abstract class SessionRecordDao{
     @Query("SELECT * from sessions_table ORDER BY startTimeOfRecord DESC")
     abstract fun getAllSessionsStartTimeDesc(): LiveData<List<SessionRecord>>
 
-    @Query("SELECT * from sessions_table ORDER BY sessionRealDuration ASC")
+    @Query("SELECT * from sessions_table ORDER BY realDuration ASC")
     abstract fun getAllSessionsDurationAsc(): LiveData<List<SessionRecord>>
 
-    @Query("SELECT * from sessions_table ORDER BY sessionRealDuration DESC")
+    @Query("SELECT * from sessions_table ORDER BY realDuration DESC")
     abstract fun getAllSessionsDurationDesc(): LiveData<List<SessionRecord>>
 
     //

@@ -8,37 +8,37 @@ class RewardTest {
 
     @Test
     fun getRewardFlowerCode() {
-        val testReward = Reward(1, "1_2_3_4_5_6", Critter.Level.LEVEL_1)
-        Assert.assertEquals(1, testReward.getRewardFlowerCode())
+        val testReward = RewardModel(1, "1_2_3_4_5_6", Critter.Level.LEVEL_1)
+        Assert.assertEquals(1, testReward.getFlowerCode())
     }
 
     @Test
     fun getRewardLegsCode() {
-        val testReward = Reward(1, "1_2_3_4_5_6", Critter.Level.LEVEL_1)
-        Assert.assertEquals(2, testReward.getRewardLegsCode())
+        val testReward = RewardModel(1, "1_2_3_4_5_6", Critter.Level.LEVEL_1)
+        Assert.assertEquals(2, testReward.getLegsCode())
     }
 
     @Test
     fun getRewardArmsCode() {
-        val testReward = Reward(1, "1_2_3_4_5_6", Critter.Level.LEVEL_1)
-        Assert.assertEquals(3, testReward.getRewardArmsCode())
+        val testReward = RewardModel(1, "1_2_3_4_5_6", Critter.Level.LEVEL_1)
+        Assert.assertEquals(3, testReward.getArmsCode())
     }
 
     @Test
     fun getRewardMouthCode() {
-        val testReward = Reward(1, "1_2_3_4_5_6", Critter.Level.LEVEL_1)
-        Assert.assertEquals(4, testReward.getRewardMouthCode())
+        val testReward = RewardModel(1, "1_2_3_4_5_6", Critter.Level.LEVEL_1)
+        Assert.assertEquals(4, testReward.getMouthCode())
     }
 
     @Test
     fun getRewardEyesCode() {
-        val testReward = Reward(1, "1_2_3_4_5_6", Critter.Level.LEVEL_1)
-        Assert.assertEquals(5, testReward.getRewardEyesCode())
+        val testReward = RewardModel(1, "1_2_3_4_5_6", Critter.Level.LEVEL_1)
+        Assert.assertEquals(5, testReward.getEyesCode())
     }
 
     @Test
     fun getRewardHornsCode() {
-        val testReward = Reward(1, "1_2_3_4_5_6", Critter.Level.LEVEL_1)
-        Assert.assertEquals(6, testReward.getRewardHornsCode())
+        val testReward = RewardModel(1, "1_2_3_4_5_6", Critter.Level.LEVEL_1)
+        Assert.assertEquals(6, testReward.getHornsCode())
     }
 }

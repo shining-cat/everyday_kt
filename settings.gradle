@@ -1,1 +1,1 @@
-include ':app', ':repository', ':localdata', ':model', ':buildSrc', ':utils'
+include ':app', ':repository', ':localdata', ':model', ':buildsrc', ':utils'
