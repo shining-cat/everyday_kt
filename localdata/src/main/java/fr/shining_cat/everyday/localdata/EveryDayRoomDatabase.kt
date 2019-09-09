@@ -8,11 +8,10 @@ import androidx.room.RoomDatabase
 
 import fr.shining_cat.everyday.localdata.dao.RewardDao
 import fr.shining_cat.everyday.localdata.dao.SessionRecordDao
+import fr.shining_cat.everyday.localdata.dto.RewardDTO
 import fr.shining_cat.everyday.localdata.dto.SessionDTO
-import fr.shining_cat.everyday.model.Reward
-import fr.shining_cat.everyday.model.SessionRecord
 
-@Database(entities = [SessionDTO::class, Reward::class ], version = 1, exportSchema = false)
+@Database(entities = [SessionDTO::class, RewardDTO::class ], version = 1, exportSchema = false)
 abstract class EveryDayRoomDatabase : RoomDatabase() {
 
     /**
