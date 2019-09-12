@@ -2,8 +2,6 @@ package fr.shining_cat.everyday.repository.converter
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.Transformations.map
-import androidx.lifecycle.map
 import fr.shining_cat.everyday.localdata.dto.RewardDTO
 import fr.shining_cat.everyday.localdata.dto.RewardDTOConstants
 import fr.shining_cat.everyday.model.Critter
@@ -12,6 +10,10 @@ import fr.shining_cat.everyday.model.RewardModelConstants
 
 class RewardConverter {
     companion object{
+
+        fun convertModelsToDTOs(rewardModels: List<RewardModel>): List<RewardDTO> {
+            return rewardModels.map {rewardModel ->  convertModelToDTO(rewardModel)}
+        }
 
         fun convertModelToDTO(rewardModel: RewardModel): RewardDTO {
             val level  = when (rewardModel.level) {
@@ -37,7 +39,7 @@ class RewardConverter {
         }
 
         fun convertDTOsToModels(rewardDTOs: LiveData<List<RewardDTO>>): LiveData<List<RewardModel>> {
-            return map(rewardDTOs){it.map { rewardDTO ->  convertDTOtoModel(rewardDTO)}}
+            return Transformations.map(rewardDTOs){it.map { rewardDTO ->  convertDTOtoModel(rewardDTO)}}
         }
 
         fun convertDTOtoModel(rewardDTO: RewardDTO): RewardModel{
@@ -62,5 +64,5 @@ class RewardConverter {
             return rewardModel
 
         }
-}
+    }
 }
