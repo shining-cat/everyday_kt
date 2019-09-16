@@ -7,7 +7,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 import fr.shining_cat.everyday.localdata.dao.RewardDao
-import fr.shining_cat.everyday.localdata.dao.SessionRecordDao
+import fr.shining_cat.everyday.localdata.dao.SessionDao
 import fr.shining_cat.everyday.localdata.dto.RewardDTO
 import fr.shining_cat.everyday.localdata.dto.SessionDTO
 
@@ -17,7 +17,7 @@ abstract class EveryDayRoomDatabase : RoomDatabase() {
     /**
      * Connects the database to the DAOs.
      */
-    abstract fun sessionRecordDao(): SessionRecordDao
+    abstract fun sessionDao(): SessionDao
 
     abstract fun rewardDao(): RewardDao
 
