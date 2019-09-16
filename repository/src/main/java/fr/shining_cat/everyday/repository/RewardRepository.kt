@@ -8,6 +8,7 @@ import fr.shining_cat.everyday.repository.converter.RewardConverter.Companion.co
 import fr.shining_cat.everyday.repository.converter.RewardConverter.Companion.convertModelsToDTOs
 
 class RewardRepository(private val rewardDao: RewardDao) {
+
     suspend fun insert(reward: RewardModel): Long = rewardDao.insert(convertModelToDTO(reward))
     suspend fun insert(rewards: List<RewardModel>): Array<Long> = rewardDao.insert(convertModelsToDTOs(rewards))
 
@@ -24,16 +25,16 @@ class RewardRepository(private val rewardDao: RewardDao) {
     suspend fun rewardsActiveLevelAsc(): LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsActiveLevelAsc())
     suspend fun rewardsActiveLevelDesc(): LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsActiveLevelDesc())
 
-    //ACTIVE and NOT LOST rewards :
+    //ACTIVE and NOT-LOST rewards :
     suspend fun rewardsNotEscapedAcquisitionDateDesc(): LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsNotEscapedAcquisitionDatDesc())
 
     //ACTIVE and LOST rewards :
     suspend fun rewardsEscapedAcquisitionDateDesc(): LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsEscapedAcquisitionDateDesc())
 
-    //NON ACTIVE rewards for specific LEVEL:
+    //NON-ACTIVE rewards for specific LEVEL:
     suspend fun rewardsOfSPecificLevelNotActive(level: Int):  LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsOfSPecificLevelNotActive(level))
 
-    //NON ACTIVE or ACTIVE and ESCAPED rewards for specific LEVEL:
+    //NON-ACTIVE or ACTIVE-and-ESCAPED rewards for specific LEVEL:
     suspend fun rewardsOfSPecificLevelNotActiveOrEscaped(level: Int):  LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsOfSPecificLevelNotActiveOrEscaped(level))
 
     //COUNTS :
