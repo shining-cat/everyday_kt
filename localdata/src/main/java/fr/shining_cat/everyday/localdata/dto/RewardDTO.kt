@@ -12,7 +12,7 @@ import fr.shining_cat.everyday.localdata.dto.RewardDTOConstants.NO_NAME
 @Entity(tableName = "rewards_table")
 data class RewardDTO(
     @PrimaryKey(autoGenerate = true)
-    private var id: Long = 0L,
+    var id: Long = 0L,
     //
     @ColumnInfo(name = RewardDTOColumnNames.REWARD_CODE_COLUMN_NAME)
     val code: String,
@@ -27,7 +27,7 @@ data class RewardDTO(
     @ColumnInfo(name = RewardDTOColumnNames.ESCAPED_STATE_COLUMN_NAME)
     var isEscaped: Boolean = true,
     @ColumnInfo(name = RewardDTOColumnNames.REWARD_CUSTOM_NAME_COLUMN_NAME)
-    var rewardName: String = NO_NAME,
+    var name: String = NO_NAME,
     @ColumnInfo(name = RewardDTOColumnNames.REWARD_CUSTOM_LEGS_COLOR_COLUMN_NAME)
     var legsColor: String = DEFAULT_REWARD_COLOR,
     @ColumnInfo(name = RewardDTOColumnNames.REWARD_CUSTOM_BODY_COLOR_COLUMN_NAME)
@@ -50,7 +50,7 @@ object RewardDTOColumnNames{
     const val DATE_ESCAPING_COLUMN_NAME            = "escapingDate"
     const val ACTIVE_STATE_COLUMN_NAME             = "isActive"
     const val ESCAPED_STATE_COLUMN_NAME            = "isEscaped"
-    const val REWARD_CUSTOM_NAME_COLUMN_NAME       = "rewardName"
+    const val REWARD_CUSTOM_NAME_COLUMN_NAME       = "name"
     const val REWARD_CUSTOM_LEGS_COLOR_COLUMN_NAME = "legsColor"
     const val REWARD_CUSTOM_BODY_COLOR_COLUMN_NAME = "bodyColor"
     const val REWARD_CUSTOM_ARMS_COLOR_COLUMN_NAME = "armsColor"

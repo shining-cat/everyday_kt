@@ -27,11 +27,11 @@ class RewardConverter {
                 code = rewardModel.code,
                 level = level
             )
-            rewardDTO.acquisitionDate = if (rewardModel.acquisitionDate != RewardModelConstants.NO_ACQUISITION_DATE) rewardModel.acquisitionDate else RewardDTOConstants.NO_ACQUISITION_DATE
-            rewardDTO.escapingDate = if (rewardModel.escapingDate != RewardModelConstants.NO_ESCAPING_DATE) rewardModel.escapingDate else RewardDTOConstants.NO_ESCAPING_DATE
+            rewardDTO.acquisitionDate = if (rewardModel.acquisitionDate == RewardModelConstants.NO_ACQUISITION_DATE) RewardDTOConstants.NO_ACQUISITION_DATE else rewardModel.acquisitionDate
+            rewardDTO.escapingDate = if (rewardModel.escapingDate == RewardModelConstants.NO_ESCAPING_DATE) RewardDTOConstants.NO_ESCAPING_DATE else rewardModel.escapingDate
+            rewardDTO.name =  if (rewardModel.name == RewardModelConstants.NO_NAME) RewardDTOConstants.NO_NAME else rewardModel.name
             rewardDTO.isActive = rewardModel.isActive
             rewardDTO.isEscaped = rewardModel.isEscaped
-            rewardDTO.rewardName =  if (rewardModel.name != RewardModelConstants.NO_NAME) rewardModel.name else RewardDTOConstants.NO_NAME
             rewardDTO.legsColor = rewardModel.legsColor
             rewardDTO.bodyColor = rewardModel.bodyColor
             rewardDTO.armsColor = rewardModel.armsColor
@@ -52,12 +52,12 @@ class RewardConverter {
                 1 -> Critter.Level.LEVEL_1
                 else -> Critter.getLevel(rewardCode)
             }
-            val rewardModel = RewardModel(code = rewardDTO.code, level = level)
-            rewardModel.acquisitionDate = if (rewardDTO.acquisitionDate != RewardDTOConstants.NO_ACQUISITION_DATE) rewardDTO.acquisitionDate else RewardModelConstants.NO_ACQUISITION_DATE
-            rewardModel.escapingDate = if (rewardDTO.escapingDate != RewardDTOConstants.NO_ESCAPING_DATE) rewardDTO.escapingDate else RewardModelConstants.NO_ESCAPING_DATE
+            val rewardModel = RewardModel(id= rewardDTO.id, code = rewardDTO.code, level = level)
+            rewardModel.acquisitionDate = if (rewardDTO.acquisitionDate == RewardDTOConstants.NO_ACQUISITION_DATE) RewardModelConstants.NO_ACQUISITION_DATE else rewardDTO.acquisitionDate
+            rewardModel.escapingDate = if (rewardDTO.escapingDate == RewardDTOConstants.NO_ESCAPING_DATE) RewardModelConstants.NO_ESCAPING_DATE else rewardDTO.escapingDate
+            rewardModel.name = if (rewardDTO.name == RewardDTOConstants.NO_NAME) RewardModelConstants.NO_NAME else rewardDTO.name
             rewardModel.isActive = rewardDTO.isActive
             rewardModel.isEscaped = rewardDTO.isEscaped
-            rewardModel.name = if (rewardDTO.rewardName != RewardDTOConstants.NO_NAME) rewardDTO.rewardName else RewardModelConstants.NO_NAME
             rewardModel.legsColor = rewardDTO.legsColor
             rewardModel.bodyColor = rewardDTO.bodyColor
             rewardModel.armsColor = rewardDTO.armsColor

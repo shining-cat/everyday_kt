@@ -4,8 +4,4 @@ apply from: '../android_commons.gradle'
 dependencies {
     implementation project(Modules.model)
     implementation project(Modules.localdata)
-
-    implementation project(":utils")
-
-    testImplementation project(Modules.testutils)
 }

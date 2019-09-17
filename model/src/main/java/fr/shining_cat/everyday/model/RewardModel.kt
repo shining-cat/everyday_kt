@@ -53,6 +53,7 @@ data class RewardModel(
     fun getEyesCode() = Integer.valueOf(splitRewardCode[EYES_CODE_INDEX_IN_CRITTER_CODE])
     fun getHornsCode() = Integer.valueOf(splitRewardCode[HORNS_CODE_INDEX_IN_CRITTER_CODE])
 
+
 }
 
 object RewardModelChances{

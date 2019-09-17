@@ -6,6 +6,7 @@ object Versions {
     val kotlin = "1.3.50"
     val gradle = "3.5.0"
     val room = "2.1.0"
+    val androidJunit = "1.1.0"
 
     val compileSdk = 28
     val minSdk = 21
@@ -23,7 +24,7 @@ object Modules {
     val model = ":model"
     val repository = ":repository"
     val utils = ":utils"
-
+    val testutils = ":testutils"
 }
 object Libraries {
     // ROOM
@@ -42,4 +43,9 @@ object KotlinLibraries {
 object AndroidLibraries {
     val appCompat = "com.android.support:appcompat-v7:27.1.1"
     val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-alpha03"
+}
+
+object TestLibraries {
+    // ANDROID TEST
+    val junit = "androidx.test.ext:junit:${Versions.androidJunit}"
 }

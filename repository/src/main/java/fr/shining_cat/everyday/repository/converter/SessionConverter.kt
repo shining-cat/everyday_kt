@@ -1,13 +1,18 @@
 package fr.shining_cat.everyday.repository.converter
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-import fr.shining_cat.everyday.localdata.dto.RewardDTO
-import fr.shining_cat.everyday.localdata.dto.SessionDTO
-import fr.shining_cat.everyday.model.*
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
+
+import fr.shining_cat.everyday.localdata.dto.SessionDTO
+import fr.shining_cat.everyday.model.Mood
+import fr.shining_cat.everyday.model.MoodValue
+import fr.shining_cat.everyday.model.RealDurationVsPlanned
+import fr.shining_cat.everyday.model.SessionModel
+
 
 class SessionConverter {
     companion object{
@@ -19,25 +24,21 @@ class SessionConverter {
         fun convertModelToDTO(sessionModel: SessionModel): SessionDTO {
             val startMoodRecord = sessionModel.startMood
             val endMoodRecord = sessionModel.endMood
-            val realDurationVsPlanned  = when (sessionModel.realDurationVsPlanned) {
-                RealDurationVsPlanned.EQUAL -> 0
-                RealDurationVsPlanned.REAL_SHORTER -> -1
-                RealDurationVsPlanned.REAL_LONGER -> 1
-            }
+            val realDurationVsPlanned  = convertRealDurationVsPlannedtoInt(sessionModel.realDurationVsPlanned)
 
             return SessionDTO(
                 id = sessionModel.id,
                 startTimeOfRecord = startMoodRecord.timeOfRecord,
-                startBodyValue = startMoodRecord.bodyValue,
-                startThoughtsValue = startMoodRecord.thoughtsValue,
-                startFeelingsValue = startMoodRecord.feelingsValue,
-                startGlobalValue = startMoodRecord.globalValue,
+                startBodyValue = convertMoodValueToInt(startMoodRecord.bodyValue),
+                startThoughtsValue = convertMoodValueToInt(startMoodRecord.thoughtsValue),
+                startFeelingsValue = convertMoodValueToInt(startMoodRecord.feelingsValue),
+                startGlobalValue = convertMoodValueToInt(startMoodRecord.globalValue),
                 //
                 endTimeOfRecord = endMoodRecord.timeOfRecord,
-                endBodyValue = endMoodRecord.bodyValue,
-                endThoughtsValue = endMoodRecord.thoughtsValue,
-                endFeelingsValue = endMoodRecord.feelingsValue,
-                endGlobalValue = endMoodRecord.globalValue,
+                endBodyValue = convertMoodValueToInt(endMoodRecord.bodyValue),
+                endThoughtsValue = convertMoodValueToInt(endMoodRecord.thoughtsValue),
+                endFeelingsValue = convertMoodValueToInt(endMoodRecord.feelingsValue),
+                endGlobalValue = convertMoodValueToInt(endMoodRecord.globalValue),
                 //
                 notes = sessionModel.notes,
                 realDuration = sessionModel.realDuration,
@@ -45,6 +46,20 @@ class SessionConverter {
                 realDurationVsPlanned = realDurationVsPlanned,
                 guideMp3 = sessionModel.guideMp3
             )
+        }
+
+        fun convertRealDurationVsPlannedtoInt(realDurationVsPlanned: RealDurationVsPlanned) = when(realDurationVsPlanned){
+            RealDurationVsPlanned.EQUAL -> 0
+            RealDurationVsPlanned.REAL_SHORTER -> -1
+            RealDurationVsPlanned.REAL_LONGER -> 1
+        }
+
+        fun convertMoodValueToInt(moodValue: MoodValue) = when(moodValue){
+            MoodValue.WORST -> -2
+            MoodValue.BAD -> -1
+            MoodValue.NOT_SET -> 0
+            MoodValue.GOOD -> 1
+            MoodValue.BEST -> 2
         }
 
         fun convertDTOsToModels(sessionDTOs: LiveData<List<SessionDTO>>): LiveData<List<SessionModel>> {
@@ -57,23 +72,20 @@ class SessionConverter {
         fun convertDTOtoModel(sessionDTO: SessionDTO): SessionModel{
             val startMoodRecord = Mood(
                 timeOfRecord = sessionDTO.startTimeOfRecord,
-                bodyValue = sessionDTO.startBodyValue,
-                thoughtsValue = sessionDTO.startThoughtsValue,
-                feelingsValue = sessionDTO.startFeelingsValue,
-                globalValue = sessionDTO.startGlobalValue
+                bodyValue = convertIntToMoodValue(sessionDTO.startBodyValue),
+                thoughtsValue = convertIntToMoodValue(sessionDTO.startThoughtsValue),
+                feelingsValue = convertIntToMoodValue(sessionDTO.startFeelingsValue),
+                globalValue = convertIntToMoodValue(sessionDTO.startGlobalValue)
             )
             val endMoodRecord = Mood(
                 timeOfRecord = sessionDTO.endTimeOfRecord,
-                bodyValue = sessionDTO.endBodyValue,
-                thoughtsValue = sessionDTO.endThoughtsValue,
-                feelingsValue = sessionDTO.endFeelingsValue,
-                globalValue = sessionDTO.endGlobalValue
+                bodyValue = convertIntToMoodValue(sessionDTO.endBodyValue),
+                thoughtsValue = convertIntToMoodValue(sessionDTO.endThoughtsValue),
+                feelingsValue = convertIntToMoodValue(sessionDTO.endFeelingsValue),
+                globalValue = convertIntToMoodValue(sessionDTO.endGlobalValue)
             )
-            val realDurationVsPlanned  = when{
-                sessionDTO.realDurationVsPlanned < 0 -> RealDurationVsPlanned.REAL_SHORTER
-                sessionDTO.realDurationVsPlanned > 0 -> RealDurationVsPlanned.REAL_LONGER
-                else -> RealDurationVsPlanned.EQUAL
-            }
+            val realDurationVsPlanned  = convertIntToRealDurationVsPlanned(sessionDTO.realDurationVsPlanned)
+
             return SessionModel(
                 id = sessionDTO.id,
                 startMood = startMoodRecord,
@@ -86,25 +98,40 @@ class SessionConverter {
             )
         }
 
+        fun convertIntToRealDurationVsPlanned(realDurationVsPlannedAsInt: Int) = when{
+            realDurationVsPlannedAsInt < 0 -> RealDurationVsPlanned.REAL_SHORTER
+            realDurationVsPlannedAsInt > 0 -> RealDurationVsPlanned.REAL_LONGER
+            else -> RealDurationVsPlanned.EQUAL
+         }
+
+        fun convertIntToMoodValue(moodValueAsInt: Int) = when(moodValueAsInt){
+            -2 -> MoodValue.WORST
+            -1 -> MoodValue.BAD
+            1 -> MoodValue.GOOD
+            2 -> MoodValue.BEST
+            else -> MoodValue.NOT_SET
+        }
+
         fun convertModelToStringArray(sessionModel: SessionModel): Array<String> {
             val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
             //0 is for NOT SET so export it as such
             val startMoodRecord = sessionModel.startMood
-            val startBodyValue = if (startMoodRecord.bodyValue == MoodConstants.NO_VALUE_SET) "NOT SET" else startMoodRecord.bodyValue.toString()
-            val startThoughtsValue = if (startMoodRecord.thoughtsValue == MoodConstants.NO_VALUE_SET) "NOT SET" else startMoodRecord.thoughtsValue.toString()
-            val startFeelingsValue = if (startMoodRecord.feelingsValue== MoodConstants.NO_VALUE_SET) "NOT SET" else startMoodRecord.feelingsValue.toString()
-            val startGlobalValue = if (startMoodRecord.globalValue == MoodConstants.NO_VALUE_SET) "NOT SET" else startMoodRecord.globalValue.toString()
+            val startBodyValue = startMoodRecord.bodyValue.name
+//            val startBodyValue = if (startMoodRecord.bodyValue == MoodConstants.NO_VALUE_SET) "NOT SET" else startMoodRecord.bodyValue.toString()
+            val startThoughtsValue = startMoodRecord.thoughtsValue.name
+            val startFeelingsValue = startMoodRecord.feelingsValue.name
+            val startGlobalValue = startMoodRecord.globalValue.name
             //
             val endMoodRecord = sessionModel.endMood
-            val endBodyValue = if (endMoodRecord.bodyValue == MoodConstants.NO_VALUE_SET) "NOT SET" else endMoodRecord.bodyValue.toString()
-            val endThoughtsValue = if (endMoodRecord.thoughtsValue == MoodConstants.NO_VALUE_SET) "NOT SET" else endMoodRecord.thoughtsValue.toString()
-            val endFeelingsValue = if (endMoodRecord.feelingsValue == MoodConstants.NO_VALUE_SET) "NOT SET" else endMoodRecord.feelingsValue.toString()
-            val endGlobalValue = if (endMoodRecord.globalValue == MoodConstants.NO_VALUE_SET) "NOT SET" else endMoodRecord.globalValue.toString()
+            val endBodyValue = endMoodRecord.bodyValue.name
+            val endThoughtsValue = endMoodRecord.thoughtsValue.name
+            val endFeelingsValue = endMoodRecord.feelingsValue.name
+            val endGlobalValue = endMoodRecord.globalValue.name
             //
             return arrayOf(
                 sdf.format(startMoodRecord.timeOfRecord),
                 sdf.format(endMoodRecord.timeOfRecord),
-                (TimeUnit.MILLISECONDS.toMinutes(sessionModel.realDuration)).toString(),
+                (TimeUnit.MILLISECONDS.toMinutes(sessionModel.realDuration)).toString() + "mn",
                 sessionModel.notes,
                 startBodyValue,
                 startThoughtsValue,

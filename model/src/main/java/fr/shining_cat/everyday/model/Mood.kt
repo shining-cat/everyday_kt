@@ -3,10 +3,10 @@ package fr.shining_cat.everyday.model
 data class Mood(
     val timeOfRecord: Long,
     //values range from 1 (WORST) to 5 (BEST), 0 is for NOT SET
-    val bodyValue: Int,
-    val thoughtsValue: Int,
-    val feelingsValue: Int,
-    val globalValue: Int)
+    val bodyValue: MoodValue,
+    val thoughtsValue: MoodValue,
+    val feelingsValue: MoodValue,
+    val globalValue: MoodValue)
    {
 
     override fun toString() = "MOOD : timeStamp = " + timeOfRecord +
@@ -18,4 +18,12 @@ data class Mood(
 
 object MoodConstants{
     const val NO_VALUE_SET: Int = 0
+}
+
+enum class MoodValue{
+    WORST,
+    BAD,
+    NOT_SET,
+    GOOD,
+    BEST
 }

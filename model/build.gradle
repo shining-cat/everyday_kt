@@ -7,4 +7,6 @@ dependencies {
     implementation Libraries.roomCompiler
     implementation Libraries.roomRunTime
     implementation Libraries.roomKtx
+
+    annotationProcessor Libraries.roomCompiler
 }

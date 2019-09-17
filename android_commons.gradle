@@ -13,8 +13,12 @@ android {
     }
 }
 
+apply plugin: 'kotlin-android'
+
 dependencies {
     implementation KotlinLibraries.kotlin
     implementation KotlinLibraries.kotlinAndroidExtensions
     implementation AndroidLibraries.liveData
+
+    testImplementation TestLibraries.junit
 }

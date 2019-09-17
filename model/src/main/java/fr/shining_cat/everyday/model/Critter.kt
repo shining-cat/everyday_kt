@@ -33,17 +33,23 @@ abstract class Critter{
         //TODO: vectorize body parts in two files each : one with only black lines and shadows, the other full white for colorization
         //TODO: the lines one will be put on top of the other, which will be altered via setColorFilter according to user set color
         //TODO: beware when importing future body parts as vectors, seems that from API 24 and above, too long paths will break everything, while the vector will work on lower APIs because then it uses the support library...
-        const val LEGS_PART_OFF  =  R.drawable.legs_0
-        const val ARMS_PART_OFF  =  R.drawable.arms_0
-        const val EYES_PART_OFF  =  R.drawable.eyes_0
-        const val HORNS_PART_OFF =  R.drawable.horns_0 // = empty picture
+        const val LEGS_PART_OFF  =  -1//R.drawable.legs_0
+        const val ARMS_PART_OFF  =  -1//R.drawable.arms_0
+        const val EYES_PART_OFF  =  -1//R.drawable.eyes_0
+        const val HORNS_PART_OFF =  -1//R.drawable.horns_0 // = empty picture
 
-        val FLOWER_PARTS = arrayOf(R.drawable.flower_1, R.drawable.flower_2, R.drawable.flower_3, R.drawable.flower_4, R.drawable.flower_5, R.drawable.flower_6)
-        val LEGS_PARTS = arrayOf(LEGS_PART_OFF, R.drawable.legs_1, R.drawable.legs_2, R.drawable.legs_3, R.drawable.legs_4, R.drawable.legs_5, R.drawable.legs_6)
-        val ARMS_PARTS = arrayOf(ARMS_PART_OFF, R.drawable.arms_1, R.drawable.arms_2, R.drawable.arms_3, R.drawable.arms_4, R.drawable.arms_5, R.drawable.arms_6)
-        val MOUTH_PARTS = arrayOf(R.drawable.mouth_1, R.drawable.mouth_2, R.drawable.mouth_3, R.drawable.mouth_4, R.drawable.mouth_5, R.drawable.mouth_6)
-        val EYES_PARTS = arrayOf(EYES_PART_OFF, R.drawable.eyes_1, R.drawable.eyes_2, R.drawable.eyes_3, R.drawable.eyes_4, R.drawable.eyes_5, R.drawable.eyes_6)
-        val HORNS_PARTS = arrayOf(HORNS_PART_OFF, R.drawable.horns_1, R.drawable.horns_2, R.drawable.horns_3, R.drawable.horns_4, R.drawable.horns_5, R.drawable.horns_6)
+        val FLOWER_PARTS = arrayOf(-1, -1, -1, -1, -1, -1)
+        val LEGS_PARTS = arrayOf(-1, -1, -1, -1, -1, -1, -1)
+        val ARMS_PARTS = arrayOf(-1, -1, -1, -1, -1, -1, -1)
+        val MOUTH_PARTS = arrayOf(-1, -1, -1, -1, -1, -1)
+        val EYES_PARTS = arrayOf(-1, -1, -1, -1, -1, -1, -1)
+        val HORNS_PARTS = arrayOf(-1, -1, -1, -1, -1, -1, -1)
+//        val FLOWER_PARTS = arrayOf(R.drawable.flower_1, R.drawable.flower_2, R.drawable.flower_3, R.drawable.flower_4, R.drawable.flower_5, R.drawable.flower_6)
+//        val LEGS_PARTS = arrayOf(LEGS_PART_OFF, R.drawable.legs_1, R.drawable.legs_2, R.drawable.legs_3, R.drawable.legs_4, R.drawable.legs_5, R.drawable.legs_6)
+//        val ARMS_PARTS = arrayOf(ARMS_PART_OFF, R.drawable.arms_1, R.drawable.arms_2, R.drawable.arms_3, R.drawable.arms_4, R.drawable.arms_5, R.drawable.arms_6)
+//        val MOUTH_PARTS = arrayOf(R.drawable.mouth_1, R.drawable.mouth_2, R.drawable.mouth_3, R.drawable.mouth_4, R.drawable.mouth_5, R.drawable.mouth_6)
+//        val EYES_PARTS = arrayOf(EYES_PART_OFF, R.drawable.eyes_1, R.drawable.eyes_2, R.drawable.eyes_3, R.drawable.eyes_4, R.drawable.eyes_5, R.drawable.eyes_6)
+//        val HORNS_PARTS = arrayOf(HORNS_PART_OFF, R.drawable.horns_1, R.drawable.horns_2, R.drawable.horns_3, R.drawable.horns_4, R.drawable.horns_5, R.drawable.horns_6)
 
         fun getRandomCritterCode(critterLevel: Level): String {
             val randomParts = when (critterLevel) {
