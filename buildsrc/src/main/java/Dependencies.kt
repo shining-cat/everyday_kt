@@ -6,7 +6,11 @@ object Versions {
     val kotlin = "1.3.50"
     val gradle = "3.5.0"
     val room = "2.1.0"
+    val androidTestRunner = "1.1.2-alpha02"
     val androidJunit = "1.1.0"
+    val livedata = "2.2.0-alpha03"
+    val appcompat = "1.1.0"
+    val constraintLayout = "1.1.3"
 
     val compileSdk = 28
     val minSdk = 21
@@ -26,6 +30,7 @@ object Modules {
     val utils = ":utils"
     val testutils = ":testutils"
 }
+
 object Libraries {
     // ROOM
     val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
@@ -41,11 +46,14 @@ object KotlinLibraries {
 }
 
 object AndroidLibraries {
-    val appCompat = "com.android.support:appcompat-v7:27.1.1"
-    val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-alpha03"
+    val appCompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
+    val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.livedata}"
+    val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
 }
 
 object TestLibraries {
     // ANDROID TEST
+    val androidTestRunner = "androidx.test:runner:${Versions.androidTestRunner}"
+    // UNIT TESTS
     val junit = "androidx.test.ext:junit:${Versions.androidJunit}"
 }

@@ -9,7 +9,8 @@ buildscript {
     }
     dependencies {
         classpath Libraries.gradle
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath KotlinLibraries.kotlinAndroidExtensions
+//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 

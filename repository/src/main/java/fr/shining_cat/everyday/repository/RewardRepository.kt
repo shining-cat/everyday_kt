@@ -5,6 +5,7 @@ import fr.shining_cat.everyday.localdata.dao.RewardDao
 import fr.shining_cat.everyday.model.RewardModel
 import fr.shining_cat.everyday.repository.converter.RewardConverter.Companion.convertDTOsToModels
 import fr.shining_cat.everyday.repository.converter.RewardConverter.Companion.convertModelToDTO
+import fr.shining_cat.everyday.repository.converter.RewardConverter.Companion.convertDTOtoModel
 import fr.shining_cat.everyday.repository.converter.RewardConverter.Companion.convertModelsToDTOs
 
 class RewardRepository(private val rewardDao: RewardDao) {
@@ -19,6 +20,7 @@ class RewardRepository(private val rewardDao: RewardDao) {
     suspend fun deleteReward(rewards: List<RewardModel>): Int = rewardDao.deleteReward(convertModelsToDTOs(rewards))
     suspend fun deleteAllRewards(): Int = rewardDao.deleteAllRewards()
 
+    suspend fun reward(rewardId: Long): LiveData<RewardModel> = convertDTOtoModel(rewardDao.getReward(rewardId))
     //rewards active
     suspend fun rewardsActiveAcquisitionDateAsc(): LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsActiveAcquisitionDateAsc())
     suspend fun rewardsActiveAcquisitionDateDesc(): LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsActiveAcquisitionDateDesc())

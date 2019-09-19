@@ -3,4 +3,7 @@ apply from: '../android_commons.gradle'
 
 dependencies {
     implementation AndroidLibraries.appCompat
+    implementation AndroidLibraries.constraintLayout
+
+    implementation project(Modules.utils)
 }

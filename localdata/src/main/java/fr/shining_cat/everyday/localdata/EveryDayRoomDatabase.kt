@@ -22,7 +22,7 @@ abstract class EveryDayRoomDatabase : RoomDatabase() {
     abstract fun rewardDao(): RewardDao
 
     companion object {
-
+        var TEST_MODE = false
         //singleton to prevent having multiple instances of the database opened at the same time :
         @Volatile
         private var INSTANCE: EveryDayRoomDatabase? = null
@@ -37,18 +37,26 @@ abstract class EveryDayRoomDatabase : RoomDatabase() {
                 var instance = INSTANCE
                 // If instance is `null` make a new database instance.
                 if (instance == null) {
-                    instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        EveryDayRoomDatabase::class.java,
-                        "everyday_database"
-                    )
-                        //TODO: handle migration:
-                        // Wipes and rebuilds instead of migrating if no Migration object.
-                        // Migration is not part of this lesson. You can learn more about
-                        // migration with Room in this blog post:
-                        // https://medium.com/androiddevelopers/understanding-migrations-with-room-f01e04b07929
-                        .fallbackToDestructiveMigration()
-                        .build()
+                    if (TEST_MODE) {
+                        instance = Room.inMemoryDatabaseBuilder(
+                                        context,
+                                        EveryDayRoomDatabase::class.java
+                                    )
+                                .build()
+                    }else {
+                        instance = Room.databaseBuilder(
+                                        context,
+                                        EveryDayRoomDatabase::class.java,
+                                        "everyday_database"
+                                    )
+                                //TODO: handle migration:
+                                // Wipes and rebuilds instead of migrating if no Migration object.
+                                // Migration is not part of this lesson. You can learn more about
+                                // migration with Room in this blog post:
+                                // https://medium.com/androiddevelopers/understanding-migrations-with-room-f01e04b07929
+                                .fallbackToDestructiveMigration()
+                                .build()
+                    }
                     // Assign INSTANCE to the newly created database.
                     INSTANCE = instance
                 }
@@ -56,5 +64,11 @@ abstract class EveryDayRoomDatabase : RoomDatabase() {
                 return instance
             }
         }
+
+        fun closeAndDestroy(){
+            INSTANCE?.close()
+            INSTANCE = null
+        }
     }
+
 }

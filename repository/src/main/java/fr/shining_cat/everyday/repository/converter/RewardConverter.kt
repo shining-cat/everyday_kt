@@ -42,6 +42,10 @@ class RewardConverter {
             return Transformations.map(rewardDTOs){it.map { rewardDTO ->  convertDTOtoModel(rewardDTO)}}
         }
 
+        fun convertDTOtoModel(rewardDTO: LiveData<RewardDTO>): LiveData<RewardModel> {
+            return Transformations.map(rewardDTO){it ->  convertDTOtoModel(it)}
+        }
+
         fun convertDTOtoModel(rewardDTO: RewardDTO): RewardModel{
             val rewardCode = rewardDTO.code
             val level  = when (rewardDTO.level){

@@ -30,42 +30,45 @@ abstract class RewardDao{
     //ROOM does not allow parameters for the ORDER BY clause to prevent injection so we need a proxy for each WHERE clause used
 
 ////////////////////////////////////////////////////////////////
-    //all "active" rewards, ie all rewards that have at one point been obtained, regardless if they have been lost or not
-    //sort on acquisitionDate ASC
-    @Query("SELECT * from rewards_table WHERE isActive == 1 ORDER BY acquisitionDate ASC")
-    abstract suspend fun getAllRewardsActiveAcquisitionDateAsc(): LiveData<List<RewardDTO>>
-
-    //sort on acquisitionDate DESC
-    @Query("SELECT * from rewards_table WHERE isActive == 1 ORDER BY acquisitionDate DESC")
-    abstract suspend fun getAllRewardsActiveAcquisitionDateDesc(): LiveData<List<RewardDTO>>
-
-    //sort on level ASC
-    @Query("SELECT * from rewards_table WHERE isActive == 1 ORDER BY level ASC")
-    abstract suspend fun getAllRewardsActiveLevelAsc(): LiveData<List<RewardDTO>>
-
-    //sort on level DESC
-    @Query("SELECT * from rewards_table WHERE isActive == 1 ORDER BY level DESC")
-    abstract suspend fun getAllRewardsActiveLevelDesc(): LiveData<List<RewardDTO>>
-
-////////////////////////////////////////////////////////////////   
-    //ACTIVE and NOT LOST rewards :
-    @Query("SELECT * from rewards_table WHERE isActive == 1 AND isEscaped == 0 ORDER BY acquisitionDate DESC")
-    abstract suspend fun getAllRewardsNotEscapedAcquisitionDatDesc(): LiveData<List<RewardDTO>>
-
-    //ACTIVE and LOST rewards :
-    @Query("SELECT * from rewards_table WHERE isActive == 1 AND isEscaped == 1 ORDER BY escapingDate DESC")
-    abstract suspend fun getAllRewardsEscapedAcquisitionDateDesc(): LiveData<List<RewardDTO>>
-
-    //NON ACTIVE rewards for specific LEVEL:
-    @Query("SELECT * from rewards_table WHERE level == :level AND isActive == 0")
-    abstract suspend fun getAllRewardsOfSPecificLevelNotActive(level: Int): LiveData<List<RewardDTO>>
-
-    //NON ACTIVE or ACTIVE and ESCAPED rewards for specific LEVEL:
-    @Query("SELECT * from rewards_table WHERE level == :level AND (isActive == 0 OR isEscaped == 1)")
-    abstract suspend fun getAllRewardsOfSPecificLevelNotActiveOrEscaped(level: Int): LiveData<List<RewardDTO>>
-
-////////////////////////////////////////////////////////////////
-    //COUNTS :
+//    @Query("SELECT * from rewards_table WHERE id =:rewardId")
+//    abstract suspend fun getReward(rewardId: Long): LiveData<RewardDTO>
+//
+//    //all "active" rewards, ie all rewards that have at one point been obtained, regardless if they have been lost or not
+//    //sort on acquisitionDate ASC
+//    @Query("SELECT * from rewards_table WHERE isActive == 1 ORDER BY acquisitionDate ASC")
+//    abstract suspend fun getAllRewardsActiveAcquisitionDateAsc(): LiveData<List<RewardDTO>>
+//
+//    //sort on acquisitionDate DESC
+//    @Query("SELECT * from rewards_table WHERE isActive == 1 ORDER BY acquisitionDate DESC")
+//    abstract suspend fun getAllRewardsActiveAcquisitionDateDesc(): LiveData<List<RewardDTO>>
+//
+//    //sort on level ASC
+//    @Query("SELECT * from rewards_table WHERE isActive == 1 ORDER BY level ASC")
+//    abstract suspend fun getAllRewardsActiveLevelAsc(): LiveData<List<RewardDTO>>
+//
+//    //sort on level DESC
+//    @Query("SELECT * from rewards_table WHERE isActive == 1 ORDER BY level DESC")
+//    abstract suspend fun getAllRewardsActiveLevelDesc(): LiveData<List<RewardDTO>>
+//
+//////////////////////////////////////////////////////////////////
+//    //ACTIVE and NOT LOST rewards :
+//    @Query("SELECT * from rewards_table WHERE isActive == 1 AND isEscaped == 0 ORDER BY acquisitionDate DESC")
+//    abstract suspend fun getAllRewardsNotEscapedAcquisitionDatDesc(): LiveData<List<RewardDTO>>
+//
+//    //ACTIVE and LOST rewards :
+//    @Query("SELECT * from rewards_table WHERE isActive == 1 AND isEscaped == 1 ORDER BY escapingDate DESC")
+//    abstract suspend fun getAllRewardsEscapedAcquisitionDateDesc(): LiveData<List<RewardDTO>>
+//
+//    //NON ACTIVE rewards for specific LEVEL:
+//    @Query("SELECT * from rewards_table WHERE level == :level AND isActive == 0")
+//    abstract suspend fun getAllRewardsOfSPecificLevelNotActive(level: Int): LiveData<List<RewardDTO>>
+//
+//    //NON ACTIVE or ACTIVE and ESCAPED rewards for specific LEVEL:
+//    @Query("SELECT * from rewards_table WHERE level == :level AND (isActive == 0 OR isEscaped == 1)")
+//    abstract suspend fun getAllRewardsOfSPecificLevelNotActiveOrEscaped(level: Int): LiveData<List<RewardDTO>>
+//
+//////////////////////////////////////////////////////////////////
+//    //COUNTS :
     //just count entries in table (this is used to determine if possible rewards have been generated already or not)
     @Query("SELECT COUNT(id) FROM rewards_table")
     abstract suspend fun getNumberOfRows(): Int

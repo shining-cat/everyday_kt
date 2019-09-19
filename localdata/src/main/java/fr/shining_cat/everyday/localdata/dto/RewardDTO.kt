@@ -7,9 +7,10 @@ import fr.shining_cat.everyday.localdata.dto.RewardDTOConstants.DEFAULT_REWARD_C
 import fr.shining_cat.everyday.localdata.dto.RewardDTOConstants.NO_ACQUISITION_DATE
 import fr.shining_cat.everyday.localdata.dto.RewardDTOConstants.NO_ESCAPING_DATE
 import fr.shining_cat.everyday.localdata.dto.RewardDTOConstants.NO_NAME
+import fr.shining_cat.everyday.localdata.dto.RewardTable.REWARD_TABLE_NAME
 
 
-@Entity(tableName = "rewards_table")
+@Entity(tableName = REWARD_TABLE_NAME)
 data class RewardDTO(
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0L,
@@ -41,6 +42,10 @@ object RewardDTOConstants{
     const val NO_ESCAPING_DATE: Long = 0
     const val NO_NAME = ""
     const val DEFAULT_REWARD_COLOR = "#00000000"
+}
+
+object RewardTable{
+    const val REWARD_TABLE_NAME = "rewards_table"
 }
 
 object RewardDTOColumnNames{

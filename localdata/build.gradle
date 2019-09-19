@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply from: '../android_commons.gradle'
 
 dependencies {
+
     implementation project(Modules.utils)
 
     implementation Libraries.roomCompiler
@@ -9,4 +10,8 @@ dependencies {
     implementation Libraries.roomKtx
 
     annotationProcessor Libraries.roomCompiler
+    kapt Libraries.roomCompiler
+
+    androidTestImplementation project(Modules.testutils)
+
 }

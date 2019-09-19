@@ -117,7 +117,6 @@ class SessionConverter {
             //0 is for NOT SET so export it as such
             val startMoodRecord = sessionModel.startMood
             val startBodyValue = startMoodRecord.bodyValue.name
-//            val startBodyValue = if (startMoodRecord.bodyValue == MoodConstants.NO_VALUE_SET) "NOT SET" else startMoodRecord.bodyValue.toString()
             val startThoughtsValue = startMoodRecord.thoughtsValue.name
             val startFeelingsValue = startMoodRecord.feelingsValue.name
             val startGlobalValue = startMoodRecord.globalValue.name

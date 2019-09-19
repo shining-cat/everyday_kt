@@ -5,20 +5,38 @@ android {
         targetSdkVersion Versions.targetSdk
         versionCode Releases.versionCode
         versionName Releases.versionName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
             minifyEnabled true
         }
     }
+
+    sourceSets {
+        androidTest {
+
+        }
+        test {
+
+        }
+    }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 dependencies {
     implementation KotlinLibraries.kotlin
-    implementation KotlinLibraries.kotlinAndroidExtensions
     implementation AndroidLibraries.liveData
 
+    androidTestImplementation TestLibraries.junit
+    androidTestImplementation TestLibraries.androidTestRunner
     testImplementation TestLibraries.junit
 }

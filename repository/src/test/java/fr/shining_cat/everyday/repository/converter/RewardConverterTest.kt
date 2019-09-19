@@ -1,11 +1,12 @@
 package fr.shining_cat.everyday.repository.converter
 
+import org.junit.Assert.assertEquals
+import org.junit.Test
+
 import fr.shining_cat.everyday.localdata.dto.RewardDTO
 import fr.shining_cat.everyday.model.RewardModel
 import fr.shining_cat.everyday.testutils.dto.RewardDTOTestUtils
 import fr.shining_cat.everyday.testutils.model.RewardModelTestUtils
-import org.junit.Assert.assertEquals
-import org.junit.Test
 
 class RewardConverterTest{
 
@@ -13,12 +14,12 @@ class RewardConverterTest{
     fun convertModelToDTO(){
         val rewardModel = RewardModelTestUtils.rewardModel_4_1_6_2_0_0
         val rewardDTOTranslated = RewardConverter.convertModelToDTO(rewardModel)
-        compareTwoDTOsWithoutId(rewardDTOTranslated, RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0)
+        compareTwoDTOsWithoutId(rewardDTOTranslated, RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_WITH_ID)
     }
 
     @Test
     fun convertDTOtoModel(){
-        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0
+        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_WITH_ID
         val rewardModelTranslated = RewardConverter.convertDTOtoModel(rewardDTO)
         //here we check the ID field conversion
         assertEquals(rewardModelTranslated, RewardModelTestUtils.rewardModel_4_1_6_2_0_0)
@@ -26,7 +27,7 @@ class RewardConverterTest{
 
     @Test
     fun convertDTOtoModelToDTO(){
-        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0
+        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_WITH_ID
         val rewardModelTranslated = RewardConverter.convertDTOtoModel(rewardDTO)
         val rewardDTOTranslated = RewardConverter.convertModelToDTO(rewardModelTranslated)
         compareTwoDTOsWithoutId(rewardDTO, rewardDTOTranslated)
