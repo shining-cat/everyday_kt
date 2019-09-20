@@ -20,24 +20,24 @@ class RewardRepository(private val rewardDao: RewardDao) {
     suspend fun deleteReward(rewards: List<RewardModel>): Int = rewardDao.deleteReward(convertModelsToDTOs(rewards))
     suspend fun deleteAllRewards(): Int = rewardDao.deleteAllRewards()
 
-    suspend fun reward(rewardId: Long): LiveData<RewardModel> = convertDTOtoModel(rewardDao.getReward(rewardId))
+    fun reward(rewardId: Long): LiveData<RewardModel> = convertDTOtoModel(rewardDao.getRewardLive(rewardId))
     //rewards active
-    suspend fun rewardsActiveAcquisitionDateAsc(): LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsActiveAcquisitionDateAsc())
-    suspend fun rewardsActiveAcquisitionDateDesc(): LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsActiveAcquisitionDateDesc())
-    suspend fun rewardsActiveLevelAsc(): LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsActiveLevelAsc())
-    suspend fun rewardsActiveLevelDesc(): LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsActiveLevelDesc())
+    fun rewardsActiveAcquisitionDateAsc(): LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsActiveAcquisitionDateAsc())
+    fun rewardsActiveAcquisitionDateDesc(): LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsActiveAcquisitionDateDesc())
+    fun rewardsActiveLevelAsc(): LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsActiveLevelAsc())
+    fun rewardsActiveLevelDesc(): LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsActiveLevelDesc())
 
     //ACTIVE and NOT-LOST rewards :
-    suspend fun rewardsNotEscapedAcquisitionDateDesc(): LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsNotEscapedAcquisitionDatDesc())
+    fun rewardsNotEscapedAcquisitionDateDesc(): LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsNotEscapedAcquisitionDatDesc())
 
     //ACTIVE and LOST rewards :
-    suspend fun rewardsEscapedAcquisitionDateDesc(): LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsEscapedAcquisitionDateDesc())
+    fun rewardsEscapedAcquisitionDateDesc(): LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsEscapedAcquisitionDateDesc())
 
     //NON-ACTIVE rewards for specific LEVEL:
-    suspend fun rewardsOfSPecificLevelNotActive(level: Int):  LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsOfSPecificLevelNotActive(level))
+    fun rewardsOfSPecificLevelNotActive(level: Int):  LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsOfSPecificLevelNotActive(level))
 
     //NON-ACTIVE or ACTIVE-and-ESCAPED rewards for specific LEVEL:
-    suspend fun rewardsOfSPecificLevelNotActiveOrEscaped(level: Int):  LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsOfSPecificLevelNotActiveOrEscaped(level))
+    fun rewardsOfSPecificLevelNotActiveOrEscaped(level: Int):  LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsOfSPecificLevelNotActiveOrEscaped(level))
 
     //COUNTS :
     suspend fun allRewardsCount(): Int = rewardDao.getNumberOfRows()

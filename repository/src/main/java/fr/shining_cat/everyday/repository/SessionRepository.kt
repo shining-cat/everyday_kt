@@ -17,18 +17,18 @@ class SessionRepository(private val sessionDao: SessionDao) {
     suspend fun deleteSession(sessionModel: SessionModel): Int = sessionDao.deleteSession(convertModelToDTO(sessionModel))
     suspend fun deleteAllSessions(): Int = sessionDao.deleteAllSessions()
 
-    suspend fun getAllSessionsStartTimeAsc(): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getAllSessionsStartTimeAsc())
-    suspend fun getAllSessionsStartTimeDesc(): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getAllSessionsStartTimeDesc())
+    fun getAllSessionsStartTimeAsc(): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getAllSessionsStartTimeAsc())
+    fun getAllSessionsStartTimeDesc(): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getAllSessionsStartTimeDesc())
 
-    suspend fun getAllSessionsDurationAsc(): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getAllSessionsDurationAsc())
-    suspend fun getAllSessionsDurationDesc(): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getAllSessionsDurationDesc())
+    fun getAllSessionsDurationAsc(): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getAllSessionsDurationAsc())
+    fun getAllSessionsDurationDesc(): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getAllSessionsDurationDesc())
 
     //Sessions WITH audio file guideMp3
-    suspend fun getAllSessionsWithMp3(): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getAllSessionsWithMp3())
+    fun getAllSessionsWithMp3(): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getAllSessionsWithMp3())
     //Sessions WITHOUT audio file guideMp3
-    suspend fun getAllSessionsWithoutMp3(): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getAllSessionsWithoutMp3())
+    fun getAllSessionsWithoutMp3(): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getAllSessionsWithoutMp3())
     //SEARCH on guideMp3 and notes
-    suspend fun getSessionsSearch(searchRequest: String): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getSessionsSearch(searchRequest))
+    fun getSessionsSearch(searchRequest: String): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getSessionsSearch(searchRequest))
     //LIST of all sessions as unobservable request, only for export
     suspend fun getAllSessionsNotLiveStartTimeAsc(): List<SessionModel> = convertDTOsToModels(sessionDao.getAllSessionsNotLiveStartTimeAsc())
     //last session start timestamp

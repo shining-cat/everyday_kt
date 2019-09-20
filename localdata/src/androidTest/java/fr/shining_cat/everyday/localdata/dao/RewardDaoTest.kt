@@ -1,37 +1,50 @@
 package fr.shining_cat.everyday.localdata.dao
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
-import org.junit.runner.RunWith
 
-
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import kotlinx.coroutines.runBlocking
-
 import fr.shining_cat.everyday.localdata.EveryDayRoomDatabase
 import fr.shining_cat.everyday.testutils.dto.RewardDTOTestUtils
+import fr.shining_cat.everyday.testutils.extensions.getValueBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+import java.util.*
 
 @RunWith(AndroidJUnit4::class)
 class RewardDaoTest {
 
+    //set the testing environment to use Main thread instead of background one
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
+
     private var rewardDao: RewardDao? = null
 
-    private fun setup(){
+//    @Before
+    private fun setupEmptyTable(){
         EveryDayRoomDatabase.TEST_MODE = true
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         rewardDao = EveryDayRoomDatabase.getInstance(appContext).rewardDao()
         emptyTableAndCheck()
     }
 
+//    @After
     private fun tearDown() {
         EveryDayRoomDatabase.closeAndDestroy()
     }
 
     @Test
     fun insertRewardTest() {
-        setup()
+        setupEmptyTable()
         val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_WITH_ID
         val rewardDTOTestID = runBlocking {
             rewardDao?.insert(rewardDTO)
@@ -42,7 +55,7 @@ class RewardDaoTest {
 
     @Test
     fun insertMultiRewardTest(){
-        setup()
+        setupEmptyTable()
         val rewardsToInsertList = listOf(
             RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ESCAPED,
             RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ACTIVE,
@@ -66,7 +79,7 @@ class RewardDaoTest {
 
     @Test
     fun countRewardsTest(){
-        setup()
+        setupEmptyTable()
         val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_NO_ID
         runBlocking {
             for (i in 0..9) {
@@ -79,7 +92,7 @@ class RewardDaoTest {
 
     @Test
     fun countRewardsNotEscapedLevelTest(){
-        setup()
+        setupEmptyTable()
         val rewarddto1a = RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ACTIVE
         val rewarddto2a = RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ACTIVE
         runBlocking {
@@ -107,7 +120,7 @@ class RewardDaoTest {
 
     @Test
     fun countRewardsEscapedLevelTest(){
-        setup()
+        setupEmptyTable()
         val rewarddto1e = RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ESCAPED
         val rewarddto2e = RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ESCAPED
         runBlocking {
@@ -136,20 +149,18 @@ class RewardDaoTest {
         tearDown()
     }
 
-
     @Test
     fun deleteOneRewardTest(){
-        setup()
+        setupEmptyTable()
         val rewardDTOToDeleteTest = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_WITH_ID
         //
-        val count = runBlocking {
+        runBlocking {
             rewardDao?.insert(rewardDTOToDeleteTest)
             for (i in 0..9) {
                 rewardDao?.insert(RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_NO_ID)
             }
-            rewardDao?.getNumberOfRows()
         }
-        assertEquals(11, count)
+        checkTotalCountIs(11)
         //
         val countDeleted = runBlocking {
             rewardDao?.deleteReward(rewardDTOToDeleteTest)
@@ -162,7 +173,7 @@ class RewardDaoTest {
 
     @Test
     fun deleteMultiRewardTest(){
-        setup()
+        setupEmptyTable()
         //insert the test-subject list of items
         val rewardsToDeleteList = listOf(
             RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ESCAPED,
@@ -203,7 +214,7 @@ class RewardDaoTest {
 
     @Test
     fun deleteAllRewardTest() {
-        setup()
+        setupEmptyTable()
         val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_NO_ID
         val numberOfDeletedRows = runBlocking {
             for (i in 0..19) {
@@ -213,6 +224,88 @@ class RewardDaoTest {
         }
         assertEquals(20, numberOfDeletedRows)
         checkTotalCountIs(0)
+        tearDown()
+    }
+
+    @Test
+    fun getOneRewardTest(){
+        setupEmptyTable()
+        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_NO_ID
+        val rewardDtoInsertTestID = runBlocking {
+            rewardDao?.insert(rewardDTO)
+        }
+        assertNotNull(rewardDtoInsertTestID)
+        //
+        if(rewardDtoInsertTestID != null) {
+            val rewardDtoExtractedLive = rewardDao?.getRewardLive(rewardDtoInsertTestID)
+            assertNotNull(rewardDtoExtractedLive)
+            if(rewardDtoExtractedLive != null) {
+                val rewardDtoExtracted = rewardDtoExtractedLive.getValueBlocking()
+                assertNotNull(rewardDtoExtracted)
+                if (rewardDtoExtracted != null) {
+                    assertEquals(rewardDtoInsertTestID, rewardDtoExtracted.id)
+                    assertEquals(rewardDTO.level, rewardDtoExtracted.level)
+                    assertEquals(rewardDTO.code, rewardDtoExtracted.code)
+                    assertEquals(rewardDTO.acquisitionDate, rewardDtoExtracted.acquisitionDate)
+                    assertEquals(rewardDTO.escapingDate, rewardDtoExtracted.escapingDate)
+                    assertEquals(rewardDTO.isActive, rewardDtoExtracted.isActive)
+                    assertEquals(rewardDTO.isEscaped, rewardDtoExtracted.isEscaped)
+                    assertEquals(rewardDTO.name, rewardDtoExtracted.name)
+                    assertEquals(rewardDTO.legsColor, rewardDtoExtracted.legsColor)
+                    assertEquals(rewardDTO.bodyColor, rewardDtoExtracted.bodyColor)
+                    assertEquals(rewardDTO.armsColor, rewardDtoExtracted.armsColor)
+                }
+            }
+        }
+        tearDown()
+    }
+
+    @Test
+    fun updateOneRewardTest(){
+        setupEmptyTable()
+        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_WITH_ID
+        runBlocking {
+            rewardDao?.insert(rewardDTO)
+            for (i in 0..9) {
+                rewardDao?.insert(RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_NO_ID)
+            }
+        }
+        checkTotalCountIs(11)
+        //
+        rewardDTO.acquisitionDate = GregorianCalendar(2019, 6, 16).timeInMillis
+        rewardDTO.escapingDate = GregorianCalendar(2020, 5, 22).timeInMillis
+        rewardDTO.isActive = false
+        rewardDTO.isEscaped = true
+        rewardDTO.name = "I have updated my name"
+        rewardDTO.legsColor = "#00FF000000"
+        rewardDTO.bodyColor = "#0000FF00"
+        rewardDTO.armsColor = "#FFFFFFFF"
+        //
+        val numberOfUpdatedItems = runBlocking {
+            rewardDao?.updateReward(rewardDTO)
+        }
+        assertEquals(1, numberOfUpdatedItems)
+        checkTotalCountIs(11)
+        val rewardDtoUpdatedLive = rewardDao?.getRewardLive(rewardDTO.id)
+        assertNotNull(rewardDtoUpdatedLive)
+        if(rewardDtoUpdatedLive != null) {
+            val rewardDtoUpdated = rewardDtoUpdatedLive.getValueBlocking()
+            assertNotNull(rewardDtoUpdated)
+            if (rewardDtoUpdated != null) {
+                assertEquals(rewardDTO.id, rewardDtoUpdated.id)
+                assertEquals(rewardDTO.level, rewardDtoUpdated.level)
+                assertEquals(rewardDTO.code, rewardDtoUpdated.code)
+                assertEquals(GregorianCalendar(2019, 6, 16).timeInMillis, rewardDtoUpdated.acquisitionDate)
+                assertEquals(GregorianCalendar(2020, 5, 22).timeInMillis, rewardDtoUpdated.escapingDate)
+                assertEquals(false, rewardDtoUpdated.isActive)
+                assertEquals(true, rewardDtoUpdated.isEscaped)
+                assertEquals("I have updated my name", rewardDtoUpdated.name)
+                assertEquals("#00FF000000", rewardDtoUpdated.legsColor)
+                assertEquals("#0000FF00", rewardDtoUpdated.bodyColor)
+                assertEquals("#FFFFFFFF", rewardDtoUpdated.armsColor)
+            }
+        }
+        //
         tearDown()
     }
 

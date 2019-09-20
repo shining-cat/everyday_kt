@@ -11,6 +11,8 @@ object Versions {
     val livedata = "2.2.0-alpha03"
     val appcompat = "1.1.0"
     val constraintLayout = "1.1.3"
+    val archCoreTest = "2.0.0"
+    val coroutines = "1.3.1"
 
     val compileSdk = 28
     val minSdk = 21
@@ -54,6 +56,9 @@ object AndroidLibraries {
 object TestLibraries {
     // ANDROID TEST
     val androidTestRunner = "androidx.test:runner:${Versions.androidTestRunner}"
+    val archCoreTest = "androidx.arch.core:core-testing:${Versions.archCoreTest}"
+    // COROUTINE
+    val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
     // UNIT TESTS
     val junit = "androidx.test.ext:junit:${Versions.androidJunit}"
 }

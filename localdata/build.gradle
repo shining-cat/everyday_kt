@@ -13,5 +13,5 @@ dependencies {
     kapt Libraries.roomCompiler
 
     androidTestImplementation project(Modules.testutils)
-
+    androidTestImplementation TestLibraries.archCoreTest
 }
