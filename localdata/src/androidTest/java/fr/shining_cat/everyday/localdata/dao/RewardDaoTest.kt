@@ -8,8 +8,7 @@ import fr.shining_cat.everyday.localdata.EveryDayRoomDatabase
 import fr.shining_cat.everyday.testutils.dto.RewardDTOTestUtils
 import fr.shining_cat.everyday.testutils.extensions.getValueBlocking
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
+import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -409,6 +408,71 @@ class RewardDaoTest {
         }
         //
         tearDown()
+    }
+
+    @Test
+    fun getAllRewardsActiveAcquisitionDateAscTest() {
+        setupEmptyTable()
+        val rewardsToInsertList = listOf(
+            RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ACTIVE_NO_ID,
+            RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ESCAPED_NO_ID,
+            RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ACTIVE_NO_ID,
+            RewardDTOTestUtils.rewardDTO_2_3_1_3_0_0_INACTIVE_NO_ID)
+        runBlocking {
+            rewardDao?.insert(rewardsToInsertList)
+        }
+        checkTotalCountIs(4)
+        val rewardDtoSortedLive = rewardDao?.getAllRewardsActiveAcquisitionDateAsc()
+        assertNotNull(rewardDtoSortedLive)
+        if(rewardDtoSortedLive != null) {
+            val rewardDtoSorted = rewardDtoSortedLive.getValueBlocking()
+            assertNotNull(rewardDtoSorted)
+            if(rewardDtoSorted != null){
+                assertEquals(3, rewardDtoSorted.size)
+                var date = 0L
+                for(i in 0..2){
+                    assertEquals(true, rewardDtoSorted[i].isActive)
+                    assert(rewardDtoSorted[i].acquisitionDate > date)
+                    date = rewardDtoSorted[i].acquisitionDate
+                    assertEquals(date, rewardDtoSorted[i].acquisitionDate)
+                }
+            }
+        }
+    }
+
+    @Test
+    fun getAllRewardsActiveAcquisitionDateDescTest() {
+        fail("TEST TO WRITE")
+    }
+
+    @Test
+    fun getAllRewardsActiveLevelAscTest() {
+        fail("TEST TO WRITE")
+    }
+
+    @Test
+    fun getAllRewardsActiveLevelDescTest() {
+        fail("TEST TO WRITE")
+    }
+
+    @Test
+    fun getAllRewardsNotEscapedAcquisitionDatDescTest() {
+        fail("TEST TO WRITE")
+    }
+
+    @Test
+    fun getAllRewardsEscapedAcquisitionDateDescTest() {
+        fail("TEST TO WRITE")
+    }
+
+    @Test
+    fun getAllRewardsOfSPecificLevelNotActiveTest() {
+        fail("TEST TO WRITE")
+    }
+
+    @Test
+    fun getAllRewardsOfSPecificLevelNotActiveOrEscapedTest() {
+        fail("TEST TO WRITE")
     }
 
 ////////////////////////////////////////////////////////////////
