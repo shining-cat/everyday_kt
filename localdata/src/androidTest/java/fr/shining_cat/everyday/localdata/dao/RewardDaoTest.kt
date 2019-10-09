@@ -32,11 +32,26 @@ class RewardDaoTest {
         emptyTableAndCheck()
     }
 
+    private fun emptyTableAndCheck(){
+        runBlocking {
+            rewardDao?.deleteAllRewards()
+        }
+        checkTotalCountIs(0)
+    }
+
+    private fun checkTotalCountIs(expectedCount: Int){
+        val count = runBlocking {
+            rewardDao?.getNumberOfRows()
+        }
+        assertEquals(expectedCount, count)
+    }
+
 //    @After
     private fun tearDown() {
         EveryDayRoomDatabase.closeAndDestroy()
     }
 
+////////////////////////////////////////////////////////////////
     @Test
     fun insertRewardTest() {
         setupEmptyTable()
@@ -69,78 +84,6 @@ class RewardDaoTest {
             }
         }
         checkTotalCountIs(4)
-        tearDown()
-    }
-
-    @Test
-    fun countRewardsTest(){
-        setupEmptyTable()
-        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_NO_ID
-        runBlocking {
-            for (i in 0..9) {
-                rewardDao?.insert(rewardDTO)
-            }
-        }
-        checkTotalCountIs(10)
-        tearDown()
-    }
-
-    @Test
-    fun countRewardsNotEscapedLevelTest(){
-        setupEmptyTable()
-        val rewarddto1a = RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ACTIVE_NO_ID
-        val rewarddto2a = RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ACTIVE_NO_ID
-        runBlocking {
-            for (i in 1..5) {
-                rewardDao?.insert(rewarddto1a)
-            }
-            for (i in 1..12) {
-                rewardDao?.insert(rewarddto2a)
-            }
-        }
-        val numberLevel1A = runBlocking {
-            rewardDao?.getNumberOfActiveNotEscapedRewardsForLevel(1)
-        }
-        assertEquals(5, numberLevel1A)
-        val numberLevel2a = runBlocking {
-            rewardDao?.getNumberOfActiveNotEscapedRewardsForLevel(2)
-        }
-        assertEquals(12, numberLevel2a)
-        val numberLevel5a = runBlocking {
-            rewardDao?.getNumberOfActiveNotEscapedRewardsForLevel(5)
-        }
-        assertEquals(0, numberLevel5a)
-        tearDown()
-    }
-
-    @Test
-    fun countRewardsEscapedLevelTest(){
-        setupEmptyTable()
-        val rewarddto1e = RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ESCAPED_NO_ID
-        val rewarddto2e = RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ESCAPED_NO_ID
-        runBlocking {
-            for (i in 1..10) {
-                rewardDao?.insert(rewarddto1e)
-            }
-            for (i in 1..17) {
-                rewardDao?.insert(rewarddto2e)
-            }
-        }
-        //
-        val numberLevel1e = runBlocking {
-            rewardDao?.getNumberOfEscapedRewardsForLevel(1)
-        }
-        assertEquals(10, numberLevel1e)
-        //
-        val numberLevel2e = runBlocking {
-            rewardDao?.getNumberOfEscapedRewardsForLevel(2)
-        }
-        assertEquals(17, numberLevel2e)
-        //
-        val numberLevel5e = runBlocking {
-            rewardDao?.getNumberOfEscapedRewardsForLevel(5)
-        }
-        assertEquals(0, numberLevel5e)
         tearDown()
     }
 
@@ -441,19 +384,107 @@ class RewardDaoTest {
         //
         tearDown()
     }
-    
-    private fun emptyTableAndCheck(){
+
+////////////////////////////////////////////////////////////////
+
+    @Test
+    fun getRewardLiveTest(){
+        setupEmptyTable()
+        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_WITH_ID
         runBlocking {
-            rewardDao?.deleteAllRewards()
+            rewardDao?.insert(rewardDTO)
+            for (i in 0..9) {
+                rewardDao?.insert(RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_NO_ID)
+            }
         }
-        checkTotalCountIs(0)
+        checkTotalCountIs(11)
+        val rewardDtoInsertedLive = rewardDao?.getRewardLive(rewardDTO.id)
+        assertNotNull(rewardDtoInsertedLive)
+        if(rewardDtoInsertedLive != null) {
+            val rewardDtoInserted = rewardDtoInsertedLive.getValueBlocking()
+            assertNotNull(rewardDtoInserted)
+            if (rewardDtoInserted != null) {
+                assertEquals(rewardDTO, rewardDtoInserted)
+            }
+        }
+        //
+        tearDown()
     }
 
-    private fun checkTotalCountIs(expectedCount: Int){
-        val count = runBlocking {
+////////////////////////////////////////////////////////////////
+    @Test
+    fun countRewardsTest(){
+        setupEmptyTable()
+        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_NO_ID
+        runBlocking {
+            for (i in 0..9) {
+                rewardDao?.insert(rewardDTO)
+            }
+        }
+        val totalRewards = runBlocking {
             rewardDao?.getNumberOfRows()
         }
-        assertEquals(expectedCount, count)
+        assertEquals(10, totalRewards)
+        tearDown()
+    }
+
+    @Test
+    fun countRewardsNotEscapedLevelTest(){
+        setupEmptyTable()
+        val rewarddto1a = RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ACTIVE_NO_ID
+        val rewarddto2a = RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ACTIVE_NO_ID
+        runBlocking {
+            for (i in 1..5) {
+                rewardDao?.insert(rewarddto1a)
+            }
+            for (i in 1..12) {
+                rewardDao?.insert(rewarddto2a)
+            }
+        }
+        val numberLevel1A = runBlocking {
+            rewardDao?.getNumberOfActiveNotEscapedRewardsForLevel(1)
+        }
+        assertEquals(5, numberLevel1A)
+        val numberLevel2a = runBlocking {
+            rewardDao?.getNumberOfActiveNotEscapedRewardsForLevel(2)
+        }
+        assertEquals(12, numberLevel2a)
+        val numberLevel5a = runBlocking {
+            rewardDao?.getNumberOfActiveNotEscapedRewardsForLevel(5)
+        }
+        assertEquals(0, numberLevel5a)
+        tearDown()
+    }
+
+    @Test
+    fun countRewardsEscapedLevelTest(){
+        setupEmptyTable()
+        val rewarddto1e = RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ESCAPED_NO_ID
+        val rewarddto2e = RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ESCAPED_NO_ID
+        runBlocking {
+            for (i in 1..10) {
+                rewardDao?.insert(rewarddto1e)
+            }
+            for (i in 1..17) {
+                rewardDao?.insert(rewarddto2e)
+            }
+        }
+        //
+        val numberLevel1e = runBlocking {
+            rewardDao?.getNumberOfEscapedRewardsForLevel(1)
+        }
+        assertEquals(10, numberLevel1e)
+        //
+        val numberLevel2e = runBlocking {
+            rewardDao?.getNumberOfEscapedRewardsForLevel(2)
+        }
+        assertEquals(17, numberLevel2e)
+        //
+        val numberLevel5e = runBlocking {
+            rewardDao?.getNumberOfEscapedRewardsForLevel(5)
+        }
+        assertEquals(0, numberLevel5e)
+        tearDown()
     }
 
 }

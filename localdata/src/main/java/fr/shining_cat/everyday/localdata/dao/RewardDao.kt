@@ -6,30 +6,38 @@ import fr.shining_cat.everyday.localdata.dto.RewardDTO
 
 @Dao
 abstract class RewardDao{
+    //tested
     @Insert
     abstract suspend fun insert(reward: RewardDTO): Long
 
+    //tested
     @Insert
     abstract suspend fun insert(rewards: List<RewardDTO>): Array<Long>
 
+    //tested
     @Update
     abstract suspend fun updateReward(reward: RewardDTO): Int
 
+    //tested
     @Update
     abstract suspend fun updateRewards(rewards: List<RewardDTO>): Int
 
+    //tested
     @Delete
     abstract suspend fun deleteReward(reward: RewardDTO): Int
 
+    //tested
     @Delete
     abstract suspend fun deleteReward(reward: List<RewardDTO>): Int
 
+    //tested
     @Query("DELETE FROM rewards_table")
     abstract suspend fun deleteAllRewards(): Int
 
     //ROOM does not allow parameters for the ORDER BY clause to prevent injection so we need a proxy for each WHERE clause used
 
 ////////////////////////////////////////////////////////////////
+    //tested
     @Query("SELECT * from rewards_table WHERE id =:rewardId")
     abstract fun getRewardLive(rewardId: Long): LiveData<RewardDTO>
 
@@ -69,15 +77,19 @@ abstract class RewardDao{
 
 ////////////////////////////////////////////////////////////////
     //COUNTS :
-    //just count entries in table (this is used to determine if possible rewards have been generated already or not)
+
+    //ALL ENTRIES (this is used to determine if possible rewards have been generated already or not)
+    //tested
     @Query("SELECT COUNT(id) FROM rewards_table")
     abstract suspend fun getNumberOfRows(): Int
 
     //ACTIVE and NOT LOST rewards for level
+    //tested
     @Query("SELECT COUNT(id) FROM rewards_table WHERE level == :level AND isActive == 1 AND isEscaped == 0")
     abstract suspend fun getNumberOfActiveNotEscapedRewardsForLevel(level: Int): Int
 
     //ACTIVE and LOST rewards for level
+    //tested
     @Query("SELECT COUNT(id) FROM rewards_table WHERE level == :level AND isActive == 1 AND isEscaped == 1")
     abstract suspend fun getNumberOfEscapedRewardsForLevel(level: Int): Int
 }
