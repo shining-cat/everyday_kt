@@ -25,6 +25,7 @@ class RewardDaoTest {
 
 //    @Before
     private fun setupEmptyTable(){
+        tearDown()
         EveryDayRoomDatabase.TEST_MODE = true
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         rewardDao = EveryDayRoomDatabase.getInstance(appContext).rewardDao()
@@ -54,7 +55,7 @@ class RewardDaoTest {
     @Test
     fun insertRewardTest() {
         setupEmptyTable()
-        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_WITH_ID
+        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_ACTIVE_NOT_ESCAPED_WITH_ID
         val rewardDTOTestID = runBlocking {
             rewardDao?.insert(rewardDTO)
         }
@@ -66,10 +67,10 @@ class RewardDaoTest {
     fun insertMultiRewardTest(){
         setupEmptyTable()
         val rewardsToInsertList = listOf(
-            RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ESCAPED_NO_ID,
-            RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ACTIVE_NO_ID,
-            RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ACTIVE_NO_ID,
-            RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ESCAPED_NO_ID)
+            RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ACTIVE_ESCAPED_NO_ID,
+            RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ACTIVE_NOT_ESCAPED_NO_ID,
+            RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ACTIVE_NOT_ESCAPED_NO_ID,
+            RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ACTIVE_ESCAPED_NO_ID)
         val insertedIds = runBlocking {
             rewardDao?.insert(rewardsToInsertList)
         }
@@ -89,12 +90,12 @@ class RewardDaoTest {
     @Test
     fun deleteOneRewardTest(){
         setupEmptyTable()
-        val rewardDTOToDeleteTest = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_WITH_ID
+        val rewardDTOToDeleteTest = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_ACTIVE_NOT_ESCAPED_WITH_ID
         //
         runBlocking {
             rewardDao?.insert(rewardDTOToDeleteTest)
             for (i in 0..9) {
-                rewardDao?.insert(RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_NO_ID)
+                rewardDao?.insert(RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_ACTIVE_NOT_ESCAPED_NO_ID)
             }
         }
         checkTotalCountIs(11)
@@ -113,10 +114,10 @@ class RewardDaoTest {
         setupEmptyTable()
         //insert the test-subject list of items
         val rewardsToDeleteList = listOf(
-            RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ESCAPED_NO_ID,
-            RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ACTIVE_NO_ID,
-            RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ACTIVE_NO_ID,
-            RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ESCAPED_NO_ID)
+            RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ACTIVE_ESCAPED_NO_ID,
+            RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ACTIVE_NOT_ESCAPED_NO_ID,
+            RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ACTIVE_NOT_ESCAPED_NO_ID,
+            RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ACTIVE_ESCAPED_NO_ID)
         //insert and collect the ids
         val insertedIds = runBlocking {
             rewardDao?.insert(rewardsToDeleteList)
@@ -135,7 +136,7 @@ class RewardDaoTest {
         //insert some more data
         runBlocking {
             for (i in 0..19) {
-                rewardDao?.insert(RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_NO_ID)
+                rewardDao?.insert(RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_ACTIVE_NOT_ESCAPED_NO_ID)
             }
         }
         checkTotalCountIs(24)
@@ -152,7 +153,7 @@ class RewardDaoTest {
     @Test
     fun deleteAllRewardTest() {
         setupEmptyTable()
-        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_NO_ID
+        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_ACTIVE_NOT_ESCAPED_NO_ID
         val numberOfDeletedRows = runBlocking {
             for (i in 0..19) {
                 rewardDao?.insert(rewardDTO)
@@ -167,7 +168,7 @@ class RewardDaoTest {
     @Test
     fun getOneRewardTest(){
         setupEmptyTable()
-        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_NO_ID
+        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_ACTIVE_NOT_ESCAPED_NO_ID
         val rewardDtoInsertTestID = runBlocking {
             rewardDao?.insert(rewardDTO)
         }
@@ -200,11 +201,11 @@ class RewardDaoTest {
     @Test
     fun updateOneRewardTest(){
         setupEmptyTable()
-        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_WITH_ID
+        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_ACTIVE_NOT_ESCAPED_WITH_ID
         runBlocking {
             rewardDao?.insert(rewardDTO)
             for (i in 0..9) {
-                rewardDao?.insert(RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_NO_ID)
+                rewardDao?.insert(RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_ACTIVE_NOT_ESCAPED_NO_ID)
             }
         }
         checkTotalCountIs(11)
@@ -251,10 +252,10 @@ class RewardDaoTest {
         setupEmptyTable()
         //
         val rewardsToInsertList = listOf(
-            RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ESCAPED_ID,
-            RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ACTIVE_ID,
-            RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ACTIVE_ID,
-            RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ESCAPED_ID)
+            RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ACTIVE_ESCAPED_ID,
+            RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ACTIVE_NOT_ESCAPED_ID,
+            RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ACTIVE_NOT_ESCAPED_ID,
+            RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ACTIVE_ESCAPED_ID)
         val insertedIds = runBlocking {
             rewardDao?.insert(rewardsToInsertList)
         }
@@ -389,11 +390,11 @@ class RewardDaoTest {
     @Test
     fun getRewardLiveTest(){
         setupEmptyTable()
-        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_WITH_ID
+        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_ACTIVE_NOT_ESCAPED_WITH_ID
         runBlocking {
             rewardDao?.insert(rewardDTO)
             for (i in 0..9) {
-                rewardDao?.insert(RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_NO_ID)
+                rewardDao?.insert(RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_ACTIVE_NOT_ESCAPED_NO_ID)
             }
         }
         checkTotalCountIs(11)
@@ -414,10 +415,10 @@ class RewardDaoTest {
     fun getAllRewardsActiveAcquisitionDateAscTest() {
         setupEmptyTable()
         val rewardsToInsertList = listOf(
-            RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ACTIVE_NO_ID,
-            RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ESCAPED_NO_ID,
-            RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ACTIVE_NO_ID,
-            RewardDTOTestUtils.rewardDTO_2_3_1_3_0_0_INACTIVE_NO_ID)
+            RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ACTIVE_NOT_ESCAPED_NO_ID,
+            RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ACTIVE_ESCAPED_NO_ID,
+            RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ACTIVE_NOT_ESCAPED_NO_ID,
+            RewardDTOTestUtils.rewardDTO_2_3_1_3_0_0_INACTIVE_NOT_ESCAPED_NO_ID)
         runBlocking {
             rewardDao?.insert(rewardsToInsertList)
         }
@@ -438,21 +439,105 @@ class RewardDaoTest {
                 }
             }
         }
+        tearDown()
     }
 
     @Test
     fun getAllRewardsActiveAcquisitionDateDescTest() {
-        fail("TEST TO WRITE")
+        setupEmptyTable()
+        val rewardsToInsertList = listOf(
+            RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ACTIVE_NOT_ESCAPED_NO_ID,
+            RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ACTIVE_ESCAPED_NO_ID,
+            RewardDTOTestUtils.rewardDTO_2_3_1_3_0_0_INACTIVE_NOT_ESCAPED_NO_ID,
+            RewardDTOTestUtils.rewardDTO_4_2_0_0_0_0_INACTIVE_NOT_ESCAPED_NO_ID,
+            RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_ACTIVE_NOT_ESCAPED_NO_ID)
+        runBlocking {
+            rewardDao?.insert(rewardsToInsertList)
+        }
+        checkTotalCountIs(5)
+        val rewardDtoSortedLive = rewardDao?.getAllRewardsActiveAcquisitionDateDesc()
+        assertNotNull(rewardDtoSortedLive)
+        if(rewardDtoSortedLive != null) {
+            val rewardDtoSorted = rewardDtoSortedLive.getValueBlocking()
+            assertNotNull(rewardDtoSorted)
+            if(rewardDtoSorted != null){
+                assertEquals(3, rewardDtoSorted.size)
+                assertEquals(true, rewardDtoSorted[2].isActive)
+                var date = rewardDtoSorted[2].acquisitionDate
+                for(i in 1 downTo 0){
+                    assertEquals(true, rewardDtoSorted[i].isActive)
+                    assert(rewardDtoSorted[i].acquisitionDate < date)
+                    date = rewardDtoSorted[i].acquisitionDate
+                    assertEquals(date, rewardDtoSorted[i].acquisitionDate)
+                }
+            }
+        }
+        tearDown()
     }
 
     @Test
     fun getAllRewardsActiveLevelAscTest() {
-        fail("TEST TO WRITE")
+        setupEmptyTable()
+        val rewardsToInsertList = listOf(
+            RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ACTIVE_NOT_ESCAPED_NO_ID,
+            RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ACTIVE_ESCAPED_NO_ID,
+            RewardDTOTestUtils.rewardDTO_2_3_1_3_0_0_INACTIVE_NOT_ESCAPED_NO_ID,
+            RewardDTOTestUtils.rewardDTO_4_2_0_0_0_0_INACTIVE_NOT_ESCAPED_NO_ID,
+            RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_ACTIVE_NOT_ESCAPED_NO_ID)
+        runBlocking {
+            rewardDao?.insert(rewardsToInsertList)
+        }
+        checkTotalCountIs(5)
+        val rewardDtoSortedLive = rewardDao?.getAllRewardsActiveLevelAsc()
+        assertNotNull(rewardDtoSortedLive)
+        if(rewardDtoSortedLive != null) {
+            val rewardDtoSorted = rewardDtoSortedLive.getValueBlocking()
+            assertNotNull(rewardDtoSorted)
+            if (rewardDtoSorted != null) {
+                var level = 0
+                for(i in 0..2) {
+                    assertEquals(3, rewardDtoSorted.size)
+                    assert(rewardDtoSorted[i].level <= level)
+                    level = rewardDtoSorted[i].level
+                }
+            }
+        }
+        //
+        tearDown()
     }
 
     @Test
     fun getAllRewardsActiveLevelDescTest() {
-        fail("TEST TO WRITE")
+        setupEmptyTable()
+        val rewardsToInsertList = listOf(
+            RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ACTIVE_NOT_ESCAPED_NO_ID,
+            RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ACTIVE_ESCAPED_NO_ID,
+            RewardDTOTestUtils.rewardDTO_2_3_1_3_0_0_INACTIVE_NOT_ESCAPED_NO_ID,
+            RewardDTOTestUtils.rewardDTO_4_2_0_0_0_0_INACTIVE_NOT_ESCAPED_NO_ID,
+            RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_ACTIVE_NOT_ESCAPED_NO_ID)
+        runBlocking {
+            rewardDao?.insert(rewardsToInsertList)
+        }
+        checkTotalCountIs(5)
+        val rewardDtoSortedLive = rewardDao?.getAllRewardsActiveLevelDesc()
+        assertNotNull(rewardDtoSortedLive)
+        if(rewardDtoSortedLive != null) {
+            val rewardDtoSorted = rewardDtoSortedLive.getValueBlocking()
+            assertNotNull(rewardDtoSorted)
+            if (rewardDtoSorted != null) {
+                assertEquals(3, rewardDtoSorted.size)
+                assertEquals(true, rewardDtoSorted[2].isActive)
+                var level = rewardDtoSorted[2].level
+                for(i in 1 downTo 0){
+                    assertEquals(true, rewardDtoSorted[i].isActive)
+                    assert(rewardDtoSorted[i].level <= level)
+                    level = rewardDtoSorted[i].level
+                    assertEquals(level, rewardDtoSorted[i].level)
+                }
+            }
+        }
+        //
+        tearDown()
     }
 
     @Test
@@ -479,7 +564,7 @@ class RewardDaoTest {
     @Test
     fun countRewardsTest(){
         setupEmptyTable()
-        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_NO_ID
+        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_ACTIVE_NOT_ESCAPED_NO_ID
         runBlocking {
             for (i in 0..9) {
                 rewardDao?.insert(rewardDTO)
@@ -495,8 +580,8 @@ class RewardDaoTest {
     @Test
     fun countRewardsNotEscapedLevelTest(){
         setupEmptyTable()
-        val rewarddto1a = RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ACTIVE_NO_ID
-        val rewarddto2a = RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ACTIVE_NO_ID
+        val rewarddto1a = RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ACTIVE_NOT_ESCAPED_NO_ID
+        val rewarddto2a = RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ACTIVE_NOT_ESCAPED_NO_ID
         runBlocking {
             for (i in 1..5) {
                 rewardDao?.insert(rewarddto1a)
@@ -523,8 +608,8 @@ class RewardDaoTest {
     @Test
     fun countRewardsEscapedLevelTest(){
         setupEmptyTable()
-        val rewarddto1e = RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ESCAPED_NO_ID
-        val rewarddto2e = RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ESCAPED_NO_ID
+        val rewarddto1e = RewardDTOTestUtils.rewardDTO_1_0_0_2_0_0_ACTIVE_ESCAPED_NO_ID
+        val rewarddto2e = RewardDTOTestUtils.rewardDTO_1_5_0_0_0_0_ACTIVE_ESCAPED_NO_ID
         runBlocking {
             for (i in 1..10) {
                 rewardDao?.insert(rewarddto1e)

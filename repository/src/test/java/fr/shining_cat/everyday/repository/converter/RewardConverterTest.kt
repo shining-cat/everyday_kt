@@ -14,12 +14,12 @@ class RewardConverterTest{
     fun convertModelToDTO(){
         val rewardModel = RewardModelTestUtils.rewardModel_4_1_6_2_0_0
         val rewardDTOTranslated = RewardConverter.convertModelToDTO(rewardModel)
-        compareTwoDTOsWithoutId(rewardDTOTranslated, RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_WITH_ID)
+        compareTwoDTOsWithoutId(rewardDTOTranslated, RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_ACTIVE_NOT_ESCAPED_WITH_ID)
     }
 
     @Test
     fun convertDTOtoModel(){
-        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_WITH_ID
+        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_ACTIVE_NOT_ESCAPED_WITH_ID
         val rewardModelTranslated = RewardConverter.convertDTOtoModel(rewardDTO)
         //here we check the ID field conversion
         assertEquals(rewardModelTranslated, RewardModelTestUtils.rewardModel_4_1_6_2_0_0)
@@ -27,7 +27,7 @@ class RewardConverterTest{
 
     @Test
     fun convertDTOtoModelToDTO(){
-        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_WITH_ID
+        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_ACTIVE_NOT_ESCAPED_WITH_ID
         val rewardModelTranslated = RewardConverter.convertDTOtoModel(rewardDTO)
         val rewardDTOTranslated = RewardConverter.convertModelToDTO(rewardModelTranslated)
         compareTwoDTOsWithoutId(rewardDTO, rewardDTOTranslated)
