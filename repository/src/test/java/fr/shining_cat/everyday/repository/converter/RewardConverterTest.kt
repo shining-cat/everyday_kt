@@ -7,41 +7,77 @@ import fr.shining_cat.everyday.localdata.dto.RewardDTO
 import fr.shining_cat.everyday.model.RewardModel
 import fr.shining_cat.everyday.testutils.dto.RewardDTOTestUtils
 import fr.shining_cat.everyday.testutils.model.RewardModelTestUtils
+import java.util.*
 
 class RewardConverterTest{
 
     @Test
     fun convertModelToDTO(){
-        val rewardModel = RewardModelTestUtils.rewardModel_4_1_6_2_0_0
-        val rewardDTOTranslated = RewardConverter.convertModelToDTO(rewardModel)
-        compareTwoDTOsWithoutId(rewardDTOTranslated, RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_ACTIVE_NOT_ESCAPED_WITH_ID)
+        val rewardDTOTranslated = RewardConverter.convertModelToDTO(generateRewardModel())
+        assertEqualTwoDTOsWithoutId(rewardDTOTranslated, generateRewardDto())
     }
 
     @Test
     fun convertDTOtoModel(){
-        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_ACTIVE_NOT_ESCAPED_WITH_ID
-        val rewardModelTranslated = RewardConverter.convertDTOtoModel(rewardDTO)
+        val rewardModelTranslated = RewardConverter.convertDTOtoModel(generateRewardDto(25))
         //here we check the ID field conversion
-        assertEquals(rewardModelTranslated, RewardModelTestUtils.rewardModel_4_1_6_2_0_0)
+        assertEquals(rewardModelTranslated, generateRewardModel(25))
     }
 
     @Test
     fun convertDTOtoModelToDTO(){
-        val rewardDTO = RewardDTOTestUtils.rewardDTO_4_1_6_2_0_0_ACTIVE_NOT_ESCAPED_WITH_ID
+        val rewardDTO = generateRewardDto()
         val rewardModelTranslated = RewardConverter.convertDTOtoModel(rewardDTO)
         val rewardDTOTranslated = RewardConverter.convertModelToDTO(rewardModelTranslated)
-        compareTwoDTOsWithoutId(rewardDTO, rewardDTOTranslated)
+        assertEqualTwoDTOsWithoutId(rewardDTO, rewardDTOTranslated)
     }
 
     @Test
     fun convertModelToDTOToModel(){
-        val rewardModel = RewardModelTestUtils.rewardModel_4_1_6_2_0_0
+        val rewardModel = generateRewardModel()
         val rewardDTOTranslated = RewardConverter.convertModelToDTO(rewardModel)
         val rewardModelTranslated = RewardConverter.convertDTOtoModel(rewardDTOTranslated)
-        compareTwoModelsWithoutId(rewardModel, rewardModelTranslated)
+        assetEqualTwoModelsWithoutId(rewardModel, rewardModelTranslated)
     }
 
-    private fun compareTwoModelsWithoutId(rewardModel1: RewardModel, rewardModel2: RewardModel){
+    private fun generateRewardDto(desiredId: Long = -1): RewardDTO{
+        return RewardDTOTestUtils.generateReward(desiredLevel = 5,
+            active = true,
+            escaped = false,
+            desiredId = desiredId,
+            desiredCode = "5_1_4_5_5_0",
+            yearAcquired = 1987,
+            monthAcquired = 2,
+            dayAcquired = 9,
+            yearEscaped = 1995,
+            monthEscaped = 9,
+            dayEscaped = 11,
+            desiredName = "convertDTOtoModel is my name",
+            desiredLegsColor = "convertDTOtoModel legs color",
+            desiredBodyColor = "convertDTOtoModel body color",
+            desiredArmsColor = "convertDTOtoModel arms color"
+        )
+    }
+
+    private fun generateRewardModel(desiredId: Long = -1): RewardModel{
+        return RewardModelTestUtils.generateRewardModel(desiredLevel = 5,
+                                                        active = true,
+                                                        escaped = false,
+                                                        desiredId = desiredId,
+                                                        desiredCode = "5_1_4_5_5_0",
+                                                        yearAcquired = 1987,
+                                                        monthAcquired = 2,
+                                                        dayAcquired = 9,
+                                                        yearEscaped = 1995,
+                                                        monthEscaped = 9,
+                                                        dayEscaped = 11,
+                                                        desiredName = "convertDTOtoModel is my name",
+                                                        desiredLegsColor = "convertDTOtoModel legs color",
+                                                        desiredBodyColor = "convertDTOtoModel body color",
+                                                        desiredArmsColor = "convertDTOtoModel arms color")
+    }
+
+    private fun assetEqualTwoModelsWithoutId(rewardModel1: RewardModel, rewardModel2: RewardModel){
         assertEquals(rewardModel1.code, rewardModel2.code)
         assertEquals(rewardModel1.level, rewardModel2.level)
         assertEquals(rewardModel1.acquisitionDate, rewardModel2.acquisitionDate)
@@ -54,7 +90,7 @@ class RewardConverterTest{
         assertEquals(rewardModel1.armsColor, rewardModel2.armsColor)
     }
 
-    private fun compareTwoDTOsWithoutId(rewardDTO1: RewardDTO, rewardDTOl2: RewardDTO){
+    private fun assertEqualTwoDTOsWithoutId(rewardDTO1: RewardDTO, rewardDTOl2: RewardDTO){
         assertEquals(rewardDTO1.code,  rewardDTOl2.code)
         assertEquals(rewardDTO1.level,  rewardDTOl2.level)
         assertEquals(rewardDTO1.acquisitionDate,  rewardDTOl2.acquisitionDate)
