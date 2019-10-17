@@ -21,6 +21,7 @@ abstract class Critter{
 
     companion object {
         const val NUMBER_OF_PARTS = 6
+        const val NO_CODE = "No Code given"
 
         const val CRITTER_CODE_SEPARATOR = "_"
         const val FLOWERS_CODE_INDEX_IN_CRITTER_CODE = 0
@@ -60,7 +61,7 @@ abstract class Critter{
                 Level.LEVEL_1 -> arrayOf(Random.nextInt(FLOWER_PARTS.size), Random.nextInt(MOUTH_PARTS.size), 0, 0, 0, 0)
             }
             val critterCode = randomParts.joinToString(CRITTER_CODE_SEPARATOR)
-            logD("LOGGING::CRITTER", "getRandomCritterCode:: code = $critterCode")
+//            logD("LOGGING::CRITTER", "getRandomCritterCode:: code = $critterCode")
             return critterCode
         }
 
