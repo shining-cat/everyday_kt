@@ -67,19 +67,5 @@ abstract class RewardDTOTestUtils {
             }
             return returnList
         }
-
-        val rewardDTO_4_1_6_2_0_0_ACTIVE_NOT_ESCAPED_WITH_ID = RewardDTO(
-            id = 25,
-            code = "4_1_6_2_0_0",
-            level = 3,
-            acquisitionDate = GregorianCalendar(2000, 5, 12).timeInMillis,
-            escapingDate = GregorianCalendar(2001, 3, 15).timeInMillis,
-            isActive = true,
-            isEscaped = false,
-            name = "this is my name",
-            legsColor = "#FF000000",
-            bodyColor = "#00FF0000",
-            armsColor = "#0000FF00")
-
     }
 }

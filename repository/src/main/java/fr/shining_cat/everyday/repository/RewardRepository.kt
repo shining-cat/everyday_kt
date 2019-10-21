@@ -20,7 +20,7 @@ class RewardRepository(private val rewardDao: RewardDao) {
     suspend fun deleteReward(rewards: List<RewardModel>): Int = rewardDao.deleteReward(convertModelsToDTOs(rewards))
     suspend fun deleteAllRewards(): Int = rewardDao.deleteAllRewards()
 
-    fun reward(rewardId: Long): LiveData<RewardModel> = convertDTOtoModel(rewardDao.getRewardLive(rewardId))
+    fun getRewardLive(rewardId: Long): LiveData<RewardModel> = convertDTOtoModel(rewardDao.getRewardLive(rewardId))
     //rewards active
     fun rewardsActiveAcquisitionDateAsc(): LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsActiveAcquisitionDateAsc())
     fun rewardsActiveAcquisitionDateDesc(): LiveData<List<RewardModel>> = convertDTOsToModels(rewardDao.getAllRewardsActiveAcquisitionDateDesc())

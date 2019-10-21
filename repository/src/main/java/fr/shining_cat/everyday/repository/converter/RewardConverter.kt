@@ -27,6 +27,9 @@ class RewardConverter {
                 code = rewardModel.code,
                 level = level
             )
+            if(rewardModel.id != -1L){
+                rewardDTO.id = rewardModel.id
+            }
             rewardDTO.acquisitionDate = if (rewardModel.acquisitionDate == RewardModelConstants.NO_ACQUISITION_DATE) RewardDTOConstants.NO_ACQUISITION_DATE else rewardModel.acquisitionDate
             rewardDTO.escapingDate = if (rewardModel.escapingDate == RewardModelConstants.NO_ESCAPING_DATE) RewardDTOConstants.NO_ESCAPING_DATE else rewardModel.escapingDate
             rewardDTO.name =  if (rewardModel.name == RewardModelConstants.NO_NAME) RewardDTOConstants.NO_NAME else rewardModel.name

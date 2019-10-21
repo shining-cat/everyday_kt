@@ -4,8 +4,17 @@ apply from: '../android_commons.gradle'
 dependencies {
     implementation project(Modules.model)
     implementation project(Modules.localdata)
+    implementation project(Modules.utils)
 
-    implementation project(":utils")
+    implementation Libraries.roomCompiler
+    implementation Libraries.roomRunTime
+    implementation Libraries.roomKtx
+
+    annotationProcessor Libraries.roomCompiler
+    kapt Libraries.roomCompiler
 
     testImplementation project(Modules.testutils)
+
+    androidTestImplementation project(Modules.testutils)
+    androidTestImplementation TestLibraries.archCoreTest
 }

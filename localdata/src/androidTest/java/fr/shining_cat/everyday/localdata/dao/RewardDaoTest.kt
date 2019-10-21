@@ -214,20 +214,20 @@ class RewardDaoTest {
     fun updateOneRewardTest(){
         setupEmptyTable()
         val rewardDTO = RewardDTOTestUtils.generateReward(
-                                                desiredLevel = 5,
-                                                active = true,
-                                                escaped = false,
-                                                desiredId = 43,
-                                                yearAcquired = 1987,
-                                                monthAcquired = 2,
-                                                dayAcquired = 9,
-                                                yearEscaped = 1995,
-                                                monthEscaped = 9,
-                                                dayEscaped = 11,
-                                                desiredName = "updateOneRewardTest is my name",
-                                                desiredLegsColor = "updateOneRewardTest legs color",
-                                                desiredBodyColor = "updateOneRewardTest body color",
-                                                desiredArmsColor = "updateOneRewardTest arms color")
+            desiredLevel = 5,
+            active = true,
+            escaped = false,
+            desiredId = 43,
+            yearAcquired = 1987,
+            monthAcquired = 2,
+            dayAcquired = 9,
+            yearEscaped = 1995,
+            monthEscaped = 9,
+            dayEscaped = 11,
+            desiredName = "updateOneRewardTest is my name",
+            desiredLegsColor = "updateOneRewardTest legs color",
+            desiredBodyColor = "updateOneRewardTest body color",
+            desiredArmsColor = "updateOneRewardTest arms color")
         val rewardCode = rewardDTO.code
         val rewardDtoInsertedTestID = runBlocking {
             rewardDao?.insert(rewardDTO)
