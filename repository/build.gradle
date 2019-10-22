@@ -14,6 +14,8 @@ dependencies {
     kapt Libraries.roomCompiler
 
     testImplementation project(Modules.testutils)
+    testImplementation TestLibraries.mockitoCore
+    testImplementation TestLibraries.mockitoInline
 
     androidTestImplementation project(Modules.testutils)
     androidTestImplementation TestLibraries.archCoreTest

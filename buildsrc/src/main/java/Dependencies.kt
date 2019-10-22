@@ -13,6 +13,8 @@ object Versions {
     val constraintLayout = "1.1.3"
     val archCoreTest = "2.0.0"
     val coroutines = "1.3.1"
+    val mockitoCore = "2.25.0"
+    val mockitoInline = "2.8.47"
 
     val compileSdk = 28
     val minSdk = 21
@@ -61,4 +63,7 @@ object TestLibraries {
     val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
     // UNIT TESTS
     val junit = "androidx.test.ext:junit:${Versions.androidJunit}"
+    //Mockito for kotlin
+    val mockitoCore = "org.mockito:mockito-core:${Versions.mockitoCore}"
+    val mockitoInline = "org.mockito:mockito-inline:${Versions.mockitoInline}"
 }
