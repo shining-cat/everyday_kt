@@ -39,7 +39,7 @@ abstract class RewardDao{
 ////////////////////////////////////////////////////////////////
     
     @Query("SELECT * from rewards_table WHERE id =:rewardId")
-    abstract fun getRewardLive(rewardId: Long): LiveData<RewardDTO>
+    abstract fun getRewardLive(rewardId: Long): LiveData<RewardDTO?>
 
     //all "active" rewards, ie all rewards that have at one point been obtained, regardless if they have been lost or not
     //sort on acquisitionDate ASC

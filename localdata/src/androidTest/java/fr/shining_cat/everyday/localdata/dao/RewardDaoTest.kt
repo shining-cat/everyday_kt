@@ -157,6 +157,18 @@ class RewardDaoTest {
     }
 
     @Test
+    fun getNonExistantRewardTest() {
+        setupEmptyTable()
+        //test what happens when querying inexistant reward
+        val rewardDtoExtractedLive = rewardDao?.getRewardLive(75)
+        assertNotNull(rewardDtoExtractedLive)
+        if (rewardDtoExtractedLive != null) {
+            val rewardDtoExtracted = rewardDtoExtractedLive.getValueBlocking()
+            assertNull(rewardDtoExtracted)
+        }
+    }
+
+    @Test
     fun getOneRewardTest(){
         setupEmptyTable()
         val rewardDTO = RewardDTOTestUtils.generateReward(

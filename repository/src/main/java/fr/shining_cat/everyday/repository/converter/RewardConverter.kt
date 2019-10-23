@@ -41,12 +41,24 @@ class RewardConverter {
             return rewardDTO
         }
 
-        fun convertDTOsToModels(rewardDTOs: LiveData<List<RewardDTO>>): LiveData<List<RewardModel>> {
-            return Transformations.map(rewardDTOs){it.map { rewardDTO ->  convertDTOtoModel(rewardDTO)}}
+        fun convertDTOsToModels(rewardDTOsLiveData: LiveData<List<RewardDTO>>): LiveData<List<RewardModel>> {
+            return Transformations.map(rewardDTOsLiveData) {
+                if (it.isEmpty()) {
+                    emptyList()
+                } else {
+                    it.map { rewardDTO ->convertDTOtoModel(rewardDTO)}
+                }
+            }
         }
 
-        fun convertDTOtoModel(rewardDTO: LiveData<RewardDTO>): LiveData<RewardModel> {
-            return Transformations.map(rewardDTO){it ->  convertDTOtoModel(it)}
+        fun convertDTOtoModel(rewardDTOLiveData: LiveData<RewardDTO?>): LiveData<RewardModel?> {
+            return Transformations.map(rewardDTOLiveData) {
+                if (it == null) {
+                    null
+                } else {
+                    convertDTOtoModel(it)
+                }
+            }
         }
 
         fun convertDTOtoModel(rewardDTO: RewardDTO): RewardModel{
@@ -69,7 +81,6 @@ class RewardConverter {
             rewardModel.bodyColor = rewardDTO.bodyColor
             rewardModel.armsColor = rewardDTO.armsColor
             return rewardModel
-
         }
     }
 }

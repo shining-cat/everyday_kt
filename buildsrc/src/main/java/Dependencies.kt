@@ -66,4 +66,5 @@ object TestLibraries {
     //Mockito for kotlin
     val mockitoCore = "org.mockito:mockito-core:${Versions.mockitoCore}"
     val mockitoInline = "org.mockito:mockito-inline:${Versions.mockitoInline}"
+
 }
