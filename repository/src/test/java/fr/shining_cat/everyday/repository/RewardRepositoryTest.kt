@@ -10,6 +10,7 @@ import org.junit.Assert
 import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Test
+import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyLong
 import org.mockito.Mock
 import org.mockito.Mockito
@@ -17,7 +18,8 @@ import org.mockito.MockitoAnnotations
 
 class RewardRepositoryTest: AbstractBaseTest()  {
 
-    //TODO: Use a mock DAO, and only check that its methods are called when expected by the repo, with the right object type param.
+    // We use a mock DAO, and only check that its methods are called when expected by the repo, with the right object type param.
+    // When needed, we mock a return object for mockRewardDao methods
     // No need to test further, because the DAO is tested independently
     // No need to test the properties of the object, because the converter used by the repo is tested independently
 
@@ -26,6 +28,9 @@ class RewardRepositoryTest: AbstractBaseTest()  {
 
     @Mock
     lateinit var rewardDTOLive: LiveData<RewardDTO?>
+
+    @Mock
+    lateinit var rewardDTOsLive: LiveData<List<RewardDTO>?>
 
     private lateinit var rewardRepo: RewardRepository
 
@@ -37,6 +42,14 @@ class RewardRepositoryTest: AbstractBaseTest()  {
         Assert.assertNotNull(rewardDTOLive)
         rewardRepo = RewardRepository(mockRewardDao)
         Mockito.`when`(mockRewardDao.getRewardLive(anyLong())).thenReturn(rewardDTOLive)
+        Mockito.`when`(mockRewardDao.getAllRewardsActiveAcquisitionDateAsc()).thenReturn(rewardDTOsLive)
+        Mockito.`when`(mockRewardDao.getAllRewardsActiveAcquisitionDateDesc()).thenReturn(rewardDTOsLive)
+        Mockito.`when`(mockRewardDao.getAllRewardsActiveLevelAsc()).thenReturn(rewardDTOsLive)
+        Mockito.`when`(mockRewardDao.getAllRewardsActiveLevelDesc()).thenReturn(rewardDTOsLive)
+        Mockito.`when`(mockRewardDao.getAllRewardsNotEscapedAcquisitionDatDesc()).thenReturn(rewardDTOsLive)
+        Mockito.`when`(mockRewardDao.getAllRewardsEscapedAcquisitionDateDesc()).thenReturn(rewardDTOsLive)
+        Mockito.`when`(mockRewardDao.getAllRewardsOfSPecificLevelNotActive(anyInt())).thenReturn(rewardDTOsLive)
+        Mockito.`when`(mockRewardDao.getAllRewardsOfSPecificLevelNotActiveOrEscaped(anyInt())).thenReturn(rewardDTOsLive)
     }
 
     @After
@@ -117,56 +130,89 @@ class RewardRepositoryTest: AbstractBaseTest()  {
 
     @Test
     fun rewardsActiveAcquisitionDateAsc() {
-        fail("test to write")
+        runBlocking {
+            rewardRepo.rewardsActiveAcquisitionDateAsc()
+            Mockito.verify(mockRewardDao).getAllRewardsActiveAcquisitionDateAsc()
+        }
     }
 
     @Test
     fun rewardsActiveAcquisitionDateDesc() {
-        fail("test to write")
+        runBlocking {
+            rewardRepo.rewardsActiveAcquisitionDateDesc()
+            Mockito.verify(mockRewardDao).getAllRewardsActiveAcquisitionDateDesc()
+        }
     }
 
     @Test
     fun rewardsActiveLevelAsc() {
-        fail("test to write")
+        runBlocking {
+            rewardRepo.rewardsActiveLevelAsc()
+            Mockito.verify(mockRewardDao).getAllRewardsActiveLevelAsc()
+        }
     }
 
     @Test
     fun rewardsActiveLevelDesc() {
-        fail("test to write")
+        runBlocking {
+            rewardRepo.rewardsActiveLevelDesc()
+            Mockito.verify(mockRewardDao).getAllRewardsActiveLevelDesc()
+        }
     }
 
     @Test
     fun rewardsNotEscapedAcquisitionDateDesc() {
-        fail("test to write")
+        runBlocking {
+            rewardRepo.rewardsNotEscapedAcquisitionDateDesc()
+            Mockito.verify(mockRewardDao).getAllRewardsNotEscapedAcquisitionDatDesc()
+        }
     }
 
     @Test
     fun rewardsEscapedAcquisitionDateDesc() {
-        fail("test to write")
+        runBlocking {
+            rewardRepo.rewardsEscapedAcquisitionDateDesc()
+            Mockito.verify(mockRewardDao).getAllRewardsEscapedAcquisitionDateDesc()
+        }
     }
 
     @Test
     fun rewardsOfSPecificLevelNotActive() {
-        fail("test to write")
+        runBlocking {
+            rewardRepo.rewardsOfSPecificLevelNotActive(3)
+            Mockito.verify(mockRewardDao).getAllRewardsOfSPecificLevelNotActive(anyInt())
+        }
     }
 
     @Test
     fun rewardsOfSPecificLevelNotActiveOrEscaped() {
-        fail("test to write")
+        runBlocking {
+            rewardRepo.rewardsOfSPecificLevelNotActiveOrEscaped(4)
+            Mockito.verify(mockRewardDao).getAllRewardsOfSPecificLevelNotActiveOrEscaped(anyInt())
+        }
     }
 
     @Test
     fun allRewardsCount() {
-        fail("test to write")
+        runBlocking {
+            rewardRepo.allRewardsCount()
+            Mockito.verify(mockRewardDao).getNumberOfRows()
+        }
     }
 
     @Test
     fun activeNotEscapedRewardsForLevel() {
-        fail("test to write")
+        runBlocking {
+            rewardRepo.activeNotEscapedRewardsForLevel(5)
+            Mockito.verify(mockRewardDao).getNumberOfActiveNotEscapedRewardsForLevel(anyInt())
+        }
     }
 
     @Test
     fun escapedRewardsForLevel() {
-        fail("test to write")
+        runBlocking {
+            rewardRepo.escapedRewardsForLevel(1)
+            Mockito.verify(mockRewardDao).getNumberOfEscapedRewardsForLevel(anyInt())
+        }
     }
 }

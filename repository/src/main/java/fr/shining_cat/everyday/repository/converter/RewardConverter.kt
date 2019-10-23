@@ -41,12 +41,12 @@ class RewardConverter {
             return rewardDTO
         }
 
-        fun convertDTOsToModels(rewardDTOsLiveData: LiveData<List<RewardDTO>>): LiveData<List<RewardModel>> {
+        fun convertDTOsToModels(rewardDTOsLiveData: LiveData<List<RewardDTO>?>): LiveData<List<RewardModel>> {
             return Transformations.map(rewardDTOsLiveData) {
-                if (it.isEmpty()) {
+                if(it == null || it.isEmpty()) {
                     emptyList()
                 } else {
-                    it.map { rewardDTO ->convertDTOtoModel(rewardDTO)}
+                    it.map { rewardDTO -> convertDTOtoModel(rewardDTO)}
                 }
             }
         }

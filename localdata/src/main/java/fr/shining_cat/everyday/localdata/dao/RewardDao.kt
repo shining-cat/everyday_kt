@@ -44,36 +44,36 @@ abstract class RewardDao{
     //all "active" rewards, ie all rewards that have at one point been obtained, regardless if they have been lost or not
     //sort on acquisitionDate ASC
     @Query("SELECT * from rewards_table WHERE isActive == 1 ORDER BY acquisitionDate ASC")
-    abstract fun getAllRewardsActiveAcquisitionDateAsc(): LiveData<List<RewardDTO>>
+    abstract fun getAllRewardsActiveAcquisitionDateAsc(): LiveData<List<RewardDTO>?>
 
     //sort on acquisitionDate DESC
     @Query("SELECT * from rewards_table WHERE isActive == 1 ORDER BY acquisitionDate DESC")
-    abstract fun getAllRewardsActiveAcquisitionDateDesc(): LiveData<List<RewardDTO>>
+    abstract fun getAllRewardsActiveAcquisitionDateDesc(): LiveData<List<RewardDTO>?>
 
     //sort on level ASC
     @Query("SELECT * from rewards_table WHERE isActive == 1 ORDER BY level ASC")
-    abstract fun getAllRewardsActiveLevelAsc(): LiveData<List<RewardDTO>>
+    abstract fun getAllRewardsActiveLevelAsc(): LiveData<List<RewardDTO>?>
 
     //sort on level DESC
     @Query("SELECT * from rewards_table WHERE isActive == 1 ORDER BY level DESC")
-    abstract fun getAllRewardsActiveLevelDesc(): LiveData<List<RewardDTO>>
+    abstract fun getAllRewardsActiveLevelDesc(): LiveData<List<RewardDTO>?>
 
 ////////////////////////////////////////////////////////////////
     //ACTIVE and NOT LOST rewards :
     @Query("SELECT * from rewards_table WHERE isActive == 1 AND isEscaped == 0 ORDER BY acquisitionDate DESC")
-    abstract fun getAllRewardsNotEscapedAcquisitionDatDesc(): LiveData<List<RewardDTO>>
+    abstract fun getAllRewardsNotEscapedAcquisitionDatDesc(): LiveData<List<RewardDTO>?>
 
     //ACTIVE and LOST rewards :
     @Query("SELECT * from rewards_table WHERE isActive == 1 AND isEscaped == 1 ORDER BY escapingDate DESC")
-    abstract fun getAllRewardsEscapedAcquisitionDateDesc(): LiveData<List<RewardDTO>>
+    abstract fun getAllRewardsEscapedAcquisitionDateDesc(): LiveData<List<RewardDTO>?>
 
     //NON ACTIVE rewards for specific LEVEL:
     @Query("SELECT * from rewards_table WHERE level == :level AND isActive == 0")
-    abstract fun getAllRewardsOfSPecificLevelNotActive(level: Int): LiveData<List<RewardDTO>>
+    abstract fun getAllRewardsOfSPecificLevelNotActive(level: Int): LiveData<List<RewardDTO>?>
 
     //NON ACTIVE or ACTIVE and ESCAPED rewards for specific LEVEL:
     @Query("SELECT * from rewards_table WHERE level == :level AND (isActive == 0 OR isEscaped == 1)")
-    abstract fun getAllRewardsOfSPecificLevelNotActiveOrEscaped(level: Int): LiveData<List<RewardDTO>>
+    abstract fun getAllRewardsOfSPecificLevelNotActiveOrEscaped(level: Int): LiveData<List<RewardDTO>?>
 
 ////////////////////////////////////////////////////////////////
     //COUNTS :
