@@ -7,7 +7,6 @@ import fr.shining_cat.everyday.testutils.model.RewardModelTestUtils
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert
-import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyInt
@@ -40,6 +39,7 @@ class RewardRepositoryTest: AbstractBaseTest()  {
         MockitoAnnotations.initMocks(this)
         Assert.assertNotNull(mockRewardDao)
         Assert.assertNotNull(rewardDTOLive)
+        Assert.assertNotNull(rewardDTOsLive)
         rewardRepo = RewardRepository(mockRewardDao)
         Mockito.`when`(mockRewardDao.getRewardLive(anyLong())).thenReturn(rewardDTOLive)
         Mockito.`when`(mockRewardDao.getAllRewardsActiveAcquisitionDateAsc()).thenReturn(rewardDTOsLive)
@@ -51,11 +51,6 @@ class RewardRepositoryTest: AbstractBaseTest()  {
         Mockito.`when`(mockRewardDao.getAllRewardsOfSPecificLevelNotActive(anyInt())).thenReturn(rewardDTOsLive)
         Mockito.`when`(mockRewardDao.getAllRewardsOfSPecificLevelNotActiveOrEscaped(anyInt())).thenReturn(rewardDTOsLive)
     }
-
-    @After
-    fun tearDown() {
-    }
-
     /**
      * See [Memory leak in mockito-inline...](https://github.com/mockito/mockito/issues/1614)
      */

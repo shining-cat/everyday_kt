@@ -62,11 +62,22 @@ class SessionConverter {
             MoodValue.BEST -> 2
         }
 
-        fun convertDTOsToModels(sessionDTOs: LiveData<List<SessionDTO>>): LiveData<List<SessionModel>> {
-            return Transformations.map(sessionDTOs){it.map { sessionDTO ->  convertDTOtoModel(sessionDTO)}}
+        fun convertDTOsToModels(sessionDTOs: LiveData<List<SessionDTO>?>): LiveData<List<SessionModel>> {
+            return Transformations.map(sessionDTOs){
+                if(it == null || it.isEmpty()){
+                    emptyList()
+                }else{
+                    it.map { sessionDTO ->  convertDTOtoModel(sessionDTO)}
+                }
+            }
         }
-        fun convertDTOsToModels(sessionDTOs: List<SessionDTO>): List<SessionModel> {
-            return sessionDTOs.map{ sessionDTO ->  convertDTOtoModel(sessionDTO)}
+
+        fun convertDTOsToModels(sessionDTOs: List<SessionDTO>?): List<SessionModel> {
+            if(sessionDTOs == null || sessionDTOs.isEmpty()){
+                return emptyList()
+            }else {
+                return sessionDTOs.map { sessionDTO -> convertDTOtoModel(sessionDTO) }
+            }
         }
 
         fun convertDTOtoModel(sessionDTO: SessionDTO): SessionModel{
