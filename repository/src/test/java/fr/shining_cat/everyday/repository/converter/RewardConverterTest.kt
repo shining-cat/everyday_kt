@@ -34,7 +34,7 @@ class RewardConverterTest: AbstractBaseTest(){
     @Test
     fun convertModelsToDTOs(){
         val rewardModelsList = RewardModelTestUtils.generateRewards(10)
-               assertEquals(10, rewardModelsList.size)
+        assertEquals(10, rewardModelsList.size)
         val rewardsTranslatedList = RewardConverter.convertModelsToDTOs(rewardModelsList)
         assertEquals(10, rewardsTranslatedList.size)
     }

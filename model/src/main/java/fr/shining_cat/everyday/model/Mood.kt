@@ -8,7 +8,6 @@ data class Mood(
     val feelingsValue: MoodValue,
     val globalValue: MoodValue)
    {
-
     override fun toString() = "MOOD : timeStamp = " + timeOfRecord +
                                 "\n\tBody = " + bodyValue +
                                 "\n\tThoughts = " + thoughtsValue +
