@@ -27,21 +27,5 @@ abstract class MoodModelTestUtils {
                 globalValue = convertIntToMoodValue(globalValue)
             )
         }
-
-        val moodModelTestAStart = Mood(
-            timeOfRecord = GregorianCalendar(2018, 5, 12, 7, 30, 10).timeInMillis,
-            bodyValue = MoodValue.GOOD,
-            thoughtsValue = MoodValue.WORST,
-            feelingsValue = MoodValue.BAD,
-            globalValue = MoodValue.NOT_SET
-        )
-
-        val moodModelTestAEnd = Mood(
-            timeOfRecord = GregorianCalendar(2018, 5, 12, 7, 45, 30).timeInMillis,
-            bodyValue = MoodValue.BEST,
-            thoughtsValue = MoodValue.WORST,
-            feelingsValue = MoodValue.BAD,
-            globalValue = MoodValue.NOT_SET
-        )
     }
 }

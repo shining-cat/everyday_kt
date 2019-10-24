@@ -6,35 +6,50 @@ import java.util.*
 abstract class SessionDTOTestUtils {
     companion object{
 
+        fun generateSessions(numberOfSessions:Int = 1):List<SessionDTO>{
+            val returnList = mutableListOf<SessionDTO>()
+            var yearStartInc = 1980
+            var yearEndInc = 1981
+            for(i in 0 until numberOfSessions){
+                returnList.add(generateSessionDTO(
+                    yearstart = yearStartInc,
+                    yearend =  yearEndInc
+                ))
+                yearStartInc++
+                yearEndInc++
+            }
+            return returnList
+        }
+
         fun generateSessionDTO(
-                                id:Long = -1L,
-                                yearstart: Int,
-                                monthstart: Int,
-                                dayOfMonthstart: Int,
-                                hourOfDaystart: Int,
-                                minutestart: Int,
-                                secondstart: Int,
-                                startBodyValue:Int,
-                                startThoughtsValue:Int,
-                                startFeelingsValue:Int,
-                                startGlobalValue:Int,
-                                yearend: Int,
-                                monthend: Int,
-                                dayOfMonthend: Int,
-                                hourOfDayend: Int,
-                                minuteend: Int,
-                                secondend: Int,
-                                endBodyValue:Int,
-                                endThoughtsValue:Int,
-                                endFeelingsValue:Int,
-                                endGlobalValue:Int,
-                                notes:String,
-                                realDuration:Long,
-                                pausesCount:Int,
-                                realDurationVsPlanned:Int,
-                                guideMp3:String
+            desiredId:Long = -1L,
+            yearstart: Int = 1980,
+            monthstart: Int = 5,
+            dayOfMonthstart: Int = 2,
+            hourOfDaystart: Int = 15,
+            minutestart: Int = 27,
+            secondstart: Int = 54,
+            startBodyValue:Int = -2,
+            startThoughtsValue:Int = 0,
+            startFeelingsValue:Int = 1,
+            startGlobalValue:Int = 2,
+            yearend: Int = 1982,
+            monthend: Int = 6,
+            dayOfMonthend: Int = 3,
+            hourOfDayend: Int = 17,
+            minuteend: Int = 45,
+            secondend: Int = 3,
+            endBodyValue:Int = 0,
+            endThoughtsValue:Int = 1,
+            endFeelingsValue:Int = -1,
+            endGlobalValue:Int = -2,
+            notes:String = "generateSessionDTO default notes",
+            realDuration:Long = 1590000,
+            pausesCount:Int = 7,
+            realDurationVsPlanned:Int = 0,
+            guideMp3:String = "generateSessionDTO default guideMp3"
         ):SessionDTO{
-            if(id==-1L) {
+            if(desiredId==-1L) {
                 return SessionDTO(
                     startTimeOfRecord = GregorianCalendar(yearstart, monthstart, dayOfMonthstart, hourOfDaystart, minutestart, secondstart).timeInMillis,
                     startBodyValue = startBodyValue,
@@ -56,7 +71,7 @@ abstract class SessionDTOTestUtils {
                 )
             }else{
                 return SessionDTO(
-                    id = id,
+                    id = desiredId,
                     startTimeOfRecord = GregorianCalendar(yearstart, monthstart, dayOfMonthstart, hourOfDaystart, minutestart, secondstart).timeInMillis,
                     startBodyValue = startBodyValue,
                     startThoughtsValue = startThoughtsValue,

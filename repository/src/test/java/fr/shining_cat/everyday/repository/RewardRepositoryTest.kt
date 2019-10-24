@@ -79,7 +79,7 @@ class RewardRepositoryTest: AbstractBaseTest()  {
     fun updateReward() {
         runBlocking {
             rewardRepo.updateReward(RewardModelTestUtils.generateReward())
-            Mockito.verify(mockRewardDao).updateReward(any<RewardDTO>())
+            Mockito.verify(mockRewardDao).updateReward(any())
         }
     }
 
@@ -87,7 +87,7 @@ class RewardRepositoryTest: AbstractBaseTest()  {
     fun updateRewards() {
         runBlocking {
             rewardRepo.updateRewards(RewardModelTestUtils.generateRewards(27))
-            Mockito.verify(mockRewardDao).updateRewards(any<List<RewardDTO>>())
+            Mockito.verify(mockRewardDao).updateRewards(any())
         }
     }
 

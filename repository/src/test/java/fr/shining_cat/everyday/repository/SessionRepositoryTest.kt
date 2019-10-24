@@ -6,12 +6,9 @@ import fr.shining_cat.everyday.localdata.dto.SessionDTO
 import fr.shining_cat.everyday.testutils.model.SessionModelTestUtils
 import kotlinx.coroutines.runBlocking
 import org.junit.After
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
-
-import org.junit.Assert.*
-import org.mockito.ArgumentMatchers
-import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mock
 import org.mockito.Mockito

@@ -98,7 +98,7 @@ class SessionConverterTest {
             guideMp3 = "convertModelToDTO testing guideMp3 string"
         )
         val sessionDtoWithId = SessionDTOTestUtils.generateSessionDTO(
-            id = 41,
+            desiredId = 41,
             yearstart = 1980,
             monthstart = 5,
             dayOfMonthstart = 2,
@@ -143,7 +143,7 @@ class SessionConverterTest {
             guideMp3 = "convertDTOtoModel testing guideMp3 string"
         )
         val sessionDtoWithId = SessionDTOTestUtils.generateSessionDTO(
-            id = 41,
+            desiredId = 41,
             yearstart = 1980,
             monthstart = 5,
             dayOfMonthstart = 2,
@@ -179,7 +179,7 @@ class SessionConverterTest {
     fun convertDTOtoModelToDTO(){
         //with ID
         val sessionDto = SessionDTOTestUtils.generateSessionDTO(
-            id = 76,
+            desiredId = 76,
             yearstart = 1980,
             monthstart = 5,
             dayOfMonthstart = 2,
