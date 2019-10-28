@@ -317,47 +317,400 @@ class SessionDaoTest {
     }
 
     @Test
+    fun getAllSessionsStartTimeAscOnEmptyTable() {
+        checkTotalCountIs(0)
+        val sessionDtosExtractedLive = sessionDao.getAllSessionsStartTimeAsc()
+        assertNotNull(sessionDtosExtractedLive)
+        val sessionDtosSorted = sessionDtosExtractedLive.getValueBlocking()
+        assertNotNull(sessionDtosSorted)
+        if(sessionDtosSorted != null){
+            assertEquals(0, sessionDtosSorted.size)
+        }
+    }
+
+    @Test
     fun getAllSessionsStartTimeAsc() {
-        fail("TEST TO WRITE")
+        val sessionToInsertList = listOf(
+            SessionDTOTestUtils.generateSessionDTO(yearstart = 1623),
+            SessionDTOTestUtils.generateSessionDTO(yearstart = 2013),
+            SessionDTOTestUtils.generateSessionDTO(yearstart = 1953),
+            SessionDTOTestUtils.generateSessionDTO(yearstart = 1733),
+            SessionDTOTestUtils.generateSessionDTO(yearstart = 2003),
+            SessionDTOTestUtils.generateSessionDTO(yearstart = 1843)
+        )
+        runBlocking {
+            sessionDao.insertMultiple(sessionToInsertList)
+        }
+        checkTotalCountIs(6)
+        val sessionDtosExtractedLive = sessionDao.getAllSessionsStartTimeAsc()
+        assertNotNull(sessionDtosExtractedLive)
+        val sessionDtosSorted = sessionDtosExtractedLive.getValueBlocking()
+        assertNotNull(sessionDtosSorted)
+        if(sessionDtosSorted != null){
+            assertEquals(6, sessionDtosSorted.size)
+            var date = 0L
+            for(i in sessionDtosSorted.indices) {
+                assert(sessionDtosSorted[i].startTimeOfRecord >= date)
+                date = sessionDtosSorted[i].startTimeOfRecord
+                assertEquals(date, sessionDtosSorted[i].startTimeOfRecord)
+            }
+        }
+    }
+
+    @Test
+    fun getAllSessionsStartTimeDescOnEmptyTable() {
+        checkTotalCountIs(0)
+        val sessionDtosExtractedLive = sessionDao.getAllSessionsStartTimeDesc()
+        assertNotNull(sessionDtosExtractedLive)
+        val sessionDtosSorted = sessionDtosExtractedLive.getValueBlocking()
+        assertNotNull(sessionDtosSorted)
+        if(sessionDtosSorted != null){
+            assertEquals(0, sessionDtosSorted.size)
+        }
     }
 
     @Test
     fun getAllSessionsStartTimeDesc() {
-        fail("TEST TO WRITE")
+        val sessionToInsertList = listOf(
+            SessionDTOTestUtils.generateSessionDTO(yearstart = 1623),
+            SessionDTOTestUtils.generateSessionDTO(yearstart = 2013),
+            SessionDTOTestUtils.generateSessionDTO(yearstart = 1843),
+            SessionDTOTestUtils.generateSessionDTO(yearstart = 1953),
+            SessionDTOTestUtils.generateSessionDTO(yearstart = 1733),
+            SessionDTOTestUtils.generateSessionDTO(yearstart = 2003)
+        )
+        runBlocking {
+            sessionDao.insertMultiple(sessionToInsertList)
+        }
+        checkTotalCountIs(6)
+        val sessionDtosExtractedLive = sessionDao.getAllSessionsStartTimeDesc()
+        assertNotNull(sessionDtosExtractedLive)
+        val sessionDtosSorted = sessionDtosExtractedLive.getValueBlocking()
+        assertNotNull(sessionDtosSorted)
+        if(sessionDtosSorted != null){
+            assertEquals(6, sessionDtosSorted.size)
+            var date = sessionDtosSorted[sessionDtosSorted.size - 1].startTimeOfRecord
+            for(i in 4 downTo 0){
+                assert(sessionDtosSorted[i].startTimeOfRecord <= date)
+                date = sessionDtosSorted[i].startTimeOfRecord
+                assertEquals(date, sessionDtosSorted[i].startTimeOfRecord)
+            }
+        }
+    }
+
+    @Test
+    fun getAllSessionsDurationAscOnEmptyTable() {
+       checkTotalCountIs(0)
+        val sessionDtosExtractedLive = sessionDao.getAllSessionsStartTimeAsc()
+        assertNotNull(sessionDtosExtractedLive)
+        val sessionDtosSorted = sessionDtosExtractedLive.getValueBlocking()
+        assertNotNull(sessionDtosSorted)
+        if(sessionDtosSorted != null){
+            assertEquals(0, sessionDtosSorted.size)
+        }
     }
 
     @Test
     fun getAllSessionsDurationAsc() {
-        fail("TEST TO WRITE")
+        val sessionToInsertList = listOf(
+            SessionDTOTestUtils.generateSessionDTO(realDuration = 123L),
+            SessionDTOTestUtils.generateSessionDTO(realDuration = 234L),
+            SessionDTOTestUtils.generateSessionDTO(realDuration = 345L),
+            SessionDTOTestUtils.generateSessionDTO(realDuration = 456L),
+            SessionDTOTestUtils.generateSessionDTO(realDuration = 567L),
+            SessionDTOTestUtils.generateSessionDTO(realDuration = 578L)
+        )
+        runBlocking {
+            sessionDao.insertMultiple(sessionToInsertList)
+        }
+        checkTotalCountIs(6)
+        val sessionDtosExtractedLive = sessionDao.getAllSessionsStartTimeAsc()
+        assertNotNull(sessionDtosExtractedLive)
+        val sessionDtosSorted = sessionDtosExtractedLive.getValueBlocking()
+        assertNotNull(sessionDtosSorted)
+        if(sessionDtosSorted != null){
+            assertEquals(6, sessionDtosSorted.size)
+            var duration = 0L
+            for(i in sessionDtosSorted.indices) {
+                assert(sessionDtosSorted[i].realDuration >= duration)
+                duration = sessionDtosSorted[i].realDuration
+                assertEquals(duration, sessionDtosSorted[i].realDuration)
+            }
+        }
+    }
+
+    @Test
+    fun getAllSessionsDurationDescOnEmptyTable() {
+        checkTotalCountIs(0)
+        val sessionDtosExtractedLive = sessionDao.getAllSessionsStartTimeDesc()
+        assertNotNull(sessionDtosExtractedLive)
+        val sessionDtosSorted = sessionDtosExtractedLive.getValueBlocking()
+        assertNotNull(sessionDtosSorted)
+        if(sessionDtosSorted != null){
+            assertEquals(0, sessionDtosSorted.size)
+        }
     }
 
     @Test
     fun getAllSessionsDurationDesc() {
-        fail("TEST TO WRITE")
+        val sessionToInsertList = listOf(
+            SessionDTOTestUtils.generateSessionDTO(realDuration = 123L),
+            SessionDTOTestUtils.generateSessionDTO(realDuration = 234L),
+            SessionDTOTestUtils.generateSessionDTO(realDuration = 345L),
+            SessionDTOTestUtils.generateSessionDTO(realDuration = 456L),
+            SessionDTOTestUtils.generateSessionDTO(realDuration = 567L),
+            SessionDTOTestUtils.generateSessionDTO(realDuration = 578L)
+        )
+        runBlocking {
+            sessionDao.insertMultiple(sessionToInsertList)
+        }
+        checkTotalCountIs(6)
+        val sessionDtosExtractedLive = sessionDao.getAllSessionsStartTimeDesc()
+        assertNotNull(sessionDtosExtractedLive)
+        val sessionDtosSorted = sessionDtosExtractedLive.getValueBlocking()
+        assertNotNull(sessionDtosSorted)
+        if(sessionDtosSorted != null){
+            assertEquals(6, sessionDtosSorted.size)
+            var duration = sessionDtosSorted[sessionDtosSorted.size - 1].realDuration
+            for(i in 4 downTo 0){
+                assert(sessionDtosSorted[i].realDuration <= duration)
+                duration = sessionDtosSorted[i].realDuration
+                assertEquals(duration, sessionDtosSorted[i].realDuration)
+            }
+        }
+    }
+
+    @Test
+    fun getAllSessionsWithMp3OnEmptyTable() {
+        checkTotalCountIs(0)
+        val sessionDtosExtractedLive = sessionDao.getAllSessionsWithMp3()
+        assertNotNull(sessionDtosExtractedLive)
+        val sessionDtosSorted = sessionDtosExtractedLive.getValueBlocking()
+        assertNotNull(sessionDtosSorted)
+        if(sessionDtosSorted != null){
+            assertEquals(0, sessionDtosSorted.size)
+        }
     }
 
     @Test
     fun getAllSessionsWithMp3() {
-        fail("TEST TO WRITE")
+        val sessionToInsertList = listOf(
+            SessionDTOTestUtils.generateSessionDTO(guideMp3 = ""),
+            SessionDTOTestUtils.generateSessionDTO(guideMp3 = "guide mp3 test 1"),
+            SessionDTOTestUtils.generateSessionDTO(guideMp3 = ""),
+            SessionDTOTestUtils.generateSessionDTO(guideMp3 = "guide mp3 test 2"),
+            SessionDTOTestUtils.generateSessionDTO(guideMp3 = ""),
+            SessionDTOTestUtils.generateSessionDTO(guideMp3 = "guide mp3 test 3"),
+            SessionDTOTestUtils.generateSessionDTO(guideMp3 = "")
+        )
+        runBlocking {
+            sessionDao.insertMultiple(sessionToInsertList)
+        }
+        checkTotalCountIs(7)
+        val sessionDtosExtractedLive = sessionDao.getAllSessionsWithMp3()
+        assertNotNull(sessionDtosExtractedLive)
+        val sessionDtosSorted = sessionDtosExtractedLive.getValueBlocking()
+        assertNotNull(sessionDtosSorted)
+        if(sessionDtosSorted != null){
+            assertEquals(3, sessionDtosSorted.size)
+            for(i in sessionDtosSorted.indices) {
+                assert(sessionDtosSorted[i].guideMp3 != "")
+            }
+        }
+    }
+
+    @Test
+    fun getAllSessionsWithoutMp3OnEmptyTable() {
+        checkTotalCountIs(0)
+        val sessionDtosExtractedLive = sessionDao.getAllSessionsWithoutMp3()
+        assertNotNull(sessionDtosExtractedLive)
+        val sessionDtosSorted = sessionDtosExtractedLive.getValueBlocking()
+        assertNotNull(sessionDtosSorted)
+        if(sessionDtosSorted != null){
+            assertEquals(0, sessionDtosSorted.size)
+        }
     }
 
     @Test
     fun getAllSessionsWithoutMp3() {
-        fail("TEST TO WRITE")
+        val sessionToInsertList = listOf(
+            SessionDTOTestUtils.generateSessionDTO(guideMp3 = ""),
+            SessionDTOTestUtils.generateSessionDTO(guideMp3 = "guide mp3 test 1"),
+            SessionDTOTestUtils.generateSessionDTO(guideMp3 = ""),
+            SessionDTOTestUtils.generateSessionDTO(guideMp3 = "guide mp3 test 2"),
+            SessionDTOTestUtils.generateSessionDTO(guideMp3 = ""),
+            SessionDTOTestUtils.generateSessionDTO(guideMp3 = "guide mp3 test 3"),
+            SessionDTOTestUtils.generateSessionDTO(guideMp3 = "")
+        )
+        runBlocking {
+            sessionDao.insertMultiple(sessionToInsertList)
+        }
+        checkTotalCountIs(7)
+        val sessionDtosExtractedLive = sessionDao.getAllSessionsWithoutMp3()
+        assertNotNull(sessionDtosExtractedLive)
+        val sessionDtosSorted = sessionDtosExtractedLive.getValueBlocking()
+        assertNotNull(sessionDtosSorted)
+        if(sessionDtosSorted != null){
+            assertEquals(4, sessionDtosSorted.size)
+            for(i in sessionDtosSorted.indices) {
+                assert(sessionDtosSorted[i].guideMp3 == "")
+            }
+        }
+    }
+
+    @Test
+    fun getSessionsSearchOnEmptyTable() {
+        checkTotalCountIs(0)
+        //
+        var sessionDtosExtractedLive = sessionDao.getSessionsSearch("test 1")
+        assertNotNull(sessionDtosExtractedLive)
+        var sessionDtosSorted = sessionDtosExtractedLive.getValueBlocking()
+        assertNotNull(sessionDtosSorted)
+        if(sessionDtosSorted != null){
+            assertEquals(0, sessionDtosSorted.size)
+        }
+
     }
 
     @Test
     fun getSessionsSearch() {
-        fail("TEST TO WRITE")
+        val sessionToInsertList = listOf(
+            SessionDTOTestUtils.generateSessionDTO(notes = "test 1"),
+            SessionDTOTestUtils.generateSessionDTO(guideMp3 = "test 1"),
+            SessionDTOTestUtils.generateSessionDTO(notes = "notes test 2"),
+            SessionDTOTestUtils.generateSessionDTO(notes = "notes test 2"),
+            SessionDTOTestUtils.generateSessionDTO(guideMp3 = "guide mp3 test 2"),
+            SessionDTOTestUtils.generateSessionDTO(guideMp3 = "guide mp3 test 2"),
+            SessionDTOTestUtils.generateSessionDTO(notes = "notes test 3"),
+            SessionDTOTestUtils.generateSessionDTO(guideMp3 = "guide mp3 test 3")
+        )
+        runBlocking {
+            sessionDao.insertMultiple(sessionToInsertList)
+            sessionDao.insertMultiple(SessionDTOTestUtils.generateSessions(5))
+        }
+        checkTotalCountIs(13)
+        //
+        var sessionDtosExtractedLive = sessionDao.getSessionsSearch("test 1")
+        assertNotNull(sessionDtosExtractedLive)
+        var sessionDtosSorted = sessionDtosExtractedLive.getValueBlocking()
+        assertNotNull(sessionDtosSorted)
+        if(sessionDtosSorted != null){
+            assertEquals(2, sessionDtosSorted.size)
+            for(i in sessionDtosSorted.indices) {
+                assert(sessionDtosSorted[i].guideMp3.contains("test 1") || sessionDtosSorted[i].notes.contains("test 1"))
+            }
+        }
+        //
+        sessionDtosExtractedLive = sessionDao.getSessionsSearch("test")
+        assertNotNull(sessionDtosExtractedLive)
+        sessionDtosSorted = sessionDtosExtractedLive.getValueBlocking()
+        assertNotNull(sessionDtosSorted)
+        if(sessionDtosSorted != null){
+            assertEquals(8, sessionDtosSorted.size)
+            for(i in sessionDtosSorted.indices) {
+                assert(sessionDtosSorted[i].guideMp3.contains("test") || sessionDtosSorted[i].notes.contains("test"))
+            }
+        }
+        //
+        sessionDtosExtractedLive = sessionDao.getSessionsSearch("2")
+        assertNotNull(sessionDtosExtractedLive)
+        sessionDtosSorted = sessionDtosExtractedLive.getValueBlocking()
+        assertNotNull(sessionDtosSorted)
+        if(sessionDtosSorted != null){
+            assertEquals(4, sessionDtosSorted.size)
+            for(i in sessionDtosSorted.indices) {
+                assert(sessionDtosSorted[i].guideMp3.contains("2") || sessionDtosSorted[i].notes.contains("2"))
+            }
+        }
+        //
+        sessionDtosExtractedLive = sessionDao.getSessionsSearch("notes test 2")
+        assertNotNull(sessionDtosExtractedLive)
+        sessionDtosSorted = sessionDtosExtractedLive.getValueBlocking()
+        assertNotNull(sessionDtosSorted)
+        if(sessionDtosSorted != null){
+            assertEquals(2, sessionDtosSorted.size)
+            for(i in sessionDtosSorted.indices) {
+                assert(sessionDtosSorted[i].guideMp3.contains("notes test 2") || sessionDtosSorted[i].notes.contains("notes test 2"))
+            }
+        }
+        //
+        sessionDtosExtractedLive = sessionDao.getSessionsSearch("tralala test")
+        assertNotNull(sessionDtosExtractedLive)
+        sessionDtosSorted = sessionDtosExtractedLive.getValueBlocking()
+        assertNotNull(sessionDtosSorted)
+        if(sessionDtosSorted != null){
+            assertEquals(0, sessionDtosSorted.size)
+        }
+    }
+
+    @Test
+    fun getAllSessionsNotLiveStartTimeAscOnEmptyTable() {
+        checkTotalCountIs(0)
+        val sessionDtosExtracted = runBlocking {
+            sessionDao.getAllSessionsNotLiveStartTimeAsc()
+        }
+        assertNotNull(sessionDtosExtracted)
+        if(sessionDtosExtracted != null){
+            assertEquals(0, sessionDtosExtracted.size)
+        }
     }
 
     @Test
     fun getAllSessionsNotLiveStartTimeAsc() {
-        fail("TEST TO WRITE")
+        val sessionToInsertList = listOf(
+            SessionDTOTestUtils.generateSessionDTO(yearstart = 1623),
+            SessionDTOTestUtils.generateSessionDTO(yearstart = 2003),
+            SessionDTOTestUtils.generateSessionDTO(yearstart = 1733),
+            SessionDTOTestUtils.generateSessionDTO(yearstart = 1843),
+            SessionDTOTestUtils.generateSessionDTO(yearstart = 2013),
+            SessionDTOTestUtils.generateSessionDTO(yearstart = 1953)
+        )
+        runBlocking {
+            sessionDao.insertMultiple(sessionToInsertList)
+        }
+        checkTotalCountIs(6)
+        val sessionDtosExtracted = runBlocking {
+            sessionDao.getAllSessionsNotLiveStartTimeAsc()
+        }
+        assertNotNull(sessionDtosExtracted)
+        if(sessionDtosExtracted != null){
+            assertEquals(6, sessionDtosExtracted.size)
+            var date = 0L
+            for(i in sessionDtosExtracted.indices) {
+                assert(sessionDtosExtracted[i].startTimeOfRecord >= date)
+                date = sessionDtosExtracted[i].startTimeOfRecord
+                assertEquals(date, sessionDtosExtracted[i].startTimeOfRecord)
+            }
+        }
+    }
+
+    @Test
+    fun getLatestRecordedSessionDateOnEmptyTable() {
+        checkTotalCountIs(0)
+        val latestRecordedSessionDate = runBlocking {
+            sessionDao.getLatestRecordedSessionDate()
+        }
+        assertNull(latestRecordedSessionDate)
     }
 
     @Test
     fun getLatestRecordedSessionDate() {
-        fail("TEST TO WRITE")
+        val sessionToInsertList = listOf(
+            SessionDTOTestUtils.generateSessionDTO(yearstart = 1623, monthstart = 3, dayOfMonthstart = 5, hourOfDaystart = 22, minutestart = 21, secondstart = 32),
+            SessionDTOTestUtils.generateSessionDTO(yearstart = 2013, monthstart = 3, dayOfMonthstart = 5, hourOfDaystart = 22, minutestart = 21, secondstart = 32),
+            SessionDTOTestUtils.generateSessionDTO(yearstart = 1733, monthstart = 3, dayOfMonthstart = 5, hourOfDaystart = 22, minutestart = 21, secondstart = 32),
+            SessionDTOTestUtils.generateSessionDTO(yearstart = 1953, monthstart = 3, dayOfMonthstart = 5, hourOfDaystart = 22, minutestart = 21, secondstart = 32),
+            SessionDTOTestUtils.generateSessionDTO(yearstart = 2003, monthstart = 3, dayOfMonthstart = 5, hourOfDaystart = 22, minutestart = 21, secondstart = 32),
+            SessionDTOTestUtils.generateSessionDTO(yearstart = 1843, monthstart = 3, dayOfMonthstart = 5, hourOfDaystart = 22, minutestart = 21, secondstart = 32)
+        )
+        runBlocking {
+            sessionDao.insertMultiple(sessionToInsertList)
+        }
+        checkTotalCountIs(6)
+        val latestRecordedSessionDate = runBlocking {
+            sessionDao.getLatestRecordedSessionDate()
+        }
+        assertNotNull(latestRecordedSessionDate)
+        assertEquals(GregorianCalendar(2013, 3, 5, 22, 21, 32).timeInMillis, latestRecordedSessionDate)
     }
 }

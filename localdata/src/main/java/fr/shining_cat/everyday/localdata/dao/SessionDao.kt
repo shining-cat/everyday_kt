@@ -46,8 +46,8 @@ abstract class SessionDao{
     @Query("SELECT * from sessions_table WHERE guidemp3 = '' ORDER BY startTimeOfRecord DESC")
     abstract fun getAllSessionsWithoutMp3(): LiveData<List<SessionDTO>?>
 
-    //SEARCH on guideMp3 and notes
-    @Query("SELECT * from sessions_table WHERE guidemp3 LIKE :searchRequest OR notes LIKE :searchRequest ORDER BY startTimeOfRecord DESC")
+    //SEARCH on guideMp3 and notes - concatenating params with '%' in SQL
+    @Query("SELECT * from sessions_table WHERE guidemp3 LIKE '%' || :searchRequest || '%' OR notes LIKE '%' || :searchRequest || '%' ORDER BY startTimeOfRecord DESC")
     abstract fun getSessionsSearch(searchRequest: String): LiveData<List<SessionDTO>?>
 
     //LIST of all sessions as unobservable request, only for export
@@ -56,7 +56,7 @@ abstract class SessionDao{
 
     //last session start timestamp
     @Query("SELECT max(startTimeOfRecord) from sessions_table")
-    abstract suspend fun getLatestRecordedSessionDate(): Long
+    abstract suspend fun getLatestRecordedSessionDate(): Long?
 
     //Count
     @Query("SELECT COUNT(id) FROM sessions_table")

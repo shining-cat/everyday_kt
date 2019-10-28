@@ -32,5 +32,5 @@ class SessionRepository(private val sessionDao: SessionDao) {
     //LIST of all sessions as unobservable request, only for export
     suspend fun getAllSessionsNotLiveStartTimeAsc(): List<SessionModel> = convertDTOsToModels(sessionDao.getAllSessionsNotLiveStartTimeAsc())
     //last session start timestamp
-    suspend fun getLatestRecordedSessionDate(): Long = sessionDao.getLatestRecordedSessionDate()
+    suspend fun getLatestRecordedSessionDate(): Long = sessionDao.getLatestRecordedSessionDate() ?: -1
 }

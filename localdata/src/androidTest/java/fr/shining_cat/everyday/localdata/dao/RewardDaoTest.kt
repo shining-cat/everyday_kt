@@ -497,29 +497,9 @@ class RewardDaoTest {
 
 ////////////////////////////////////////////////////////////////
 
-    @Test
-    fun getRewardLiveTest(){
-
-        val rewardDTO = RewardDTOTestUtils.generateReward(desiredId = 87)
-        runBlocking {
-            rewardDao.insert(rewardDTO)
-            rewardDao.insert(RewardDTOTestUtils.generateRewards(61))
-        }
-        checkTotalCountIs(62)
-        val rewardDtoInsertedLive = rewardDao.getRewardLive(87)
-        assertNotNull(rewardDtoInsertedLive)
-        val rewardDtoInserted = rewardDtoInsertedLive.getValueBlocking()
-        assertNotNull(rewardDtoInserted)
-        if (rewardDtoInserted != null) {
-            assertEquals(rewardDTO, rewardDtoInserted)
-        }
-        //
-
-    }
 
     @Test
     fun getAllRewardsActiveAcquisitionDateAscTest() {
-
         val rewardsToInsertList = listOf(
             RewardDTOTestUtils.generateReward(active = true, yearAcquired = 1987, monthAcquired = 2,dayAcquired = 9),
             RewardDTOTestUtils.generateReward(active = false, yearAcquired = 1985, monthAcquired = 3,dayAcquired = 11),
@@ -576,7 +556,7 @@ class RewardDaoTest {
             var date = rewardDtoSorted[3].acquisitionDate
             for(i in 2 downTo 0){
                 assertEquals(true, rewardDtoSorted[i].isActive)
-                assert(rewardDtoSorted[i].acquisitionDate < date)
+                assert(rewardDtoSorted[i].acquisitionDate <= date)
                 date = rewardDtoSorted[i].acquisitionDate
                 assertEquals(date, rewardDtoSorted[i].acquisitionDate)
             }
