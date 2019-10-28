@@ -124,6 +124,14 @@ class SessionRepositoryTest: AbstractBaseTest() {
 
 
     @Test
+    fun `try name`() {
+        runBlocking {
+            sessionRepo.getAllSessionsWithMp3()
+            Mockito.verify(mockSessionDao).getAllSessionsWithMp3()
+        }
+    }
+
+    @Test
     fun getAllSessionsWithMp3() {
         runBlocking {
             sessionRepo.getAllSessionsWithMp3()

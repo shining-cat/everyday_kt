@@ -84,8 +84,39 @@ class RewardDaoTest {
     }
 
     @Test
-    fun deleteOneRewardTest(){
+    fun deleteSessionFromEmptyTable() {
+        val rewardDTOToDeleteTest = RewardDTOTestUtils.generateReward(desiredId = 25)
+        //
+        checkTotalCountIs(0)
+        val countDeleted = runBlocking {
+            rewardDao.deleteReward(rewardDTOToDeleteTest)
+        }
+        assertEquals(0, countDeleted)
+        checkTotalCountIs(0)
+    }
 
+    @Test
+    fun deleteNonExistentSession() {
+        runBlocking {
+            rewardDao.insert(RewardDTOTestUtils.generateReward(desiredId = 25))
+            rewardDao.insert(RewardDTOTestUtils.generateReward(desiredId = 26))
+            rewardDao.insert(RewardDTOTestUtils.generateReward(desiredId = 27))
+            rewardDao.insert(RewardDTOTestUtils.generateReward(desiredId = 28))
+            rewardDao.insert(RewardDTOTestUtils.generateReward(desiredId = 29))
+            rewardDao.insert(RewardDTOTestUtils.generateReward(desiredId = 30))
+        }
+        val rewardDTOToDeleteTest = RewardDTOTestUtils.generateReward(desiredId = 723)
+        //
+        checkTotalCountIs(6)
+        val countDeleted = runBlocking {
+            rewardDao.deleteReward(rewardDTOToDeleteTest)
+        }
+        assertEquals(0, countDeleted)
+        checkTotalCountIs(6)
+    }
+
+    @Test
+    fun deleteOneRewardTest(){
         val rewardDTOToDeleteTest = RewardDTOTestUtils.generateReward(desiredId = 25)
         val rewardsToInsertList = mutableListOf<RewardDTO>()
         rewardsToInsertList.add(rewardDTOToDeleteTest)
@@ -105,8 +136,20 @@ class RewardDaoTest {
     }
 
     @Test
-    fun deleteMultiRewardTest(){
+    fun deleteMultiRewardTestOnEmptyTable(){
+        //create the test-subject list of items
+        val rewardsToDeleteList = RewardDTOTestUtils.generateRewards(17)
+        checkTotalCountIs(0)
+        //delete test-subject list of items
+        val numberOfDeletedRows = runBlocking {
+            rewardDao.deleteReward(rewardsToDeleteList)
+        }
+        checkTotalCountIs(0)
+        assertEquals(0, numberOfDeletedRows)
+    }
 
+    @Test
+    fun deleteMultiRewardTest(){
         //insert the test-subject list of items
         val rewardsToDeleteList = RewardDTOTestUtils.generateRewards(17)
         //insert and collect the ids
@@ -133,13 +176,20 @@ class RewardDaoTest {
         }
         checkTotalCountIs(29)
         assertEquals(17, numberOfDeletedRows)
-        //
+    }
 
+    @Test
+    fun deleteAllRewardTestOnEmptyTable() {
+        checkTotalCountIs(0)
+        val numberOfDeletedRows = runBlocking {
+            rewardDao.deleteAllRewards()
+        }
+        assertEquals(0, numberOfDeletedRows)
+        checkTotalCountIs(0)
     }
 
     @Test
     fun deleteAllRewardTest() {
-
         runBlocking {
             rewardDao.insert(RewardDTOTestUtils.generateRewards(73))
         }
@@ -149,13 +199,11 @@ class RewardDaoTest {
         }
         assertEquals(73, numberOfDeletedRows)
         checkTotalCountIs(0)
-
     }
 
     @Test
-    fun getNonExistantRewardTest() {
-
-        //test what happens when querying inexistant reward
+    fun getRewardOnEmptyTableTest() {
+        checkTotalCountIs(0)
         val rewardDtoExtractedLive = rewardDao.getRewardLive(75)
         assertNotNull(rewardDtoExtractedLive)
         val rewardDtoExtracted = rewardDtoExtractedLive.getValueBlocking()
@@ -163,8 +211,23 @@ class RewardDaoTest {
     }
 
     @Test
-    fun getOneRewardTest(){
+    fun getNonExistentRewardTest() {
+        runBlocking {
+            rewardDao.insert(RewardDTOTestUtils.generateReward(desiredId = 25))
+            rewardDao.insert(RewardDTOTestUtils.generateReward(desiredId = 26))
+            rewardDao.insert(RewardDTOTestUtils.generateReward(desiredId = 27))
+            rewardDao.insert(RewardDTOTestUtils.generateReward(desiredId = 28))
+            rewardDao.insert(RewardDTOTestUtils.generateReward(desiredId = 29))
+        }
+        checkTotalCountIs(5)
+        val rewardDtoExtractedLive = rewardDao.getRewardLive(73)
+        assertNotNull(rewardDtoExtractedLive)
+        val rewardDtoExtracted = rewardDtoExtractedLive.getValueBlocking()
+        assertNull(rewardDtoExtracted)
+    }
 
+    @Test
+    fun getOneRewardTest(){
         val rewardDTO = RewardDTOTestUtils.generateReward(
                                                 desiredLevel = 3,
                                                 active = true,
@@ -209,12 +272,39 @@ class RewardDaoTest {
             assertEquals("getOneRewardTest body color", rewardDtoExtracted.bodyColor)
             assertEquals("getOneRewardTest arms color", rewardDtoExtracted.armsColor)
         }
+    }
 
+    @Test
+    fun updateOneRewardTestOnEmptyTable(){
+        checkTotalCountIs(0)
+        val rewardDTOToUpdate = RewardDTOTestUtils.generateReward(desiredId = 73)
+        val numberOfUpdatedItems = runBlocking {
+            rewardDao.updateReward(rewardDTOToUpdate)
+        }
+        assertEquals(0, numberOfUpdatedItems)
+        checkTotalCountIs(0)
+    }
+
+    @Test
+    fun updateNonExistentRewardTest(){
+        runBlocking {
+            rewardDao.insert(RewardDTOTestUtils.generateReward(desiredId = 25))
+            rewardDao.insert(RewardDTOTestUtils.generateReward(desiredId = 26))
+            rewardDao.insert(RewardDTOTestUtils.generateReward(desiredId = 27))
+            rewardDao.insert(RewardDTOTestUtils.generateReward(desiredId = 28))
+            rewardDao.insert(RewardDTOTestUtils.generateReward(desiredId = 29))
+        }
+        checkTotalCountIs(5)
+        val rewardDTOToUpdate = RewardDTOTestUtils.generateReward(desiredId = 73)
+        val numberOfUpdatedItems = runBlocking {
+            rewardDao.updateReward(rewardDTOToUpdate)
+        }
+        assertEquals(0, numberOfUpdatedItems)
+        checkTotalCountIs(5)
     }
 
     @Test
     fun updateOneRewardTest(){
-
         val rewardDTO = RewardDTOTestUtils.generateReward(
             desiredLevel = 5,
             active = true,
@@ -239,7 +329,6 @@ class RewardDaoTest {
 
         runBlocking {
             rewardDao.insert(RewardDTOTestUtils.generateRewards(53))
-
         }
         checkTotalCountIs(54)
         //
@@ -280,8 +369,6 @@ class RewardDaoTest {
 
     @Test
     fun updateMultipleRewardsTest(){
-
-        //
         val rewardsToTestUpdateList = listOf(
             RewardDTOTestUtils.generateReward(desiredId = 13),
             RewardDTOTestUtils.generateReward(desiredId = 17),

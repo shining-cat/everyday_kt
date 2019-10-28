@@ -22,6 +22,9 @@ abstract class SessionDao{
     @Query("DELETE FROM sessions_table")
     abstract suspend fun deleteAllSessions(): Int
 
+    @Query("SELECT * from sessions_table WHERE id =:sessionId")
+    abstract fun getSessionLive(sessionId: Long): LiveData<SessionDTO?>
+
     //ROOM does not allow parameters for the ORDER BY clause to prevent injection
     @Query("SELECT * from sessions_table ORDER BY startTimeOfRecord ASC")
     abstract fun getAllSessionsStartTimeAsc(): LiveData<List<SessionDTO>?>
