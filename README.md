@@ -16,9 +16,6 @@ the whole log can also be exported (and reimported) as .csv, for backup purposes
 The user can also review the rewards acquired, and sort them on level, date of acquisition, and their lost/not lost status.
 Creatures can be shared and customized, setting for a name and different colors for different body parts.
  
-
-
-
 ### Architecture
 project objectives include:
 - Kotlin
