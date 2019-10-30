@@ -4,7 +4,7 @@ object ApplicationId {
 
 object Versions {
     val kotlin = "1.3.50"
-    val gradle = "3.5.0"
+    val gradle = "3.5.1"
     val room = "2.1.0"
     val androidTestRunner = "1.1.2-alpha02"
     val androidJunit = "1.1.0"

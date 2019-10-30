@@ -27,6 +27,7 @@ project objectives include:
 - Navigation component
 - MotionLayout
 - Lottie Animations
+- Proguard or R8
 
 ### Project sources includes Jake Wharton's ProjectDependencyGraph
 To use it:
