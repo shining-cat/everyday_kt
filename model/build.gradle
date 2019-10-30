@@ -8,5 +8,6 @@ dependencies {
     implementation Libraries.roomRunTime
     implementation Libraries.roomKtx
 
-    annotationProcessor Libraries.roomCompiler
+//    annotationProcessor Libraries.roomCompiler
+    kapt Libraries.roomCompiler
 }

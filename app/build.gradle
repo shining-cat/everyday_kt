@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply from: '../android_commons.gradle'
+apply from: 'https://raw.githubusercontent.com/JakeWharton/SdkSearch/master/gradle/projectDependencyGraph.gradle'
 
 dependencies {
     implementation AndroidLibraries.appCompat

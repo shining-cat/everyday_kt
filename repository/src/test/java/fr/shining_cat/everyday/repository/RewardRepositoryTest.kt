@@ -17,7 +17,7 @@ import org.mockito.MockitoAnnotations
 
 class RewardRepositoryTest: AbstractBaseTest()  {
 
-    // We use a mock DAO, and only check that its methods are called when expected by the repo, with the right object type param.
+    // We use a mock DAO, and only check that its methods are called by the repo when expected, with the right object type param.
     // When needed, we mock a return object for mockRewardDao methods
     // No need to test further, because the DAO is tested independently
     // No need to test the properties of the object, because the converter used by the repo is tested independently
