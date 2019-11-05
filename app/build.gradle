@@ -1,10 +1,17 @@
 apply plugin: 'com.android.application'
 apply from: '../android_commons.gradle'
 apply from: 'https://raw.githubusercontent.com/JakeWharton/SdkSearch/master/gradle/projectDependencyGraph.gradle'
+apply plugin: 'io.fabric'
 
 dependencies {
     implementation AndroidLibraries.appCompat
     implementation AndroidLibraries.constraintLayout
+    implementation AndroidLibraries.coreRunTime
+    // Analytics
+    implementation Libraries.analytics
+    // crashlytics dependency
+    implementation Libraries.crashlytics
 
     implementation project(Modules.utils)
 }
+apply plugin: 'com.google.gms.google-services'

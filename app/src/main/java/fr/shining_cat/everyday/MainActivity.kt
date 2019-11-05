@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.crashlytics.android.Crashlytics
 import fr.shining_cat.everyday.utils.extensions.logD
 
 class MainActivity : AppCompatActivity() {
@@ -31,6 +32,10 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.action_infos -> {
                 //TODO: show "about" Dialog
+                return true
+            }
+            R.id.action_force_crash -> {
+                Crashlytics.getInstance().crash() // Force a crash
                 return true
             }
             else -> return super.onOptionsItemSelected(item)

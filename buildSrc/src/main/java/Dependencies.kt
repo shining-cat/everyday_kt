@@ -3,68 +3,80 @@ object ApplicationId {
 }
 
 object Versions {
-    val kotlin = "1.3.50"
-    val gradle = "3.5.1"
-    val room = "2.1.0"
-    val androidTestRunner = "1.1.2-alpha02"
-    val androidJunit = "1.1.0"
-    val livedata = "2.2.0-alpha03"
-    val appcompat = "1.1.0"
-    val constraintLayout = "1.1.3"
-    val archCoreTest = "2.0.0"
-    val coroutines = "1.3.1"
-    val mockitoCore = "2.25.0"
-    val mockitoInline = "2.8.47"
+    const val kotlin = "1.3.50"
+    const val gradle = "3.5.1"
+    const val googleServices = "4.3.2"
+    const val crashlyticsPlugin = "1.31.2"
+    const val analytics = "17.2.1"
+    const val crashlytics = "2.10.1"
+    const val room = "2.1.0"
+    const val androidTestRunner = "1.1.2-alpha02"
+    const val androidJunit = "1.1.0"
+    const val livedata = "2.2.0-alpha03"
+    const val appcompat = "1.1.0"
+    const val constraintLayout = "1.1.3"
+    const val coreRunTime = "2.1.0"
+    const val archCoreTest = "2.0.0"
+    const val coroutines = "1.3.1"
+    const val mockitoCore = "2.25.0"
+    const val mockitoInline = "2.8.47"
 
-    val compileSdk = 28
-    val minSdk = 21
-    val targetSdk = 28
+    const val compileSdk = 29
+    const val minSdk = 21
+    const val targetSdk = 28
 }
 
 object Releases {
-    val versionCode = 1
-    val versionName = "1.0"
+    const val versionCode = 1
+    const val versionName = "1.0"
 }
 
 object Modules {
-    val app = ":app"
-    val localdata = ":localdata"
-    val model = ":model"
-    val repository = ":repository"
-    val utils = ":utils"
-    val testutils = ":testutils"
+    const val app = ":app"
+    const val localdata = ":localdata"
+    const val model = ":model"
+    const val repository = ":repository"
+    const val utils = ":utils"
+    const val testutils = ":testutils"
 }
 
 object Libraries {
+    const val googleServices = "com.google.gms:google-services:${Versions.googleServices}"
+    const val crashlyticsPlugin = "io.fabric.tools:gradle:${Versions.crashlyticsPlugin}"  // Crashlytics plugin
+    //
+    const val analytics = "com.google.firebase:firebase-analytics:${Versions.analytics}"
+    const val crashlytics = "com.crashlytics.sdk.android:crashlytics:${Versions.crashlytics}"
+
     // ROOM
-    val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
-    val roomRunTime = "androidx.room:room-runtime:${Versions.room}"
-    val roomKtx = "androidx.room:room-ktx:${Versions.room}"
+    const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
+    const val roomRunTime = "androidx.room:room-runtime:${Versions.room}"
+    const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
     //GRADLE
-    val gradle = "com.android.tools.build:gradle:${Versions.gradle}"
+    const val gradle = "com.android.tools.build:gradle:${Versions.gradle}"
 }
 
 object KotlinLibraries {
-    val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
-    val kotlinAndroidExtensions = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+    const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
+    const val kotlinAndroidExtensions = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
 }
 
 object AndroidLibraries {
-    val appCompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
-    val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.livedata}"
-    val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
+    const val appCompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
+    const val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.livedata}"
+    const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
+    const val coreRunTime = "androidx.arch.core:core-runtime:${Versions.coreRunTime}"
 }
 
 object TestLibraries {
     // ANDROID TEST
-    val androidTestRunner = "androidx.test:runner:${Versions.androidTestRunner}"
-    val archCoreTest = "androidx.arch.core:core-testing:${Versions.archCoreTest}"
+    const val androidTestRunner = "androidx.test:runner:${Versions.androidTestRunner}"
+    const val archCoreTest = "androidx.arch.core:core-testing:${Versions.archCoreTest}"
     // COROUTINE
-    val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
+    const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
     // UNIT TESTS
-    val junit = "androidx.test.ext:junit:${Versions.androidJunit}"
+    const val junit = "androidx.test.ext:junit:${Versions.androidJunit}"
     //Mockito for kotlin
-    val mockitoCore = "org.mockito:mockito-core:${Versions.mockitoCore}"
-    val mockitoInline = "org.mockito:mockito-inline:${Versions.mockitoInline}"
+    const val mockitoCore = "org.mockito:mockito-core:${Versions.mockitoCore}"
+    const val mockitoInline = "org.mockito:mockito-inline:${Versions.mockitoInline}"
 
 }
