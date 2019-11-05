@@ -17,6 +17,8 @@ The user can also review the rewards acquired, and sort them on level, date of a
 Creatures can be shared and customized, setting for a name and different colors for different body parts.
  
 ### Architecture
+
+
 project objectives include:
 - Kotlin
 - Modular architecture
