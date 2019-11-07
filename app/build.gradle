@@ -14,5 +14,6 @@ dependencies {
 
 
     implementation project(Modules.utils)
+    implementation project(Modules.navigation)
 }
 apply plugin: 'com.google.gms.google-services'

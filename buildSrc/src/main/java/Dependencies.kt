@@ -38,6 +38,12 @@ object Modules {
     const val repository = ":repository"
     const val utils = ":utils"
     const val testutils = ":testutils"
+    const val navigation = ":navigation"
+    const val home = ":home"
+    const val settings = ":settings"
+    const val session = ":session"
+    const val rewards = ":rewards"
+    const val statistics = ":statistics"
 }
 
 object Libraries {
