@@ -4,7 +4,7 @@ include ':buildsrc'
 include ':home'
 include ':settings'
 include ':session'
-//include ':rewards'
+include ':rewards'
 //include ':statistics'
 //transverse modules
 include ':navigation'
@@ -20,3 +20,4 @@ include ':model'
 project(':home').projectDir = new File('./features/home')
 project(':settings').projectDir = new File('./features/settings')
 project(':session').projectDir = new File('./features/session')
+project(':rewards').projectDir = new File('./features/rewards')
