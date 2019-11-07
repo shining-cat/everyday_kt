@@ -3,7 +3,7 @@ include ':buildsrc'
 //features
 include ':home'
 include ':settings'
-//include ':session'
+include ':session'
 //include ':rewards'
 //include ':statistics'
 //transverse modules
@@ -19,3 +19,4 @@ include ':model'
 // This avoid to have an empty "features" module in  Android Studio.
 project(':home').projectDir = new File('./features/home')
 project(':settings').projectDir = new File('./features/settings')
+project(':session').projectDir = new File('./features/session')
