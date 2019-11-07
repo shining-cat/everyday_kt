@@ -2,7 +2,7 @@ include ':app'
 include ':buildsrc'
 //features
 include ':home'
-//include ':settings'
+include ':settings'
 //include ':session'
 //include ':rewards'
 //include ':statistics'
@@ -15,6 +15,7 @@ include ':repository'
 include ':localdata'
 include ':model'
 
-// Set a custom path for the four features modules.
+// Set a custom path for the features modules.
 // This avoid to have an empty "features" module in  Android Studio.
 project(':home').projectDir = new File('./features/home')
+project(':settings').projectDir = new File('./features/settings')
