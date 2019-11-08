@@ -2,7 +2,10 @@ apply plugin: 'com.android.library'
 apply from: '../android_commons.gradle'
 
 dependencies {
-    androidTestImplementation project(Modules.model)
+    implementation project(Modules.model)
+    implementation project(Modules.localdata)
+    implementation project(Modules.repository)
+    implementation project(Modules.model)
     androidTestImplementation project(Modules.localdata)
     androidTestImplementation project(Modules.repository)
     testImplementation project(Modules.model)
