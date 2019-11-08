@@ -1,11 +1,5 @@
 include ':app'
 include ':buildsrc'
-//features
-include ':home'
-include ':settings'
-include ':session'
-include ':rewards'
-include ':statistics'
 //transverse modules
 include ':navigation'
 include ':utils'
@@ -14,6 +8,13 @@ include ':testutils'
 include ':repository'
 include ':localdata'
 include ':model'
+//features
+include ':home'
+include ':settings'
+include ':session'
+include ':rewards'
+include ':statistics'
+
 
 // Set a custom path for the features modules.
 // This avoid to have an empty "features" module in  Android Studio.
