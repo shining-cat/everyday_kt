@@ -35,6 +35,7 @@ apply plugin: 'kotlin-kapt'
 dependencies {
     implementation KotlinLibraries.kotlin
     implementation AndroidLibraries.liveData
+    implementation AndroidLibraries.coreRunTime //this is added to prevent a sub-dependency conflict between google-services and the rest
 
     androidTestImplementation TestLibraries.junit
     androidTestImplementation TestLibraries.androidTestRunner

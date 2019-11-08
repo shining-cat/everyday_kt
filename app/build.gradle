@@ -6,7 +6,6 @@ apply plugin: 'io.fabric'
 dependencies {
     implementation AndroidLibraries.appCompat
     implementation AndroidLibraries.constraintLayout
-    implementation AndroidLibraries.coreRunTime
     // Analytics
     implementation Libraries.analytics
     // crashlytics dependency
