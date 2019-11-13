@@ -8,6 +8,9 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug{
+            testCoverageEnabled true
+        }
         release {
             minifyEnabled true
         }
@@ -22,6 +25,7 @@ android {
         }
     }
     testOptions {
+        animationsDisabled true
         unitTests {
             includeAndroidResources = true
         }
