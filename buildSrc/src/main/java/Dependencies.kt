@@ -47,8 +47,12 @@ object Modules {
 }
 
 object Libraries {
+    //GRADLE
+    const val gradle = "com.android.tools.build:gradle:${Versions.gradle}"
+    //Google Services
     const val googleServices = "com.google.gms:google-services:${Versions.googleServices}"
-    const val crashlyticsPlugin = "io.fabric.tools:gradle:${Versions.crashlyticsPlugin}"  // Crashlytics plugin
+    //Crashlytics
+    const val crashlyticsPlugin = "io.fabric.tools:gradle:${Versions.crashlyticsPlugin}"
     //
     const val analytics = "com.google.firebase:firebase-analytics:${Versions.analytics}"
     const val crashlytics = "com.crashlytics.sdk.android:crashlytics:${Versions.crashlytics}"
@@ -57,8 +61,9 @@ object Libraries {
     const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
     const val roomRunTime = "androidx.room:room-runtime:${Versions.room}"
     const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
-    //GRADLE
-    const val gradle = "com.android.tools.build:gradle:${Versions.gradle}"
+
+    //https://github.com/ben-manes/gradle-versions-plugin
+    const val gradleVersionsPlugin =  "com.github.ben-manes:gradle-versions-plugin:0.27.0"
 }
 
 object KotlinLibraries {
