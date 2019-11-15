@@ -10,6 +10,8 @@ buildscript {
         classpath KotlinLibraries.kotlinAndroidExtensions
         classpath Libraries.googleServices
         classpath Libraries.crashlyticsPlugin
+        //gradle plugin to manage dependencies updates
+        classpath Libraries.gradleVersionsPlugin
     }
 }
 

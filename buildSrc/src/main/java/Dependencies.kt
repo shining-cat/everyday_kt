@@ -3,24 +3,6 @@ object ApplicationId {
 }
 
 object Versions {
-    const val kotlin = "1.3.50"
-    const val gradle = "3.5.1"
-    const val googleServices = "4.3.2"
-    const val crashlyticsPlugin = "1.31.2"
-    const val analytics = "17.2.1"
-    const val crashlytics = "2.10.1"
-    const val room = "2.1.0"
-    const val androidTestRunner = "1.1.2-alpha02"
-    const val androidJunit = "1.1.0"
-    const val livedata = "2.2.0-alpha03"
-    const val appcompat = "1.1.0"
-    const val constraintLayout = "1.1.3"
-    const val coreRunTime = "2.1.0"
-    const val archCoreTest = "2.0.0"
-    const val coroutines = "1.3.1"
-    const val mockitoCore = "2.25.0"
-    const val mockitoInline = "2.8.47"
-
     const val compileSdk = 29
     const val minSdk = 21
     const val targetSdk = 28
@@ -47,42 +29,44 @@ object Modules {
 }
 
 object Libraries {
-    const val googleServices = "com.google.gms:google-services:${Versions.googleServices}"
-    const val crashlyticsPlugin = "io.fabric.tools:gradle:${Versions.crashlyticsPlugin}"  // Crashlytics plugin
-    //
-    const val analytics = "com.google.firebase:firebase-analytics:${Versions.analytics}"
-    const val crashlytics = "com.crashlytics.sdk.android:crashlytics:${Versions.crashlytics}"
-
-    // ROOM
-    const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
-    const val roomRunTime = "androidx.room:room-runtime:${Versions.room}"
-    const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
     //GRADLE
-    const val gradle = "com.android.tools.build:gradle:${Versions.gradle}"
+    const val gradle = "com.android.tools.build:gradle:3.5.1"
+    //Google Services
+    const val googleServices = "com.google.gms:google-services:4.3.2"
+    //Firebase, fabric, Crashlytics
+    const val crashlyticsPlugin = "io.fabric.tools:gradle:1.31.2"
+    const val analytics = "com.google.firebase:firebase-analytics:17.2.1"
+    const val crashlytics = "com.crashlytics.sdk.android:crashlytics:2.10.1"
+    // ROOM
+    const val roomCompiler = "androidx.room:room-compiler:2.1.0"
+    const val roomRunTime = "androidx.room:room-runtime:2.1.0"
+    const val roomKtx = "androidx.room:room-ktx:2.1.0"
+    //gradle plugin to manage dependencies updates: see gradle tasks help>dependencyUpdates
+    const val gradleVersionsPlugin =  "com.github.ben-manes:gradle-versions-plugin:0.27.0"
 }
 
 object KotlinLibraries {
-    const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
-    const val kotlinAndroidExtensions = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+    const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.60"
+    const val kotlinAndroidExtensions = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.60"
 }
 
 object AndroidLibraries {
-    const val appCompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
-    const val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.livedata}"
-    const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
-    const val coreRunTime = "androidx.arch.core:core-runtime:${Versions.coreRunTime}"
+    const val appCompat = "androidx.appcompat:appcompat:1.1.0"
+    const val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-rc02"
+    const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta3"
+    const val coreRunTime = "androidx.arch.core:core-runtime:2.1.0"
 }
 
 object TestLibraries {
     // ANDROID TEST
-    const val androidTestRunner = "androidx.test:runner:${Versions.androidTestRunner}"
-    const val archCoreTest = "androidx.arch.core:core-testing:${Versions.archCoreTest}"
+    const val androidTestRunner = "androidx.test:runner:1.3.0-alpha02"
+    const val archCoreTest = "androidx.arch.core:core-testing:2.0.0"
     // COROUTINE
-    const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
+    const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.1"
     // UNIT TESTS
-    const val junit = "androidx.test.ext:junit:${Versions.androidJunit}"
+    const val junit = "androidx.test.ext:junit:1.1.2-alpha02"
     //Mockito for kotlin
-    const val mockitoCore = "org.mockito:mockito-core:${Versions.mockitoCore}"
-    const val mockitoInline = "org.mockito:mockito-inline:${Versions.mockitoInline}"
+    const val mockitoCore = "org.mockito:mockito-core:2.25.0"
+    const val mockitoInline = "org.mockito:mockito-inline:2.8.47"
 
 }

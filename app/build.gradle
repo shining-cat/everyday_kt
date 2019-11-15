@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply from: '../android_commons.gradle'
 apply from: 'https://raw.githubusercontent.com/JakeWharton/SdkSearch/master/gradle/projectDependencyGraph.gradle'
 apply plugin: 'io.fabric'
+apply plugin: "com.github.ben-manes.versions"
 
 dependencies {
     implementation AndroidLibraries.appCompat
@@ -10,7 +11,6 @@ dependencies {
     implementation Libraries.analytics
     // crashlytics dependency
     implementation Libraries.crashlytics
-
 
     implementation project(Modules.utils)
     implementation project(Modules.navigation)
