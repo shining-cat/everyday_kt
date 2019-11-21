@@ -1,25 +1,21 @@
 package fr.shining_cat.everyday.repository.converter
 
 import androidx.lifecycle.LiveData
-import org.junit.Assert.assertEquals
-import org.junit.Test
-
 import fr.shining_cat.everyday.localdata.dto.RewardDTO
-import fr.shining_cat.everyday.model.Critter
 import fr.shining_cat.everyday.model.RewardModel
 import fr.shining_cat.everyday.repository.AbstractBaseTest
 import fr.shining_cat.everyday.testutils.dto.RewardDTOTestUtils
-import fr.shining_cat.everyday.testutils.extensions.getValueBlocking
 import fr.shining_cat.everyday.testutils.model.RewardModelTestUtils
 import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.Mockito.times
-import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
-import java.util.*
+import org.mockito.junit.MockitoJUnitRunner
 
+@RunWith(MockitoJUnitRunner::class)
 class RewardConverterTest: AbstractBaseTest(){
 
     @Mock

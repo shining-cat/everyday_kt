@@ -9,12 +9,15 @@ import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyLong
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
+import org.mockito.junit.MockitoJUnitRunner
 
+@RunWith(MockitoJUnitRunner::class)
 class RewardRepositoryTest: AbstractBaseTest()  {
 
     // We use a mock DAO, and only check that its methods are called by the repo when expected, with the right object type param.

@@ -9,11 +9,14 @@ import org.junit.After
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
+import org.mockito.junit.MockitoJUnitRunner
 
+@RunWith(MockitoJUnitRunner::class)
 class SessionRepositoryTest: AbstractBaseTest() {
 
     @Mock
