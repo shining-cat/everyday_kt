@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply from: '../android_commons.gradle'
 
 dependencies {
@@ -6,12 +8,12 @@ dependencies {
     implementation project(Modules.localdata)
     implementation project(Modules.utils)
 
-    implementation Libraries.roomCompiler
-    implementation Libraries.roomRunTime
-    implementation Libraries.roomKtx
+    implementation AndroidLibraries.roomCompiler
+    implementation AndroidLibraries.roomRunTime
+    implementation AndroidLibraries.roomKtx
 
-    annotationProcessor Libraries.roomCompiler
-    kapt Libraries.roomCompiler
+    annotationProcessor AndroidLibraries.roomCompiler
+    kapt AndroidLibraries.roomCompiler
 
     testImplementation project(Modules.testutils)
     testImplementation TestLibraries.mockitoInline
@@ -23,4 +25,7 @@ dependencies {
     //not needed, but not adding these gets the IDE put Warnings on these packages, although code will compile and tests will run
     testImplementation TestLibraries.mockitoCore
     androidTestImplementation TestLibraries.mockitoInline
+}
+repositories {
+    mavenCentral()
 }

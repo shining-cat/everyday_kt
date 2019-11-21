@@ -5,12 +5,12 @@ dependencies {
 
     implementation project(Modules.utils)
 
-    implementation Libraries.roomCompiler
-    implementation Libraries.roomRunTime
-    implementation Libraries.roomKtx
+    implementation AndroidLibraries.roomCompiler
+    implementation AndroidLibraries.roomRunTime
+    implementation AndroidLibraries.roomKtx
 
-    annotationProcessor Libraries.roomCompiler
-    kapt Libraries.roomCompiler
+    annotationProcessor AndroidLibraries.roomCompiler
+    kapt AndroidLibraries.roomCompiler
 
     androidTestImplementation project(Modules.testutils)
     androidTestImplementation TestLibraries.archCoreTest

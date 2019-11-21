@@ -1,5 +1,4 @@
 include ':app'
-include ':buildsrc'
 //transverse modules
 include ':navigation'
 include ':utils'

@@ -6,8 +6,8 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath Libraries.gradle
-        classpath KotlinLibraries.kotlinAndroidExtensions
+        classpath AndroidLibraries.gradle
+        classpath KotlinLibraries.kotlinGradlePlugin
         classpath Libraries.googleServices
         classpath Libraries.crashlyticsPlugin
         //gradle plugin to manage dependencies updates
@@ -21,6 +21,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
     }
 }
 

@@ -4,10 +4,10 @@ apply from: '../android_commons.gradle'
 dependencies {
     implementation project(":utils")
 
-    implementation Libraries.roomCompiler
-    implementation Libraries.roomRunTime
-    implementation Libraries.roomKtx
+    implementation AndroidLibraries.roomCompiler
+    implementation AndroidLibraries.roomRunTime
+    implementation AndroidLibraries.roomKtx
 
-    annotationProcessor Libraries.roomCompiler
-    kapt Libraries.roomCompiler
+    annotationProcessor AndroidLibraries.roomCompiler
+    kapt AndroidLibraries.roomCompiler
 }
