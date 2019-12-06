@@ -18,7 +18,7 @@ import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class RewardRepositoryTest: AbstractBaseTest()  {
+class RewardRepositoryImplTest: AbstractBaseTest()  {
 
     // We use a mock DAO, and only check that its methods are called by the repo when expected, with the right object type param.
     // When needed, we mock a return object for mockRewardDao methods
@@ -43,7 +43,7 @@ class RewardRepositoryTest: AbstractBaseTest()  {
         Assert.assertNotNull(mockRewardDao)
         Assert.assertNotNull(rewardDTOLive)
         Assert.assertNotNull(rewardDTOsLive)
-        rewardRepo = RewardRepository(mockRewardDao)
+        rewardRepo = RewardRepositoryImpl(mockRewardDao)
         Mockito.`when`(mockRewardDao.getRewardLive(anyLong())).thenReturn(rewardDTOLive)
         Mockito.`when`(mockRewardDao.getAllRewardsActiveAcquisitionDateAsc()).thenReturn(rewardDTOsLive)
         Mockito.`when`(mockRewardDao.getAllRewardsActiveAcquisitionDateDesc()).thenReturn(rewardDTOsLive)

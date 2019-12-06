@@ -17,7 +17,7 @@ import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class SessionRepositoryTest: AbstractBaseTest() {
+class SessionRepositoryImplTest: AbstractBaseTest() {
 
     @Mock
     private lateinit var mockSessionDao: SessionDao
@@ -36,7 +36,7 @@ class SessionRepositoryTest: AbstractBaseTest() {
         assertNotNull(mockSessionDao)
         assertNotNull(sessionDTOLive)
         assertNotNull(sessionDTOsLive)
-        sessionRepo = SessionRepository(mockSessionDao)
+        sessionRepo = SessionRepositoryImpl(mockSessionDao)
         Mockito.`when`(mockSessionDao.getAllSessionsStartTimeAsc()).thenReturn(sessionDTOsLive)
         Mockito.`when`(mockSessionDao.getAllSessionsStartTimeDesc()).thenReturn(sessionDTOsLive)
         Mockito.`when`(mockSessionDao.getAllSessionsDurationAsc()).thenReturn(sessionDTOsLive)

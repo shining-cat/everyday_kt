@@ -7,30 +7,47 @@ import fr.shining_cat.everyday.repository.converter.SessionConverter.Companion.c
 import fr.shining_cat.everyday.repository.converter.SessionConverter.Companion.convertModelToDTO
 import fr.shining_cat.everyday.repository.converter.SessionConverter.Companion.convertModelsToDTOs
 
-class SessionRepository(private val sessionDao: SessionDao) {
+interface SessionRepository{
+    suspend fun insert(sessionModel: SessionModel): Long
+    suspend fun insertMultiple(sessionModels: List<SessionModel>): Array<Long>
+    suspend fun updateSession(sessionModel: SessionModel): Int
+    suspend fun deleteSession(sessionModel: SessionModel): Int
+    suspend fun deleteAllSessions(): Int
+    fun getAllSessionsStartTimeAsc(): LiveData<List<SessionModel>>
+    fun getAllSessionsStartTimeDesc(): LiveData<List<SessionModel>>
+    fun getAllSessionsDurationAsc(): LiveData<List<SessionModel>>
+    fun getAllSessionsDurationDesc(): LiveData<List<SessionModel>>
+    fun getAllSessionsWithMp3(): LiveData<List<SessionModel>>
+    fun getAllSessionsWithoutMp3(): LiveData<List<SessionModel>>
+    fun getSessionsSearch(searchRequest: String): LiveData<List<SessionModel>>
+    suspend fun getAllSessionsNotLiveStartTimeAsc(): List<SessionModel>
+    suspend fun getLatestRecordedSessionDate(): Long
+}
 
-    suspend fun insert(sessionModel: SessionModel): Long = sessionDao.insert(convertModelToDTO(sessionModel))
-    suspend fun insertMultiple(sessionModels: List<SessionModel>): Array<Long> = sessionDao.insertMultiple(convertModelsToDTOs(sessionModels))
+class SessionRepositoryImpl(private val sessionDao: SessionDao):SessionRepository {
 
-    suspend fun updateSession(sessionModel: SessionModel): Int = sessionDao.updateSession(convertModelToDTO(sessionModel))
+    override suspend fun insert(sessionModel: SessionModel): Long = sessionDao.insert(convertModelToDTO(sessionModel))
+    override suspend fun insertMultiple(sessionModels: List<SessionModel>): Array<Long> = sessionDao.insertMultiple(convertModelsToDTOs(sessionModels))
 
-    suspend fun deleteSession(sessionModel: SessionModel): Int = sessionDao.deleteSession(convertModelToDTO(sessionModel))
-    suspend fun deleteAllSessions(): Int = sessionDao.deleteAllSessions()
+    override suspend fun updateSession(sessionModel: SessionModel): Int = sessionDao.updateSession(convertModelToDTO(sessionModel))
 
-    fun getAllSessionsStartTimeAsc(): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getAllSessionsStartTimeAsc())
-    fun getAllSessionsStartTimeDesc(): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getAllSessionsStartTimeDesc())
+    override suspend fun deleteSession(sessionModel: SessionModel): Int = sessionDao.deleteSession(convertModelToDTO(sessionModel))
+    override suspend fun deleteAllSessions(): Int = sessionDao.deleteAllSessions()
 
-    fun getAllSessionsDurationAsc(): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getAllSessionsDurationAsc())
-    fun getAllSessionsDurationDesc(): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getAllSessionsDurationDesc())
+    override fun getAllSessionsStartTimeAsc(): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getAllSessionsStartTimeAsc())
+    override fun getAllSessionsStartTimeDesc(): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getAllSessionsStartTimeDesc())
+
+    override fun getAllSessionsDurationAsc(): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getAllSessionsDurationAsc())
+    override fun getAllSessionsDurationDesc(): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getAllSessionsDurationDesc())
 
     //Sessions WITH audio file guideMp3
-    fun getAllSessionsWithMp3(): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getAllSessionsWithMp3())
+    override fun getAllSessionsWithMp3(): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getAllSessionsWithMp3())
     //Sessions WITHOUT audio file guideMp3
-    fun getAllSessionsWithoutMp3(): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getAllSessionsWithoutMp3())
+    override fun getAllSessionsWithoutMp3(): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getAllSessionsWithoutMp3())
     //SEARCH on guideMp3 and notes
-    fun getSessionsSearch(searchRequest: String): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getSessionsSearch(searchRequest))
+    override fun getSessionsSearch(searchRequest: String): LiveData<List<SessionModel>> = convertDTOsToModels(sessionDao.getSessionsSearch(searchRequest))
     //LIST of all sessions as unobservable request, only for export
-    suspend fun getAllSessionsNotLiveStartTimeAsc(): List<SessionModel> = convertDTOsToModels(sessionDao.getAllSessionsNotLiveStartTimeAsc())
+    override suspend fun getAllSessionsNotLiveStartTimeAsc(): List<SessionModel> = convertDTOsToModels(sessionDao.getAllSessionsNotLiveStartTimeAsc())
     //last session start timestamp
-    suspend fun getLatestRecordedSessionDate(): Long = sessionDao.getLatestRecordedSessionDate() ?: -1
+    override suspend fun getLatestRecordedSessionDate(): Long = sessionDao.getLatestRecordedSessionDate() ?: -1
 }
