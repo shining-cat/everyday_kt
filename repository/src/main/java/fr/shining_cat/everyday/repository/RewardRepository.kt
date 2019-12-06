@@ -11,34 +11,20 @@ import fr.shining_cat.everyday.repository.converter.RewardConverter.Companion.co
 interface RewardRepository{
     suspend fun insert(reward: RewardModel): Long
     suspend fun insert(rewards: List<RewardModel>): Array<Long>
-
     suspend fun updateReward(reward: RewardModel): Int
     suspend fun updateRewards(rewards: List<RewardModel>): Int
-
     suspend fun deleteReward(reward: RewardModel): Int
     suspend fun deleteReward(rewards: List<RewardModel>): Int
     suspend fun deleteAllRewards(): Int
-
     fun getRewardLive(rewardId: Long): LiveData<RewardModel?>
-    //rewards active
     fun rewardsActiveAcquisitionDateAsc(): LiveData<List<RewardModel>>
     fun rewardsActiveAcquisitionDateDesc(): LiveData<List<RewardModel>>
     fun rewardsActiveLevelAsc(): LiveData<List<RewardModel>>
     fun rewardsActiveLevelDesc(): LiveData<List<RewardModel>>
-
-    //ACTIVE and NOT-LOST rewards :
     fun rewardsNotEscapedAcquisitionDateDesc(): LiveData<List<RewardModel>>
-
-    //ACTIVE and LOST rewards :
     fun rewardsEscapedAcquisitionDateDesc(): LiveData<List<RewardModel>>
-
-    //NON-ACTIVE rewards for specific LEVEL:
     fun rewardsOfSPecificLevelNotActive(level: Int):  LiveData<List<RewardModel>>
-
-    //NON-ACTIVE or ACTIVE-and-ESCAPED rewards for specific LEVEL:
     fun rewardsOfSPecificLevelNotActiveOrEscaped(level: Int):  LiveData<List<RewardModel>>
-
-    //COUNTS :
     suspend fun allRewardsCount(): Int
     suspend fun activeNotEscapedRewardsForLevel(level: Int):  Int
     suspend fun escapedRewardsForLevel(level: Int):  Int
