@@ -6,6 +6,7 @@ object Versions {
     const val compileSdk = 29
     const val minSdk = 21
     const val targetSdk = 28
+    const val jacoco = "0.8.5"
 }
 
 object Releases {

@@ -1,7 +1,8 @@
 apply plugin: 'com.android.library'
-apply from: '../android_commons.gradle'
+apply from: '../common.gradle'
 
 dependencies {
 
     //commons should have no dependencies to any other module, but every other module might have to it
 }
+
