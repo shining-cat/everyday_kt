@@ -17,7 +17,6 @@ import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
 class RewardRepositoryImplTest: AbstractBaseTest()  {
 
     // We use a mock DAO, and only check that its methods are called by the repo when expected, with the right object type param.

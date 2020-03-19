@@ -16,7 +16,6 @@ import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
 class SessionRepositoryImplTest: AbstractBaseTest() {
 
     @Mock

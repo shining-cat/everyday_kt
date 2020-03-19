@@ -17,7 +17,7 @@ object Modules {
     const val app = ":app"
     const val locale = ":locale"
     const val models = ":models"
-    const val repository = ":repository"
+    const val repositories = ":repositories"
     const val commons = ":commons"
     const val navigation = ":navigation"
     const val screens = ":screens"

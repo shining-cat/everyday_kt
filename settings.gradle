@@ -4,7 +4,7 @@ include ':navigation'
 include ':commons'
 include ':testutils'
 //data modules
-include ':repository'
+include ':repositories'
 include ':locale'
 include ':models'
 //features

@@ -4,11 +4,11 @@ apply from: '../android_commons.gradle'
 dependencies {
     implementation project(Modules.models)
     implementation project(Modules.locale)
-    implementation project(Modules.repository)
+    implementation project(Modules.repositories)
     implementation project(Modules.models)
     androidTestImplementation project(Modules.locale)
-    androidTestImplementation project(Modules.repository)
+    androidTestImplementation project(Modules.repositories)
     testImplementation project(Modules.models)
     testImplementation project(Modules.locale)
-    testImplementation project(Modules.repository)
+    testImplementation project(Modules.repositories)
 }
