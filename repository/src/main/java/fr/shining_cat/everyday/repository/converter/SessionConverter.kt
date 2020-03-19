@@ -7,11 +7,11 @@ import java.util.concurrent.TimeUnit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 
-import fr.shining_cat.everyday.localdata.dto.SessionDTO
-import fr.shining_cat.everyday.model.Mood
-import fr.shining_cat.everyday.model.MoodValue
-import fr.shining_cat.everyday.model.RealDurationVsPlanned
-import fr.shining_cat.everyday.model.SessionModel
+import fr.shining_cat.everyday.locale.entities.SessionDTO
+import fr.shining_cat.everyday.models.Mood
+import fr.shining_cat.everyday.models.MoodValue
+import fr.shining_cat.everyday.models.RealDurationVsPlanned
+import fr.shining_cat.everyday.models.SessionModel
 
 
 class SessionConverter {

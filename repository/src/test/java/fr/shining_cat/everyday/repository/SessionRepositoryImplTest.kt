@@ -1,8 +1,8 @@
 package fr.shining_cat.everyday.repository
 
 import androidx.lifecycle.LiveData
-import fr.shining_cat.everyday.localdata.dao.SessionDao
-import fr.shining_cat.everyday.localdata.dto.SessionDTO
+import fr.shining_cat.everyday.locale.dao.SessionDao
+import fr.shining_cat.everyday.locale.entities.SessionDTO
 import fr.shining_cat.everyday.testutils.model.SessionModelTestUtils
 import kotlinx.coroutines.runBlocking
 import org.junit.After

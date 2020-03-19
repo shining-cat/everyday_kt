@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import com.crashlytics.android.Crashlytics
-import fr.shining_cat.everyday.utils.extensions.logD
+import fr.shining_cat.everyday.commons.extensions.logD
 
 class MainActivity : AppCompatActivity() {
 

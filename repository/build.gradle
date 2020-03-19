@@ -4,9 +4,9 @@ apply plugin: 'kotlin-android-extensions'
 apply from: '../android_commons.gradle'
 
 dependencies {
-    implementation project(Modules.model)
-    implementation project(Modules.localdata)
-    implementation project(Modules.utils)
+    implementation project(Modules.models)
+    implementation project(Modules.locale)
+    implementation project(Modules.commons)
 
     implementation AndroidLibraries.roomCompiler
     implementation AndroidLibraries.roomRunTime

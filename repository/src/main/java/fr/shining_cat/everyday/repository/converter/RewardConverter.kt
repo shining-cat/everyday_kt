@@ -2,11 +2,11 @@ package fr.shining_cat.everyday.repository.converter
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import fr.shining_cat.everyday.localdata.dto.RewardDTO
-import fr.shining_cat.everyday.localdata.dto.RewardDTOConstants
-import fr.shining_cat.everyday.model.Critter
-import fr.shining_cat.everyday.model.RewardModel
-import fr.shining_cat.everyday.model.RewardModelConstants
+import fr.shining_cat.everyday.locale.entities.RewardDTO
+import fr.shining_cat.everyday.locale.entities.RewardDTOConstants
+import fr.shining_cat.everyday.models.Critter
+import fr.shining_cat.everyday.models.RewardModel
+import fr.shining_cat.everyday.models.RewardModelConstants
 
 class RewardConverter {
     companion object{

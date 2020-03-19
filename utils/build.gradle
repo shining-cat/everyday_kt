@@ -1,7 +1,0 @@
-apply plugin: 'com.android.library'
-apply from: '../android_commons.gradle'
-
-dependencies {
-
-    //Utils should have no dependencies to any other module, but every other module might have to it
-}

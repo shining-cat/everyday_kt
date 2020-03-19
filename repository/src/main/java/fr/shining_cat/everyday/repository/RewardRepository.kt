@@ -1,8 +1,8 @@
 package fr.shining_cat.everyday.repository
 
 import androidx.lifecycle.LiveData
-import fr.shining_cat.everyday.localdata.dao.RewardDao
-import fr.shining_cat.everyday.model.RewardModel
+import fr.shining_cat.everyday.locale.dao.RewardDao
+import fr.shining_cat.everyday.models.RewardModel
 import fr.shining_cat.everyday.repository.converter.RewardConverter.Companion.convertDTOsToModels
 import fr.shining_cat.everyday.repository.converter.RewardConverter.Companion.convertModelToDTO
 import fr.shining_cat.everyday.repository.converter.RewardConverter.Companion.convertDTOtoModel

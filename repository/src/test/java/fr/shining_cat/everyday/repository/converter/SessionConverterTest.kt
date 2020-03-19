@@ -3,10 +3,10 @@ package fr.shining_cat.everyday.repository.converter
 import org.junit.Test
 import org.junit.Assert.assertEquals
 
-import fr.shining_cat.everyday.localdata.dto.SessionDTO
-import fr.shining_cat.everyday.model.MoodValue
-import fr.shining_cat.everyday.model.RealDurationVsPlanned
-import fr.shining_cat.everyday.model.SessionModel
+import fr.shining_cat.everyday.locale.entities.SessionDTO
+import fr.shining_cat.everyday.models.MoodValue
+import fr.shining_cat.everyday.models.RealDurationVsPlanned
+import fr.shining_cat.everyday.models.SessionModel
 import fr.shining_cat.everyday.testutils.dto.SessionDTOTestUtils
 import fr.shining_cat.everyday.testutils.model.MoodModelTestUtils
 import fr.shining_cat.everyday.testutils.model.SessionModelTestUtils

@@ -1,7 +1,6 @@
 package fr.shining_cat.everyday.testutils.model
 
-import fr.shining_cat.everyday.model.Mood
-import fr.shining_cat.everyday.model.MoodValue
+import fr.shining_cat.everyday.models.Mood
 import fr.shining_cat.everyday.repository.converter.SessionConverter.Companion.convertIntToMoodValue
 import java.util.*
 

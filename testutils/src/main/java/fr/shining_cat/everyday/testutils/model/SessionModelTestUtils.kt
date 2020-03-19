@@ -1,8 +1,7 @@
 package fr.shining_cat.everyday.testutils.model
 
-import fr.shining_cat.everyday.model.Mood
-import fr.shining_cat.everyday.model.RealDurationVsPlanned
-import fr.shining_cat.everyday.model.SessionModel
+import fr.shining_cat.everyday.models.Mood
+import fr.shining_cat.everyday.models.SessionModel
 import fr.shining_cat.everyday.repository.converter.SessionConverter.Companion.convertIntToRealDurationVsPlanned
 
 abstract class SessionModelTestUtils {
