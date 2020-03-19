@@ -16,6 +16,7 @@ buildscript {
         //gradle plugin to manage dependencies updates
         classpath Libraries.gradleVersionsPlugin
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jacoco:org.jacoco.core:0.8.5"
     }
 }
 
