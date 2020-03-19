@@ -1,24 +1,18 @@
 include ':app'
 //transverse modules
 include ':navigation'
-include ':utils'
+include ':commons'
 include ':testutils'
 //data modules
 include ':repository'
-include ':localdata'
-include ':model'
+include ':locale'
+include ':models'
 //features
-include ':home'
 include ':settings'
-include ':session'
-include ':rewards'
-include ':statistics'
+include ':screens'
 
 
 // Set a custom path for the features modules.
-// This avoid to have an empty "features" module in  Android Studio.
-project(':home').projectDir = new File('./features/home')
+// This prevents having an empty "features" module in  Android Studio.
 project(':settings').projectDir = new File('./features/settings')
-project(':session').projectDir = new File('./features/session')
-project(':rewards').projectDir = new File('./features/rewards')
-project(':statistics').projectDir = new File('./features/statistics')
+project(':screens').projectDir = new File('./features/screens')

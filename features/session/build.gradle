@@ -1,9 +1,0 @@
-apply plugin: 'com.android.library'
-apply from: '../../android_commons.gradle'
-
-dependencies {
-
-    implementation project(Modules.utils)
-    implementation project(Modules.navigation)
-
-}

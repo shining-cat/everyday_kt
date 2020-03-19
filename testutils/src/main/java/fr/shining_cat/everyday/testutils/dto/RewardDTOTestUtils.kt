@@ -1,7 +1,7 @@
 package fr.shining_cat.everyday.testutils.dto
 
-import fr.shining_cat.everyday.localdata.dto.RewardDTO
-import fr.shining_cat.everyday.model.Critter
+import fr.shining_cat.everyday.locale.entities.RewardDTO
+import fr.shining_cat.everyday.models.Critter
 import java.util.*
 
 abstract class RewardDTOTestUtils {

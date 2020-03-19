@@ -1,8 +1,8 @@
 package fr.shining_cat.everyday.repository.converter
 
 import androidx.lifecycle.LiveData
-import fr.shining_cat.everyday.localdata.dto.RewardDTO
-import fr.shining_cat.everyday.model.RewardModel
+import fr.shining_cat.everyday.locale.entities.RewardDTO
+import fr.shining_cat.everyday.models.RewardModel
 import fr.shining_cat.everyday.repository.AbstractBaseTest
 import fr.shining_cat.everyday.testutils.dto.RewardDTOTestUtils
 import fr.shining_cat.everyday.testutils.model.RewardModelTestUtils

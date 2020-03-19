@@ -1,8 +1,8 @@
 package fr.shining_cat.everyday.repository
 
 import androidx.lifecycle.LiveData
-import fr.shining_cat.everyday.localdata.dao.RewardDao
-import fr.shining_cat.everyday.localdata.dto.RewardDTO
+import fr.shining_cat.everyday.locale.dao.RewardDao
+import fr.shining_cat.everyday.locale.entities.RewardDTO
 import fr.shining_cat.everyday.testutils.model.RewardModelTestUtils
 import kotlinx.coroutines.runBlocking
 import org.junit.After

@@ -15,17 +15,14 @@ object Releases {
 
 object Modules {
     const val app = ":app"
-    const val localdata = ":localdata"
-    const val model = ":model"
+    const val locale = ":locale"
+    const val models = ":models"
     const val repository = ":repository"
-    const val utils = ":utils"
-    const val testutils = ":testutils"
+    const val commons = ":commons"
     const val navigation = ":navigation"
-    const val home = ":home"
+    const val screens = ":screens"
     const val settings = ":settings"
-    const val session = ":session"
-    const val rewards = ":rewards"
-    const val statistics = ":statistics"
+    const val testutils = ":testutils"
 }
 
 object Libraries {

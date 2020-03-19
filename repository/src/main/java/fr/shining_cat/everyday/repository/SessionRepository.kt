@@ -1,8 +1,8 @@
 package fr.shining_cat.everyday.repository
 
 import androidx.lifecycle.LiveData
-import fr.shining_cat.everyday.localdata.dao.SessionDao
-import fr.shining_cat.everyday.model.SessionModel
+import fr.shining_cat.everyday.locale.dao.SessionDao
+import fr.shining_cat.everyday.models.SessionModel
 import fr.shining_cat.everyday.repository.converter.SessionConverter.Companion.convertDTOsToModels
 import fr.shining_cat.everyday.repository.converter.SessionConverter.Companion.convertModelToDTO
 import fr.shining_cat.everyday.repository.converter.SessionConverter.Companion.convertModelsToDTOs

@@ -17,7 +17,7 @@ dependencies {
     // crashlytics dependency
     implementation Libraries.crashlytics
 
-    implementation project(Modules.utils)
+    implementation project(Modules.commons)
     implementation project(Modules.navigation)
 }
 apply plugin: 'com.google.gms.google-services'

@@ -1,6 +1,6 @@
 package fr.shining_cat.everyday.testutils.dto
 
-import fr.shining_cat.everyday.localdata.dto.SessionDTO
+import fr.shining_cat.everyday.locale.entities.SessionDTO
 import java.util.*
 
 abstract class SessionDTOTestUtils {

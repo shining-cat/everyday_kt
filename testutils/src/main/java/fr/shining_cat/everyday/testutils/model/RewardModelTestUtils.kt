@@ -1,7 +1,7 @@
 package fr.shining_cat.everyday.testutils.model
 
-import fr.shining_cat.everyday.model.Critter
-import fr.shining_cat.everyday.model.RewardModel
+import fr.shining_cat.everyday.models.Critter
+import fr.shining_cat.everyday.models.RewardModel
 import java.util.*
 
 abstract class RewardModelTestUtils {

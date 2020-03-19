@@ -1,0 +1,13 @@
+apply plugin: 'com.android.library'
+apply from: '../android_commons.gradle'
+
+dependencies {
+    implementation project(':commons')
+
+    implementation AndroidLibraries.roomCompiler
+    implementation AndroidLibraries.roomRunTime
+    implementation AndroidLibraries.roomKtx
+
+    annotationProcessor AndroidLibraries.roomCompiler
+    kapt AndroidLibraries.roomCompiler
+}
