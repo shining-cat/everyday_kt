@@ -61,7 +61,8 @@ build
 .externalNativeBuild
 
 # Google Services (e.g. APIs or Firebase)
-google-services.json
+#kept in case we reimplement firebase one day, this config file contains the API key, which should not be on a public git
+google-services*
 
 # Freeline
 freeline.py

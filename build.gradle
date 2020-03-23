@@ -6,13 +6,10 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
         classpath AndroidLibraries.gradle
         classpath KotlinLibraries.kotlinGradlePlugin
-        classpath Libraries.googleServices
-        classpath Libraries.crashlyticsPlugin
         //gradle plugin to manage dependencies updates
         classpath Libraries.gradleVersionsPlugin
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"

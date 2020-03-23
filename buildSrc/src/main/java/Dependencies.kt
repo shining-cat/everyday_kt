@@ -27,12 +27,6 @@ object Modules {
 }
 
 object Libraries {
-    //Google Services
-    const val googleServices = "com.google.gms:google-services:4.3.3"
-    //Firebase, fabric, Crashlytics
-    const val crashlyticsPlugin = "io.fabric.tools:gradle:1.31.2"
-    const val analytics = "com.google.firebase:firebase-analytics:17.2.1"
-    const val crashlytics = "com.crashlytics.sdk.android:crashlytics:2.10.1"
     //gradle plugin to manage dependencies updates: see gradle tasks help>dependencyUpdates
     const val gradleVersionsPlugin =  "com.github.ben-manes:gradle-versions-plugin:0.27.0"
 }

@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply from: '../common.gradle'
 apply from: 'https://raw.githubusercontent.com/JakeWharton/SdkSearch/master/gradle/projectDependencyGraph.gradle'
-apply plugin: 'io.fabric'
 
 android{
     defaultConfig {
@@ -12,12 +11,7 @@ android{
 dependencies {
     implementation AndroidLibraries.appCompat
     implementation AndroidLibraries.constraintLayout
-    // Analytics
-    implementation Libraries.analytics
-    // crashlytics dependency
-    implementation Libraries.crashlytics
 
     implementation project(Modules.commons)
     implementation project(Modules.navigation)
 }
-apply plugin: 'com.google.gms.google-services'
