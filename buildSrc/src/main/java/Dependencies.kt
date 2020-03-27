@@ -29,6 +29,11 @@ object Modules {
 object Libraries {
     //gradle plugin to manage dependencies updates: see gradle tasks help>dependencyUpdates
     const val gradleVersionsPlugin =  "com.github.ben-manes:gradle-versions-plugin:0.27.0"
+    //koin
+    const val koin = "org.koin:koin-android:2.0.1"
+    const val koin_viewmodel = "org.koin:koin-android-viewmodel:2.0.1"
+    //debugging stetho
+    const val stetho = "com.facebook.stetho:stetho:1.5.1"
 }
 
 object KotlinLibraries {

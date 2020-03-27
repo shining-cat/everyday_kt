@@ -46,6 +46,10 @@ dependencies {
     implementation AndroidLibraries.liveData
     implementation AndroidLibraries.coreRunTime //this is added to prevent a sub-dependency conflict between google-services and the rest
 
+    // Koin
+    implementation Libraries.koin
+    implementation Libraries.koin_viewmodel
+
     androidTestImplementation TestLibraries.junit
     androidTestImplementation TestLibraries.androidTestRunner
     testImplementation TestLibraries.junit
