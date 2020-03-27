@@ -1,7 +1,7 @@
 package fr.shining_cat.everyday.models
 
 
-data class SessionModel(
+data class SessionRecord(
     var id: Long = 0L,
     //
     var startMood: Mood,
@@ -11,10 +11,5 @@ data class SessionModel(
     var realDuration: Long,
     var pausesCount: Int,
     var realDurationVsPlanned: RealDurationVsPlanned, //<0 if real < planned; =0 if real = planned; >0 if real > planned  (obtained via Long.compare(real, planned)
-    var guideMp3: String)
-
-enum class RealDurationVsPlanned{
-    EQUAL,
-    REAL_SHORTER,
-    REAL_LONGER
-}
+    var guideMp3: String
+)

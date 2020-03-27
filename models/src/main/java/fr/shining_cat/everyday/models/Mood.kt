@@ -19,10 +19,3 @@ object MoodConstants{
     const val NO_VALUE_SET: Int = 0
 }
 
-enum class MoodValue{
-    WORST,
-    BAD,
-    NOT_SET,
-    GOOD,
-    BEST
-}

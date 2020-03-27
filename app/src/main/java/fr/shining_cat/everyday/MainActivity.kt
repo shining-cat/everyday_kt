@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import fr.shining_cat.everyday.commons.extensions.logD
 
 class MainActivity : AppCompatActivity() {
 
@@ -12,8 +11,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        logD("onCreate -> log DEBUG")
-        logD("onCreate -> log DEBUG", "custom TAG")
 
     }
 

@@ -1,13 +1,12 @@
 package fr.shining_cat.everyday.models
 
-import fr.shining_cat.everyday.models.Critter.Companion.ARMS_CODE_INDEX_IN_CRITTER_CODE
-import fr.shining_cat.everyday.models.Critter.Companion.CRITTER_CODE_SEPARATOR
-import fr.shining_cat.everyday.models.Critter.Companion.EYES_CODE_INDEX_IN_CRITTER_CODE
-import fr.shining_cat.everyday.models.Critter.Companion.FLOWERS_CODE_INDEX_IN_CRITTER_CODE
-import fr.shining_cat.everyday.models.Critter.Companion.HORNS_CODE_INDEX_IN_CRITTER_CODE
-import fr.shining_cat.everyday.models.Critter.Companion.LEGS_CODE_INDEX_IN_CRITTER_CODE
-import fr.shining_cat.everyday.models.Critter.Companion.MOUTH_CODE_INDEX_IN_CRITTER_CODE
-
+import fr.shining_cat.everyday.models.CritterConstants.ARMS_CODE_INDEX_IN_CRITTER_CODE
+import fr.shining_cat.everyday.models.CritterConstants.CRITTER_CODE_SEPARATOR
+import fr.shining_cat.everyday.models.CritterConstants.EYES_CODE_INDEX_IN_CRITTER_CODE
+import fr.shining_cat.everyday.models.CritterConstants.FLOWERS_CODE_INDEX_IN_CRITTER_CODE
+import fr.shining_cat.everyday.models.CritterConstants.HORNS_CODE_INDEX_IN_CRITTER_CODE
+import fr.shining_cat.everyday.models.CritterConstants.LEGS_CODE_INDEX_IN_CRITTER_CODE
+import fr.shining_cat.everyday.models.CritterConstants.MOUTH_CODE_INDEX_IN_CRITTER_CODE
 import fr.shining_cat.everyday.models.RewardModelConstants.DEFAULT_REWARD_COLOR
 import fr.shining_cat.everyday.models.RewardModelConstants.NO_ACQUISITION_DATE
 import fr.shining_cat.everyday.models.RewardModelConstants.NO_ESCAPING_DATE
@@ -31,7 +30,7 @@ import fr.shining_cat.everyday.models.RewardModelConstants.NO_NAME
 data class RewardModel(
     var id: Long = -1,
     val code: String,
-    val level: Critter.Level,
+    val critterLevel: CritterLevel,
     var acquisitionDate: Long = NO_ACQUISITION_DATE,
     var escapingDate: Long = NO_ESCAPING_DATE,
     var isActive: Boolean = false,

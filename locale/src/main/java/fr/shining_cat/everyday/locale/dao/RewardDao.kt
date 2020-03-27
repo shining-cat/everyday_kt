@@ -2,33 +2,33 @@ package fr.shining_cat.everyday.locale.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import fr.shining_cat.everyday.locale.entities.RewardDTO
+import fr.shining_cat.everyday.locale.entities.RewardEntity
 
 @Dao
 abstract class RewardDao{
     
     @Insert
-    abstract suspend fun insert(reward: RewardDTO): Long
+    abstract suspend fun insert(reward: RewardEntity): Long
 
     
     @Insert
-    abstract suspend fun insert(rewards: List<RewardDTO>): Array<Long>
+    abstract suspend fun insert(rewards: List<RewardEntity>): Array<Long>
 
     
     @Update
-    abstract suspend fun updateReward(reward: RewardDTO): Int
+    abstract suspend fun updateReward(reward: RewardEntity): Int
 
     
     @Update
-    abstract suspend fun updateRewards(rewards: List<RewardDTO>): Int
+    abstract suspend fun updateRewards(rewards: List<RewardEntity>): Int
 
     
     @Delete
-    abstract suspend fun deleteReward(reward: RewardDTO): Int
+    abstract suspend fun deleteReward(reward: RewardEntity): Int
 
     
     @Delete
-    abstract suspend fun deleteReward(reward: List<RewardDTO>): Int
+    abstract suspend fun deleteReward(reward: List<RewardEntity>): Int
 
     
     @Query("DELETE FROM rewards_table")
@@ -39,41 +39,41 @@ abstract class RewardDao{
 ////////////////////////////////////////////////////////////////
     
     @Query("SELECT * from rewards_table WHERE id =:rewardId")
-    abstract fun getRewardLive(rewardId: Long): LiveData<RewardDTO?>
+    abstract fun getRewardLive(rewardId: Long): LiveData<RewardEntity?>
 
     //all "active" rewards, ie all rewards that have at one point been obtained, regardless if they have been lost or not
     //sort on acquisitionDate ASC
     @Query("SELECT * from rewards_table WHERE isActive == 1 ORDER BY acquisitionDate ASC")
-    abstract fun getAllRewardsActiveAcquisitionDateAsc(): LiveData<List<RewardDTO>?>
+    abstract fun getAllRewardsActiveAcquisitionDateAsc(): LiveData<List<RewardEntity>?>
 
     //sort on acquisitionDate DESC
     @Query("SELECT * from rewards_table WHERE isActive == 1 ORDER BY acquisitionDate DESC")
-    abstract fun getAllRewardsActiveAcquisitionDateDesc(): LiveData<List<RewardDTO>?>
+    abstract fun getAllRewardsActiveAcquisitionDateDesc(): LiveData<List<RewardEntity>?>
 
     //sort on level ASC
     @Query("SELECT * from rewards_table WHERE isActive == 1 ORDER BY level ASC")
-    abstract fun getAllRewardsActiveLevelAsc(): LiveData<List<RewardDTO>?>
+    abstract fun getAllRewardsActiveLevelAsc(): LiveData<List<RewardEntity>?>
 
     //sort on level DESC
     @Query("SELECT * from rewards_table WHERE isActive == 1 ORDER BY level DESC")
-    abstract fun getAllRewardsActiveLevelDesc(): LiveData<List<RewardDTO>?>
+    abstract fun getAllRewardsActiveLevelDesc(): LiveData<List<RewardEntity>?>
 
 ////////////////////////////////////////////////////////////////
     //ACTIVE and NOT LOST rewards :
     @Query("SELECT * from rewards_table WHERE isActive == 1 AND isEscaped == 0 ORDER BY acquisitionDate DESC")
-    abstract fun getAllRewardsNotEscapedAcquisitionDatDesc(): LiveData<List<RewardDTO>?>
+    abstract fun getAllRewardsNotEscapedAcquisitionDatDesc(): LiveData<List<RewardEntity>?>
 
     //ACTIVE and LOST rewards :
     @Query("SELECT * from rewards_table WHERE isActive == 1 AND isEscaped == 1 ORDER BY escapingDate DESC")
-    abstract fun getAllRewardsEscapedAcquisitionDateDesc(): LiveData<List<RewardDTO>?>
+    abstract fun getAllRewardsEscapedAcquisitionDateDesc(): LiveData<List<RewardEntity>?>
 
     //NON ACTIVE rewards for specific LEVEL:
     @Query("SELECT * from rewards_table WHERE level == :level AND isActive == 0")
-    abstract fun getAllRewardsOfSPecificLevelNotActive(level: Int): LiveData<List<RewardDTO>?>
+    abstract fun getAllRewardsOfSPecificLevelNotActive(level: Int): LiveData<List<RewardEntity>?>
 
     //NON ACTIVE or ACTIVE and ESCAPED rewards for specific LEVEL:
     @Query("SELECT * from rewards_table WHERE level == :level AND (isActive == 0 OR isEscaped == 1)")
-    abstract fun getAllRewardsOfSPecificLevelNotActiveOrEscaped(level: Int): LiveData<List<RewardDTO>?>
+    abstract fun getAllRewardsOfSPecificLevelNotActiveOrEscaped(level: Int): LiveData<List<RewardEntity>?>
 
 ////////////////////////////////////////////////////////////////
     //COUNTS :
