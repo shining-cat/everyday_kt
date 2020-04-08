@@ -5,7 +5,7 @@ import fr.shining_cat.everyday.locale.dao.SessionRecordDao
 import fr.shining_cat.everyday.models.SessionRecord
 import fr.shining_cat.everyday.repository.converter.SessionRecordConverter
 
-interface SessionRepository {
+interface SessionRecordRepository {
     suspend fun insert(sessionRecord: SessionRecord): Long
     suspend fun insertMultiple(sessionRecords: List<SessionRecord>): Array<Long>
     suspend fun updateSession(sessionRecord: SessionRecord): Int
@@ -19,13 +19,13 @@ interface SessionRepository {
     fun getAllSessionsWithoutMp3(): LiveData<List<SessionRecord>>
     fun getSessionsSearch(searchRequest: String): LiveData<List<SessionRecord>>
     suspend fun getAllSessionsNotLiveStartTimeAsc(): List<SessionRecord>
-    suspend fun getLatestRecordedSessionDate(): Long
+    suspend fun getMostRecentSessionRecordDate(): Long
 }
 
-class SessionRepositoryImpl(
+class SessionRecordRepositoryImpl(
     private val sessionRecordDao: SessionRecordDao,
     private val sessionRecordConverter: SessionRecordConverter
-) : SessionRepository {
+) : SessionRecordRepository {
 
     override suspend fun insert(sessionRecord: SessionRecord): Long =
         sessionRecordDao.insert(sessionRecordConverter.convertModelToEntity(sessionRecord))
@@ -70,6 +70,6 @@ class SessionRepositoryImpl(
         sessionRecordConverter.convertEntitiesToModels(sessionRecordDao.getAllSessionsNotLiveStartTimeAsc())
 
     //last session start timestamp
-    override suspend fun getLatestRecordedSessionDate(): Long =
-        sessionRecordDao.getLatestRecordedSessionDate() ?: -1
+    override suspend fun getMostRecentSessionRecordDate(): Long =
+        sessionRecordDao.getMostRecentSessionRecordDate() ?: -1
 }

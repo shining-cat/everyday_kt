@@ -56,7 +56,7 @@ abstract class SessionRecordDao{
 
     //last session start timestamp
     @Query("SELECT max(startTimeOfRecord) from sessions_table")
-    abstract suspend fun getLatestRecordedSessionDate(): Long?
+    abstract suspend fun getMostRecentSessionRecordDate(): Long?
 
     //Count
     @Query("SELECT COUNT(id) FROM sessions_table")

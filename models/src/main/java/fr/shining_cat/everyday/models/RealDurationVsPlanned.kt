@@ -5,7 +5,6 @@ enum class RealDurationVsPlanned(val key: Int){
     REAL_SHORTER(-1),
     REAL_LONGER(1);
 
-    //TODO: WRITE TEST
     companion object {
         fun fromKey(key: Int): RealDurationVsPlanned {
             return when {

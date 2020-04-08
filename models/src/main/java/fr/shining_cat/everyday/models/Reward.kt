@@ -27,7 +27,7 @@ import fr.shining_cat.everyday.models.RewardModelConstants.NO_NAME
 //when a reward is obtained, then acquisition_date is set to the moment it happens; it will be modified only if reward is re-obtained,
 //if a reward escapes, then isEscaped is set to true, and escape_date is set to the moment it happens, if it is obtained again, then isEscaped is re-set to false
 
-data class RewardModel(
+data class Reward(
     var id: Long = -1,
     val code: String,
     val critterLevel: CritterLevel,
@@ -55,6 +55,13 @@ data class RewardModel(
 
 }
 
+object RewardModelConstants{
+    const val NO_ACQUISITION_DATE: Long = 0
+    const val NO_ESCAPING_DATE: Long = 0
+    const val NO_NAME = ""
+    const val DEFAULT_REWARD_COLOR = "#00000000"
+}
+
 object RewardModelChances{
     val REWARD_CHANCE_LEVEL_1 = arrayOf(100,  0,  0,  0)
     val REWARD_CHANCE_LEVEL_2 = arrayOf(100, 20,  0,  0)
@@ -77,9 +84,3 @@ object RewardModelThresholds{
     const val REWARD_STREAK_LEVEL_5 = 28
 }
 
-object RewardModelConstants{
-    const val NO_ACQUISITION_DATE: Long = 0
-    const val NO_ESCAPING_DATE: Long = 0
-    const val NO_NAME = ""
-    const val DEFAULT_REWARD_COLOR = "#00000000"
-}
