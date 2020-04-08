@@ -1,5 +1,12 @@
 package fr.shining_cat.everyday.models
 
+import fr.shining_cat.everyday.models.CritterConstants.ARMS_CODE_INDEX_IN_CRITTER_CODE
+import fr.shining_cat.everyday.models.CritterConstants.CRITTER_CODE_SEPARATOR
+import fr.shining_cat.everyday.models.CritterConstants.EYES_CODE_INDEX_IN_CRITTER_CODE
+import fr.shining_cat.everyday.models.CritterConstants.FLOWERS_CODE_INDEX_IN_CRITTER_CODE
+import fr.shining_cat.everyday.models.CritterConstants.HORNS_CODE_INDEX_IN_CRITTER_CODE
+import fr.shining_cat.everyday.models.CritterConstants.LEGS_CODE_INDEX_IN_CRITTER_CODE
+import fr.shining_cat.everyday.models.CritterConstants.MOUTH_CODE_INDEX_IN_CRITTER_CODE
 import fr.shining_cat.everyday.models.RewardModelConstants.DEFAULT_REWARD_COLOR
 import fr.shining_cat.everyday.models.RewardModelConstants.NO_ACQUISITION_DATE
 import fr.shining_cat.everyday.models.RewardModelConstants.NO_ESCAPING_DATE
@@ -34,17 +41,16 @@ data class Reward(
     var armsColor: String = DEFAULT_REWARD_COLOR)
 {
 
-    //TODO: this should not be here, if we need this functionality, we should use CritterHelper
-//    private val splitRewardCode = code.split(CRITTER_CODE_SEPARATOR)
+    private val splitRewardCode = code.split(CRITTER_CODE_SEPARATOR)
 
-//    ////////////////////////////////////////
-//    //convenience getters
-//    fun getFlowerCode() = Integer.valueOf(splitRewardCode[FLOWERS_CODE_INDEX_IN_CRITTER_CODE])
-//    fun getLegsCode() = Integer.valueOf(splitRewardCode[LEGS_CODE_INDEX_IN_CRITTER_CODE])
-//    fun getArmsCode() = Integer.valueOf(splitRewardCode[ARMS_CODE_INDEX_IN_CRITTER_CODE])
-//    fun getMouthCode() = Integer.valueOf(splitRewardCode[MOUTH_CODE_INDEX_IN_CRITTER_CODE])
-//    fun getEyesCode() = Integer.valueOf(splitRewardCode[EYES_CODE_INDEX_IN_CRITTER_CODE])
-//    fun getHornsCode() = Integer.valueOf(splitRewardCode[HORNS_CODE_INDEX_IN_CRITTER_CODE])
+    ////////////////////////////////////////
+    //convenience getters
+    fun getFlowerCode() = Integer.valueOf(splitRewardCode[FLOWERS_CODE_INDEX_IN_CRITTER_CODE])
+    fun getLegsCode() = Integer.valueOf(splitRewardCode[LEGS_CODE_INDEX_IN_CRITTER_CODE])
+    fun getArmsCode() = Integer.valueOf(splitRewardCode[ARMS_CODE_INDEX_IN_CRITTER_CODE])
+    fun getMouthCode() = Integer.valueOf(splitRewardCode[MOUTH_CODE_INDEX_IN_CRITTER_CODE])
+    fun getEyesCode() = Integer.valueOf(splitRewardCode[EYES_CODE_INDEX_IN_CRITTER_CODE])
+    fun getHornsCode() = Integer.valueOf(splitRewardCode[HORNS_CODE_INDEX_IN_CRITTER_CODE])
 
 
 }
@@ -55,7 +61,7 @@ object RewardModelConstants{
     const val NO_NAME = ""
     const val DEFAULT_REWARD_COLOR = "#00000000"
 }
-//TODO: move this to a constants file
+
 object RewardModelChances{
     val REWARD_CHANCE_LEVEL_1 = arrayOf(100,  0,  0,  0)
     val REWARD_CHANCE_LEVEL_2 = arrayOf(100, 20,  0,  0)
@@ -64,7 +70,6 @@ object RewardModelChances{
     val REWARD_CHANCE_LEVEL_5 = arrayOf(100, 50, 20, 10)
 }
 
-//TODO: move this to a constants file
 object RewardModelThresholds{
     const val REWARD_DURATION_LEVEL_1 = 0
     const val REWARD_DURATION_LEVEL_2 = 300000 //5mn

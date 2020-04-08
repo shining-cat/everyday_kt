@@ -80,36 +80,9 @@ object CritterConstants {
     //TODO: vectorize body parts in two files each : one with only black lines and shadows, the other full white for colorization
     //TODO: the lines one will be put on top of the other, which will be altered via setColorFilter according to user set color
     //TODO: beware when importing future body parts as vectors, seems that from API 24 and above, too long paths will break everything, while the vector will work on lower APIs because then it uses the support library...
-
-}
-
-// TODO : we need 6 versions of FLOWER and MOUTH + 7 versions of LEGS, ARMS, and EYES (6 normal and 1 "off" version : legs or arms folded, eyes closed), the "off" version of HORNS is simply empty
-//parts always "active" : flower, mouth
-enum class CritterLevel(val key: Int) {
-    LEVEL_1(0), // 0 to 5mn    : flower = X | legs = 0 | arms = 0 | mouth = X | eyes = 0 | horns = 0  => 36 combinations
-    LEVEL_2(1), // 5 to 15mn   : flower = X | legs = X | arms = 0 | mouth = X | eyes = 0 | horns = 0  => 216 combinations
-    LEVEL_3(2), // 15 to 30mn  : flower = X | legs = X | arms = X | mouth = X | eyes = 0 | horns = 0  => 1296 combinations
-    LEVEL_4(3), // 30 to 60mn  : flower = X | legs = X | arms = X | mouth = X | eyes = X | horns = 0  => 7776 combinations
-    LEVEL_5(4);  // 60mn and +  : flower = X | legs = X | arms = X | mouth = X | eyes = X | horns = X  => 46656 combinations
-    //total combinations => 55980
-
-    //TODO: WRITE TEST
-    companion object {
-        fun fromKey(key: Int?): CritterLevel {
-            return when (key) {
-                0 -> LEVEL_1
-                1 -> LEVEL_2
-                2 -> LEVEL_3
-                3 -> LEVEL_4
-                4 -> LEVEL_5
-                else -> LEVEL_1
-            }
-        }
-    }
 }
 
 class CritterHelper {
-
 
     fun getRandomCritterCode(critterCritterLevel: CritterLevel): String {
         val randomParts = when (critterCritterLevel) {
@@ -351,10 +324,6 @@ class CritterHelper {
     fun getDrawableInArrayDefaultToFirstItem(index: Int, resourcesArray: Array<Int>): Int {
         //safety check in case code stored in DB is not correlated with available drawable resources anymore :
         return if (index > resourcesArray.size - 1) {
-//            logE(
-//                "LOGGING::CRITTER",
-//                "getDrawableInArrayDefaultToFirstItem::WANTED INDEX IS NOT AVAILABLE !! switching to first one"
-//            )
             resourcesArray[0]
         }
         else {

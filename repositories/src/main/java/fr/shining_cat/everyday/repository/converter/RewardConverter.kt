@@ -9,16 +9,13 @@ import fr.shining_cat.everyday.models.CritterLevel
 import fr.shining_cat.everyday.models.Reward
 import fr.shining_cat.everyday.models.RewardModelConstants
 
-class RewardConverter(
-    private val critterHelper: CritterHelper
-) {
+class RewardConverter() {
 
         fun convertModelsToEntities(rewards: List<Reward>): List<RewardEntity> {
             return rewards.map { rewardModel ->  convertModelToEntity(rewardModel)}
         }
 
         fun convertModelToEntity(reward: Reward): RewardEntity {
-            //TODO: use CritterLevel key param when implemented
             val level  = reward.critterLevel.key
             val rewardEntity = RewardEntity(
                 code = reward.code,
@@ -59,16 +56,7 @@ class RewardConverter(
         }
 
         fun convertEntitytoModel(rewardEntity: RewardEntity): Reward{
-            val rewardCode = rewardEntity.code
-            //TODO: use CritterLevel key param when implemented
-            val level  = when (rewardEntity.level){
-                5 -> CritterLevel.LEVEL_5
-                4 -> CritterLevel.LEVEL_4
-                3 -> CritterLevel.LEVEL_3
-                2 -> CritterLevel.LEVEL_2
-                1 -> CritterLevel.LEVEL_1
-                else -> critterHelper.getLevel(rewardCode)
-            }
+            val level  = CritterLevel.fromKey(rewardEntity.level)
             val rewardModel = Reward(id= rewardEntity.id, code = rewardEntity.code, critterLevel = level)
             rewardModel.acquisitionDate = if (rewardEntity.acquisitionDate == RewardEntityConstants.NO_ACQUISITION_DATE) RewardModelConstants.NO_ACQUISITION_DATE else rewardEntity.acquisitionDate
             rewardModel.escapingDate = if (rewardEntity.escapingDate == RewardEntityConstants.NO_ESCAPING_DATE) RewardModelConstants.NO_ESCAPING_DATE else rewardEntity.escapingDate
