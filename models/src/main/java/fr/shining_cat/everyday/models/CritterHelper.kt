@@ -10,7 +10,66 @@ import fr.shining_cat.everyday.models.CritterConstants.LEGS_CODE_INDEX_IN_CRITTE
 import fr.shining_cat.everyday.models.CritterConstants.MOUTH_CODE_INDEX_IN_CRITTER_CODE
 import kotlin.random.Random
 
-object CritterConstants{
+//DRAWABLES RESOURCES IDs LISTINGS
+private val LEGS_PART_OFF = -1 //  R.drawable.legs_0
+private val ARMS_PART_OFF = -1 //  R.drawable.arms_0
+private val EYES_PART_OFF = -1 //  R.drawable.eyes_0
+private val HORNS_PART_OFF = -1 //  R.drawable.horns_0 // = empty picture
+
+private val FLOWER_PARTS = arrayOf(
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1
+) //   arrayOf(R.drawable.flower_1, R.drawable.flower_2, R.drawable.flower_3, R.drawable.flower_4, R.drawable.flower_5, R.drawable.flower_6)
+private val LEGS_PARTS = arrayOf(
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1
+) //   arrayOf(LEGS_PART_OFF, R.drawable.legs_1, R.drawable.legs_2, R.drawable.legs_3, R.drawable.legs_4, R.drawable.legs_5, R.drawable.legs_6)
+private val ARMS_PARTS = arrayOf(
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1
+) //   arrayOf(ARMS_PART_OFF, R.drawable.arms_1, R.drawable.arms_2, R.drawable.arms_3, R.drawable.arms_4, R.drawable.arms_5, R.drawable.arms_6)
+private val MOUTH_PARTS = arrayOf(
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1
+) //   arrayOf(R.drawable.mouth_1, R.drawable.mouth_2, R.drawable.mouth_3, R.drawable.mouth_4, R.drawable.mouth_5, R.drawable.mouth_6)
+private val EYES_PARTS = arrayOf(
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1
+) //   arrayOf(EYES_PART_OFF, R.drawable.eyes_1, R.drawable.eyes_2, R.drawable.eyes_3, R.drawable.eyes_4, R.drawable.eyes_5, R.drawable.eyes_6)
+private val HORNS_PARTS = arrayOf(
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1
+) //   arrayOf(HORNS_PART_OFF, R.drawable.horns_1, R.drawable.horns_2, R.drawable.horns_3, R.drawable.horns_4, R.drawable.horns_5, R.drawable.horns_6)
+
+object CritterConstants {
     const val CRITTER_CODE_SEPARATOR = "_"
     const val FLOWERS_CODE_INDEX_IN_CRITTER_CODE = 0
     const val LEGS_CODE_INDEX_IN_CRITTER_CODE = 1
@@ -18,6 +77,9 @@ object CritterConstants{
     const val MOUTH_CODE_INDEX_IN_CRITTER_CODE = 3
     const val EYES_CODE_INDEX_IN_CRITTER_CODE = 4
     const val HORNS_CODE_INDEX_IN_CRITTER_CODE = 5
+    //TODO: vectorize body parts in two files each : one with only black lines and shadows, the other full white for colorization
+    //TODO: the lines one will be put on top of the other, which will be altered via setColorFilter according to user set color
+    //TODO: beware when importing future body parts as vectors, seems that from API 24 and above, too long paths will break everything, while the vector will work on lower APIs because then it uses the support library...
 
 }
 
@@ -48,66 +110,6 @@ enum class CritterLevel(val key: Int) {
 
 class CritterHelper {
 
-    //TODO: vectorize body parts in two files each : one with only black lines and shadows, the other full white for colorization
-    //TODO: the lines one will be put on top of the other, which will be altered via setColorFilter according to user set color
-    //TODO: beware when importing future body parts as vectors, seems that from API 24 and above, too long paths will break everything, while the vector will work on lower APIs because then it uses the support library...
-    private val LEGS_PART_OFF = -1 //  R.drawable.legs_0
-    private val ARMS_PART_OFF = -1 //  R.drawable.arms_0
-    private val EYES_PART_OFF = -1 //  R.drawable.eyes_0
-    private val HORNS_PART_OFF = -1 //  R.drawable.horns_0 // = empty picture
-
-    private val FLOWER_PARTS = arrayOf(
-        -1,
-        -1,
-        -1,
-        -1,
-        -1,
-        -1
-    ) //   arrayOf(R.drawable.flower_1, R.drawable.flower_2, R.drawable.flower_3, R.drawable.flower_4, R.drawable.flower_5, R.drawable.flower_6)
-    private val LEGS_PARTS = arrayOf(
-        -1,
-        -1,
-        -1,
-        -1,
-        -1,
-        -1,
-        -1
-    ) //   arrayOf(LEGS_PART_OFF, R.drawable.legs_1, R.drawable.legs_2, R.drawable.legs_3, R.drawable.legs_4, R.drawable.legs_5, R.drawable.legs_6)
-    private val ARMS_PARTS = arrayOf(
-        -1,
-        -1,
-        -1,
-        -1,
-        -1,
-        -1,
-        -1
-    ) //   arrayOf(ARMS_PART_OFF, R.drawable.arms_1, R.drawable.arms_2, R.drawable.arms_3, R.drawable.arms_4, R.drawable.arms_5, R.drawable.arms_6)
-    private val MOUTH_PARTS = arrayOf(
-        -1,
-        -1,
-        -1,
-        -1,
-        -1,
-        -1
-    ) //   arrayOf(R.drawable.mouth_1, R.drawable.mouth_2, R.drawable.mouth_3, R.drawable.mouth_4, R.drawable.mouth_5, R.drawable.mouth_6)
-    private val EYES_PARTS = arrayOf(
-        -1,
-        -1,
-        -1,
-        -1,
-        -1,
-        -1,
-        -1
-    ) //   arrayOf(EYES_PART_OFF, R.drawable.eyes_1, R.drawable.eyes_2, R.drawable.eyes_3, R.drawable.eyes_4, R.drawable.eyes_5, R.drawable.eyes_6)
-    private val HORNS_PARTS = arrayOf(
-        -1,
-        -1,
-        -1,
-        -1,
-        -1,
-        -1,
-        -1
-    ) //   arrayOf(HORNS_PART_OFF, R.drawable.horns_1, R.drawable.horns_2, R.drawable.horns_3, R.drawable.horns_4, R.drawable.horns_5, R.drawable.horns_6)
 
     fun getRandomCritterCode(critterCritterLevel: CritterLevel): String {
         val randomParts = when (critterCritterLevel) {
@@ -153,16 +155,16 @@ class CritterHelper {
             )
         }
         val critterCode = randomParts.joinToString(CRITTER_CODE_SEPARATOR)
-//            logD("LOGGING::CRITTER", "getRandomCritterCode:: code = $critterCode")
         return critterCode
     }
 
-    fun getAllPossibleCritterCodesCount() =
-        getNumberOfCritterPossible(CritterLevel.LEVEL_1) + getNumberOfCritterPossible(
-            CritterLevel.LEVEL_2) + getNumberOfCritterPossible(
-            CritterLevel.LEVEL_3
-        ) + getNumberOfCritterPossible(CritterLevel.LEVEL_4) + getNumberOfCritterPossible(
-            CritterLevel.LEVEL_4)
+    fun getAllPossibleCritterCodesCount() = (getNumberOfCritterPossible(CritterLevel.LEVEL_1)
+            + getNumberOfCritterPossible(CritterLevel.LEVEL_2)
+            + getNumberOfCritterPossible(CritterLevel.LEVEL_3)
+            + getNumberOfCritterPossible(CritterLevel.LEVEL_4)
+            + getNumberOfCritterPossible(CritterLevel.LEVEL_4)
+            )
+
 
     fun getNumberOfCritterPossible(critterCritterLevel: CritterLevel): Int {
         return when (critterCritterLevel) {
@@ -202,7 +204,8 @@ class CritterHelper {
                         }
                     }
                 }
-            } else {
+            }
+            else {
                 for (j in 0..EYES_PARTS.size) {
 //////////////// HORN_PART is HORNS_PART_OFF, ALL OTHER PARTS EXCLUDE index 0 => REWARD_LEVEL_4
                     if (j != 0) {
@@ -227,7 +230,8 @@ class CritterHelper {
                                 }
                             }
                         }
-                    } else {
+                    }
+                    else {
                         for (k in 0..MOUTH_PARTS.size) {// mouth has no "off" level
                             for (l in 0..ARMS_PARTS.size) {
 //////////////// HORN_PART is HORNS_PART_OFF, EYES_PARTS is EYES_PART_OFF, ALL OTHER PARTS EXCLUDE index 0 => REWARD_LEVEL_3
@@ -249,7 +253,8 @@ class CritterHelper {
                                             )
                                         }
                                     }
-                                } else {
+                                }
+                                else {
                                     for (m in 0..LEGS_PARTS.size) {
 //////////////// HORN_PART is HORNS_PART_OFF, EYES_PARTS is EYES_PART_OFF, ARMS_PARTS is ARMS_PART_OFF, ALL OTHER PARTS EXCLUDE index 0 => REWARD_LEVEL_2
                                         if (m != 0) {//REWARD_LEVEL_2
@@ -268,7 +273,8 @@ class CritterHelper {
                                                     )
                                                 )
                                             }
-                                        } else {//REWARD_LEVEL_1
+                                        }
+                                        else {//REWARD_LEVEL_1
 //////////////// HORN_PART is HORNS_PART_OFF, EYES_PARTS is EYES_PART_OFF, ARMS_PARTS is ARMS_PART_OFF, LEGS_PARTS is LEGS_PART_OFF=> REWARD_LEVEL_1
                                             for (n in 0..FLOWER_PARTS.size) {// flower has no "off" level
                                                 val parts = arrayOf(
@@ -350,7 +356,8 @@ class CritterHelper {
 //                "getDrawableInArrayDefaultToFirstItem::WANTED INDEX IS NOT AVAILABLE !! switching to first one"
 //            )
             resourcesArray[0]
-        } else {
+        }
+        else {
             resourcesArray[index]
         }
     }
