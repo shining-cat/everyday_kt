@@ -1,9 +1,10 @@
-package fr.shining_cat.everyday
+package fr.shining_cat.everyday.views
 
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import fr.shining_cat.everyday.R
 
 class MainActivity : AppCompatActivity() {
 
