@@ -3,9 +3,6 @@ package fr.shining_cat.everyday.repository
 import androidx.lifecycle.LiveData
 import fr.shining_cat.everyday.locale.dao.SessionRecordDao
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntity
-import fr.shining_cat.everyday.models.Mood
-import fr.shining_cat.everyday.models.MoodValue
-import fr.shining_cat.everyday.models.RealDurationVsPlanned
 import fr.shining_cat.everyday.models.SessionRecord
 import fr.shining_cat.everyday.repository.converter.SessionRecordConverter
 import fr.shining_cat.everyday.repository.repo.SessionRecordRepository
@@ -20,7 +17,6 @@ import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
-import java.util.*
 
 class SessionRecordRepositoryImplTest : AbstractBaseTest() {
 
@@ -87,7 +83,7 @@ class SessionRecordRepositoryImplTest : AbstractBaseTest() {
     fun insertMultiple() {
         runBlocking {
             sessionRecordRepo.insertMultiple(listOf(mockSessionRecord))
-            Mockito.verify(mockSessionRecordDao).insertMultiple(any())
+            Mockito.verify(mockSessionRecordDao).insert(any())
         }
     }
 
@@ -95,7 +91,7 @@ class SessionRecordRepositoryImplTest : AbstractBaseTest() {
     fun updateSession() {
         runBlocking {
             sessionRecordRepo.updateSession(mockSessionRecord)
-            Mockito.verify(mockSessionRecordDao).updateSession(any())
+            Mockito.verify(mockSessionRecordDao).update(any())
         }
     }
 
@@ -103,7 +99,7 @@ class SessionRecordRepositoryImplTest : AbstractBaseTest() {
     fun deleteSession() {
         runBlocking {
             sessionRecordRepo.deleteSession(mockSessionRecord)
-            Mockito.verify(mockSessionRecordDao).deleteSession(any())
+            Mockito.verify(mockSessionRecordDao).delete(any())
         }
     }
 
@@ -184,7 +180,7 @@ class SessionRecordRepositoryImplTest : AbstractBaseTest() {
     fun getAllSessionsNotLiveStartTimeAsc() {
         runBlocking {
             sessionRecordRepo.getAllSessionsNotLiveStartTimeAsc()
-            Mockito.verify(mockSessionRecordDao).getAllSessionsNotLiveStartTimeAsc()
+            Mockito.verify(mockSessionRecordDao).asyncGetAllSessionsStartTimeAsc()
         }
     }
 

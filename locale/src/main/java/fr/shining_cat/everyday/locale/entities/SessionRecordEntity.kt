@@ -3,81 +3,104 @@ package fr.shining_cat.everyday.locale.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.END_BODY_VALUE
+import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.END_FEELINGS_VALUE
+import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.END_GLOBAL_VALUE
+import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.END_THOUGHTS_VALUE
+import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.END_TIME_OF_RECORD
+import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.MP3_GUIDE
+import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.NOTES
+import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.PAUSES_COUNT
+import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.REAL_DURATION_VS_PLANNED
+import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.SESSION_REAL_DURATION
+import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.SESSION_RECORD_ID
+import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.START_BODY_VALUE
+import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.START_FEELINGS_VALUE
+import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.START_GLOBAL_VALUE
+import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.START_THOUGHTS_VALUE
+import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.START_TIME_OF_RECORD
+import fr.shining_cat.everyday.locale.entities.SessionRecordTable.SESSION_RECORD_TABLE
 
-@Entity(tableName = "sessions_table")
+@Entity(tableName = SESSION_RECORD_TABLE)
 data class SessionRecordEntity(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = SESSION_RECORD_ID)
     var id: Long = 0L,
     //
-    @ColumnInfo(name = SessionEntityColumnNames.START_TIME_OF_RECORD_COLUMN_NAME)
+    @ColumnInfo(name = START_TIME_OF_RECORD)
     var startTimeOfRecord: Long,
-    @ColumnInfo(name = SessionEntityColumnNames.START_BODY_VALUE_COLUMN_NAME)
+    @ColumnInfo(name = START_BODY_VALUE)
     var startBodyValue: Int,
-    @ColumnInfo(name = SessionEntityColumnNames.START_THOUGHTS_VALUE_COLUMN_NAME)
+    @ColumnInfo(name = START_THOUGHTS_VALUE)
     var startThoughtsValue: Int,
-    @ColumnInfo(name = SessionEntityColumnNames.START_FEELINGS_VALUE_COLUMN_NAME)
+    @ColumnInfo(name = START_FEELINGS_VALUE)
     var startFeelingsValue: Int,
-    @ColumnInfo(name = SessionEntityColumnNames.START_GLOBAL_VALUE_COLUMN_NAME)
+    @ColumnInfo(name = START_GLOBAL_VALUE)
     var startGlobalValue: Int,
     //
-    @ColumnInfo(name = SessionEntityColumnNames.END_TIME_OF_RECORD_COLUMN_NAME)
+    @ColumnInfo(name = END_TIME_OF_RECORD)
     var endTimeOfRecord: Long,
-    @ColumnInfo(name = SessionEntityColumnNames.END_BODY_VALUE_COLUMN_NAME)
+    @ColumnInfo(name = END_BODY_VALUE)
     var endBodyValue: Int,
-    @ColumnInfo(name = SessionEntityColumnNames.END_THOUGHTS_VALUE_COLUMN_NAME)
+    @ColumnInfo(name = END_THOUGHTS_VALUE)
     var endThoughtsValue: Int,
-    @ColumnInfo(name = SessionEntityColumnNames.END_FEELINGS_VALUE_COLUMN_NAME)
+    @ColumnInfo(name = END_FEELINGS_VALUE)
     var endFeelingsValue: Int,
-    @ColumnInfo(name = SessionEntityColumnNames.END_GLOBAL_VALUE_COLUMN_NAME)
+    @ColumnInfo(name = END_GLOBAL_VALUE)
     var endGlobalValue: Int,
     //
-    @ColumnInfo(name = SessionEntityColumnNames.NOTES_COLUMN_NAME)
+    @ColumnInfo(name = NOTES)
     var notes: String,
-    @ColumnInfo(name = SessionEntityColumnNames.SESSION_REAL_DURATION_COLUMN_NAME)
+    @ColumnInfo(name = SESSION_REAL_DURATION)
     var realDuration: Long,
-    @ColumnInfo(name = SessionEntityColumnNames.PAUSES_COUNT_COLUMN_NAME)
+    @ColumnInfo(name = PAUSES_COUNT)
     var pausesCount: Int,
-    @ColumnInfo(name = SessionEntityColumnNames.REAL_DURATION_VS_PLANNED_COLUMN_NAME)
+    @ColumnInfo(name = REAL_DURATION_VS_PLANNED)
     var realDurationVsPlanned: Int, //<0 if real < planned; =0 if real = planned; >0 if real > planned  (obtained via Long.compare(real, planned)
-    @ColumnInfo(name = SessionEntityColumnNames.MP3_GUIDE_COLUMN_NAME)
-    var guideMp3: String)
+    @ColumnInfo(name = MP3_GUIDE)
+    var guideMp3: String
+)
 
-object SessionEntityColumnNames{
-    const val START_TIME_OF_RECORD_COLUMN_NAME = "startTimeOfRecord"
-    const val START_BODY_VALUE_COLUMN_NAME = "startBodyValue"
-    const val START_THOUGHTS_VALUE_COLUMN_NAME = "startThoughtsValue"
-    const val START_FEELINGS_VALUE_COLUMN_NAME = "startFeelingsValue"
-    const val START_GLOBAL_VALUE_COLUMN_NAME = "startGlobalValue"
+object SessionRecordTable {
+    const val SESSION_RECORD_TABLE = "session_record_table"
+}
 
-    const val END_TIME_OF_RECORD_COLUMN_NAME = "endTimeOfRecord"
-    const val END_BODY_VALUE_COLUMN_NAME = "endBodyValue"
-    const val END_THOUGHTS_VALUE_COLUMN_NAME = "endThoughtsValue"
-    const val END_FEELINGS_VALUE_COLUMN_NAME = "endFeelingsValue"
-    const val END_GLOBAL_VALUE_COLUMN_NAME = "endGlobalValue"
+object SessionRecordEntityColumnNames {
+    const val SESSION_RECORD_ID = "sessionRecordId"
+    const val START_TIME_OF_RECORD = "startTimeOfRecord"
+    const val START_BODY_VALUE = "startBodyValue"
+    const val START_THOUGHTS_VALUE = "startThoughtsValue"
+    const val START_FEELINGS_VALUE = "startFeelingsValue"
+    const val START_GLOBAL_VALUE = "startGlobalValue"
 
-    const val NOTES_COLUMN_NAME = "notes"
-    const val SESSION_REAL_DURATION_COLUMN_NAME = "realDuration"
-    const val PAUSES_COUNT_COLUMN_NAME = "pausesCount"
-    const val REAL_DURATION_VS_PLANNED_COLUMN_NAME = "realDurationVsPlanned"
-    const val MP3_GUIDE_COLUMN_NAME = "guideMp3"
+    const val END_TIME_OF_RECORD = "endTimeOfRecord"
+    const val END_BODY_VALUE = "endBodyValue"
+    const val END_THOUGHTS_VALUE = "endThoughtsValue"
+    const val END_FEELINGS_VALUE = "endFeelingsValue"
+    const val END_GLOBAL_VALUE = "endGlobalValue"
+
+    const val NOTES = "notes"
+    const val SESSION_REAL_DURATION = "realDuration"
+    const val PAUSES_COUNT = "pausesCount"
+    const val REAL_DURATION_VS_PLANNED = "realDurationVsPlanned"
+    const val MP3_GUIDE = "guideMp3"
 }
 
 fun getSessionRecordHeaders(): Array<String> {
     return arrayOf(
-        SessionEntityColumnNames.START_TIME_OF_RECORD_COLUMN_NAME,
-        SessionEntityColumnNames.END_TIME_OF_RECORD_COLUMN_NAME,
-        SessionEntityColumnNames.SESSION_REAL_DURATION_COLUMN_NAME,
-        SessionEntityColumnNames.NOTES_COLUMN_NAME,
-        SessionEntityColumnNames.START_BODY_VALUE_COLUMN_NAME,
-        SessionEntityColumnNames.START_THOUGHTS_VALUE_COLUMN_NAME,
-        SessionEntityColumnNames.START_FEELINGS_VALUE_COLUMN_NAME,
-        SessionEntityColumnNames.START_GLOBAL_VALUE_COLUMN_NAME,
-        SessionEntityColumnNames.END_BODY_VALUE_COLUMN_NAME,
-        SessionEntityColumnNames.END_THOUGHTS_VALUE_COLUMN_NAME,
-        SessionEntityColumnNames.END_FEELINGS_VALUE_COLUMN_NAME,
-        SessionEntityColumnNames.END_GLOBAL_VALUE_COLUMN_NAME,
-        SessionEntityColumnNames.PAUSES_COUNT_COLUMN_NAME,
-        SessionEntityColumnNames.REAL_DURATION_VS_PLANNED_COLUMN_NAME,
-        SessionEntityColumnNames.MP3_GUIDE_COLUMN_NAME
+        START_TIME_OF_RECORD,
+        END_TIME_OF_RECORD,
+        SESSION_REAL_DURATION,
+        NOTES,
+        START_BODY_VALUE,
+        START_THOUGHTS_VALUE,
+        START_FEELINGS_VALUE,
+        START_GLOBAL_VALUE,
+        END_BODY_VALUE,
+        END_THOUGHTS_VALUE,
+        END_FEELINGS_VALUE,
+        END_GLOBAL_VALUE,
+        PAUSES_COUNT,
+        REAL_DURATION_VS_PLANNED,
+        MP3_GUIDE
     )
 }

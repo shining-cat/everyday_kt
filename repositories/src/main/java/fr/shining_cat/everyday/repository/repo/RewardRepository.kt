@@ -36,10 +36,10 @@ class RewardRepositoryImpl(
     override suspend fun insert(rewards: List<Reward>): Array<Long> = rewardDao.insert(rewardConverter.convertModelsToEntities(rewards))
 
     override suspend fun updateReward(reward: Reward): Int = rewardDao.updateReward(rewardConverter.convertModelToEntity(reward))
-    override suspend fun updateRewards(rewards: List<Reward>): Int = rewardDao.updateRewards(rewardConverter.convertModelsToEntities(rewards))
+    override suspend fun updateRewards(rewards: List<Reward>): Int = rewardDao.update(rewardConverter.convertModelsToEntities(rewards))
 
-    override suspend fun deleteReward(reward: Reward): Int = rewardDao.deleteReward(rewardConverter.convertModelToEntity(reward))
-    override suspend fun deleteReward(rewards: List<Reward>): Int = rewardDao.deleteReward(rewardConverter.convertModelsToEntities(rewards))
+    override suspend fun deleteReward(reward: Reward): Int = rewardDao.delete(rewardConverter.convertModelToEntity(reward))
+    override suspend fun deleteReward(rewards: List<Reward>): Int = rewardDao.delete(rewardConverter.convertModelsToEntities(rewards))
     override suspend fun deleteAllRewards(): Int = rewardDao.deleteAllRewards()
 
     override fun getRewardLive(rewardId: Long): LiveData<Reward?> = rewardConverter.convertEntitytoModel(rewardDao.getRewardLive(rewardId))

@@ -3,7 +3,6 @@ package fr.shining_cat.everyday.repository
 import androidx.lifecycle.LiveData
 import fr.shining_cat.everyday.locale.dao.RewardDao
 import fr.shining_cat.everyday.locale.entities.RewardEntity
-import fr.shining_cat.everyday.models.CritterLevel
 import fr.shining_cat.everyday.models.Reward
 import fr.shining_cat.everyday.repository.converter.RewardConverter
 import fr.shining_cat.everyday.repository.repo.RewardRepository
@@ -19,7 +18,6 @@ import org.mockito.ArgumentMatchers.anyLong
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
-import java.util.*
 
 class RewardRepositoryImplTest: AbstractBaseTest()  {
 
@@ -106,7 +104,7 @@ class RewardRepositoryImplTest: AbstractBaseTest()  {
     fun updateRewards() {
         runBlocking {
             rewardRepo.updateRewards(listOf(mockReward))
-            Mockito.verify(mockRewardDao).updateRewards(any())
+            Mockito.verify(mockRewardDao).update(any())
         }
     }
 
@@ -114,7 +112,7 @@ class RewardRepositoryImplTest: AbstractBaseTest()  {
     fun deleteReward() {
         runBlocking {
             rewardRepo.deleteReward(mockReward)
-            Mockito.verify(mockRewardDao).deleteReward(any<RewardEntity>())
+            Mockito.verify(mockRewardDao).delete(any<RewardEntity>())
         }
     }
 
@@ -122,7 +120,7 @@ class RewardRepositoryImplTest: AbstractBaseTest()  {
     fun deleteReward1() {
         runBlocking {
             rewardRepo.deleteReward(listOf(mockReward))
-            Mockito.verify(mockRewardDao).deleteReward(any<List<RewardEntity>>())
+            Mockito.verify(mockRewardDao).delete(any<List<RewardEntity>>())
         }
     }
 

@@ -25,7 +25,7 @@ class SessionRecordDaoTest {
     private lateinit var sessionRecordDao: SessionRecordDao
 
     @Before
-    fun setupEmptyTable(){
+    fun setupEmptyTable() {
         tearDown()
         EveryDayRoomDatabase.TEST_MODE = true
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
@@ -33,14 +33,14 @@ class SessionRecordDaoTest {
         emptyTableAndCheck()
     }
 
-    private fun emptyTableAndCheck(){
+    private fun emptyTableAndCheck() {
         runBlocking {
             sessionRecordDao.deleteAllSessions()
         }
         checkTotalCountIs(0)
     }
 
-    private fun checkTotalCountIs(expectedCount: Int){
+    private fun checkTotalCountIs(expectedCount: Int) {
         val count = runBlocking {
             sessionRecordDao.getNumberOfRows()
         }
@@ -52,15 +52,17 @@ class SessionRecordDaoTest {
         EveryDayRoomDatabase.closeAndDestroy()
     }
 
-    private fun generateSessions(numberOfSessions:Int = 1):List<SessionRecordEntity>{
+    private fun generateSessions(numberOfSessions: Int = 1): List<SessionRecordEntity> {
         val returnList = mutableListOf<SessionRecordEntity>()
         var yearStartInc = 1980
         var yearEndInc = 1981
-        for(i in 0 until numberOfSessions){
-            returnList.add(generateSessionRecordEntity(
-                yearstart = yearStartInc,
-                yearend =  yearEndInc
-            ))
+        for (i in 0 until numberOfSessions) {
+            returnList.add(
+                generateSessionRecordEntity(
+                    yearstart = yearStartInc,
+                    yearend = yearEndInc
+                )
+            )
             yearStartInc++
             yearEndInc++
         }
@@ -68,42 +70,56 @@ class SessionRecordDaoTest {
     }
 
     private fun generateSessionRecordEntity(
-        desiredId:Long = -1L,
+        desiredId: Long = -1L,
         yearstart: Int = 1980,
         monthstart: Int = 5,
         dayOfMonthstart: Int = 2,
         hourOfDaystart: Int = 15,
         minutestart: Int = 27,
         secondstart: Int = 54,
-        startBodyValue:Int = -2,
-        startThoughtsValue:Int = 0,
-        startFeelingsValue:Int = 1,
-        startGlobalValue:Int = 2,
+        startBodyValue: Int = -2,
+        startThoughtsValue: Int = 0,
+        startFeelingsValue: Int = 1,
+        startGlobalValue: Int = 2,
         yearend: Int = 1982,
         monthend: Int = 6,
         dayOfMonthend: Int = 3,
         hourOfDayend: Int = 17,
         minuteend: Int = 45,
         secondend: Int = 3,
-        endBodyValue:Int = 0,
-        endThoughtsValue:Int = 1,
-        endFeelingsValue:Int = -1,
-        endGlobalValue:Int = -2,
-        notes:String = "generateSessionRecordEntity default notes",
-        realDuration:Long = 1590000,
-        pausesCount:Int = 7,
-        realDurationVsPlanned:Int = 0,
-        guideMp3:String = "generateSessionRecordEntity default guideMp3"
-    ):SessionRecordEntity{
-        if(desiredId==-1L) {
+        endBodyValue: Int = 0,
+        endThoughtsValue: Int = 1,
+        endFeelingsValue: Int = -1,
+        endGlobalValue: Int = -2,
+        notes: String = "generateSessionRecordEntity default notes",
+        realDuration: Long = 1590000,
+        pausesCount: Int = 7,
+        realDurationVsPlanned: Int = 0,
+        guideMp3: String = "generateSessionRecordEntity default guideMp3"
+    ): SessionRecordEntity {
+        if (desiredId == -1L) {
             return SessionRecordEntity(
-                startTimeOfRecord = GregorianCalendar(yearstart, monthstart, dayOfMonthstart, hourOfDaystart, minutestart, secondstart).timeInMillis,
+                startTimeOfRecord = GregorianCalendar(
+                    yearstart,
+                    monthstart,
+                    dayOfMonthstart,
+                    hourOfDaystart,
+                    minutestart,
+                    secondstart
+                ).timeInMillis,
                 startBodyValue = startBodyValue,
                 startThoughtsValue = startThoughtsValue,
                 startFeelingsValue = startFeelingsValue,
                 startGlobalValue = startGlobalValue,
 
-                endTimeOfRecord = GregorianCalendar(yearend, monthend, dayOfMonthend, hourOfDayend, minuteend, secondend).timeInMillis,
+                endTimeOfRecord = GregorianCalendar(
+                    yearend,
+                    monthend,
+                    dayOfMonthend,
+                    hourOfDayend,
+                    minuteend,
+                    secondend
+                ).timeInMillis,
                 endBodyValue = endBodyValue,
                 endThoughtsValue = endThoughtsValue,
                 endFeelingsValue = endFeelingsValue,
@@ -115,16 +131,31 @@ class SessionRecordDaoTest {
                 realDurationVsPlanned = realDurationVsPlanned,
                 guideMp3 = guideMp3
             )
-        }else{
+        }
+        else {
             return SessionRecordEntity(
                 id = desiredId,
-                startTimeOfRecord = GregorianCalendar(yearstart, monthstart, dayOfMonthstart, hourOfDaystart, minutestart, secondstart).timeInMillis,
+                startTimeOfRecord = GregorianCalendar(
+                    yearstart,
+                    monthstart,
+                    dayOfMonthstart,
+                    hourOfDaystart,
+                    minutestart,
+                    secondstart
+                ).timeInMillis,
                 startBodyValue = startBodyValue,
                 startThoughtsValue = startThoughtsValue,
                 startFeelingsValue = startFeelingsValue,
                 startGlobalValue = startGlobalValue,
 
-                endTimeOfRecord = GregorianCalendar(yearend, monthend, dayOfMonthend, hourOfDayend, minuteend, secondend).timeInMillis,
+                endTimeOfRecord = GregorianCalendar(
+                    yearend,
+                    monthend,
+                    dayOfMonthend,
+                    hourOfDayend,
+                    minuteend,
+                    secondend
+                ).timeInMillis,
                 endBodyValue = endBodyValue,
                 endThoughtsValue = endThoughtsValue,
                 endFeelingsValue = endFeelingsValue,
@@ -144,16 +175,16 @@ class SessionRecordDaoTest {
     @Test
     fun insert() {
         val sessionRecordEntityTestID = runBlocking {
-            sessionRecordDao.insert(generateSessionRecordEntity(desiredId = 25))
+            sessionRecordDao.insert(listOf(generateSessionRecordEntity(desiredId = 25)))
         }
-        assertEquals(25L, sessionRecordEntityTestID)
+        assertEquals(25L, sessionRecordEntityTestID[0])
         checkTotalCountIs(1)
     }
 
     @Test
     fun insertMultiple() {
         val insertedIds = runBlocking {
-            sessionRecordDao.insertMultiple(generateSessions(20))
+            sessionRecordDao.insert(generateSessions(20))
         }
         assertEquals(20, insertedIds.size)
         assertNotNull(insertedIds)
@@ -171,7 +202,7 @@ class SessionRecordDaoTest {
         //
         checkTotalCountIs(0)
         val countDeleted = runBlocking {
-            sessionRecordDao.deleteSession(sessionRecordEntityToDelete)
+            sessionRecordDao.delete(sessionRecordEntityToDelete)
         }
         assertEquals(0, countDeleted)
         checkTotalCountIs(0)
@@ -180,18 +211,22 @@ class SessionRecordDaoTest {
     @Test
     fun deleteNonExistentSession() {
         runBlocking {
-            sessionRecordDao.insert(generateSessionRecordEntity(desiredId = 25))
-            sessionRecordDao.insert(generateSessionRecordEntity(desiredId = 26))
-            sessionRecordDao.insert(generateSessionRecordEntity(desiredId = 27))
-            sessionRecordDao.insert(generateSessionRecordEntity(desiredId = 28))
-            sessionRecordDao.insert(generateSessionRecordEntity(desiredId = 29))
-            sessionRecordDao.insert(generateSessionRecordEntity(desiredId = 30))
+            sessionRecordDao.insert(
+                listOf(
+                    generateSessionRecordEntity(desiredId = 25),
+                    generateSessionRecordEntity(desiredId = 26),
+                    generateSessionRecordEntity(desiredId = 27),
+                    generateSessionRecordEntity(desiredId = 28),
+                    generateSessionRecordEntity(desiredId = 29),
+                    generateSessionRecordEntity(desiredId = 30)
+                )
+            )
         }
         val sessionRecordEntityToDelete = generateSessionRecordEntity(desiredId = 723)
         //
         checkTotalCountIs(6)
         val countDeleted = runBlocking {
-            sessionRecordDao.deleteSession(sessionRecordEntityToDelete)
+            sessionRecordDao.delete(sessionRecordEntityToDelete)
         }
         assertEquals(0, countDeleted)
         checkTotalCountIs(6)
@@ -201,12 +236,12 @@ class SessionRecordDaoTest {
     fun deleteSession() {
         val sessionRecordEntityToDelete = generateSessionRecordEntity(desiredId = 25)
         runBlocking {
-            sessionRecordDao.insert(sessionRecordEntityToDelete)
-            sessionRecordDao.insertMultiple(generateSessions(20))
+            sessionRecordDao.insert(listOf(sessionRecordEntityToDelete))
+            sessionRecordDao.insert(generateSessions(20))
         }
         checkTotalCountIs(21)
         val countDeleted = runBlocking {
-            sessionRecordDao.deleteSession(sessionRecordEntityToDelete)
+            sessionRecordDao.delete(sessionRecordEntityToDelete)
         }
         assertEquals(1, countDeleted)
         checkTotalCountIs(20)
@@ -225,7 +260,7 @@ class SessionRecordDaoTest {
     @Test
     fun deleteAllSessions() {
         runBlocking {
-            sessionRecordDao.insertMultiple(generateSessions(73))
+            sessionRecordDao.insert(generateSessions(73))
         }
         checkTotalCountIs(73)
         val numberOfDeletedRows = runBlocking {
@@ -238,7 +273,7 @@ class SessionRecordDaoTest {
     @Test
     fun getSessionOnEmptyTableTest() {
         checkTotalCountIs(0)
-        val sessionRecordEntityExtractedLive = sessionRecordDao.getSessionLive(75)
+        val sessionRecordEntityExtractedLive = sessionRecordDao.getSession(75)
         assertNotNull(sessionRecordEntityExtractedLive)
         val sessionRecordEntityExtracted = sessionRecordEntityExtractedLive.getValueBlocking()
         assertNull(sessionRecordEntityExtracted)
@@ -247,14 +282,18 @@ class SessionRecordDaoTest {
     @Test
     fun getNonExistentSessionTest() {
         runBlocking {
-            sessionRecordDao.insert(generateSessionRecordEntity(desiredId = 25))
-            sessionRecordDao.insert(generateSessionRecordEntity(desiredId = 26))
-            sessionRecordDao.insert(generateSessionRecordEntity(desiredId = 27))
-            sessionRecordDao.insert(generateSessionRecordEntity(desiredId = 28))
-            sessionRecordDao.insert(generateSessionRecordEntity(desiredId = 29))
+            sessionRecordDao.insert(
+                listOf(
+                    generateSessionRecordEntity(desiredId = 25),
+                    generateSessionRecordEntity(desiredId = 26),
+                    generateSessionRecordEntity(desiredId = 27),
+                    generateSessionRecordEntity(desiredId = 28),
+                    generateSessionRecordEntity(desiredId = 29)
+                )
+            )
         }
         checkTotalCountIs(5)
-        val sessionRecordEntityExtractedLive = sessionRecordDao.getSessionLive(73)
+        val sessionRecordEntityExtractedLive = sessionRecordDao.getSession(73)
         assertNotNull(sessionRecordEntityExtractedLive)
         val sessionRecordEntityExtracted = sessionRecordEntityExtractedLive.getValueBlocking()
         assertNull(sessionRecordEntityExtracted)
@@ -264,12 +303,22 @@ class SessionRecordDaoTest {
     fun getSessionTest() {
         val sessionToGetTest = generateSessionRecordEntity(
             desiredId = 73,
-            yearstart = 1623, monthstart = 3, dayOfMonthstart = 5, hourOfDaystart = 22, minutestart = 21, secondstart = 32,
+            yearstart = 1623,
+            monthstart = 3,
+            dayOfMonthstart = 5,
+            hourOfDaystart = 22,
+            minutestart = 21,
+            secondstart = 32,
             startBodyValue = -1,
             startThoughtsValue = 1,
             startFeelingsValue = 2,
             startGlobalValue = -2,
-            yearend = 2004, monthend = 2, dayOfMonthend = 7, hourOfDayend = 15, minuteend = 17, secondend = 51,
+            yearend = 2004,
+            monthend = 2,
+            dayOfMonthend = 7,
+            hourOfDayend = 15,
+            minuteend = 17,
+            secondend = 51,
             endBodyValue = 1,
             endThoughtsValue = -2,
             endFeelingsValue = 0,
@@ -278,37 +327,48 @@ class SessionRecordDaoTest {
             realDuration = 123456789,
             pausesCount = 7,
             realDurationVsPlanned = 1,
-            guideMp3 = "getSessionTest guideMp3")
+            guideMp3 = "getSessionTest guideMp3"
+        )
 
         runBlocking {
-            sessionRecordDao.insert(sessionToGetTest)
-            sessionRecordDao.insert(generateSessionRecordEntity(desiredId = 25))
-            sessionRecordDao.insert(generateSessionRecordEntity(desiredId = 26))
-            sessionRecordDao.insert(generateSessionRecordEntity(desiredId = 27))
-            sessionRecordDao.insert(generateSessionRecordEntity(desiredId = 28))
-            sessionRecordDao.insert(generateSessionRecordEntity(desiredId = 29))
+            sessionRecordDao.insert(listOf(sessionToGetTest))
+            sessionRecordDao.insert(
+                listOf(
+                    generateSessionRecordEntity(desiredId = 25),
+                    generateSessionRecordEntity(desiredId = 26),
+                    generateSessionRecordEntity(desiredId = 27),
+                    generateSessionRecordEntity(desiredId = 28),
+                    generateSessionRecordEntity(desiredId = 29)
+                )
+            )
         }
         checkTotalCountIs(6)
-        val sessionRecordEntityExtractedLive = sessionRecordDao.getSessionLive(73)
+        val sessionRecordEntityExtractedLive = sessionRecordDao.getSession(73)
         assertNotNull(sessionRecordEntityExtractedLive)
         val sessionRecordEntityExtracted = sessionRecordEntityExtractedLive.getValueBlocking()
         assertNotNull(sessionRecordEntityExtracted)
-        if(sessionRecordEntityExtracted != null){
+        if (sessionRecordEntityExtracted != null) {
             assertEquals(73, sessionRecordEntityExtracted.id)
-            assertEquals(GregorianCalendar(1623, 3, 5, 22, 21, 32).timeInMillis, sessionRecordEntityExtracted.startTimeOfRecord)
+            assertEquals(
+                GregorianCalendar(1623, 3, 5, 22, 21, 32).timeInMillis,
+                sessionRecordEntityExtracted.startTimeOfRecord
+            )
             assertEquals(-1, sessionRecordEntityExtracted.startBodyValue)
             assertEquals(1, sessionRecordEntityExtracted.startThoughtsValue)
             assertEquals(2, sessionRecordEntityExtracted.startFeelingsValue)
             assertEquals(-2, sessionRecordEntityExtracted.startGlobalValue)
-            assertEquals(GregorianCalendar(2004, 2, 7, 15, 17, 51).timeInMillis, sessionRecordEntityExtracted.endTimeOfRecord)
+            assertEquals(
+                GregorianCalendar(2004, 2, 7, 15, 17, 51).timeInMillis,
+                sessionRecordEntityExtracted.endTimeOfRecord
+            )
             assertEquals(1, sessionRecordEntityExtracted.endBodyValue)
             assertEquals(-2, sessionRecordEntityExtracted.endThoughtsValue)
             assertEquals(0, sessionRecordEntityExtracted.endFeelingsValue)
             assertEquals(2, sessionRecordEntityExtracted.endGlobalValue)
             assertEquals("getSessionTest notes", sessionRecordEntityExtracted.notes)
-            assertEquals( 123456789, sessionRecordEntityExtracted.realDuration)
+            assertEquals(123456789, sessionRecordEntityExtracted.realDuration)
             assertEquals(7, sessionRecordEntityExtracted.pausesCount)
-            assertEquals( 1, sessionRecordEntityExtracted.realDurationVsPlanned)
+            assertEquals(1, sessionRecordEntityExtracted.realDurationVsPlanned)
             assertEquals("getSessionTest guideMp3", sessionRecordEntityExtracted.guideMp3)
         }
     }
@@ -317,11 +377,11 @@ class SessionRecordDaoTest {
     fun updateNonExistentSession() {
         val sessionRecordEntityToUpdate = generateSessionRecordEntity(desiredId = 25)
         runBlocking {
-            sessionRecordDao.insertMultiple(generateSessions(20))
+            sessionRecordDao.insert(generateSessions(20))
         }
         checkTotalCountIs(20)
         val numberOfUpdatedItems = runBlocking {
-            sessionRecordDao.updateSession(sessionRecordEntityToUpdate)
+            sessionRecordDao.update(sessionRecordEntityToUpdate)
         }
         assertEquals(0, numberOfUpdatedItems)
         checkTotalCountIs(20)
@@ -332,7 +392,7 @@ class SessionRecordDaoTest {
         val sessionRecordEntityToUpdate = generateSessionRecordEntity(desiredId = 25)
         checkTotalCountIs(0)
         val numberOfUpdatedItems = runBlocking {
-            sessionRecordDao.updateSession(sessionRecordEntityToUpdate)
+            sessionRecordDao.update(sessionRecordEntityToUpdate)
         }
         assertEquals(0, numberOfUpdatedItems)
         checkTotalCountIs(0)
@@ -342,12 +402,22 @@ class SessionRecordDaoTest {
     fun updateSession() {
         val sessionRecordEntityToUpdate = generateSessionRecordEntity(
             desiredId = 73,
-            yearstart = 1623, monthstart = 3, dayOfMonthstart = 5, hourOfDaystart = 22, minutestart = 21, secondstart = 32,
+            yearstart = 1623,
+            monthstart = 3,
+            dayOfMonthstart = 5,
+            hourOfDaystart = 22,
+            minutestart = 21,
+            secondstart = 32,
             startBodyValue = -1,
             startThoughtsValue = 1,
             startFeelingsValue = 2,
             startGlobalValue = -2,
-            yearend = 2004, monthend = 2, dayOfMonthend = 7, hourOfDayend = 15, minuteend = 17, secondend = 51,
+            yearend = 2004,
+            monthend = 2,
+            dayOfMonthend = 7,
+            hourOfDayend = 15,
+            minuteend = 17,
+            secondend = 51,
             endBodyValue = 1,
             endThoughtsValue = -2,
             endFeelingsValue = 0,
@@ -356,19 +426,22 @@ class SessionRecordDaoTest {
             realDuration = 123456789,
             pausesCount = 7,
             realDurationVsPlanned = 1,
-            guideMp3 = "updateSession guideMp3")
+            guideMp3 = "updateSession guideMp3"
+        )
 
         runBlocking {
-            sessionRecordDao.insert(sessionRecordEntityToUpdate)
-            sessionRecordDao.insertMultiple(generateSessions(20))
+            sessionRecordDao.insert(listOf(sessionRecordEntityToUpdate))
+            sessionRecordDao.insert(generateSessions(20))
         }
         checkTotalCountIs(21)
-        sessionRecordEntityToUpdate.startTimeOfRecord = GregorianCalendar(1923, 5, 22, 17, 12, 7).timeInMillis
+        sessionRecordEntityToUpdate.startTimeOfRecord =
+            GregorianCalendar(1923, 5, 22, 17, 12, 7).timeInMillis
         sessionRecordEntityToUpdate.startBodyValue = 2
         sessionRecordEntityToUpdate.startThoughtsValue = 1
         sessionRecordEntityToUpdate.startFeelingsValue = 0
         sessionRecordEntityToUpdate.startGlobalValue = -1
-        sessionRecordEntityToUpdate.endTimeOfRecord = GregorianCalendar(1975, 7, 14, 21, 13, 24).timeInMillis
+        sessionRecordEntityToUpdate.endTimeOfRecord =
+            GregorianCalendar(1975, 7, 14, 21, 13, 24).timeInMillis
         sessionRecordEntityToUpdate.endBodyValue = -1
         sessionRecordEntityToUpdate.endThoughtsValue = -1
         sessionRecordEntityToUpdate.endFeelingsValue = 2
@@ -379,30 +452,36 @@ class SessionRecordDaoTest {
         sessionRecordEntityToUpdate.realDurationVsPlanned = -1
         sessionRecordEntityToUpdate.guideMp3 = "updateSession guideMp3 UPDATED"
         val numberOfUpdatedItems = runBlocking {
-            sessionRecordDao.updateSession(sessionRecordEntityToUpdate)
+            sessionRecordDao.update(sessionRecordEntityToUpdate)
         }
         assertEquals(1, numberOfUpdatedItems)
         checkTotalCountIs(21)
-        val sessionRecordEntityExtractedLive = sessionRecordDao.getSessionLive(73)
+        val sessionRecordEntityExtractedLive = sessionRecordDao.getSession(73)
         assertNotNull(sessionRecordEntityExtractedLive)
         val sessionRecordEntityExtracted = sessionRecordEntityExtractedLive.getValueBlocking()
         assertNotNull(sessionRecordEntityExtracted)
-        if(sessionRecordEntityExtracted != null){
+        if (sessionRecordEntityExtracted != null) {
             assertEquals(73, sessionRecordEntityExtracted.id)
-            assertEquals(GregorianCalendar(1923, 5, 22, 17, 12, 7).timeInMillis, sessionRecordEntityExtracted.startTimeOfRecord)
+            assertEquals(
+                GregorianCalendar(1923, 5, 22, 17, 12, 7).timeInMillis,
+                sessionRecordEntityExtracted.startTimeOfRecord
+            )
             assertEquals(2, sessionRecordEntityExtracted.startBodyValue)
             assertEquals(1, sessionRecordEntityExtracted.startThoughtsValue)
             assertEquals(0, sessionRecordEntityExtracted.startFeelingsValue)
             assertEquals(-1, sessionRecordEntityExtracted.startGlobalValue)
-            assertEquals(GregorianCalendar(1975, 7, 14, 21, 13, 24).timeInMillis, sessionRecordEntityExtracted.endTimeOfRecord)
+            assertEquals(
+                GregorianCalendar(1975, 7, 14, 21, 13, 24).timeInMillis,
+                sessionRecordEntityExtracted.endTimeOfRecord
+            )
             assertEquals(-1, sessionRecordEntityExtracted.endBodyValue)
             assertEquals(-1, sessionRecordEntityExtracted.endThoughtsValue)
             assertEquals(2, sessionRecordEntityExtracted.endFeelingsValue)
             assertEquals(1, sessionRecordEntityExtracted.endGlobalValue)
             assertEquals("updateSession notes UPDATED", sessionRecordEntityExtracted.notes)
-            assertEquals( 987654321, sessionRecordEntityExtracted.realDuration)
+            assertEquals(987654321, sessionRecordEntityExtracted.realDuration)
             assertEquals(1, sessionRecordEntityExtracted.pausesCount)
-            assertEquals( -1, sessionRecordEntityExtracted.realDurationVsPlanned)
+            assertEquals(-1, sessionRecordEntityExtracted.realDurationVsPlanned)
             assertEquals("updateSession guideMp3 UPDATED", sessionRecordEntityExtracted.guideMp3)
         }
     }
@@ -414,7 +493,7 @@ class SessionRecordDaoTest {
         assertNotNull(sessionRecordEntitysExtractedLive)
         val sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
         assertNotNull(sessionRecordEntitysSorted)
-        if(sessionRecordEntitysSorted != null){
+        if (sessionRecordEntitysSorted != null) {
             assertEquals(0, sessionRecordEntitysSorted.size)
         }
     }
@@ -430,17 +509,17 @@ class SessionRecordDaoTest {
             generateSessionRecordEntity(yearstart = 1843)
         )
         runBlocking {
-            sessionRecordDao.insertMultiple(sessionToInsertList)
+            sessionRecordDao.insert(sessionToInsertList)
         }
         checkTotalCountIs(6)
         val sessionRecordEntitysExtractedLive = sessionRecordDao.getAllSessionsStartTimeAsc()
         assertNotNull(sessionRecordEntitysExtractedLive)
         val sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
         assertNotNull(sessionRecordEntitysSorted)
-        if(sessionRecordEntitysSorted != null){
+        if (sessionRecordEntitysSorted != null) {
             assertEquals(6, sessionRecordEntitysSorted.size)
             var date = 0L
-            for(i in sessionRecordEntitysSorted.indices) {
+            for (i in sessionRecordEntitysSorted.indices) {
                 assert(sessionRecordEntitysSorted[i].startTimeOfRecord >= date)
                 date = sessionRecordEntitysSorted[i].startTimeOfRecord
                 assertEquals(date, sessionRecordEntitysSorted[i].startTimeOfRecord)
@@ -455,7 +534,7 @@ class SessionRecordDaoTest {
         assertNotNull(sessionRecordEntitysExtractedLive)
         val sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
         assertNotNull(sessionRecordEntitysSorted)
-        if(sessionRecordEntitysSorted != null){
+        if (sessionRecordEntitysSorted != null) {
             assertEquals(0, sessionRecordEntitysSorted.size)
         }
     }
@@ -471,17 +550,18 @@ class SessionRecordDaoTest {
             generateSessionRecordEntity(yearstart = 2003)
         )
         runBlocking {
-            sessionRecordDao.insertMultiple(sessionToInsertList)
+            sessionRecordDao.insert(sessionToInsertList)
         }
         checkTotalCountIs(6)
         val sessionRecordEntitysExtractedLive = sessionRecordDao.getAllSessionsStartTimeDesc()
         assertNotNull(sessionRecordEntitysExtractedLive)
         val sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
         assertNotNull(sessionRecordEntitysSorted)
-        if(sessionRecordEntitysSorted != null){
+        if (sessionRecordEntitysSorted != null) {
             assertEquals(6, sessionRecordEntitysSorted.size)
-            var date = sessionRecordEntitysSorted[sessionRecordEntitysSorted.size - 1].startTimeOfRecord
-            for(i in 4 downTo 0){
+            var date =
+                sessionRecordEntitysSorted[sessionRecordEntitysSorted.size - 1].startTimeOfRecord
+            for (i in 4 downTo 0) {
                 assert(sessionRecordEntitysSorted[i].startTimeOfRecord <= date)
                 date = sessionRecordEntitysSorted[i].startTimeOfRecord
                 assertEquals(date, sessionRecordEntitysSorted[i].startTimeOfRecord)
@@ -491,12 +571,12 @@ class SessionRecordDaoTest {
 
     @Test
     fun getAllSessionsDurationAscOnEmptyTable() {
-       checkTotalCountIs(0)
+        checkTotalCountIs(0)
         val sessionRecordEntitysExtractedLive = sessionRecordDao.getAllSessionsStartTimeAsc()
         assertNotNull(sessionRecordEntitysExtractedLive)
         val sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
         assertNotNull(sessionRecordEntitysSorted)
-        if(sessionRecordEntitysSorted != null){
+        if (sessionRecordEntitysSorted != null) {
             assertEquals(0, sessionRecordEntitysSorted.size)
         }
     }
@@ -512,17 +592,17 @@ class SessionRecordDaoTest {
             generateSessionRecordEntity(realDuration = 578L)
         )
         runBlocking {
-            sessionRecordDao.insertMultiple(sessionToInsertList)
+            sessionRecordDao.insert(sessionToInsertList)
         }
         checkTotalCountIs(6)
         val sessionRecordEntitysExtractedLive = sessionRecordDao.getAllSessionsStartTimeAsc()
         assertNotNull(sessionRecordEntitysExtractedLive)
         val sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
         assertNotNull(sessionRecordEntitysSorted)
-        if(sessionRecordEntitysSorted != null){
+        if (sessionRecordEntitysSorted != null) {
             assertEquals(6, sessionRecordEntitysSorted.size)
             var duration = 0L
-            for(i in sessionRecordEntitysSorted.indices) {
+            for (i in sessionRecordEntitysSorted.indices) {
                 assert(sessionRecordEntitysSorted[i].realDuration >= duration)
                 duration = sessionRecordEntitysSorted[i].realDuration
                 assertEquals(duration, sessionRecordEntitysSorted[i].realDuration)
@@ -537,7 +617,7 @@ class SessionRecordDaoTest {
         assertNotNull(sessionRecordEntitysExtractedLive)
         val sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
         assertNotNull(sessionRecordEntitysSorted)
-        if(sessionRecordEntitysSorted != null){
+        if (sessionRecordEntitysSorted != null) {
             assertEquals(0, sessionRecordEntitysSorted.size)
         }
     }
@@ -553,17 +633,18 @@ class SessionRecordDaoTest {
             generateSessionRecordEntity(realDuration = 578L)
         )
         runBlocking {
-            sessionRecordDao.insertMultiple(sessionToInsertList)
+            sessionRecordDao.insert(sessionToInsertList)
         }
         checkTotalCountIs(6)
         val sessionRecordEntitysExtractedLive = sessionRecordDao.getAllSessionsStartTimeDesc()
         assertNotNull(sessionRecordEntitysExtractedLive)
         val sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
         assertNotNull(sessionRecordEntitysSorted)
-        if(sessionRecordEntitysSorted != null){
+        if (sessionRecordEntitysSorted != null) {
             assertEquals(6, sessionRecordEntitysSorted.size)
-            var duration = sessionRecordEntitysSorted[sessionRecordEntitysSorted.size - 1].realDuration
-            for(i in 4 downTo 0){
+            var duration =
+                sessionRecordEntitysSorted[sessionRecordEntitysSorted.size - 1].realDuration
+            for (i in 4 downTo 0) {
                 assert(sessionRecordEntitysSorted[i].realDuration <= duration)
                 duration = sessionRecordEntitysSorted[i].realDuration
                 assertEquals(duration, sessionRecordEntitysSorted[i].realDuration)
@@ -578,7 +659,7 @@ class SessionRecordDaoTest {
         assertNotNull(sessionRecordEntitysExtractedLive)
         val sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
         assertNotNull(sessionRecordEntitysSorted)
-        if(sessionRecordEntitysSorted != null){
+        if (sessionRecordEntitysSorted != null) {
             assertEquals(0, sessionRecordEntitysSorted.size)
         }
     }
@@ -595,16 +676,16 @@ class SessionRecordDaoTest {
             generateSessionRecordEntity(guideMp3 = "")
         )
         runBlocking {
-            sessionRecordDao.insertMultiple(sessionToInsertList)
+            sessionRecordDao.insert(sessionToInsertList)
         }
         checkTotalCountIs(7)
         val sessionRecordEntitysExtractedLive = sessionRecordDao.getAllSessionsWithMp3()
         assertNotNull(sessionRecordEntitysExtractedLive)
         val sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
         assertNotNull(sessionRecordEntitysSorted)
-        if(sessionRecordEntitysSorted != null){
+        if (sessionRecordEntitysSorted != null) {
             assertEquals(3, sessionRecordEntitysSorted.size)
-            for(i in sessionRecordEntitysSorted.indices) {
+            for (i in sessionRecordEntitysSorted.indices) {
                 assert(sessionRecordEntitysSorted[i].guideMp3 != "")
             }
         }
@@ -617,7 +698,7 @@ class SessionRecordDaoTest {
         assertNotNull(sessionRecordEntitysExtractedLive)
         val sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
         assertNotNull(sessionRecordEntitysSorted)
-        if(sessionRecordEntitysSorted != null){
+        if (sessionRecordEntitysSorted != null) {
             assertEquals(0, sessionRecordEntitysSorted.size)
         }
     }
@@ -634,16 +715,16 @@ class SessionRecordDaoTest {
             generateSessionRecordEntity(guideMp3 = "")
         )
         runBlocking {
-            sessionRecordDao.insertMultiple(sessionToInsertList)
+            sessionRecordDao.insert(sessionToInsertList)
         }
         checkTotalCountIs(7)
         val sessionRecordEntitysExtractedLive = sessionRecordDao.getAllSessionsWithoutMp3()
         assertNotNull(sessionRecordEntitysExtractedLive)
         val sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
         assertNotNull(sessionRecordEntitysSorted)
-        if(sessionRecordEntitysSorted != null){
+        if (sessionRecordEntitysSorted != null) {
             assertEquals(4, sessionRecordEntitysSorted.size)
-            for(i in sessionRecordEntitysSorted.indices) {
+            for (i in sessionRecordEntitysSorted.indices) {
                 assert(sessionRecordEntitysSorted[i].guideMp3 == "")
             }
         }
@@ -657,7 +738,7 @@ class SessionRecordDaoTest {
         assertNotNull(sessionRecordEntitysExtractedLive)
         var sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
         assertNotNull(sessionRecordEntitysSorted)
-        if(sessionRecordEntitysSorted != null){
+        if (sessionRecordEntitysSorted != null) {
             assertEquals(0, sessionRecordEntitysSorted.size)
         }
 
@@ -676,8 +757,8 @@ class SessionRecordDaoTest {
             generateSessionRecordEntity(guideMp3 = "guide mp3 test 3")
         )
         runBlocking {
-            sessionRecordDao.insertMultiple(sessionToInsertList)
-            sessionRecordDao.insertMultiple(generateSessions(5))
+            sessionRecordDao.insert(sessionToInsertList)
+            sessionRecordDao.insert(generateSessions(5))
         }
         checkTotalCountIs(13)
         //
@@ -685,10 +766,14 @@ class SessionRecordDaoTest {
         assertNotNull(sessionRecordEntitysExtractedLive)
         var sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
         assertNotNull(sessionRecordEntitysSorted)
-        if(sessionRecordEntitysSorted != null){
+        if (sessionRecordEntitysSorted != null) {
             assertEquals(2, sessionRecordEntitysSorted.size)
-            for(i in sessionRecordEntitysSorted.indices) {
-                assert(sessionRecordEntitysSorted[i].guideMp3.contains("test 1") || sessionRecordEntitysSorted[i].notes.contains("test 1"))
+            for (i in sessionRecordEntitysSorted.indices) {
+                assert(
+                    sessionRecordEntitysSorted[i].guideMp3.contains("test 1") || sessionRecordEntitysSorted[i].notes.contains(
+                        "test 1"
+                    )
+                )
             }
         }
         //
@@ -696,10 +781,14 @@ class SessionRecordDaoTest {
         assertNotNull(sessionRecordEntitysExtractedLive)
         sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
         assertNotNull(sessionRecordEntitysSorted)
-        if(sessionRecordEntitysSorted != null){
+        if (sessionRecordEntitysSorted != null) {
             assertEquals(8, sessionRecordEntitysSorted.size)
-            for(i in sessionRecordEntitysSorted.indices) {
-                assert(sessionRecordEntitysSorted[i].guideMp3.contains("test") || sessionRecordEntitysSorted[i].notes.contains("test"))
+            for (i in sessionRecordEntitysSorted.indices) {
+                assert(
+                    sessionRecordEntitysSorted[i].guideMp3.contains("test") || sessionRecordEntitysSorted[i].notes.contains(
+                        "test"
+                    )
+                )
             }
         }
         //
@@ -707,10 +796,14 @@ class SessionRecordDaoTest {
         assertNotNull(sessionRecordEntitysExtractedLive)
         sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
         assertNotNull(sessionRecordEntitysSorted)
-        if(sessionRecordEntitysSorted != null){
+        if (sessionRecordEntitysSorted != null) {
             assertEquals(4, sessionRecordEntitysSorted.size)
-            for(i in sessionRecordEntitysSorted.indices) {
-                assert(sessionRecordEntitysSorted[i].guideMp3.contains("2") || sessionRecordEntitysSorted[i].notes.contains("2"))
+            for (i in sessionRecordEntitysSorted.indices) {
+                assert(
+                    sessionRecordEntitysSorted[i].guideMp3.contains("2") || sessionRecordEntitysSorted[i].notes.contains(
+                        "2"
+                    )
+                )
             }
         }
         //
@@ -718,10 +811,14 @@ class SessionRecordDaoTest {
         assertNotNull(sessionRecordEntitysExtractedLive)
         sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
         assertNotNull(sessionRecordEntitysSorted)
-        if(sessionRecordEntitysSorted != null){
+        if (sessionRecordEntitysSorted != null) {
             assertEquals(2, sessionRecordEntitysSorted.size)
-            for(i in sessionRecordEntitysSorted.indices) {
-                assert(sessionRecordEntitysSorted[i].guideMp3.contains("notes test 2") || sessionRecordEntitysSorted[i].notes.contains("notes test 2"))
+            for (i in sessionRecordEntitysSorted.indices) {
+                assert(
+                    sessionRecordEntitysSorted[i].guideMp3.contains("notes test 2") || sessionRecordEntitysSorted[i].notes.contains(
+                        "notes test 2"
+                    )
+                )
             }
         }
         //
@@ -729,7 +826,7 @@ class SessionRecordDaoTest {
         assertNotNull(sessionRecordEntitysExtractedLive)
         sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
         assertNotNull(sessionRecordEntitysSorted)
-        if(sessionRecordEntitysSorted != null){
+        if (sessionRecordEntitysSorted != null) {
             assertEquals(0, sessionRecordEntitysSorted.size)
         }
     }
@@ -738,10 +835,10 @@ class SessionRecordDaoTest {
     fun getAllSessionsNotLiveStartTimeAscOnEmptyTable() {
         checkTotalCountIs(0)
         val sessionRecordEntitysExtracted = runBlocking {
-            sessionRecordDao.getAllSessionsNotLiveStartTimeAsc()
+            sessionRecordDao.asyncGetAllSessionsStartTimeAsc()
         }
         assertNotNull(sessionRecordEntitysExtracted)
-        if(sessionRecordEntitysExtracted != null){
+        if (sessionRecordEntitysExtracted != null) {
             assertEquals(0, sessionRecordEntitysExtracted.size)
         }
     }
@@ -757,17 +854,17 @@ class SessionRecordDaoTest {
             generateSessionRecordEntity(yearstart = 1953)
         )
         runBlocking {
-            sessionRecordDao.insertMultiple(sessionToInsertList)
+            sessionRecordDao.insert(sessionToInsertList)
         }
         checkTotalCountIs(6)
         val sessionRecordEntitysExtracted = runBlocking {
-            sessionRecordDao.getAllSessionsNotLiveStartTimeAsc()
+            sessionRecordDao.asyncGetAllSessionsStartTimeAsc()
         }
         assertNotNull(sessionRecordEntitysExtracted)
-        if(sessionRecordEntitysExtracted != null){
+        if (sessionRecordEntitysExtracted != null) {
             assertEquals(6, sessionRecordEntitysExtracted.size)
             var date = 0L
-            for(i in sessionRecordEntitysExtracted.indices) {
+            for (i in sessionRecordEntitysExtracted.indices) {
                 assert(sessionRecordEntitysExtracted[i].startTimeOfRecord >= date)
                 date = sessionRecordEntitysExtracted[i].startTimeOfRecord
                 assertEquals(date, sessionRecordEntitysExtracted[i].startTimeOfRecord)
@@ -787,21 +884,66 @@ class SessionRecordDaoTest {
     @Test
     fun getMostRecentSessionRecordDate() {
         val sessionToInsertList = listOf(
-            generateSessionRecordEntity(yearstart = 1623, monthstart = 3, dayOfMonthstart = 5, hourOfDaystart = 22, minutestart = 21, secondstart = 32),
-            generateSessionRecordEntity(yearstart = 2013, monthstart = 3, dayOfMonthstart = 5, hourOfDaystart = 22, minutestart = 21, secondstart = 32),
-            generateSessionRecordEntity(yearstart = 1733, monthstart = 3, dayOfMonthstart = 5, hourOfDaystart = 22, minutestart = 21, secondstart = 32),
-            generateSessionRecordEntity(yearstart = 1953, monthstart = 3, dayOfMonthstart = 5, hourOfDaystart = 22, minutestart = 21, secondstart = 32),
-            generateSessionRecordEntity(yearstart = 2003, monthstart = 3, dayOfMonthstart = 5, hourOfDaystart = 22, minutestart = 21, secondstart = 32),
-            generateSessionRecordEntity(yearstart = 1843, monthstart = 3, dayOfMonthstart = 5, hourOfDaystart = 22, minutestart = 21, secondstart = 32)
+            generateSessionRecordEntity(
+                yearstart = 1623,
+                monthstart = 3,
+                dayOfMonthstart = 5,
+                hourOfDaystart = 22,
+                minutestart = 21,
+                secondstart = 32
+            ),
+            generateSessionRecordEntity(
+                yearstart = 2013,
+                monthstart = 3,
+                dayOfMonthstart = 5,
+                hourOfDaystart = 22,
+                minutestart = 21,
+                secondstart = 32
+            ),
+            generateSessionRecordEntity(
+                yearstart = 1733,
+                monthstart = 3,
+                dayOfMonthstart = 5,
+                hourOfDaystart = 22,
+                minutestart = 21,
+                secondstart = 32
+            ),
+            generateSessionRecordEntity(
+                yearstart = 1953,
+                monthstart = 3,
+                dayOfMonthstart = 5,
+                hourOfDaystart = 22,
+                minutestart = 21,
+                secondstart = 32
+            ),
+            generateSessionRecordEntity(
+                yearstart = 2003,
+                monthstart = 3,
+                dayOfMonthstart = 5,
+                hourOfDaystart = 22,
+                minutestart = 21,
+                secondstart = 32
+            ),
+            generateSessionRecordEntity(
+                yearstart = 1843,
+                monthstart = 3,
+                dayOfMonthstart = 5,
+                hourOfDaystart = 22,
+                minutestart = 21,
+                secondstart = 32
+            )
         )
         runBlocking {
-            sessionRecordDao.insertMultiple(sessionToInsertList)
+            sessionRecordDao.insert(sessionToInsertList)
         }
         checkTotalCountIs(6)
         val latestRecordedSessionDate = runBlocking {
             sessionRecordDao.getMostRecentSessionRecordDate()
         }
         assertNotNull(latestRecordedSessionDate)
-        assertEquals(GregorianCalendar(2013, 3, 5, 22, 21, 32).timeInMillis, latestRecordedSessionDate)
+        assertEquals(
+            GregorianCalendar(2013, 3, 5, 22, 21, 32).timeInMillis,
+            latestRecordedSessionDate
+        )
     }
 }

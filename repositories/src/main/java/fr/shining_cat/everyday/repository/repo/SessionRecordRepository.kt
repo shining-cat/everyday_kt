@@ -31,13 +31,13 @@ class SessionRecordRepositoryImpl(
         sessionRecordDao.insert(sessionRecordConverter.convertModelToEntity(sessionRecord))
 
     override suspend fun insertMultiple(sessionRecords: List<SessionRecord>): Array<Long> =
-        sessionRecordDao.insertMultiple(sessionRecordConverter.convertModelsToEntities(sessionRecords))
+        sessionRecordDao.insert(sessionRecordConverter.convertModelsToEntities(sessionRecords))
 
     override suspend fun updateSession(sessionRecord: SessionRecord): Int =
-        sessionRecordDao.updateSession(sessionRecordConverter.convertModelToEntity(sessionRecord))
+        sessionRecordDao.update(sessionRecordConverter.convertModelToEntity(sessionRecord))
 
     override suspend fun deleteSession(sessionRecord: SessionRecord): Int =
-        sessionRecordDao.deleteSession(sessionRecordConverter.convertModelToEntity(sessionRecord))
+        sessionRecordDao.delete(sessionRecordConverter.convertModelToEntity(sessionRecord))
 
     override suspend fun deleteAllSessions(): Int = sessionRecordDao.deleteAllSessions()
 
@@ -67,7 +67,7 @@ class SessionRecordRepositoryImpl(
 
     //LIST of all sessions as unobservable request, only for export
     override suspend fun getAllSessionsNotLiveStartTimeAsc(): List<SessionRecord> =
-        sessionRecordConverter.convertEntitiesToModels(sessionRecordDao.getAllSessionsNotLiveStartTimeAsc())
+        sessionRecordConverter.convertEntitiesToModels(sessionRecordDao.asyncGetAllSessionsStartTimeAsc())
 
     //last session start timestamp
     override suspend fun getMostRecentSessionRecordDate(): Long =
