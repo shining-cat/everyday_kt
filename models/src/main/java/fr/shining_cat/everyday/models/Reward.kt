@@ -18,7 +18,7 @@ import fr.shining_cat.everyday.models.RewardModelConstants.NO_NAME
 //with some convenience getters : get individual body-parts codes
 
 //reward_code is a String built this way :
-//      [flower-part-code]_[legs-part-code]-[arms-part-code]_[mouth-part-code]_[eyes-part-code]_[horns-part-code]
+//      [flower-part-code]_[mouth-part-code]_[legs-part-code]-[arms-part-code]_[eyes-part-code]_[horns-part-code]
 //      each code is a 1-digit number from 0 to 6 (for now) linked to the index of the corresponding png resource
 //      example : 1_3_5_0_2_2
 

@@ -1,5 +1,6 @@
 package fr.shining_cat.everyday.models
 
+import android.util.Log
 import com.google.common.collect.ImmutableSet
 import fr.shining_cat.everyday.models.CritterConstants.ARMS_CODE_INDEX_IN_CRITTER_CODE
 import fr.shining_cat.everyday.models.CritterConstants.CRITTER_CODE_SEPARATOR
@@ -24,6 +25,14 @@ private val FLOWER_PARTS = arrayOf(
     -1,
     -1
 ) //   arrayOf(R.drawable.flower_1, R.drawable.flower_2, R.drawable.flower_3, R.drawable.flower_4, R.drawable.flower_5, R.drawable.flower_6)
+private val MOUTH_PARTS = arrayOf(
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1
+) //   arrayOf(R.drawable.mouth_1, R.drawable.mouth_2, R.drawable.mouth_3, R.drawable.mouth_4, R.drawable.mouth_5, R.drawable.mouth_6)
 private val LEGS_PARTS = arrayOf(
     -1,
     -1,
@@ -42,14 +51,6 @@ private val ARMS_PARTS = arrayOf(
     -1,
     -1
 ) //   arrayOf(ARMS_PART_OFF, R.drawable.arms_1, R.drawable.arms_2, R.drawable.arms_3, R.drawable.arms_4, R.drawable.arms_5, R.drawable.arms_6)
-private val MOUTH_PARTS = arrayOf(
-    -1,
-    -1,
-    -1,
-    -1,
-    -1,
-    -1
-) //   arrayOf(R.drawable.mouth_1, R.drawable.mouth_2, R.drawable.mouth_3, R.drawable.mouth_4, R.drawable.mouth_5, R.drawable.mouth_6)
 private val EYES_PARTS = arrayOf(
     -1,
     -1,
@@ -72,9 +73,9 @@ private val HORNS_PARTS = arrayOf(
 object CritterConstants {
     const val CRITTER_CODE_SEPARATOR = "_"
     const val FLOWERS_CODE_INDEX_IN_CRITTER_CODE = 0
-    const val LEGS_CODE_INDEX_IN_CRITTER_CODE = 1
-    const val ARMS_CODE_INDEX_IN_CRITTER_CODE = 2
-    const val MOUTH_CODE_INDEX_IN_CRITTER_CODE = 3
+    const val MOUTH_CODE_INDEX_IN_CRITTER_CODE = 1
+    const val LEGS_CODE_INDEX_IN_CRITTER_CODE = 2
+    const val ARMS_CODE_INDEX_IN_CRITTER_CODE = 3
     const val EYES_CODE_INDEX_IN_CRITTER_CODE = 4
     const val HORNS_CODE_INDEX_IN_CRITTER_CODE = 5
     //TODO: vectorize body parts in two files each : one with only black lines and shadows, the other full white for colorization
@@ -83,44 +84,43 @@ object CritterConstants {
 }
 
 class CritterHelper {
-
-    fun getRandomCritterCode(critterCritterLevel: CritterLevel): String {
-        val randomParts = when (critterCritterLevel) {
-            CritterLevel.LEVEL_5 -> arrayOf(
-                Random.nextInt(FLOWER_PARTS.size),
-                Random.nextInt(MOUTH_PARTS.size),
-                Random.nextInt(LEGS_PARTS.size),
-                Random.nextInt(ARMS_PARTS.size),
-                Random.nextInt(EYES_PARTS.size),
-                Random.nextInt(HORNS_PARTS.size)
+    fun getRandomCritterCode(level: CritterLevel): String {
+        val randomParts = when (level) {
+            CritterLevel.LEVEL_5 -> arrayOf(//1, 2, 3, 4, 5, 6)
+                Random.nextInt(0, FLOWER_PARTS.size),//do not exclude index 0 for flower and mouth
+                Random.nextInt(0, MOUTH_PARTS.size),//do not exclude index 0 for flower and mouth
+                Random.nextInt(1, LEGS_PARTS.size),//exclude index 0 (means "OFF")
+                Random.nextInt(1, ARMS_PARTS.size),//exclude index 0 (means "OFF")
+                Random.nextInt(1, EYES_PARTS.size),//exclude index 0 (means "OFF")
+                Random.nextInt(1, HORNS_PARTS.size)//exclude index 0 (means "OFF")
             )
             CritterLevel.LEVEL_4 -> arrayOf(
-                Random.nextInt(FLOWER_PARTS.size),
-                Random.nextInt(MOUTH_PARTS.size),
-                Random.nextInt(LEGS_PARTS.size),
-                Random.nextInt(ARMS_PARTS.size),
-                Random.nextInt(EYES_PARTS.size),
+                Random.nextInt(0, FLOWER_PARTS.size),
+                Random.nextInt(0, MOUTH_PARTS.size),
+                Random.nextInt(1, LEGS_PARTS.size),
+                Random.nextInt(1, ARMS_PARTS.size),
+                Random.nextInt(1, EYES_PARTS.size),
                 0
             )
             CritterLevel.LEVEL_3 -> arrayOf(
-                Random.nextInt(FLOWER_PARTS.size),
-                Random.nextInt(MOUTH_PARTS.size),
-                Random.nextInt(LEGS_PARTS.size),
-                Random.nextInt(ARMS_PARTS.size),
+                Random.nextInt(0, FLOWER_PARTS.size),
+                Random.nextInt(0, MOUTH_PARTS.size),
+                Random.nextInt(1, LEGS_PARTS.size),
+                Random.nextInt(1, ARMS_PARTS.size),
                 0,
                 0
             )
             CritterLevel.LEVEL_2 -> arrayOf(
-                Random.nextInt(FLOWER_PARTS.size),
-                Random.nextInt(MOUTH_PARTS.size),
-                Random.nextInt(LEGS_PARTS.size),
+                Random.nextInt(0, FLOWER_PARTS.size),
+                Random.nextInt(0, MOUTH_PARTS.size),
+                Random.nextInt(1, LEGS_PARTS.size),
                 0,
                 0,
                 0
             )
             CritterLevel.LEVEL_1 -> arrayOf(
-                Random.nextInt(FLOWER_PARTS.size),
-                Random.nextInt(MOUTH_PARTS.size),
+                Random.nextInt(0, FLOWER_PARTS.size),
+                Random.nextInt(0, MOUTH_PARTS.size),
                 0,
                 0,
                 0,
@@ -139,8 +139,8 @@ class CritterHelper {
             )
 
 
-    fun getNumberOfCritterPossible(critterCritterLevel: CritterLevel): Int {
-        return when (critterCritterLevel) {
+    fun getNumberOfCritterPossible(level: CritterLevel): Int {
+        return when (level) {
             CritterLevel.LEVEL_5 -> FLOWER_PARTS.size * MOUTH_PARTS.size * LEGS_PARTS.size * ARMS_PARTS.size * EYES_PARTS.size * HORNS_PARTS.size
             CritterLevel.LEVEL_4 -> FLOWER_PARTS.size * MOUTH_PARTS.size * LEGS_PARTS.size * ARMS_PARTS.size * EYES_PARTS.size
             CritterLevel.LEVEL_3 -> FLOWER_PARTS.size * MOUTH_PARTS.size * LEGS_PARTS.size * ARMS_PARTS.size
@@ -278,11 +278,13 @@ class CritterHelper {
 
     fun getLevel(critterCode: String): CritterLevel {
         val splitCritterCode = critterCode.split(CRITTER_CODE_SEPARATOR)
-        return if (splitCritterCode[HORNS_CODE_INDEX_IN_CRITTER_CODE].toInt() != 0) CritterLevel.LEVEL_5
-        else if (splitCritterCode[EYES_CODE_INDEX_IN_CRITTER_CODE].toInt() != 0) CritterLevel.LEVEL_4
-        else if (splitCritterCode[ARMS_CODE_INDEX_IN_CRITTER_CODE].toInt() != 0) CritterLevel.LEVEL_3
-        else if (splitCritterCode[LEGS_CODE_INDEX_IN_CRITTER_CODE].toInt() != 0) CritterLevel.LEVEL_2
-        else CritterLevel.LEVEL_1
+        return when {
+            splitCritterCode[HORNS_CODE_INDEX_IN_CRITTER_CODE].toInt() != 0 -> CritterLevel.LEVEL_5
+            splitCritterCode[EYES_CODE_INDEX_IN_CRITTER_CODE].toInt() != 0 -> CritterLevel.LEVEL_4
+            splitCritterCode[ARMS_CODE_INDEX_IN_CRITTER_CODE].toInt() != 0 -> CritterLevel.LEVEL_3
+            splitCritterCode[LEGS_CODE_INDEX_IN_CRITTER_CODE].toInt() != 0 -> CritterLevel.LEVEL_2
+            else -> CritterLevel.LEVEL_1
+        }
     }
 
     fun getFlowerDrawableResource(critterCode: String): Int {
