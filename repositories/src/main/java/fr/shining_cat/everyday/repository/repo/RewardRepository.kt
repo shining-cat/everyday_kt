@@ -6,12 +6,9 @@ import fr.shining_cat.everyday.models.Reward
 import fr.shining_cat.everyday.repository.converter.RewardConverter
 
 interface RewardRepository{
-    suspend fun insert(reward: Reward): Long
     suspend fun insert(rewards: List<Reward>): Array<Long>
-    suspend fun updateReward(reward: Reward): Int
-    suspend fun updateRewards(rewards: List<Reward>): Int
-    suspend fun deleteReward(reward: Reward): Int
-    suspend fun deleteReward(rewards: List<Reward>): Int
+    suspend fun update(rewards: List<Reward>): Int
+    suspend fun delete(rewards: List<Reward>): Int
     suspend fun deleteAllRewards(): Int
     fun getRewardLive(rewardId: Long): LiveData<Reward?>
     fun rewardsActiveAcquisitionDateAsc(): LiveData<List<Reward>>
@@ -32,14 +29,11 @@ class RewardRepositoryImpl(
     private val rewardConverter: RewardConverter
 ): RewardRepository {
 
-    override suspend fun insert(reward: Reward): Long = rewardDao.insert(rewardConverter.convertModelToEntity(reward))
     override suspend fun insert(rewards: List<Reward>): Array<Long> = rewardDao.insert(rewardConverter.convertModelsToEntities(rewards))
 
-    override suspend fun updateReward(reward: Reward): Int = rewardDao.updateReward(rewardConverter.convertModelToEntity(reward))
-    override suspend fun updateRewards(rewards: List<Reward>): Int = rewardDao.update(rewardConverter.convertModelsToEntities(rewards))
+    override suspend fun update(rewards: List<Reward>): Int = rewardDao.update(rewardConverter.convertModelsToEntities(rewards))
 
-    override suspend fun deleteReward(reward: Reward): Int = rewardDao.delete(rewardConverter.convertModelToEntity(reward))
-    override suspend fun deleteReward(rewards: List<Reward>): Int = rewardDao.delete(rewardConverter.convertModelsToEntities(rewards))
+    override suspend fun delete(rewards: List<Reward>): Int = rewardDao.delete(rewardConverter.convertModelsToEntities(rewards))
     override suspend fun deleteAllRewards(): Int = rewardDao.deleteAllRewards()
 
     override fun getRewardLive(rewardId: Long): LiveData<Reward?> = rewardConverter.convertEntitytoModel(rewardDao.getRewardLive(rewardId))

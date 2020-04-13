@@ -74,23 +74,15 @@ class SessionRecordRepositoryImplTest : AbstractBaseTest() {
     @Test
     fun insert() {
         runBlocking {
-            sessionRecordRepo.insert(mockSessionRecord)
+            sessionRecordRepo.insert(listOf(mockSessionRecord))
             Mockito.verify(mockSessionRecordDao).insert(any())
         }
     }
 
     @Test
-    fun insertMultiple() {
+    fun update() {
         runBlocking {
-            sessionRecordRepo.insertMultiple(listOf(mockSessionRecord))
-            Mockito.verify(mockSessionRecordDao).insert(any())
-        }
-    }
-
-    @Test
-    fun updateSession() {
-        runBlocking {
-            sessionRecordRepo.updateSession(mockSessionRecord)
+            sessionRecordRepo.update(mockSessionRecord)
             Mockito.verify(mockSessionRecordDao).update(any())
         }
     }
@@ -98,7 +90,7 @@ class SessionRecordRepositoryImplTest : AbstractBaseTest() {
     @Test
     fun deleteSession() {
         runBlocking {
-            sessionRecordRepo.deleteSession(mockSessionRecord)
+            sessionRecordRepo.delete(mockSessionRecord)
             Mockito.verify(mockSessionRecordDao).delete(any())
         }
     }

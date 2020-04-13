@@ -79,31 +79,15 @@ class RewardRepositoryImplTest: AbstractBaseTest()  {
     @Test
     fun insert() {
         runBlocking {
-            rewardRepo.insert(mockReward)
-            Mockito.verify(mockRewardDao).insert(any<RewardEntity>())
-        }
-    }
-
-    @Test
-    fun insertMulti() {
-        runBlocking {
             rewardRepo.insert(listOf(mockReward))
-            Mockito.verify(mockRewardDao).insert(any<List<RewardEntity>>())
-        }
-    }
-
-    @Test
-    fun updateReward() {
-        runBlocking {
-            rewardRepo.updateReward(mockReward)
-            Mockito.verify(mockRewardDao).updateReward(any())
+            Mockito.verify(mockRewardDao).insert(any())
         }
     }
 
     @Test
     fun updateRewards() {
         runBlocking {
-            rewardRepo.updateRewards(listOf(mockReward))
+            rewardRepo.update(listOf(mockReward))
             Mockito.verify(mockRewardDao).update(any())
         }
     }
@@ -111,16 +95,8 @@ class RewardRepositoryImplTest: AbstractBaseTest()  {
     @Test
     fun deleteReward() {
         runBlocking {
-            rewardRepo.deleteReward(mockReward)
-            Mockito.verify(mockRewardDao).delete(any<RewardEntity>())
-        }
-    }
-
-    @Test
-    fun deleteReward1() {
-        runBlocking {
-            rewardRepo.deleteReward(listOf(mockReward))
-            Mockito.verify(mockRewardDao).delete(any<List<RewardEntity>>())
+            rewardRepo.delete(listOf(mockReward))
+            Mockito.verify(mockRewardDao).delete(any())
         }
     }
 

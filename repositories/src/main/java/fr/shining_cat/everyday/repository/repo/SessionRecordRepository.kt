@@ -6,10 +6,9 @@ import fr.shining_cat.everyday.models.SessionRecord
 import fr.shining_cat.everyday.repository.converter.SessionRecordConverter
 
 interface SessionRecordRepository {
-    suspend fun insert(sessionRecord: SessionRecord): Long
-    suspend fun insertMultiple(sessionRecords: List<SessionRecord>): Array<Long>
-    suspend fun updateSession(sessionRecord: SessionRecord): Int
-    suspend fun deleteSession(sessionRecord: SessionRecord): Int
+    suspend fun insert(sessionRecords: List<SessionRecord>): Array<Long>
+    suspend fun update(sessionRecord: SessionRecord): Int
+    suspend fun delete(sessionRecord: SessionRecord): Int
     suspend fun deleteAllSessions(): Int
     fun getAllSessionsStartTimeAsc(): LiveData<List<SessionRecord>>
     fun getAllSessionsStartTimeDesc(): LiveData<List<SessionRecord>>
@@ -27,16 +26,13 @@ class SessionRecordRepositoryImpl(
     private val sessionRecordConverter: SessionRecordConverter
 ) : SessionRecordRepository {
 
-    override suspend fun insert(sessionRecord: SessionRecord): Long =
-        sessionRecordDao.insert(sessionRecordConverter.convertModelToEntity(sessionRecord))
-
-    override suspend fun insertMultiple(sessionRecords: List<SessionRecord>): Array<Long> =
+    override suspend fun insert(sessionRecords: List<SessionRecord>): Array<Long> =
         sessionRecordDao.insert(sessionRecordConverter.convertModelsToEntities(sessionRecords))
 
-    override suspend fun updateSession(sessionRecord: SessionRecord): Int =
+    override suspend fun update(sessionRecord: SessionRecord): Int =
         sessionRecordDao.update(sessionRecordConverter.convertModelToEntity(sessionRecord))
 
-    override suspend fun deleteSession(sessionRecord: SessionRecord): Int =
+    override suspend fun delete(sessionRecord: SessionRecord): Int =
         sessionRecordDao.delete(sessionRecordConverter.convertModelToEntity(sessionRecord))
 
     override suspend fun deleteAllSessions(): Int = sessionRecordDao.deleteAllSessions()
