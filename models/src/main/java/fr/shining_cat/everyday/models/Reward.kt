@@ -1,26 +1,14 @@
 package fr.shining_cat.everyday.models
 
-import fr.shining_cat.everyday.models.CritterConstants.ARMS_CODE_INDEX_IN_CRITTER_CODE
-import fr.shining_cat.everyday.models.CritterConstants.CRITTER_CODE_SEPARATOR
-import fr.shining_cat.everyday.models.CritterConstants.EYES_CODE_INDEX_IN_CRITTER_CODE
-import fr.shining_cat.everyday.models.CritterConstants.FLOWERS_CODE_INDEX_IN_CRITTER_CODE
-import fr.shining_cat.everyday.models.CritterConstants.HORNS_CODE_INDEX_IN_CRITTER_CODE
-import fr.shining_cat.everyday.models.CritterConstants.LEGS_CODE_INDEX_IN_CRITTER_CODE
-import fr.shining_cat.everyday.models.CritterConstants.MOUTH_CODE_INDEX_IN_CRITTER_CODE
 import fr.shining_cat.everyday.models.RewardModelConstants.DEFAULT_REWARD_COLOR
 import fr.shining_cat.everyday.models.RewardModelConstants.NO_ACQUISITION_DATE
 import fr.shining_cat.everyday.models.RewardModelConstants.NO_ESCAPING_DATE
 import fr.shining_cat.everyday.models.RewardModelConstants.NO_NAME
+import fr.shining_cat.everyday.models.critter.*
 
 
 ////////////////////////////////////////
 //ROOM entity for rewards storage
-//with some convenience getters : get individual body-parts codes
-
-//reward_code is a String built this way :
-//      [flower-part-code]_[mouth-part-code]_[legs-part-code]-[arms-part-code]_[eyes-part-code]_[horns-part-code]
-//      each code is a 1-digit number from 0 to 6 (for now) linked to the index of the corresponding png resource
-//      example : 1_3_5_0_2_2
 
 //upon creation, acquisition_date is set to 0, escape_date is set to 0, isActive is set to false, and isEscaped is set to false;
 //On the first time the reward is obtained, isActive is set to true, and never re-set to false again.
@@ -29,8 +17,13 @@ import fr.shining_cat.everyday.models.RewardModelConstants.NO_NAME
 
 data class Reward(
     var id: Long = -1,
-    val code: String,
-    val critterLevel: CritterLevel,
+    val flower: FlowerResourcesHolder.FlowerDrawable,
+    val mouth: MouthResourcesHolder.MouthDrawable,
+    val legs: LegsResourcesHolder.LegsDrawable,
+    val arms: ArmsResourcesHolder.ArmsDrawable,
+    val eyes: EyesResourcesHolder.EyesDrawable,
+    val horns: HornsResourcesHolder.HornsDrawable,
+    val level: Level,
     var acquisitionDate: Long = NO_ACQUISITION_DATE,
     var escapingDate: Long = NO_ESCAPING_DATE,
     var isActive: Boolean = false,
@@ -39,21 +32,7 @@ data class Reward(
     var legsColor: String = DEFAULT_REWARD_COLOR,
     var bodyColor: String = DEFAULT_REWARD_COLOR,
     var armsColor: String = DEFAULT_REWARD_COLOR)
-{
 
-    private val splitRewardCode = code.split(CRITTER_CODE_SEPARATOR)
-
-    ////////////////////////////////////////
-    //convenience getters
-    fun getFlowerCode() = Integer.valueOf(splitRewardCode[FLOWERS_CODE_INDEX_IN_CRITTER_CODE])
-    fun getLegsCode() = Integer.valueOf(splitRewardCode[LEGS_CODE_INDEX_IN_CRITTER_CODE])
-    fun getArmsCode() = Integer.valueOf(splitRewardCode[ARMS_CODE_INDEX_IN_CRITTER_CODE])
-    fun getMouthCode() = Integer.valueOf(splitRewardCode[MOUTH_CODE_INDEX_IN_CRITTER_CODE])
-    fun getEyesCode() = Integer.valueOf(splitRewardCode[EYES_CODE_INDEX_IN_CRITTER_CODE])
-    fun getHornsCode() = Integer.valueOf(splitRewardCode[HORNS_CODE_INDEX_IN_CRITTER_CODE])
-
-
-}
 
 object RewardModelConstants{
     const val NO_ACQUISITION_DATE: Long = 0

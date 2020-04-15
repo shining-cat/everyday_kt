@@ -4,16 +4,21 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.ACTIVE_STATE
+import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.ARMS
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.DATE_ACQUISITION
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.DATE_ESCAPING
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.ESCAPED_STATE
-import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.CODE
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.ARMS_COLOR
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.BODY_COLOR
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.LEGS_COLOR
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.CUSTOM_NAME
+import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.EYES
+import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.FLOWER
+import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.HORNS
+import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.LEGS
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.REWARD_ID
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.LEVEL
+import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.MOUTH
 import fr.shining_cat.everyday.locale.entities.RewardEntityConstants.DEFAULT_REWARD_COLOR
 import fr.shining_cat.everyday.locale.entities.RewardEntityConstants.NO_ACQUISITION_DATE
 import fr.shining_cat.everyday.locale.entities.RewardEntityConstants.NO_ESCAPING_DATE
@@ -26,8 +31,18 @@ data class RewardEntity(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = REWARD_ID)
     var id: Long = 0L,
     //
-    @ColumnInfo(name = CODE)
-    val code: String,
+    @ColumnInfo(name = FLOWER)
+    val flower: Int,
+    @ColumnInfo(name = MOUTH)
+    val mouth: Int,
+    @ColumnInfo(name = LEGS)
+    val legs: Int,
+    @ColumnInfo(name = ARMS)
+    val arms: Int,
+    @ColumnInfo(name = EYES)
+    val eyes: Int,
+    @ColumnInfo(name = HORNS)
+    val horns: Int,
     @ColumnInfo(name = LEVEL)
     val level: Int,
     @ColumnInfo(name = DATE_ACQUISITION)
@@ -62,7 +77,12 @@ object RewardTable {
 
 object RewardEntityColumnNames {
     const val REWARD_ID = "id"
-    const val CODE = "code"
+    const val FLOWER = "flower"
+    const val MOUTH = "mouth"
+    const val LEGS = "legs"
+    const val ARMS = "arms"
+    const val EYES = "eyes"
+    const val HORNS = "horns"
     const val LEVEL = "level"
     const val DATE_ACQUISITION = "acquisitionDate"
     const val DATE_ESCAPING = "escapingDate"

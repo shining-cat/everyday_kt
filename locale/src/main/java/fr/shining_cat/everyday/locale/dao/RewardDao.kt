@@ -1,20 +1,19 @@
 package fr.shining_cat.everyday.locale.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import fr.shining_cat.everyday.locale.entities.RewardEntity
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.ACTIVE_STATE
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.DATE_ACQUISITION
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.DATE_ESCAPING
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.ESCAPED_STATE
-import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.REWARD_ID
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.LEVEL
+import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.REWARD_ID
 import fr.shining_cat.everyday.locale.entities.RewardTable.REWARD_TABLE
 
 @Dao
 abstract class RewardDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insert(rewards: List<RewardEntity>): Array<Long>
 
     @Update
@@ -31,45 +30,44 @@ abstract class RewardDao {
 ////////////////////////////////////////////////////////////////
 
     @Query("SELECT * from $REWARD_TABLE WHERE $REWARD_ID =:rewardId")
-    abstract fun getRewardLive(rewardId: Long): LiveData<RewardEntity?>
+    abstract suspend fun getReward(rewardId: Long): RewardEntity?
 
     //all "active" rewards, ie all rewards that have at one point been obtained, regardless if they have been lost or not
     //sort on acquisitionDate ASC
     @Query("SELECT * from $REWARD_TABLE WHERE $ACTIVE_STATE == 1 ORDER BY $DATE_ACQUISITION ASC")
-    abstract fun getAllRewardsActiveAcquisitionDateAsc(): LiveData<List<RewardEntity>?>
+    abstract suspend fun getAllRewardsActiveAcquisitionDateAsc(): List<RewardEntity>
 
     //sort on acquisitionDate DESC
     @Query("SELECT * from $REWARD_TABLE WHERE $ACTIVE_STATE == 1 ORDER BY $DATE_ACQUISITION DESC")
-    abstract fun getAllRewardsActiveAcquisitionDateDesc(): LiveData<List<RewardEntity>?>
+    abstract suspend fun getAllRewardsActiveAcquisitionDateDesc(): List<RewardEntity>
 
     //sort on level ASC
     @Query("SELECT * from $REWARD_TABLE WHERE $ACTIVE_STATE == 1 ORDER BY $LEVEL ASC")
-    abstract fun getAllRewardsActiveLevelAsc(): LiveData<List<RewardEntity>?>
+    abstract suspend fun getAllRewardsActiveLevelAsc(): List<RewardEntity>
 
     //sort on level DESC
     @Query("SELECT * from $REWARD_TABLE WHERE $ACTIVE_STATE == 1 ORDER BY $LEVEL DESC")
-    abstract fun getAllRewardsActiveLevelDesc(): LiveData<List<RewardEntity>?>
+    abstract suspend fun getAllRewardsActiveLevelDesc(): List<RewardEntity>
 
     ////////////////////////////////////////////////////////////////
     //ACTIVE and NOT LOST rewards :
     @Query("SELECT * from $REWARD_TABLE WHERE $ACTIVE_STATE == 1 AND $ESCAPED_STATE == 0 ORDER BY $DATE_ACQUISITION DESC")
-    abstract fun getAllRewardsNotEscapedAcquisitionDatDesc(): LiveData<List<RewardEntity>?>
+    abstract suspend fun getAllRewardsNotEscapedAcquisitionDatDesc(): List<RewardEntity>
 
     //ACTIVE and LOST rewards :
     @Query("SELECT * from $REWARD_TABLE WHERE $ACTIVE_STATE == 1 AND $ESCAPED_STATE == 1 ORDER BY $DATE_ESCAPING DESC")
-    abstract fun getAllRewardsEscapedAcquisitionDateDesc(): LiveData<List<RewardEntity>?>
+    abstract suspend fun getAllRewardsEscapedAcquisitionDateDesc(): List<RewardEntity>
 
     //NON ACTIVE rewards for specific LEVEL:
     @Query("SELECT * from $REWARD_TABLE WHERE $LEVEL == :level AND $ACTIVE_STATE == 0")
-    abstract fun getAllRewardsOfSPecificLevelNotActive(level: Int): LiveData<List<RewardEntity>?>
+    abstract suspend fun getAllRewardsOfSpecificLevelNotActive(level: Int): List<RewardEntity>
 
     //NON ACTIVE or ACTIVE and ESCAPED rewards for specific LEVEL:
     @Query("SELECT * from $REWARD_TABLE WHERE $LEVEL == :level AND ($ACTIVE_STATE == 0 OR $ESCAPED_STATE == 1)")
-    abstract fun getAllRewardsOfSPecificLevelNotActiveOrEscaped(level: Int): LiveData<List<RewardEntity>?>
+    abstract suspend fun getAllRewardsOfSpecificLevelNotActiveOrEscaped(level: Int): List<RewardEntity>
 
 ////////////////////////////////////////////////////////////////
     //COUNTS :
-
     //ALL ENTRIES (this is used to determine if possible rewards have been generated already or not)
 
     @Query("SELECT COUNT($REWARD_ID) FROM $REWARD_TABLE")

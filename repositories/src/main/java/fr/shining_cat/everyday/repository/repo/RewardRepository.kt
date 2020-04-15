@@ -1,6 +1,5 @@
 package fr.shining_cat.everyday.repository.repo
 
-import androidx.lifecycle.LiveData
 import fr.shining_cat.everyday.locale.dao.RewardDao
 import fr.shining_cat.everyday.models.Reward
 import fr.shining_cat.everyday.repository.converter.RewardConverter
@@ -10,15 +9,15 @@ interface RewardRepository{
     suspend fun update(rewards: List<Reward>): Int
     suspend fun delete(rewards: List<Reward>): Int
     suspend fun deleteAllRewards(): Int
-    fun getRewardLive(rewardId: Long): LiveData<Reward?>
-    fun rewardsActiveAcquisitionDateAsc(): LiveData<List<Reward>>
-    fun rewardsActiveAcquisitionDateDesc(): LiveData<List<Reward>>
-    fun rewardsActiveLevelAsc(): LiveData<List<Reward>>
-    fun rewardsActiveLevelDesc(): LiveData<List<Reward>>
-    fun rewardsNotEscapedAcquisitionDateDesc(): LiveData<List<Reward>>
-    fun rewardsEscapedAcquisitionDateDesc(): LiveData<List<Reward>>
-    fun rewardsOfSPecificLevelNotActive(level: Int):  LiveData<List<Reward>>
-    fun rewardsOfSPecificLevelNotActiveOrEscaped(level: Int):  LiveData<List<Reward>>
+    suspend fun getReward(rewardId: Long): Reward?
+    suspend fun rewardsActiveAcquisitionDateAsc(): List<Reward>
+    suspend fun rewardsActiveAcquisitionDateDesc(): List<Reward>
+    suspend fun rewardsActiveLevelAsc(): List<Reward>
+    suspend fun rewardsActiveLevelDesc(): List<Reward>
+    suspend fun rewardsNotEscapedAcquisitionDateDesc(): List<Reward>
+    suspend fun rewardsEscapedAcquisitionDateDesc(): List<Reward>
+    suspend fun rewardsOfSPecificLevelNotActive(level: Int):  List<Reward>
+    suspend fun rewardsOfSPecificLevelNotActiveOrEscaped(level: Int):  List<Reward>
     suspend fun allRewardsCount(): Int
     suspend fun activeNotEscapedRewardsForLevel(level: Int):  Int
     suspend fun escapedRewardsForLevel(level: Int):  Int
@@ -36,24 +35,24 @@ class RewardRepositoryImpl(
     override suspend fun delete(rewards: List<Reward>): Int = rewardDao.delete(rewardConverter.convertModelsToEntities(rewards))
     override suspend fun deleteAllRewards(): Int = rewardDao.deleteAllRewards()
 
-    override fun getRewardLive(rewardId: Long): LiveData<Reward?> = rewardConverter.convertEntitytoModel(rewardDao.getRewardLive(rewardId))
+    override suspend fun getReward(rewardId: Long): Reward? = rewardConverter.convertEntitytoModel(rewardDao.getReward(rewardId))
     //rewards active
-    override fun rewardsActiveAcquisitionDateAsc(): LiveData<List<Reward>> = rewardConverter.convertEntitiesToModels(rewardDao.getAllRewardsActiveAcquisitionDateAsc())
-    override fun rewardsActiveAcquisitionDateDesc(): LiveData<List<Reward>> = rewardConverter.convertEntitiesToModels(rewardDao.getAllRewardsActiveAcquisitionDateDesc())
-    override fun rewardsActiveLevelAsc(): LiveData<List<Reward>> = rewardConverter.convertEntitiesToModels(rewardDao.getAllRewardsActiveLevelAsc())
-    override fun rewardsActiveLevelDesc(): LiveData<List<Reward>> = rewardConverter.convertEntitiesToModels(rewardDao.getAllRewardsActiveLevelDesc())
+    override suspend fun rewardsActiveAcquisitionDateAsc(): List<Reward> = rewardConverter.convertEntitiesToModels(rewardDao.getAllRewardsActiveAcquisitionDateAsc())
+    override suspend fun rewardsActiveAcquisitionDateDesc(): List<Reward> = rewardConverter.convertEntitiesToModels(rewardDao.getAllRewardsActiveAcquisitionDateDesc())
+    override suspend fun rewardsActiveLevelAsc(): List<Reward> = rewardConverter.convertEntitiesToModels(rewardDao.getAllRewardsActiveLevelAsc())
+    override suspend fun rewardsActiveLevelDesc(): List<Reward> = rewardConverter.convertEntitiesToModels(rewardDao.getAllRewardsActiveLevelDesc())
 
     //ACTIVE and NOT-LOST rewards :
-    override fun rewardsNotEscapedAcquisitionDateDesc(): LiveData<List<Reward>> = rewardConverter.convertEntitiesToModels(rewardDao.getAllRewardsNotEscapedAcquisitionDatDesc())
+    override suspend fun rewardsNotEscapedAcquisitionDateDesc(): List<Reward> = rewardConverter.convertEntitiesToModels(rewardDao.getAllRewardsNotEscapedAcquisitionDatDesc())
 
     //ACTIVE and LOST rewards :
-    override fun rewardsEscapedAcquisitionDateDesc(): LiveData<List<Reward>> = rewardConverter.convertEntitiesToModels(rewardDao.getAllRewardsEscapedAcquisitionDateDesc())
+    override suspend fun rewardsEscapedAcquisitionDateDesc(): List<Reward> = rewardConverter.convertEntitiesToModels(rewardDao.getAllRewardsEscapedAcquisitionDateDesc())
 
     //NON-ACTIVE rewards for specific LEVEL:
-    override fun rewardsOfSPecificLevelNotActive(level: Int):  LiveData<List<Reward>> = rewardConverter.convertEntitiesToModels(rewardDao.getAllRewardsOfSPecificLevelNotActive(level))
+    override suspend fun rewardsOfSPecificLevelNotActive(level: Int):  List<Reward> = rewardConverter.convertEntitiesToModels(rewardDao.getAllRewardsOfSpecificLevelNotActive(level))
 
     //NON-ACTIVE or ACTIVE-and-ESCAPED rewards for specific LEVEL:
-    override fun rewardsOfSPecificLevelNotActiveOrEscaped(level: Int):  LiveData<List<Reward>> = rewardConverter.convertEntitiesToModels(rewardDao.getAllRewardsOfSPecificLevelNotActiveOrEscaped(level))
+    override suspend fun rewardsOfSPecificLevelNotActiveOrEscaped(level: Int):  List<Reward> = rewardConverter.convertEntitiesToModels(rewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(level))
 
     //COUNTS :
     override suspend fun allRewardsCount(): Int = rewardDao.getNumberOfRows()
