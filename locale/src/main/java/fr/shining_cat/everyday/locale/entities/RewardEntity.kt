@@ -5,26 +5,25 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.ACTIVE_STATE
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.ARMS
+import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.ARMS_COLOR
+import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.BODY_COLOR
+import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.CUSTOM_NAME
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.DATE_ACQUISITION
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.DATE_ESCAPING
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.ESCAPED_STATE
-import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.ARMS_COLOR
-import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.BODY_COLOR
-import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.LEGS_COLOR
-import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.CUSTOM_NAME
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.EYES
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.FLOWER
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.HORNS
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.LEGS
-import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.REWARD_ID
+import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.LEGS_COLOR
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.LEVEL
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.MOUTH
+import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.REWARD_ID
 import fr.shining_cat.everyday.locale.entities.RewardEntityConstants.DEFAULT_REWARD_COLOR
 import fr.shining_cat.everyday.locale.entities.RewardEntityConstants.NO_ACQUISITION_DATE
 import fr.shining_cat.everyday.locale.entities.RewardEntityConstants.NO_ESCAPING_DATE
 import fr.shining_cat.everyday.locale.entities.RewardEntityConstants.NO_NAME
 import fr.shining_cat.everyday.locale.entities.RewardTable.REWARD_TABLE
-
 
 @Entity(tableName = REWARD_TABLE)
 data class RewardEntity(

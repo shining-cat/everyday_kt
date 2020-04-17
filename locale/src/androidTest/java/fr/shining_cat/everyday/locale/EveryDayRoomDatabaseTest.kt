@@ -19,6 +19,9 @@ class EveryDayRoomDatabaseTest{
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-
+    @Test
+    fun testDatabase(){
+        TODO("For now we don't need tests on the database instance")
+    }
 
 }

@@ -158,13 +158,13 @@ class RewardDaoTest {
     //  INSERTS
     /////////////////////////////
     @Test
-    fun insertReward() {
+    fun testInsertReward() {
         insertAndCheckRewardEntities()
         assertTableSize(20)
     }
 
     @Test
-    fun insertWithConflict() {
+    fun testInsertWithConflict() {
         insertAndCheckRewardEntities()
         assertTableSize(20)
         //insert same entities again to cause conflict
@@ -186,7 +186,7 @@ class RewardDaoTest {
     ///////////////////////////////////
 
     @Test
-    fun deleteRewardFromEmptyTable() {
+    fun testDeleteRewardFromEmptyTable() {
         val rewardEntityToDeleteTest = generateReward(desiredId = 25)
         //
         assertTableSize(0)
@@ -198,7 +198,7 @@ class RewardDaoTest {
     }
 
     @Test
-    fun deleteNonExistentReward() {
+    fun testDeleteNonExistentReward() {
         runBlocking {
             rewardDao.insert(
                 listOf(
@@ -222,7 +222,7 @@ class RewardDaoTest {
     }
 
     @Test
-    fun deleteOneRewardTest() {
+    fun testDeleteOneReward() {
         val rewardEntityToDeleteTest = generateReward(desiredId = 25)
         val rewardsToInsertList = mutableListOf<RewardEntity>()
         rewardsToInsertList.add(rewardEntityToDeleteTest)
@@ -242,7 +242,7 @@ class RewardDaoTest {
     }
 
     @Test
-    fun deleteMultiRewardTestOnEmptyTable() {
+    fun testDeleteMultiRewardOnEmptyTable() {
         //create the test-subject list of items
         val rewardsToDeleteList = generateRewards(17)
         assertTableSize(0)
@@ -255,7 +255,7 @@ class RewardDaoTest {
     }
 
     @Test
-    fun deleteMultiRewardTest() {
+    fun testDeleteMultiReward() {
         //insert the test-subject list of items
         val rewardsInserted = generateRewards(17)
         //insert and collect the ids
@@ -275,7 +275,7 @@ class RewardDaoTest {
     }
 
     @Test
-    fun deleteAllRewardTestOnEmptyTable() {
+    fun testDeleteAllRewardOnEmptyTable() {
         assertTableSize(0)
         val numberOfDeletedRows = runBlocking {
             rewardDao.deleteAllRewards()
@@ -285,7 +285,7 @@ class RewardDaoTest {
     }
 
     @Test
-    fun deleteAllRewardTest() {
+    fun testDeleteAllReward() {
         runBlocking {
             rewardDao.insert(generateRewards(73))
         }
@@ -301,9 +301,8 @@ class RewardDaoTest {
     //GETS
     ///////////////////////////////////
 
-
     @Test
-    fun getRewardOnEmptyTableTest() {
+    fun testGetRewardOnEmptyTable() {
         runBlocking {
             assertTableSize(0)
             val rewardEntity = rewardDao.getReward(75)
@@ -312,7 +311,7 @@ class RewardDaoTest {
     }
 
     @Test
-    fun getNonExistentRewardTest() {
+    fun testGetNonExistentReward() {
         runBlocking {
             rewardDao.insert(
                 listOf(
@@ -330,7 +329,7 @@ class RewardDaoTest {
     }
 
     @Test
-    fun getOneRewardTest() {
+    fun testGetOneReward() {
         val rewardEntityInserted = generateReward(
             desiredLevel = 3,
             active = true,
@@ -394,89 +393,12 @@ class RewardDaoTest {
         }
     }
 
+    ///////////////////////////////////
+    //UPDATES
+    ///////////////////////////////////
 
     @Test
-    fun testGetAllRewardsActiveAcquisitionDateAscOnEmptyTable() {
-        runBlocking {
-            assertTrue(rewardDao.getAllRewardsActiveAcquisitionDateAsc().isEmpty())
-        }
-    }
-
-    @Test
-    fun testGetAllRewardsActiveAcquisitionDateDescOnEmptyTable() {
-        runBlocking {
-            assertTrue(rewardDao.getAllRewardsActiveAcquisitionDateDesc().isEmpty())
-        }
-    }
-
-    @Test
-    fun testGetAllRewardsActiveLevelAscOnEmptyTable() {
-        runBlocking {
-            assertTrue(rewardDao.getAllRewardsActiveLevelAsc().isEmpty())
-        }
-    }
-
-    @Test
-    fun testGetAllRewardsActiveLevelDescOnEmptyTable() {
-        runBlocking {
-            assertTrue(rewardDao.getAllRewardsActiveLevelDesc().isEmpty())
-        }
-    }
-
-    @Test
-    fun testGetAllRewardsNotEscapedAcquisitionDatDescOnEmptyTable() {
-        runBlocking {
-            assertTrue(rewardDao.getAllRewardsNotEscapedAcquisitionDatDesc().isEmpty())
-        }
-    }
-
-    @Test
-    fun testGetAllRewardsEscapedAcquisitionDateDescOnEmptyTable() {
-        runBlocking {
-            assertTrue(rewardDao.getAllRewardsEscapedAcquisitionDateDesc().isEmpty())
-        }
-    }
-
-    @Test
-    fun testGetAllRewardsOfSpecificLevelNotActiveOnEmptyTable() {
-        runBlocking {
-            assertTrue(rewardDao.getAllRewardsOfSpecificLevelNotActive(3).isEmpty())
-        }
-    }
-
-    @Test
-    fun testGetAllRewardsOfSpecificLevelNotActiveOrEscapedOnEmptyTable() {
-        runBlocking {
-            assertTrue(rewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(2).isEmpty())
-        }
-    }
-
-    @Test
-    fun testGetNumberOfRowsOnEmptyTable() {
-        runBlocking {
-            assertEquals(0, rewardDao.getNumberOfRows())
-        }
-    }
-
-    @Test
-    fun testGetNumberOfActiveNotEscapedRewardsForLevelOnEmptyTable() {
-        runBlocking {
-            assertEquals(0, rewardDao.getNumberOfActiveNotEscapedRewardsForLevel(4))
-        }
-    }
-
-    @Test
-    fun testGetNumberOfEscapedRewardsForLevelOnEmptyTable() {
-        runBlocking {
-            assertEquals(0, rewardDao.getNumberOfEscapedRewardsForLevel(1))
-        }
-    }
-
-    ////////////////////////////////////////////////////////////////
-
-
-    @Test
-    fun updateOneRewardTestOnEmptyTable() {
+    fun testUpdateOneRewardOnEmptyTable() {
         assertTableSize(0)
         val rewardEntityToUpdate = generateReward(desiredId = 73)
         val numberOfUpdatedItems = runBlocking {
@@ -487,7 +409,7 @@ class RewardDaoTest {
     }
 
     @Test
-    fun updateNonExistentRewardTest() {
+    fun testUpdateNonExistentReward() {
         runBlocking {
             rewardDao.insert(
                 listOf(
@@ -509,7 +431,7 @@ class RewardDaoTest {
     }
 
     @Test
-    fun updateOneRewardTest() {
+    fun testUpdateOneReward() {
         val rewardEntity = generateReward(
             desiredLevel = 5,
             active = true,
@@ -590,7 +512,7 @@ class RewardDaoTest {
     }
 
     @Test
-    fun updateMultipleRewardsTest() {
+    fun testUpdateMultipleRewards() {
         val rewardsToTestUpdateList = listOf(
             generateReward(desiredId = 13),
             generateReward(desiredId = 17),
@@ -762,11 +684,18 @@ class RewardDaoTest {
 
     }
 
-//////////////////////////////////////////////////////////////////
-
+    ///////////////////////////////////
+    //GETS ORDERED AND FILTERED
+    ///////////////////////////////////
+    @Test
+    fun testGetAllRewardsActiveAcquisitionDateAscOnEmptyTable() {
+        runBlocking {
+            assertTrue(rewardDao.getAllRewardsActiveAcquisitionDateAsc().isEmpty())
+        }
+    }
 
     @Test
-    fun getAllRewardsActiveAcquisitionDateAscTest() {
+    fun testGetAllRewardsActiveAcquisitionDateAsc() {
         val rewardsToInsertList = listOf(
             generateReward(active = true, yearAcquired = 1987, monthAcquired = 2, dayAcquired = 9),
             generateReward(
@@ -808,7 +737,14 @@ class RewardDaoTest {
     }
 
     @Test
-    fun getAllRewardsActiveAcquisitionDateDescTest() {
+    fun testGetAllRewardsActiveAcquisitionDateDescOnEmptyTable() {
+        runBlocking {
+            assertTrue(rewardDao.getAllRewardsActiveAcquisitionDateDesc().isEmpty())
+        }
+    }
+
+    @Test
+    fun testGetAllRewardsActiveAcquisitionDateDesc() {
 
         val rewardsToInsertList = listOf(
             generateReward(active = true, yearAcquired = 1987, monthAcquired = 2, dayAcquired = 9),
@@ -852,7 +788,14 @@ class RewardDaoTest {
     }
 
     @Test
-    fun getAllRewardsActiveLevelAscTest() {
+    fun testGetAllRewardsActiveLevelAscOnEmptyTable() {
+        runBlocking {
+            assertTrue(rewardDao.getAllRewardsActiveLevelAsc().isEmpty())
+        }
+    }
+
+    @Test
+    fun testGetAllRewardsActiveLevelAsc() {
 
         val rewardsToInsertList = mutableListOf<RewardEntity>()
         rewardsToInsertList.addAll(generateRewards(42, 1, desiredLevel = 2, active = true))
@@ -886,7 +829,14 @@ class RewardDaoTest {
     }
 
     @Test
-    fun getAllRewardsActiveLevelDescTest() {
+    fun testGetAllRewardsActiveLevelDescOnEmptyTable() {
+        runBlocking {
+            assertTrue(rewardDao.getAllRewardsActiveLevelDesc().isEmpty())
+        }
+    }
+
+    @Test
+    fun testGetAllRewardsActiveLevelDesc() {
 
         val rewardsToInsertList = mutableListOf<RewardEntity>()
         rewardsToInsertList.addAll(generateRewards(29, 1, desiredLevel = 2, active = true))
@@ -922,7 +872,14 @@ class RewardDaoTest {
     }
 
     @Test
-    fun getAllRewardsNotEscapedAcquisitionDatDescTest() {
+    fun testGetAllRewardsNotEscapedAcquisitionDatDescOnEmptyTable() {
+        runBlocking {
+            assertTrue(rewardDao.getAllRewardsNotEscapedAcquisitionDatDesc().isEmpty())
+        }
+    }
+
+    @Test
+    fun testGetAllRewardsNotEscapedAcquisitionDatDesc() {
 
         val rewardsToInsertList = listOf(
             generateReward(escaped = true, yearAcquired = 1987, monthAcquired = 2, dayAcquired = 9),
@@ -989,7 +946,14 @@ class RewardDaoTest {
     }
 
     @Test
-    fun getAllRewardsEscapedAcquisitionDateDescTest() {
+    fun testGetAllRewardsEscapedAcquisitionDateDescOnEmptyTable() {
+        runBlocking {
+            assertTrue(rewardDao.getAllRewardsEscapedAcquisitionDateDesc().isEmpty())
+        }
+    }
+
+    @Test
+    fun testGetAllRewardsEscapedAcquisitionDateDesc() {
 
         val rewardsToInsertList = listOf(
             generateReward(escaped = true, yearAcquired = 1987, monthAcquired = 2, dayAcquired = 9),
@@ -1056,7 +1020,14 @@ class RewardDaoTest {
     }
 
     @Test
-    fun getAllRewardsOfSPecificLevelNotActiveTest() {
+    fun testGetAllRewardsOfSpecificLevelNotActiveOnEmptyTable() {
+        runBlocking {
+            assertTrue(rewardDao.getAllRewardsOfSpecificLevelNotActive(3).isEmpty())
+        }
+    }
+
+    @Test
+    fun testGetAllRewardsOfSPecificLevelNotActive() {
 
         val rewardsToInsertList = mutableListOf<RewardEntity>()
         rewardsToInsertList.addAll(generateRewards(5, 1, 3, active = false, escaped = false))
@@ -1108,7 +1079,14 @@ class RewardDaoTest {
     }
 
     @Test
-    fun getAllRewardsOfSPecificLevelNotActiveOrEscapedTest() {
+    fun testGetAllRewardsOfSpecificLevelNotActiveOrEscapedOnEmptyTable() {
+        runBlocking {
+            assertTrue(rewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(2).isEmpty())
+        }
+    }
+
+    @Test
+    fun testGetAllRewardsOfSPecificLevelNotActiveOrEscaped() {
 
         val rewardsToInsertList = mutableListOf<RewardEntity>()
         rewardsToInsertList.addAll(generateRewards(5, 1, 3, active = false, escaped = false))
@@ -1161,10 +1139,18 @@ class RewardDaoTest {
 
     }
 
-    ////////////////////////////////////////////////////////////////
+    ///////////////////////////////////
+    //COUNTS
+    ///////////////////////////////////
     @Test
-    fun countRewardsTest() {
+    fun testCountRewardsOnEmptyTable() {
+        runBlocking {
+            assertEquals(0, rewardDao.getNumberOfRows())
+        }
+    }
 
+    @Test
+    fun testCountRewards() {
         runBlocking {
             rewardDao.insert(generateRewards(125))
         }
@@ -1177,7 +1163,14 @@ class RewardDaoTest {
     }
 
     @Test
-    fun countRewardsActiveNotEscapedLevelTest() {
+    fun testCountRewardsActiveNotEscapedRewardsForLevelOnEmptyTable() {
+        runBlocking {
+            assertEquals(0, rewardDao.getNumberOfActiveNotEscapedRewardsForLevel(4))
+        }
+    }
+
+    @Test
+    fun testCountRewardsActiveNotEscapedRewardsForLevel() {
 
         val rewardsToInsertList = mutableListOf<RewardEntity>()
         rewardsToInsertList.addAll(generateRewards(3, 1, 1, active = true, escaped = true))
@@ -1210,7 +1203,14 @@ class RewardDaoTest {
     }
 
     @Test
-    fun countRewardsEscapedLevelTest() {
+    fun testCountRewardsEscapedRewardsForLevelOnEmptyTable() {
+        runBlocking {
+            assertEquals(0, rewardDao.getNumberOfEscapedRewardsForLevel(1))
+        }
+    }
+
+    @Test
+    fun testCountRewardsEscapedRewardsForLevel() {
 
         val rewardsToInsertList = mutableListOf<RewardEntity>()
         rewardsToInsertList.addAll(generateRewards(3, 1, 1, active = true, escaped = false))
