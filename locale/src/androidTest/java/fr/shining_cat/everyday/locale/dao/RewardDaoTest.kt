@@ -77,74 +77,49 @@ class RewardDaoTest {
         desiredBodyColor: String = "#00FF0000",
         desiredArmsColor: String = "#0000FF00"
     ): RewardEntity {
-        if (desiredId == -1L) {
-            return RewardEntity(
-                flower = desiredFlower,
-                mouth = desiredMouth,
-                legs = desiredLegs,
-                arms = desiredArms,
-                eyes = desiredEyes,
-                horns = desiredHorns,
-                level = desiredLevel,
-                acquisitionDate = GregorianCalendar(
-                    yearAcquired,
-                    monthAcquired,
-                    dayAcquired
-                ).timeInMillis,
-                escapingDate = GregorianCalendar(
-                    yearEscaped,
-                    monthEscaped,
-                    dayEscaped
-                ).timeInMillis,
-                isActive = active,
-                isEscaped = escaped,
-                name = desiredName,
-                legsColor = desiredLegsColor,
-                bodyColor = desiredBodyColor,
-                armsColor = desiredArmsColor
-            )
-        } else {
-            return RewardEntity(
-                id = desiredId,
-                flower = desiredFlower,
-                mouth = desiredMouth,
-                legs = desiredLegs,
-                arms = desiredArms,
-                eyes = desiredEyes,
-                horns = desiredHorns,
-                level = desiredLevel,
-                acquisitionDate = GregorianCalendar(
-                    yearAcquired,
-                    monthAcquired,
-                    dayAcquired
-                ).timeInMillis,
-                escapingDate = GregorianCalendar(
-                    yearEscaped,
-                    monthEscaped,
-                    dayEscaped
-                ).timeInMillis,
-                isActive = active,
-                isEscaped = escaped,
-                name = desiredName,
-                legsColor = desiredLegsColor,
-                bodyColor = desiredBodyColor,
-                armsColor = desiredArmsColor
-            )
+        val returnEntity = RewardEntity(
+            flower = desiredFlower,
+            mouth = desiredMouth,
+            legs = desiredLegs,
+            arms = desiredArms,
+            eyes = desiredEyes,
+            horns = desiredHorns,
+            level = desiredLevel,
+            acquisitionDate = GregorianCalendar(
+                yearAcquired,
+                monthAcquired,
+                dayAcquired
+            ).timeInMillis,
+            escapingDate = GregorianCalendar(
+                yearEscaped,
+                monthEscaped,
+                dayEscaped
+            ).timeInMillis,
+            isActive = active,
+            isEscaped = escaped,
+            name = desiredName,
+            legsColor = desiredLegsColor,
+            bodyColor = desiredBodyColor,
+            armsColor = desiredArmsColor
+        )
+        if (desiredId != -1L) {
+            returnEntity.id = desiredId
         }
+        return returnEntity
     }
 
     private fun generateRewards(
-        numberOfRewardEntities: Int = 1,
+        numberOfEntities: Int = 1,
         startingId: Long = 1L,
         desiredLevel: Int = 1,
         active: Boolean = true,
         escaped: Boolean = false
     ): List<RewardEntity> {
         val returnList = mutableListOf<RewardEntity>()
-        for (i in startingId until (startingId + numberOfRewardEntities)) {
+        for (i in startingId until (startingId + numberOfEntities)) {
             returnList.add(
                 generateReward(
-                    desiredId = i.toLong(),
+                    desiredId = i,
                     desiredLevel = desiredLevel,
                     active = active,
                     escaped = escaped
