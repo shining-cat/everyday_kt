@@ -5,7 +5,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import fr.shining_cat.everyday.locale.EveryDayRoomDatabase
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntity
-import fr.shining_cat.everyday.testutils.extensions.getValueBlocking
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.*
@@ -29,10 +28,18 @@ class SessionRecordDaoTest {
         tearDown()
         EveryDayRoomDatabase.TEST_MODE = true
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        sessionRecordDao = EveryDayRoomDatabase.getInstance(appContext).sessionDao()
+        sessionRecordDao = EveryDayRoomDatabase.getInstance(appContext).sessionRecordDao()
         emptyTableAndCheck()
     }
 
+    @After
+    fun tearDown() {
+        EveryDayRoomDatabase.closeAndDestroy()
+    }
+
+    /////////////////////////////
+    //  UTILS
+    /////////////////////////////
     private fun emptyTableAndCheck() {
         runBlocking {
             sessionRecordDao.deleteAllSessions()
@@ -47,10 +54,6 @@ class SessionRecordDaoTest {
         assertEquals(expectedCount, count)
     }
 
-    @After
-    fun tearDown() {
-        EveryDayRoomDatabase.closeAndDestroy()
-    }
 
     private fun generateSessions(numberOfSessions: Int = 1): List<SessionRecordEntity> {
         val returnList = mutableListOf<SessionRecordEntity>()
@@ -131,8 +134,7 @@ class SessionRecordDaoTest {
                 realDurationVsPlanned = realDurationVsPlanned,
                 guideMp3 = guideMp3
             )
-        }
-        else {
+        } else {
             return SessionRecordEntity(
                 id = desiredId,
                 startTimeOfRecord = GregorianCalendar(
@@ -170,10 +172,11 @@ class SessionRecordDaoTest {
         }
     }
 
-//////////////////////////////////////////////////////////////////
-
+    /////////////////////////////
+    //  INSERTS
+    /////////////////////////////
     @Test
-    fun insert() {
+    fun insertOne() {
         val sessionRecordEntityTestID = runBlocking {
             sessionRecordDao.insert(listOf(generateSessionRecordEntity(desiredId = 25)))
         }
@@ -196,6 +199,9 @@ class SessionRecordDaoTest {
         checkTotalCountIs(20)
     }
 
+    /////////////////////////////
+    //  DELETES
+    /////////////////////////////
     @Test
     fun deleteSessionFromEmptyTable() {
         val sessionRecordEntityToDelete = generateSessionRecordEntity(desiredId = 25)
@@ -269,13 +275,16 @@ class SessionRecordDaoTest {
         assertEquals(73, numberOfDeletedRows)
         checkTotalCountIs(0)
     }
+    /////////////////////////////
+    //  GETS
+    /////////////////////////////
 
     @Test
     fun getSessionOnEmptyTableTest() {
         checkTotalCountIs(0)
-        val sessionRecordEntityExtractedLive = sessionRecordDao.getSession(75)
-        assertNotNull(sessionRecordEntityExtractedLive)
-        val sessionRecordEntityExtracted = sessionRecordEntityExtractedLive.getValueBlocking()
+        val sessionRecordEntityExtracted = runBlocking {
+            sessionRecordDao.getSession(75)
+        }
         assertNull(sessionRecordEntityExtracted)
     }
 
@@ -293,9 +302,9 @@ class SessionRecordDaoTest {
             )
         }
         checkTotalCountIs(5)
-        val sessionRecordEntityExtractedLive = sessionRecordDao.getSession(73)
-        assertNotNull(sessionRecordEntityExtractedLive)
-        val sessionRecordEntityExtracted = sessionRecordEntityExtractedLive.getValueBlocking()
+        val sessionRecordEntityExtracted = runBlocking {
+            sessionRecordDao.getSession(73)
+        }
         assertNull(sessionRecordEntityExtracted)
     }
 
@@ -343,9 +352,9 @@ class SessionRecordDaoTest {
             )
         }
         checkTotalCountIs(6)
-        val sessionRecordEntityExtractedLive = sessionRecordDao.getSession(73)
-        assertNotNull(sessionRecordEntityExtractedLive)
-        val sessionRecordEntityExtracted = sessionRecordEntityExtractedLive.getValueBlocking()
+        val sessionRecordEntityExtracted = runBlocking {
+            sessionRecordDao.getSession(73)
+        }
         assertNotNull(sessionRecordEntityExtracted)
         if (sessionRecordEntityExtracted != null) {
             assertEquals(73, sessionRecordEntityExtracted.id)
@@ -373,6 +382,9 @@ class SessionRecordDaoTest {
         }
     }
 
+    /////////////////////////////
+    //  UPDATES
+    /////////////////////////////
     @Test
     fun updateNonExistentSession() {
         val sessionRecordEntityToUpdate = generateSessionRecordEntity(desiredId = 25)
@@ -456,9 +468,9 @@ class SessionRecordDaoTest {
         }
         assertEquals(1, numberOfUpdatedItems)
         checkTotalCountIs(21)
-        val sessionRecordEntityExtractedLive = sessionRecordDao.getSession(73)
-        assertNotNull(sessionRecordEntityExtractedLive)
-        val sessionRecordEntityExtracted = sessionRecordEntityExtractedLive.getValueBlocking()
+        val sessionRecordEntityExtracted = runBlocking {
+            sessionRecordDao.getSession(73)
+        }
         assertNotNull(sessionRecordEntityExtracted)
         if (sessionRecordEntityExtracted != null) {
             assertEquals(73, sessionRecordEntityExtracted.id)
@@ -485,17 +497,19 @@ class SessionRecordDaoTest {
             assertEquals("updateSession guideMp3 UPDATED", sessionRecordEntityExtracted.guideMp3)
         }
     }
+    ///////////////////////////////////
+    //GETS ORDERED AND FILTERED
+    ///////////////////////////////////
 
     @Test
     fun getAllSessionsStartTimeAscOnEmptyTable() {
         checkTotalCountIs(0)
-        val sessionRecordEntitysExtractedLive = sessionRecordDao.getAllSessionsStartTimeAsc()
-        assertNotNull(sessionRecordEntitysExtractedLive)
-        val sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
-        assertNotNull(sessionRecordEntitysSorted)
-        if (sessionRecordEntitysSorted != null) {
-            assertEquals(0, sessionRecordEntitysSorted.size)
+        val sessionRecordEntitiesSorted = runBlocking {
+            sessionRecordDao.getAllSessionsStartTimeAsc()
         }
+        assertNotNull(sessionRecordEntitiesSorted)
+        assertEquals(0, sessionRecordEntitiesSorted.size)
+
     }
 
     @Test
@@ -512,31 +526,29 @@ class SessionRecordDaoTest {
             sessionRecordDao.insert(sessionToInsertList)
         }
         checkTotalCountIs(6)
-        val sessionRecordEntitysExtractedLive = sessionRecordDao.getAllSessionsStartTimeAsc()
-        assertNotNull(sessionRecordEntitysExtractedLive)
-        val sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
-        assertNotNull(sessionRecordEntitysSorted)
-        if (sessionRecordEntitysSorted != null) {
-            assertEquals(6, sessionRecordEntitysSorted.size)
-            var date = 0L
-            for (i in sessionRecordEntitysSorted.indices) {
-                assert(sessionRecordEntitysSorted[i].startTimeOfRecord >= date)
-                date = sessionRecordEntitysSorted[i].startTimeOfRecord
-                assertEquals(date, sessionRecordEntitysSorted[i].startTimeOfRecord)
-            }
+        val sessionRecordEntitiesSorted = runBlocking {
+            sessionRecordDao.getAllSessionsStartTimeAsc()
         }
+        assertNotNull(sessionRecordEntitiesSorted)
+        assertEquals(6, sessionRecordEntitiesSorted.size)
+        var date = 0L
+        for (i in sessionRecordEntitiesSorted.indices) {
+            assert(sessionRecordEntitiesSorted[i].startTimeOfRecord >= date)
+            date = sessionRecordEntitiesSorted[i].startTimeOfRecord
+            assertEquals(date, sessionRecordEntitiesSorted[i].startTimeOfRecord)
+        }
+
     }
 
     @Test
     fun getAllSessionsStartTimeDescOnEmptyTable() {
         checkTotalCountIs(0)
-        val sessionRecordEntitysExtractedLive = sessionRecordDao.getAllSessionsStartTimeDesc()
-        assertNotNull(sessionRecordEntitysExtractedLive)
-        val sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
-        assertNotNull(sessionRecordEntitysSorted)
-        if (sessionRecordEntitysSorted != null) {
-            assertEquals(0, sessionRecordEntitysSorted.size)
+        val sessionRecordEntitiesSorted = runBlocking {
+            sessionRecordDao.getAllSessionsStartTimeDesc()
         }
+        assertNotNull(sessionRecordEntitiesSorted)
+        assertEquals(0, sessionRecordEntitiesSorted.size)
+
     }
 
     @Test
@@ -553,32 +565,32 @@ class SessionRecordDaoTest {
             sessionRecordDao.insert(sessionToInsertList)
         }
         checkTotalCountIs(6)
-        val sessionRecordEntitysExtractedLive = sessionRecordDao.getAllSessionsStartTimeDesc()
-        assertNotNull(sessionRecordEntitysExtractedLive)
-        val sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
-        assertNotNull(sessionRecordEntitysSorted)
-        if (sessionRecordEntitysSorted != null) {
-            assertEquals(6, sessionRecordEntitysSorted.size)
-            var date =
-                sessionRecordEntitysSorted[sessionRecordEntitysSorted.size - 1].startTimeOfRecord
-            for (i in 4 downTo 0) {
-                assert(sessionRecordEntitysSorted[i].startTimeOfRecord <= date)
-                date = sessionRecordEntitysSorted[i].startTimeOfRecord
-                assertEquals(date, sessionRecordEntitysSorted[i].startTimeOfRecord)
-            }
+        val sessionRecordEntitiesSorted = runBlocking {
+            sessionRecordDao.getAllSessionsStartTimeDesc()
         }
+        assertNotNull(sessionRecordEntitiesSorted)
+
+        assertEquals(6, sessionRecordEntitiesSorted.size)
+        var date =
+            sessionRecordEntitiesSorted[sessionRecordEntitiesSorted.size - 1].startTimeOfRecord
+        for (i in 4 downTo 0) {
+            assert(sessionRecordEntitiesSorted[i].startTimeOfRecord <= date)
+            date = sessionRecordEntitiesSorted[i].startTimeOfRecord
+            assertEquals(date, sessionRecordEntitiesSorted[i].startTimeOfRecord)
+        }
+
+
     }
 
     @Test
     fun getAllSessionsDurationAscOnEmptyTable() {
         checkTotalCountIs(0)
-        val sessionRecordEntitysExtractedLive = sessionRecordDao.getAllSessionsStartTimeAsc()
-        assertNotNull(sessionRecordEntitysExtractedLive)
-        val sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
-        assertNotNull(sessionRecordEntitysSorted)
-        if (sessionRecordEntitysSorted != null) {
-            assertEquals(0, sessionRecordEntitysSorted.size)
+        val sessionRecordEntitiesSorted = runBlocking {
+            sessionRecordDao.getAllSessionsStartTimeAsc()
         }
+        assertNotNull(sessionRecordEntitiesSorted)
+
+        assertEquals(0, sessionRecordEntitiesSorted.size)
     }
 
     @Test
@@ -595,31 +607,31 @@ class SessionRecordDaoTest {
             sessionRecordDao.insert(sessionToInsertList)
         }
         checkTotalCountIs(6)
-        val sessionRecordEntitysExtractedLive = sessionRecordDao.getAllSessionsStartTimeAsc()
-        assertNotNull(sessionRecordEntitysExtractedLive)
-        val sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
-        assertNotNull(sessionRecordEntitysSorted)
-        if (sessionRecordEntitysSorted != null) {
-            assertEquals(6, sessionRecordEntitysSorted.size)
-            var duration = 0L
-            for (i in sessionRecordEntitysSorted.indices) {
-                assert(sessionRecordEntitysSorted[i].realDuration >= duration)
-                duration = sessionRecordEntitysSorted[i].realDuration
-                assertEquals(duration, sessionRecordEntitysSorted[i].realDuration)
-            }
+        val sessionRecordEntitiesSorted = runBlocking {
+            sessionRecordDao.getAllSessionsStartTimeAsc()
         }
+        assertNotNull(sessionRecordEntitiesSorted)
+
+        assertEquals(6, sessionRecordEntitiesSorted.size)
+        var duration = 0L
+        for (i in sessionRecordEntitiesSorted.indices) {
+            assert(sessionRecordEntitiesSorted[i].realDuration >= duration)
+            duration = sessionRecordEntitiesSorted[i].realDuration
+            assertEquals(duration, sessionRecordEntitiesSorted[i].realDuration)
+        }
+
     }
 
     @Test
     fun getAllSessionsDurationDescOnEmptyTable() {
         checkTotalCountIs(0)
-        val sessionRecordEntitysExtractedLive = sessionRecordDao.getAllSessionsStartTimeDesc()
-        assertNotNull(sessionRecordEntitysExtractedLive)
-        val sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
-        assertNotNull(sessionRecordEntitysSorted)
-        if (sessionRecordEntitysSorted != null) {
-            assertEquals(0, sessionRecordEntitysSorted.size)
+        val sessionRecordEntitiesSorted = runBlocking {
+            sessionRecordDao.getAllSessionsStartTimeDesc()
         }
+        assertNotNull(sessionRecordEntitiesSorted)
+
+        assertEquals(0, sessionRecordEntitiesSorted.size)
+
     }
 
     @Test
@@ -636,32 +648,32 @@ class SessionRecordDaoTest {
             sessionRecordDao.insert(sessionToInsertList)
         }
         checkTotalCountIs(6)
-        val sessionRecordEntitysExtractedLive = sessionRecordDao.getAllSessionsStartTimeDesc()
-        assertNotNull(sessionRecordEntitysExtractedLive)
-        val sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
-        assertNotNull(sessionRecordEntitysSorted)
-        if (sessionRecordEntitysSorted != null) {
-            assertEquals(6, sessionRecordEntitysSorted.size)
-            var duration =
-                sessionRecordEntitysSorted[sessionRecordEntitysSorted.size - 1].realDuration
-            for (i in 4 downTo 0) {
-                assert(sessionRecordEntitysSorted[i].realDuration <= duration)
-                duration = sessionRecordEntitysSorted[i].realDuration
-                assertEquals(duration, sessionRecordEntitysSorted[i].realDuration)
-            }
+        val sessionRecordEntitiesSorted = runBlocking {
+            sessionRecordDao.getAllSessionsStartTimeDesc()
         }
+        assertNotNull(sessionRecordEntitiesSorted)
+
+        assertEquals(6, sessionRecordEntitiesSorted.size)
+        var duration =
+            sessionRecordEntitiesSorted[sessionRecordEntitiesSorted.size - 1].realDuration
+        for (i in 4 downTo 0) {
+            assert(sessionRecordEntitiesSorted[i].realDuration <= duration)
+            duration = sessionRecordEntitiesSorted[i].realDuration
+            assertEquals(duration, sessionRecordEntitiesSorted[i].realDuration)
+        }
+
     }
 
     @Test
     fun getAllSessionsWithMp3OnEmptyTable() {
         checkTotalCountIs(0)
-        val sessionRecordEntitysExtractedLive = sessionRecordDao.getAllSessionsWithMp3()
-        assertNotNull(sessionRecordEntitysExtractedLive)
-        val sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
-        assertNotNull(sessionRecordEntitysSorted)
-        if (sessionRecordEntitysSorted != null) {
-            assertEquals(0, sessionRecordEntitysSorted.size)
+        val sessionRecordEntitiesSorted = runBlocking {
+            sessionRecordDao.getAllSessionsWithMp3()
         }
+        assertNotNull(sessionRecordEntitiesSorted)
+
+        assertEquals(0, sessionRecordEntitiesSorted.size)
+
     }
 
     @Test
@@ -679,28 +691,28 @@ class SessionRecordDaoTest {
             sessionRecordDao.insert(sessionToInsertList)
         }
         checkTotalCountIs(7)
-        val sessionRecordEntitysExtractedLive = sessionRecordDao.getAllSessionsWithMp3()
-        assertNotNull(sessionRecordEntitysExtractedLive)
-        val sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
-        assertNotNull(sessionRecordEntitysSorted)
-        if (sessionRecordEntitysSorted != null) {
-            assertEquals(3, sessionRecordEntitysSorted.size)
-            for (i in sessionRecordEntitysSorted.indices) {
-                assert(sessionRecordEntitysSorted[i].guideMp3 != "")
-            }
+        val sessionRecordEntitiesSorted = runBlocking {
+            sessionRecordDao.getAllSessionsWithMp3()
         }
+        assertNotNull(sessionRecordEntitiesSorted)
+
+        assertEquals(3, sessionRecordEntitiesSorted.size)
+        for (i in sessionRecordEntitiesSorted.indices) {
+            assert(sessionRecordEntitiesSorted[i].guideMp3 != "")
+        }
+
     }
 
     @Test
     fun getAllSessionsWithoutMp3OnEmptyTable() {
         checkTotalCountIs(0)
-        val sessionRecordEntitysExtractedLive = sessionRecordDao.getAllSessionsWithoutMp3()
-        assertNotNull(sessionRecordEntitysExtractedLive)
-        val sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
-        assertNotNull(sessionRecordEntitysSorted)
-        if (sessionRecordEntitysSorted != null) {
-            assertEquals(0, sessionRecordEntitysSorted.size)
+        val sessionRecordEntitiesSorted = runBlocking {
+            sessionRecordDao.getAllSessionsWithoutMp3()
         }
+        assertNotNull(sessionRecordEntitiesSorted)
+
+        assertEquals(0, sessionRecordEntitiesSorted.size)
+
     }
 
     @Test
@@ -718,29 +730,29 @@ class SessionRecordDaoTest {
             sessionRecordDao.insert(sessionToInsertList)
         }
         checkTotalCountIs(7)
-        val sessionRecordEntitysExtractedLive = sessionRecordDao.getAllSessionsWithoutMp3()
-        assertNotNull(sessionRecordEntitysExtractedLive)
-        val sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
-        assertNotNull(sessionRecordEntitysSorted)
-        if (sessionRecordEntitysSorted != null) {
-            assertEquals(4, sessionRecordEntitysSorted.size)
-            for (i in sessionRecordEntitysSorted.indices) {
-                assert(sessionRecordEntitysSorted[i].guideMp3 == "")
-            }
+        val sessionRecordEntitiesSorted = runBlocking {
+            sessionRecordDao.getAllSessionsWithoutMp3()
         }
+        assertNotNull(sessionRecordEntitiesSorted)
+
+        assertEquals(4, sessionRecordEntitiesSorted.size)
+        for (i in sessionRecordEntitiesSorted.indices) {
+            assert(sessionRecordEntitiesSorted[i].guideMp3 == "")
+        }
+
     }
 
     @Test
     fun getSessionsSearchOnEmptyTable() {
         checkTotalCountIs(0)
         //
-        var sessionRecordEntitysExtractedLive = sessionRecordDao.getSessionsSearch("test 1")
-        assertNotNull(sessionRecordEntitysExtractedLive)
-        var sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
-        assertNotNull(sessionRecordEntitysSorted)
-        if (sessionRecordEntitysSorted != null) {
-            assertEquals(0, sessionRecordEntitysSorted.size)
+        val sessionRecordEntitiesSorted = runBlocking {
+            sessionRecordDao.getSessionsSearch("test 1")
         }
+        assertNotNull(sessionRecordEntitiesSorted)
+
+        assertEquals(0, sessionRecordEntitiesSorted.size)
+
 
     }
 
@@ -762,85 +774,83 @@ class SessionRecordDaoTest {
         }
         checkTotalCountIs(13)
         //
-        var sessionRecordEntitysExtractedLive = sessionRecordDao.getSessionsSearch("test 1")
-        assertNotNull(sessionRecordEntitysExtractedLive)
-        var sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
-        assertNotNull(sessionRecordEntitysSorted)
-        if (sessionRecordEntitysSorted != null) {
-            assertEquals(2, sessionRecordEntitysSorted.size)
-            for (i in sessionRecordEntitysSorted.indices) {
-                assert(
-                    sessionRecordEntitysSorted[i].guideMp3.contains("test 1") || sessionRecordEntitysSorted[i].notes.contains(
-                        "test 1"
-                    )
+        var sessionRecordEntitiesSorted = runBlocking {
+            sessionRecordDao.getSessionsSearch("test 1")
+        }
+        assertNotNull(sessionRecordEntitiesSorted)
+
+        assertEquals(2, sessionRecordEntitiesSorted.size)
+        for (i in sessionRecordEntitiesSorted.indices) {
+            assert(
+                sessionRecordEntitiesSorted[i].guideMp3.contains("test 1") || sessionRecordEntitiesSorted[i].notes.contains(
+                    "test 1"
                 )
-            }
+            )
+
         }
-        //
-        sessionRecordEntitysExtractedLive = sessionRecordDao.getSessionsSearch("test")
-        assertNotNull(sessionRecordEntitysExtractedLive)
-        sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
-        assertNotNull(sessionRecordEntitysSorted)
-        if (sessionRecordEntitysSorted != null) {
-            assertEquals(8, sessionRecordEntitysSorted.size)
-            for (i in sessionRecordEntitysSorted.indices) {
-                assert(
-                    sessionRecordEntitysSorted[i].guideMp3.contains("test") || sessionRecordEntitysSorted[i].notes.contains(
-                        "test"
-                    )
+//
+        sessionRecordEntitiesSorted = runBlocking {
+            sessionRecordDao.getSessionsSearch("test")
+        }
+        assertNotNull(sessionRecordEntitiesSorted)
+
+        assertEquals(8, sessionRecordEntitiesSorted.size)
+        for (i in sessionRecordEntitiesSorted.indices) {
+            assert(
+                sessionRecordEntitiesSorted[i].guideMp3.contains("test") || sessionRecordEntitiesSorted[i].notes.contains(
+                    "test"
                 )
-            }
+            )
         }
-        //
-        sessionRecordEntitysExtractedLive = sessionRecordDao.getSessionsSearch("2")
-        assertNotNull(sessionRecordEntitysExtractedLive)
-        sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
-        assertNotNull(sessionRecordEntitysSorted)
-        if (sessionRecordEntitysSorted != null) {
-            assertEquals(4, sessionRecordEntitysSorted.size)
-            for (i in sessionRecordEntitysSorted.indices) {
-                assert(
-                    sessionRecordEntitysSorted[i].guideMp3.contains("2") || sessionRecordEntitysSorted[i].notes.contains(
-                        "2"
-                    )
+
+//
+        sessionRecordEntitiesSorted = runBlocking {
+            sessionRecordDao.getSessionsSearch("2")
+        }
+        assertNotNull(sessionRecordEntitiesSorted)
+
+        assertEquals(4, sessionRecordEntitiesSorted.size)
+        for (i in sessionRecordEntitiesSorted.indices) {
+            assert(
+                sessionRecordEntitiesSorted[i].guideMp3.contains("2") || sessionRecordEntitiesSorted[i].notes.contains(
+                    "2"
                 )
-            }
+            )
         }
-        //
-        sessionRecordEntitysExtractedLive = sessionRecordDao.getSessionsSearch("notes test 2")
-        assertNotNull(sessionRecordEntitysExtractedLive)
-        sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
-        assertNotNull(sessionRecordEntitysSorted)
-        if (sessionRecordEntitysSorted != null) {
-            assertEquals(2, sessionRecordEntitysSorted.size)
-            for (i in sessionRecordEntitysSorted.indices) {
-                assert(
-                    sessionRecordEntitysSorted[i].guideMp3.contains("notes test 2") || sessionRecordEntitysSorted[i].notes.contains(
-                        "notes test 2"
-                    )
+
+//
+        sessionRecordEntitiesSorted = runBlocking {
+            sessionRecordDao.getSessionsSearch("notes test 2")
+        }
+        assertNotNull(sessionRecordEntitiesSorted)
+
+        assertEquals(2, sessionRecordEntitiesSorted.size)
+        for (i in sessionRecordEntitiesSorted.indices) {
+            assert(
+                sessionRecordEntitiesSorted[i].guideMp3.contains("notes test 2") || sessionRecordEntitiesSorted[i].notes.contains(
+                    "notes test 2"
                 )
-            }
+            )
         }
-        //
-        sessionRecordEntitysExtractedLive = sessionRecordDao.getSessionsSearch("tralala test")
-        assertNotNull(sessionRecordEntitysExtractedLive)
-        sessionRecordEntitysSorted = sessionRecordEntitysExtractedLive.getValueBlocking()
-        assertNotNull(sessionRecordEntitysSorted)
-        if (sessionRecordEntitysSorted != null) {
-            assertEquals(0, sessionRecordEntitysSorted.size)
+
+//
+        sessionRecordEntitiesSorted = runBlocking {
+            sessionRecordDao.getSessionsSearch("tralala test")
         }
+        assertNotNull(sessionRecordEntitiesSorted)
+
+        assertEquals(0, sessionRecordEntitiesSorted.size)
     }
 
     @Test
     fun getAllSessionsNotLiveStartTimeAscOnEmptyTable() {
         checkTotalCountIs(0)
-        val sessionRecordEntitysExtracted = runBlocking {
+        val sessionRecordEntitiesExtracted = runBlocking {
             sessionRecordDao.asyncGetAllSessionsStartTimeAsc()
         }
-        assertNotNull(sessionRecordEntitysExtracted)
-        if (sessionRecordEntitysExtracted != null) {
-            assertEquals(0, sessionRecordEntitysExtracted.size)
-        }
+        assertNotNull(sessionRecordEntitiesExtracted)
+        assertEquals(0, sessionRecordEntitiesExtracted.size)
+
     }
 
     @Test
@@ -857,17 +867,17 @@ class SessionRecordDaoTest {
             sessionRecordDao.insert(sessionToInsertList)
         }
         checkTotalCountIs(6)
-        val sessionRecordEntitysExtracted = runBlocking {
+        val sessionRecordEntitiesExtracted = runBlocking {
             sessionRecordDao.asyncGetAllSessionsStartTimeAsc()
         }
-        assertNotNull(sessionRecordEntitysExtracted)
-        if (sessionRecordEntitysExtracted != null) {
-            assertEquals(6, sessionRecordEntitysExtracted.size)
+        assertNotNull(sessionRecordEntitiesExtracted)
+        if (sessionRecordEntitiesExtracted != null) {
+            assertEquals(6, sessionRecordEntitiesExtracted.size)
             var date = 0L
-            for (i in sessionRecordEntitysExtracted.indices) {
-                assert(sessionRecordEntitysExtracted[i].startTimeOfRecord >= date)
-                date = sessionRecordEntitysExtracted[i].startTimeOfRecord
-                assertEquals(date, sessionRecordEntitysExtracted[i].startTimeOfRecord)
+            for (i in sessionRecordEntitiesExtracted.indices) {
+                assert(sessionRecordEntitiesExtracted[i].startTimeOfRecord >= date)
+                date = sessionRecordEntitiesExtracted[i].startTimeOfRecord
+                assertEquals(date, sessionRecordEntitiesExtracted[i].startTimeOfRecord)
             }
         }
     }

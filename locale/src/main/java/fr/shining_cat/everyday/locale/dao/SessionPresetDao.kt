@@ -9,16 +9,22 @@ import fr.shining_cat.everyday.locale.entities.SessionPresetTable.SESSION_PRESET
 @Dao
 abstract class SessionPresetDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insert(sessionPresets: List<SessionPresetEntity>): Array<Long>
 
     @Update
-    abstract suspend fun updateSessionPreset(sessionPreset: SessionPresetEntity): Int
+    abstract suspend fun update(sessionPreset: SessionPresetEntity): Int
 
     @Delete
-    abstract suspend fun deleteSessionPreset(reward: SessionPresetEntity): Int
+    abstract suspend fun delete(sessionPresets: List<SessionPresetEntity>): Int
+
+    @Query("DELETE FROM $SESSION_PRESET_TABLE_NAME")
+    abstract suspend fun deleteAllSessionPresets(): Int
 
     @Query("SELECT * from $SESSION_PRESET_TABLE_NAME ORDER BY $SESSION_PRESET_ID ASC")
-    abstract fun getSessionPresets(): LiveData<SessionPresetEntity?>
+    abstract suspend fun getSessionPresets(): List<SessionPresetEntity>
+
+    @Query("SELECT COUNT($SESSION_PRESET_ID) FROM $SESSION_PRESET_TABLE_NAME")
+    abstract suspend fun getNumberOfRows(): Int
 
 }

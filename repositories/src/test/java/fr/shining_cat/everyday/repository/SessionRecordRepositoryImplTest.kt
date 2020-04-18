@@ -1,6 +1,5 @@
 package fr.shining_cat.everyday.repository
 
-import androidx.lifecycle.LiveData
 import fr.shining_cat.everyday.locale.dao.SessionRecordDao
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntity
 import fr.shining_cat.everyday.models.SessionRecord
@@ -29,10 +28,7 @@ class SessionRecordRepositoryImplTest : AbstractBaseTest() {
     private lateinit var mockSessionRecord: SessionRecord
 
     @Mock
-    lateinit var sessionRecordEntityLive: LiveData<SessionRecordEntity?>
-
-    @Mock
-    lateinit var sessionEntitiesLive: LiveData<List<SessionRecordEntity>?>
+    lateinit var mockSessionRecordEntity: SessionRecordEntity
 
     private lateinit var sessionRecordRepo: SessionRecordRepository
 
@@ -41,26 +37,26 @@ class SessionRecordRepositoryImplTest : AbstractBaseTest() {
         MockitoAnnotations.initMocks(this)
         assertNotNull(mockSessionRecordDao)
         assertNotNull(mockSessionRecord)
-        assertNotNull(sessionRecordEntityLive)
-        assertNotNull(sessionEntitiesLive)
+        assertNotNull(mockSessionRecordEntity)
         sessionRecordRepo =
             SessionRecordRepositoryImpl(
                 mockSessionRecordDao,
                 mockSessionRecordConverter
             )
         Mockito.`when`(mockSessionRecordDao.getAllSessionsStartTimeAsc())
-            .thenReturn(sessionEntitiesLive)
+            .thenReturn(listOf(mockSessionRecordEntity))
         Mockito.`when`(mockSessionRecordDao.getAllSessionsStartTimeDesc())
-            .thenReturn(sessionEntitiesLive)
+            .thenReturn(listOf(mockSessionRecordEntity))
         Mockito.`when`(mockSessionRecordDao.getAllSessionsDurationAsc())
-            .thenReturn(sessionEntitiesLive)
+            .thenReturn(listOf(mockSessionRecordEntity))
         Mockito.`when`(mockSessionRecordDao.getAllSessionsDurationDesc())
-            .thenReturn(sessionEntitiesLive)
-        Mockito.`when`(mockSessionRecordDao.getAllSessionsWithMp3()).thenReturn(sessionEntitiesLive)
+            .thenReturn(listOf(mockSessionRecordEntity))
+        Mockito.`when`(mockSessionRecordDao.getAllSessionsWithMp3())
+            .thenReturn(listOf(mockSessionRecordEntity))
         Mockito.`when`(mockSessionRecordDao.getAllSessionsWithoutMp3())
-            .thenReturn(sessionEntitiesLive)
+            .thenReturn(listOf(mockSessionRecordEntity))
         Mockito.`when`(mockSessionRecordDao.getSessionsSearch(anyString()))
-            .thenReturn(sessionEntitiesLive)
+            .thenReturn(listOf(mockSessionRecordEntity))
     }
 
     /**

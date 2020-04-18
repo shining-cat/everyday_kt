@@ -7,19 +7,23 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 import fr.shining_cat.everyday.locale.dao.RewardDao
+import fr.shining_cat.everyday.locale.dao.SessionPresetDao
 import fr.shining_cat.everyday.locale.dao.SessionRecordDao
 import fr.shining_cat.everyday.locale.entities.RewardEntity
+import fr.shining_cat.everyday.locale.entities.SessionPresetEntity
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntity
 
-@Database(entities = [SessionRecordEntity::class, RewardEntity::class], version = 1, exportSchema = false)
+@Database(entities = [SessionRecordEntity::class, RewardEntity::class, SessionPresetEntity::class], version = 1, exportSchema = false)
 abstract class EveryDayRoomDatabase : RoomDatabase() {
 
     /**
      * Connects the database to the DAOs.
      */
-    abstract fun sessionDao(): SessionRecordDao
+    abstract fun sessionRecordDao(): SessionRecordDao
 
     abstract fun rewardDao(): RewardDao
+
+    abstract fun sessionPresetDao(): SessionPresetDao
 
     companion object {
         var TEST_MODE = false

@@ -5,10 +5,12 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import fr.shining_cat.everyday.locale.EveryDayRoomDatabase
 import fr.shining_cat.everyday.locale.entities.RewardEntity
-import fr.shining_cat.everyday.testutils.extensions.getValueBlocking
 import kotlinx.coroutines.runBlocking
-import org.junit.*
+import org.junit.After
 import org.junit.Assert.*
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.*
 
@@ -30,14 +32,18 @@ class RewardDaoTest {
         emptyTableAndCheck()
     }
 
+
+    /////////////////////////////
+    //  UTILS
+    /////////////////////////////
     private fun emptyTableAndCheck() {
         runBlocking {
             rewardDao.deleteAllRewards()
         }
-        checkTotalCountIs(0)
+        assertTableSize(0)
     }
 
-    private fun checkTotalCountIs(expectedCount: Int) {
+    private fun assertTableSize(expectedCount: Int) {
         val count = runBlocking {
             rewardDao.getNumberOfRows()
         }
@@ -50,11 +56,16 @@ class RewardDaoTest {
     }
 
     private fun generateReward(
+        desiredFlower: Int = 1,
+        desiredMouth: Int = 1,
+        desiredLegs: Int = 1,
+        desiredArms: Int = 1,
+        desiredEyes: Int = 1,
+        desiredHorns: Int = 1,
         desiredLevel: Int = 1,
         active: Boolean = true,
         escaped: Boolean = false,
         desiredId: Long = -1,
-        desiredCode: String = "any code",
         yearAcquired: Int = 2000,
         monthAcquired: Int = 5,
         dayAcquired: Int = 13,
@@ -66,97 +77,103 @@ class RewardDaoTest {
         desiredBodyColor: String = "#00FF0000",
         desiredArmsColor: String = "#0000FF00"
     ): RewardEntity {
-        if (desiredId == -1L) {
-            return RewardEntity(
-                code = desiredCode,
-                level = desiredLevel,
-                acquisitionDate = GregorianCalendar(
-                    yearAcquired,
-                    monthAcquired,
-                    dayAcquired
-                ).timeInMillis,
-                escapingDate = GregorianCalendar(
-                    yearEscaped,
-                    monthEscaped,
-                    dayEscaped
-                ).timeInMillis,
-                isActive = active,
-                isEscaped = escaped,
-                name = desiredName,
-                legsColor = desiredLegsColor,
-                bodyColor = desiredBodyColor,
-                armsColor = desiredArmsColor
-            )
+        val returnEntity = RewardEntity(
+            flower = desiredFlower,
+            mouth = desiredMouth,
+            legs = desiredLegs,
+            arms = desiredArms,
+            eyes = desiredEyes,
+            horns = desiredHorns,
+            level = desiredLevel,
+            acquisitionDate = GregorianCalendar(
+                yearAcquired,
+                monthAcquired,
+                dayAcquired
+            ).timeInMillis,
+            escapingDate = GregorianCalendar(
+                yearEscaped,
+                monthEscaped,
+                dayEscaped
+            ).timeInMillis,
+            isActive = active,
+            isEscaped = escaped,
+            name = desiredName,
+            legsColor = desiredLegsColor,
+            bodyColor = desiredBodyColor,
+            armsColor = desiredArmsColor
+        )
+        if (desiredId != -1L) {
+            returnEntity.id = desiredId
         }
-        else {
-            return RewardEntity(
-                id = desiredId,
-                code = desiredCode,
-                level = desiredLevel,
-                acquisitionDate = GregorianCalendar(
-                    yearAcquired,
-                    monthAcquired,
-                    dayAcquired
-                ).timeInMillis,
-                escapingDate = GregorianCalendar(
-                    yearEscaped,
-                    monthEscaped,
-                    dayEscaped
-                ).timeInMillis,
-                isActive = active,
-                isEscaped = escaped,
-                name = desiredName,
-                legsColor = desiredLegsColor,
-                bodyColor = desiredBodyColor,
-                armsColor = desiredArmsColor
-            )
-        }
+        return returnEntity
     }
 
     private fun generateRewards(
-        numberOfRewardsDto: Int = 1,
+        numberOfEntities: Int = 1,
+        startingId: Long = 1L,
         desiredLevel: Int = 1,
         active: Boolean = true,
         escaped: Boolean = false
     ): List<RewardEntity> {
         val returnList = mutableListOf<RewardEntity>()
-        for (i in 0 until numberOfRewardsDto) {
-            returnList.add(generateReward(desiredLevel, active, escaped))
+        for (i in startingId until (startingId + numberOfEntities)) {
+            returnList.add(
+                generateReward(
+                    desiredId = i,
+                    desiredLevel = desiredLevel,
+                    active = active,
+                    escaped = escaped
+                )
+            )
         }
         return returnList
     }
 
-    ////////////////////////////////////////////////////////////////
+    /////////////////////////////
+    //  INSERTS
+    /////////////////////////////
     @Test
-    fun insertMultiRewardTest() {
+    fun testInsertReward() {
+        insertAndCheckRewardEntities()
+        assertTableSize(20)
+    }
+
+    @Test
+    fun testInsertWithConflict() {
+        insertAndCheckRewardEntities()
+        assertTableSize(20)
+        //insert same entities again to cause conflict
+        insertAndCheckRewardEntities()
+        assertTableSize(20)
+    }
+
+    private fun insertAndCheckRewardEntities() {
         val rewardsToInsertList = generateRewards(20)
+        assertEquals(20, rewardsToInsertList.size)
         val insertedIds = runBlocking {
             rewardDao.insert(rewardsToInsertList)
         }
         assertEquals(20, insertedIds.size)
-        assertNotNull(insertedIds)
-        var i = 1L
-        for (id in insertedIds) {
-            assertEquals(i, id)
-            i++
-        }
-        checkTotalCountIs(20)
     }
 
+    ///////////////////////////////////
+    //DELETES
+    ///////////////////////////////////
+
     @Test
-    fun deleteRewardFromEmptyTable() {
+    fun testDeleteRewardFromEmptyTable() {
         val rewardEntityToDeleteTest = generateReward(desiredId = 25)
         //
-        checkTotalCountIs(0)
+        assertTableSize(0)
         val countDeleted = runBlocking {
             rewardDao.delete(listOf(rewardEntityToDeleteTest))
         }
         assertEquals(0, countDeleted)
-        checkTotalCountIs(0)
+        assertTableSize(0)
     }
 
     @Test
-    fun deleteNonExistentReward() {
+    fun testDeleteNonExistentReward() {
         runBlocking {
             rewardDao.insert(
                 listOf(
@@ -171,16 +188,16 @@ class RewardDaoTest {
         }
         val rewardEntityToDeleteTest = generateReward(desiredId = 723)
         //
-        checkTotalCountIs(6)
+        assertTableSize(6)
         val countDeleted = runBlocking {
             rewardDao.delete(listOf(rewardEntityToDeleteTest))
         }
         assertEquals(0, countDeleted)
-        checkTotalCountIs(6)
+        assertTableSize(6)
     }
 
     @Test
-    fun deleteOneRewardTest() {
+    fun testDeleteOneReward() {
         val rewardEntityToDeleteTest = generateReward(desiredId = 25)
         val rewardsToInsertList = mutableListOf<RewardEntity>()
         rewardsToInsertList.add(rewardEntityToDeleteTest)
@@ -188,95 +205,88 @@ class RewardDaoTest {
         runBlocking {
             rewardDao.insert(rewardsToInsertList)
         }
-        checkTotalCountIs(51)
+        assertTableSize(50)
         //
         val countDeleted = runBlocking {
             rewardDao.delete(listOf(rewardEntityToDeleteTest))
         }
         assertEquals(1, countDeleted)
         //
-        checkTotalCountIs(50)
+        assertTableSize(49)
 
     }
 
     @Test
-    fun deleteMultiRewardTestOnEmptyTable() {
+    fun testDeleteMultiRewardOnEmptyTable() {
         //create the test-subject list of items
         val rewardsToDeleteList = generateRewards(17)
-        checkTotalCountIs(0)
+        assertTableSize(0)
         //delete test-subject list of items
         val numberOfDeletedRows = runBlocking {
             rewardDao.delete(rewardsToDeleteList)
         }
-        checkTotalCountIs(0)
+        assertTableSize(0)
         assertEquals(0, numberOfDeletedRows)
     }
 
     @Test
-    fun deleteMultiRewardTest() {
+    fun testDeleteMultiReward() {
         //insert the test-subject list of items
-        val rewardsToDeleteList = generateRewards(17)
+        val rewardsInserted = generateRewards(17)
         //insert and collect the ids
         val insertedIds = runBlocking {
-            rewardDao.insert(rewardsToDeleteList)
+            rewardDao.insert(rewardsInserted)
         }
         assertNotNull(insertedIds)
         assertEquals(17, insertedIds.size)
-        var i = 1L //first index generated in DB will be 1 and not 0
-        for (id in insertedIds) {
-            assertEquals(i, id)
-            rewardsToDeleteList[i.toInt() - 1].id =
-                id //update test-subject list with ids from insertion
-            i++
-        }
-        checkTotalCountIs(17)
-        //insert some more data
-        runBlocking {
-            rewardDao.insert(generateRewards(29))
-        }
-        checkTotalCountIs(46)
+        val rewardsToDelete = rewardsInserted.subList(0, 10)
+
         //delete test-subject list of items
         val numberOfDeletedRows = runBlocking {
-            rewardDao.delete(rewardsToDeleteList)
+            rewardDao.delete(rewardsToDelete)
         }
-        checkTotalCountIs(29)
-        assertEquals(17, numberOfDeletedRows)
+        assertEquals(10, numberOfDeletedRows)
+        assertTableSize(7)
     }
 
     @Test
-    fun deleteAllRewardTestOnEmptyTable() {
-        checkTotalCountIs(0)
+    fun testDeleteAllRewardOnEmptyTable() {
+        assertTableSize(0)
         val numberOfDeletedRows = runBlocking {
             rewardDao.deleteAllRewards()
         }
         assertEquals(0, numberOfDeletedRows)
-        checkTotalCountIs(0)
+        assertTableSize(0)
     }
 
     @Test
-    fun deleteAllRewardTest() {
+    fun testDeleteAllReward() {
         runBlocking {
             rewardDao.insert(generateRewards(73))
         }
-        checkTotalCountIs(73)
+        assertTableSize(73)
         val numberOfDeletedRows = runBlocking {
             rewardDao.deleteAllRewards()
         }
         assertEquals(73, numberOfDeletedRows)
-        checkTotalCountIs(0)
+        assertTableSize(0)
+    }
+
+    ///////////////////////////////////
+    //GETS
+    ///////////////////////////////////
+
+    @Test
+    fun testGetRewardOnEmptyTable() {
+        runBlocking {
+            assertTableSize(0)
+            val rewardEntity = rewardDao.getReward(75)
+            assertNull(rewardEntity)
+        }
     }
 
     @Test
-    fun getRewardOnEmptyTableTest() {
-        checkTotalCountIs(0)
-        val rewardEntityExtractedLive = rewardDao.getRewardLive(75)
-        assertNotNull(rewardEntityExtractedLive)
-        val rewardEntityExtracted = rewardEntityExtractedLive.getValueBlocking()
-        assertNull(rewardEntityExtracted)
-    }
-
-    @Test
-    fun getNonExistentRewardTest() {
+    fun testGetNonExistentReward() {
         runBlocking {
             rewardDao.insert(
                 listOf(
@@ -287,21 +297,19 @@ class RewardDaoTest {
                     generateReward(desiredId = 29)
                 )
             )
+            assertTableSize(5)
+            val rewardEntity = rewardDao.getReward(73)
+            assertNull(rewardEntity)
         }
-        checkTotalCountIs(5)
-        val rewardEntityExtractedLive = rewardDao.getRewardLive(73)
-        assertNotNull(rewardEntityExtractedLive)
-        val rewardEntityExtracted = rewardEntityExtractedLive.getValueBlocking()
-        assertNull(rewardEntityExtracted)
     }
 
     @Test
-    fun getOneRewardTest() {
-        val rewardEntity = generateReward(
+    fun testGetOneReward() {
+        val rewardEntityInserted = generateReward(
             desiredLevel = 3,
             active = true,
             escaped = false,
-            desiredId = 83,
+            desiredId = 83L,
             yearAcquired = 1989,
             monthAcquired = 3,
             dayAcquired = 7,
@@ -313,9 +321,14 @@ class RewardDaoTest {
             desiredBodyColor = "getOneRewardTest body color",
             desiredArmsColor = "getOneRewardTest arms color"
         )
-        val rewardCode = rewardEntity.code
+        val flower = rewardEntityInserted.flower
+        val mouth = rewardEntityInserted.mouth
+        val legs = rewardEntityInserted.legs
+        val arms = rewardEntityInserted.arms
+        val eyes = rewardEntityInserted.eyes
+        val horns = rewardEntityInserted.horns
         val rewardEntityInsertedTestID = runBlocking {
-            rewardDao.insert(listOf(rewardEntity))
+            rewardDao.insert(listOf(rewardEntityInserted))
         }
         assertNotNull(rewardEntityInsertedTestID)
         assertEquals(83L, rewardEntityInsertedTestID[0])
@@ -323,46 +336,55 @@ class RewardDaoTest {
         runBlocking {
             rewardDao.insert(generateRewards(13))
         }
-        checkTotalCountIs(14)
+        assertTableSize(14)
         //
-        val rewardEntityExtractedLive = rewardDao.getRewardLive(rewardEntityInsertedTestID[0])
-        assertNotNull(rewardEntityExtractedLive)
-        val rewardEntityExtracted = rewardEntityExtractedLive.getValueBlocking()
-        assertNotNull(rewardEntityExtracted)
-        if (rewardEntityExtracted != null) {
-            assertEquals(83, rewardEntityExtracted.id)
-            assertEquals(3, rewardEntityExtracted.level)
-            assertEquals(rewardCode, rewardEntityExtracted.code)
+        val rewardEntity = runBlocking {
+            rewardDao.getReward(rewardEntityInsertedTestID[0])
+        }
+        assertNotNull(rewardEntity)
+        if (rewardEntity != null) {
+            assertEquals(83, rewardEntity.id)
+            assertEquals(3, rewardEntity.level)
+            assertEquals(flower, rewardEntity.flower)
+            assertEquals(mouth, rewardEntity.mouth)
+            assertEquals(legs, rewardEntity.legs)
+            assertEquals(arms, rewardEntity.arms)
+            assertEquals(eyes, rewardEntity.eyes)
+            assertEquals(horns, rewardEntity.horns)
             assertEquals(
                 GregorianCalendar(1989, 3, 7).timeInMillis,
-                rewardEntityExtracted.acquisitionDate
+                rewardEntity.acquisitionDate
             )
             assertEquals(
                 GregorianCalendar(1997, 8, 13).timeInMillis,
-                rewardEntityExtracted.escapingDate
+                rewardEntity.escapingDate
             )
-            assertEquals(true, rewardEntityExtracted.isActive)
-            assertEquals(false, rewardEntityExtracted.isEscaped)
-            assertEquals("getOneRewardTest is my name", rewardEntityExtracted.name)
-            assertEquals("getOneRewardTest legs color", rewardEntityExtracted.legsColor)
-            assertEquals("getOneRewardTest body color", rewardEntityExtracted.bodyColor)
-            assertEquals("getOneRewardTest arms color", rewardEntityExtracted.armsColor)
+            assertEquals(true, rewardEntity.isActive)
+            assertEquals(false, rewardEntity.isEscaped)
+            assertEquals("getOneRewardTest is my name", rewardEntity.name)
+            assertEquals("getOneRewardTest legs color", rewardEntity.legsColor)
+            assertEquals("getOneRewardTest body color", rewardEntity.bodyColor)
+            assertEquals("getOneRewardTest arms color", rewardEntity.armsColor)
         }
     }
 
+    ///////////////////////////////////
+    //UPDATES
+    ///////////////////////////////////
+
     @Test
-    fun updateOneRewardTestOnEmptyTable() {
-        checkTotalCountIs(0)
+    fun testUpdateOneRewardOnEmptyTable() {
+        assertTableSize(0)
         val rewardEntityToUpdate = generateReward(desiredId = 73)
         val numberOfUpdatedItems = runBlocking {
             rewardDao.update(listOf(rewardEntityToUpdate))
         }
         assertEquals(0, numberOfUpdatedItems)
-        checkTotalCountIs(0)
+        assertTableSize(0)
     }
 
     @Test
-    fun updateNonExistentRewardTest() {
+    fun testUpdateNonExistentReward() {
         runBlocking {
             rewardDao.insert(
                 listOf(
@@ -374,17 +396,17 @@ class RewardDaoTest {
                 )
             )
         }
-        checkTotalCountIs(5)
+        assertTableSize(5)
         val rewardEntityToUpdate = generateReward(desiredId = 73)
         val numberOfUpdatedItems = runBlocking {
             rewardDao.update(listOf(rewardEntityToUpdate))
         }
         assertEquals(0, numberOfUpdatedItems)
-        checkTotalCountIs(5)
+        assertTableSize(5)
     }
 
     @Test
-    fun updateOneRewardTest() {
+    fun testUpdateOneReward() {
         val rewardEntity = generateReward(
             desiredLevel = 5,
             active = true,
@@ -401,7 +423,12 @@ class RewardDaoTest {
             desiredBodyColor = "updateOneRewardTest body color",
             desiredArmsColor = "updateOneRewardTest arms color"
         )
-        val rewardCode = rewardEntity.code
+        val flower = rewardEntity.flower
+        val mouth = rewardEntity.mouth
+        val legs = rewardEntity.legs
+        val arms = rewardEntity.arms
+        val eyes = rewardEntity.eyes
+        val horns = rewardEntity.horns
         val rewardEntityInsertedTestID = runBlocking {
             rewardDao.insert(listOf(rewardEntity))
         }
@@ -409,9 +436,9 @@ class RewardDaoTest {
         assertEquals(43L, rewardEntityInsertedTestID[0])
 
         runBlocking {
-            rewardDao.insert(generateRewards(53))
+            rewardDao.insert(generateRewards(53, 100))
         }
-        checkTotalCountIs(54)
+        assertTableSize(54)
         //
         rewardEntity.acquisitionDate = GregorianCalendar(2019, 6, 16).timeInMillis
         rewardEntity.escapingDate = GregorianCalendar(2020, 5, 22).timeInMillis
@@ -426,15 +453,20 @@ class RewardDaoTest {
             rewardDao.update(listOf(rewardEntity))
         }
         assertEquals(1, numberOfUpdatedItems)
-        checkTotalCountIs(54)
-        val rewardEntityUpdatedLive = rewardDao.getRewardLive(rewardEntity.id)
-        assertNotNull(rewardEntityUpdatedLive)
-        val rewardEntityUpdated = rewardEntityUpdatedLive.getValueBlocking()
+        assertTableSize(54)
+        val rewardEntityUpdated = runBlocking {
+            rewardDao.getReward(rewardEntity.id)
+        }
         assertNotNull(rewardEntityUpdated)
         if (rewardEntityUpdated != null) {
             assertEquals(43, rewardEntityUpdated.id)
             assertEquals(5, rewardEntityUpdated.level)
-            assertEquals(rewardCode, rewardEntityUpdated.code)
+            assertEquals(flower, rewardEntityUpdated.flower)
+            assertEquals(mouth, rewardEntityUpdated.mouth)
+            assertEquals(legs, rewardEntityUpdated.legs)
+            assertEquals(arms, rewardEntityUpdated.arms)
+            assertEquals(eyes, rewardEntityUpdated.eyes)
+            assertEquals(horns, rewardEntityUpdated.horns)
             assertEquals(
                 GregorianCalendar(2019, 6, 16).timeInMillis,
                 rewardEntityUpdated.acquisitionDate
@@ -455,7 +487,7 @@ class RewardDaoTest {
     }
 
     @Test
-    fun updateMultipleRewardsTest() {
+    fun testUpdateMultipleRewards() {
         val rewardsToTestUpdateList = listOf(
             generateReward(desiredId = 13),
             generateReward(desiredId = 17),
@@ -508,14 +540,19 @@ class RewardDaoTest {
         }
         assertEquals(4, numberOfUpdatedItems)
         //
-        var rewardEntityUpdatedLive = rewardDao.getRewardLive(rewardsToTestUpdateList[0].id)
-        assertNotNull(rewardEntityUpdatedLive)
-        val rewardEntityUpdated0 = rewardEntityUpdatedLive.getValueBlocking()
+        val rewardEntityUpdated0 = runBlocking {
+            rewardDao.getReward(rewardsToTestUpdateList[0].id)
+        }
         assertNotNull(rewardEntityUpdated0)
         if (rewardEntityUpdated0 != null) {
             assertEquals(rewardsToTestUpdateList[0].id, rewardEntityUpdated0.id)
             assertEquals(rewardsToTestUpdateList[0].level, rewardEntityUpdated0.level)
-            assertEquals(rewardsToTestUpdateList[0].code, rewardEntityUpdated0.code)
+            assertEquals(rewardsToTestUpdateList[0].flower, rewardEntityUpdated0.flower)
+            assertEquals(rewardsToTestUpdateList[0].mouth, rewardEntityUpdated0.mouth)
+            assertEquals(rewardsToTestUpdateList[0].legs, rewardEntityUpdated0.legs)
+            assertEquals(rewardsToTestUpdateList[0].arms, rewardEntityUpdated0.arms)
+            assertEquals(rewardsToTestUpdateList[0].eyes, rewardEntityUpdated0.eyes)
+            assertEquals(rewardsToTestUpdateList[0].horns, rewardEntityUpdated0.horns)
             assertEquals(
                 GregorianCalendar(2019, 1, 16).timeInMillis,
                 rewardEntityUpdated0.acquisitionDate
@@ -532,14 +569,19 @@ class RewardDaoTest {
             assertEquals("armsColor updated 0", rewardEntityUpdated0.armsColor)
         }
         //
-        rewardEntityUpdatedLive = rewardDao.getRewardLive(rewardsToTestUpdateList[1].id)
-        assertNotNull(rewardEntityUpdatedLive)
-        val rewardEntityUpdated1 = rewardEntityUpdatedLive.getValueBlocking()
+        val rewardEntityUpdated1 = runBlocking {
+            rewardDao.getReward(rewardsToTestUpdateList[1].id)
+        }
         assertNotNull(rewardEntityUpdated1)
         if (rewardEntityUpdated1 != null) {
             assertEquals(rewardsToTestUpdateList[1].id, rewardEntityUpdated1.id)
             assertEquals(rewardsToTestUpdateList[1].level, rewardEntityUpdated1.level)
-            assertEquals(rewardsToTestUpdateList[1].code, rewardEntityUpdated1.code)
+            assertEquals(rewardsToTestUpdateList[1].flower, rewardEntityUpdated1.flower)
+            assertEquals(rewardsToTestUpdateList[1].mouth, rewardEntityUpdated1.mouth)
+            assertEquals(rewardsToTestUpdateList[1].legs, rewardEntityUpdated1.legs)
+            assertEquals(rewardsToTestUpdateList[1].arms, rewardEntityUpdated1.arms)
+            assertEquals(rewardsToTestUpdateList[1].eyes, rewardEntityUpdated1.eyes)
+            assertEquals(rewardsToTestUpdateList[1].horns, rewardEntityUpdated1.horns)
             assertEquals(
                 GregorianCalendar(2019, 2, 16).timeInMillis,
                 rewardEntityUpdated1.acquisitionDate
@@ -556,14 +598,19 @@ class RewardDaoTest {
             assertEquals("armsColor updated 1", rewardEntityUpdated1.armsColor)
         }
         //
-        rewardEntityUpdatedLive = rewardDao.getRewardLive(rewardsToTestUpdateList[2].id)
-        assertNotNull(rewardEntityUpdatedLive)
-        val rewardEntityUpdated2 = rewardEntityUpdatedLive.getValueBlocking()
+        val rewardEntityUpdated2 = runBlocking {
+            rewardDao.getReward(rewardsToTestUpdateList[2].id)
+        }
         assertNotNull(rewardEntityUpdated2)
         if (rewardEntityUpdated2 != null) {
             assertEquals(rewardsToTestUpdateList[2].id, rewardEntityUpdated2.id)
             assertEquals(rewardsToTestUpdateList[2].level, rewardEntityUpdated2.level)
-            assertEquals(rewardsToTestUpdateList[2].code, rewardEntityUpdated2.code)
+            assertEquals(rewardsToTestUpdateList[2].flower, rewardEntityUpdated2.flower)
+            assertEquals(rewardsToTestUpdateList[2].mouth, rewardEntityUpdated2.mouth)
+            assertEquals(rewardsToTestUpdateList[2].legs, rewardEntityUpdated2.legs)
+            assertEquals(rewardsToTestUpdateList[2].arms, rewardEntityUpdated2.arms)
+            assertEquals(rewardsToTestUpdateList[2].eyes, rewardEntityUpdated2.eyes)
+            assertEquals(rewardsToTestUpdateList[2].horns, rewardEntityUpdated2.horns)
             assertEquals(
                 GregorianCalendar(2019, 3, 16).timeInMillis,
                 rewardEntityUpdated2.acquisitionDate
@@ -580,14 +627,19 @@ class RewardDaoTest {
             assertEquals("armsColor updated 2", rewardEntityUpdated2.armsColor)
         }
         //
-        rewardEntityUpdatedLive = rewardDao.getRewardLive(rewardsToTestUpdateList[3].id)
-        assertNotNull(rewardEntityUpdatedLive)
-        val rewardEntityUpdated3 = rewardEntityUpdatedLive.getValueBlocking()
+        val rewardEntityUpdated3 = runBlocking {
+            rewardDao.getReward(rewardsToTestUpdateList[3].id)
+        }
         assertNotNull(rewardEntityUpdated3)
         if (rewardEntityUpdated3 != null) {
             assertEquals(rewardsToTestUpdateList[3].id, rewardEntityUpdated3.id)
             assertEquals(rewardsToTestUpdateList[3].level, rewardEntityUpdated3.level)
-            assertEquals(rewardsToTestUpdateList[3].code, rewardEntityUpdated3.code)
+            assertEquals(rewardsToTestUpdateList[3].flower, rewardEntityUpdated3.flower)
+            assertEquals(rewardsToTestUpdateList[3].mouth, rewardEntityUpdated3.mouth)
+            assertEquals(rewardsToTestUpdateList[3].legs, rewardEntityUpdated3.legs)
+            assertEquals(rewardsToTestUpdateList[3].arms, rewardEntityUpdated3.arms)
+            assertEquals(rewardsToTestUpdateList[3].eyes, rewardEntityUpdated3.eyes)
+            assertEquals(rewardsToTestUpdateList[3].horns, rewardEntityUpdated3.horns)
             assertEquals(
                 GregorianCalendar(2019, 4, 16).timeInMillis,
                 rewardEntityUpdated3.acquisitionDate
@@ -607,11 +659,18 @@ class RewardDaoTest {
 
     }
 
-//////////////////////////////////////////////////////////////////
-
+    ///////////////////////////////////
+    //GETS ORDERED AND FILTERED
+    ///////////////////////////////////
+    @Test
+    fun testGetAllRewardsActiveAcquisitionDateAscOnEmptyTable() {
+        runBlocking {
+            assertTrue(rewardDao.getAllRewardsActiveAcquisitionDateAsc().isEmpty())
+        }
+    }
 
     @Test
-    fun getAllRewardsActiveAcquisitionDateAscTest() {
+    fun testGetAllRewardsActiveAcquisitionDateAsc() {
         val rewardsToInsertList = listOf(
             generateReward(active = true, yearAcquired = 1987, monthAcquired = 2, dayAcquired = 9),
             generateReward(
@@ -634,10 +693,10 @@ class RewardDaoTest {
         runBlocking {
             rewardDao.insert(rewardsToInsertList)
         }
-        checkTotalCountIs(7)
-        val rewardEntitySortedLive = rewardDao.getAllRewardsActiveAcquisitionDateAsc()
-        assertNotNull(rewardEntitySortedLive)
-        val rewardEntitySorted = rewardEntitySortedLive.getValueBlocking()
+        assertTableSize(7)
+        val rewardEntitySorted = runBlocking {
+            rewardDao.getAllRewardsActiveAcquisitionDateAsc()
+        }
         assertNotNull(rewardEntitySorted)
         if (rewardEntitySorted != null) {
             assertEquals(4, rewardEntitySorted.size)
@@ -653,7 +712,14 @@ class RewardDaoTest {
     }
 
     @Test
-    fun getAllRewardsActiveAcquisitionDateDescTest() {
+    fun testGetAllRewardsActiveAcquisitionDateDescOnEmptyTable() {
+        runBlocking {
+            assertTrue(rewardDao.getAllRewardsActiveAcquisitionDateDesc().isEmpty())
+        }
+    }
+
+    @Test
+    fun testGetAllRewardsActiveAcquisitionDateDesc() {
 
         val rewardsToInsertList = listOf(
             generateReward(active = true, yearAcquired = 1987, monthAcquired = 2, dayAcquired = 9),
@@ -677,10 +743,10 @@ class RewardDaoTest {
         runBlocking {
             rewardDao.insert(rewardsToInsertList)
         }
-        checkTotalCountIs(7)
-        val rewardEntitySortedLive = rewardDao.getAllRewardsActiveAcquisitionDateDesc()
-        assertNotNull(rewardEntitySortedLive)
-        val rewardEntitySorted = rewardEntitySortedLive.getValueBlocking()
+        assertTableSize(7)
+        val rewardEntitySorted = runBlocking {
+            rewardDao.getAllRewardsActiveAcquisitionDateDesc()
+        }
         assertNotNull(rewardEntitySorted)
         if (rewardEntitySorted != null) {
             assertEquals(4, rewardEntitySorted.size)
@@ -697,24 +763,32 @@ class RewardDaoTest {
     }
 
     @Test
-    fun getAllRewardsActiveLevelAscTest() {
+    fun testGetAllRewardsActiveLevelAscOnEmptyTable() {
+        runBlocking {
+            assertTrue(rewardDao.getAllRewardsActiveLevelAsc().isEmpty())
+        }
+    }
+
+    @Test
+    fun testGetAllRewardsActiveLevelAsc() {
 
         val rewardsToInsertList = mutableListOf<RewardEntity>()
-        rewardsToInsertList.addAll(generateRewards(42, desiredLevel = 2, active = true))
-        rewardsToInsertList.addAll(generateRewards(51, desiredLevel = 3, active = true))
-        rewardsToInsertList.addAll(generateRewards(67, desiredLevel = 4, active = true))
-        rewardsToInsertList.addAll(generateRewards(83, desiredLevel = 5, active = true))
-        rewardsToInsertList.addAll(generateRewards(21, desiredLevel = 2, active = false))
-        rewardsToInsertList.addAll(generateRewards(34, desiredLevel = 3, active = false))
-        rewardsToInsertList.addAll(generateRewards(47, desiredLevel = 4, active = false))
-        rewardsToInsertList.addAll(generateRewards(59, desiredLevel = 5, active = false))
+        rewardsToInsertList.addAll(generateRewards(42, 1, desiredLevel = 2, active = true))
+        rewardsToInsertList.addAll(generateRewards(51, 100, desiredLevel = 3, active = true))
+        rewardsToInsertList.addAll(generateRewards(67, 200, desiredLevel = 4, active = true))
+        rewardsToInsertList.addAll(generateRewards(83, 300, desiredLevel = 5, active = true))
+        rewardsToInsertList.addAll(generateRewards(21, 400, desiredLevel = 2, active = false))
+        rewardsToInsertList.addAll(generateRewards(34, 500, desiredLevel = 3, active = false))
+        rewardsToInsertList.addAll(generateRewards(47, 600, desiredLevel = 4, active = false))
+        rewardsToInsertList.addAll(generateRewards(59, 700, desiredLevel = 5, active = false))
+
         runBlocking {
             rewardDao.insert(rewardsToInsertList)
         }
-        checkTotalCountIs(404)
-        val rewardEntitySortedLive = rewardDao.getAllRewardsActiveLevelAsc()
-        assertNotNull(rewardEntitySortedLive)
-        val rewardEntitySorted = rewardEntitySortedLive.getValueBlocking()
+        assertTableSize(404)
+        val rewardEntitySorted = runBlocking {
+            rewardDao.getAllRewardsActiveLevelAsc()
+        }
         assertNotNull(rewardEntitySorted)
         if (rewardEntitySorted != null) {
             assertEquals(243, rewardEntitySorted.size)
@@ -730,25 +804,32 @@ class RewardDaoTest {
     }
 
     @Test
-    fun getAllRewardsActiveLevelDescTest() {
+    fun testGetAllRewardsActiveLevelDescOnEmptyTable() {
+        runBlocking {
+            assertTrue(rewardDao.getAllRewardsActiveLevelDesc().isEmpty())
+        }
+    }
+
+    @Test
+    fun testGetAllRewardsActiveLevelDesc() {
 
         val rewardsToInsertList = mutableListOf<RewardEntity>()
-        rewardsToInsertList.addAll(generateRewards(29, desiredLevel = 2, active = true))
-        rewardsToInsertList.addAll(generateRewards(19, desiredLevel = 3, active = true))
-        rewardsToInsertList.addAll(generateRewards(42, desiredLevel = 4, active = true))
-        rewardsToInsertList.addAll(generateRewards(81, desiredLevel = 5, active = true))
-        rewardsToInsertList.addAll(generateRewards(8, desiredLevel = 2, active = false))
-        rewardsToInsertList.addAll(generateRewards(17, desiredLevel = 3, active = false))
-        rewardsToInsertList.addAll(generateRewards(38, desiredLevel = 4, active = false))
-        rewardsToInsertList.addAll(generateRewards(91, desiredLevel = 5, active = false))
+        rewardsToInsertList.addAll(generateRewards(29, 1, desiredLevel = 2, active = true))
+        rewardsToInsertList.addAll(generateRewards(19, 100, desiredLevel = 3, active = true))
+        rewardsToInsertList.addAll(generateRewards(42, 200, desiredLevel = 4, active = true))
+        rewardsToInsertList.addAll(generateRewards(81, 300, desiredLevel = 5, active = true))
+        rewardsToInsertList.addAll(generateRewards(8, 400, desiredLevel = 2, active = false))
+        rewardsToInsertList.addAll(generateRewards(17, 500, desiredLevel = 3, active = false))
+        rewardsToInsertList.addAll(generateRewards(38, 600, desiredLevel = 4, active = false))
+        rewardsToInsertList.addAll(generateRewards(91, 700, desiredLevel = 5, active = false))
         runBlocking {
             rewardDao.insert(rewardsToInsertList)
         }
-        checkTotalCountIs(325)
+        assertTableSize(325)
 
-        val rewardEntitySortedLive = rewardDao.getAllRewardsActiveLevelDesc()
-        assertNotNull(rewardEntitySortedLive)
-        val rewardEntitySorted = rewardEntitySortedLive.getValueBlocking()
+        val rewardEntitySorted = runBlocking {
+            rewardDao.getAllRewardsActiveLevelDesc()
+        }
         assertNotNull(rewardEntitySorted)
         if (rewardEntitySorted != null) {
             assertEquals(171, rewardEntitySorted.size)
@@ -766,7 +847,14 @@ class RewardDaoTest {
     }
 
     @Test
-    fun getAllRewardsNotEscapedAcquisitionDatDescTest() {
+    fun testGetAllRewardsNotEscapedAcquisitionDatDescOnEmptyTable() {
+        runBlocking {
+            assertTrue(rewardDao.getAllRewardsNotEscapedAcquisitionDatDesc().isEmpty())
+        }
+    }
+
+    @Test
+    fun testGetAllRewardsNotEscapedAcquisitionDatDesc() {
 
         val rewardsToInsertList = listOf(
             generateReward(escaped = true, yearAcquired = 1987, monthAcquired = 2, dayAcquired = 9),
@@ -810,10 +898,10 @@ class RewardDaoTest {
         runBlocking {
             rewardDao.insert(rewardsToInsertList)
         }
-        checkTotalCountIs(7)
-        val rewardEntitySortedLive = rewardDao.getAllRewardsNotEscapedAcquisitionDatDesc()
-        assertNotNull(rewardEntitySortedLive)
-        val rewardEntitySorted = rewardEntitySortedLive.getValueBlocking()
+        assertTableSize(7)
+        val rewardEntitySorted = runBlocking {
+            rewardDao.getAllRewardsNotEscapedAcquisitionDatDesc()
+        }
         assertNotNull(rewardEntitySorted)
         if (rewardEntitySorted != null) {
             assertEquals(3, rewardEntitySorted.size)
@@ -833,7 +921,14 @@ class RewardDaoTest {
     }
 
     @Test
-    fun getAllRewardsEscapedAcquisitionDateDescTest() {
+    fun testGetAllRewardsEscapedAcquisitionDateDescOnEmptyTable() {
+        runBlocking {
+            assertTrue(rewardDao.getAllRewardsEscapedAcquisitionDateDesc().isEmpty())
+        }
+    }
+
+    @Test
+    fun testGetAllRewardsEscapedAcquisitionDateDesc() {
 
         val rewardsToInsertList = listOf(
             generateReward(escaped = true, yearAcquired = 1987, monthAcquired = 2, dayAcquired = 9),
@@ -877,10 +972,10 @@ class RewardDaoTest {
         runBlocking {
             rewardDao.insert(rewardsToInsertList)
         }
-        checkTotalCountIs(7)
-        val rewardEntitySortedLive = rewardDao.getAllRewardsEscapedAcquisitionDateDesc()
-        assertNotNull(rewardEntitySortedLive)
-        val rewardEntitySorted = rewardEntitySortedLive.getValueBlocking()
+        assertTableSize(7)
+        val rewardEntitySorted = runBlocking {
+            rewardDao.getAllRewardsEscapedAcquisitionDateDesc()
+        }
         assertNotNull(rewardEntitySorted)
         if (rewardEntitySorted != null) {
             assertEquals(4, rewardEntitySorted.size)
@@ -900,25 +995,32 @@ class RewardDaoTest {
     }
 
     @Test
-    fun getAllRewardsOfSPecificLevelNotActiveTest() {
+    fun testGetAllRewardsOfSpecificLevelNotActiveOnEmptyTable() {
+        runBlocking {
+            assertTrue(rewardDao.getAllRewardsOfSpecificLevelNotActive(3).isEmpty())
+        }
+    }
+
+    @Test
+    fun testGetAllRewardsOfSPecificLevelNotActive() {
 
         val rewardsToInsertList = mutableListOf<RewardEntity>()
-        rewardsToInsertList.addAll(generateRewards(5, 3, active = false, escaped = false))
-        rewardsToInsertList.addAll(generateRewards(3, 3, active = true, escaped = false))
-        rewardsToInsertList.addAll(generateRewards(3, 3, active = true, escaped = true))
-        rewardsToInsertList.addAll(generateRewards(6, 4, active = false, escaped = false))
-        rewardsToInsertList.addAll(generateRewards(7, 4, active = true, escaped = false))
-        rewardsToInsertList.addAll(generateRewards(7, 4, active = true, escaped = true))
-        rewardsToInsertList.addAll(generateRewards(2, 5, active = true, escaped = true))
+        rewardsToInsertList.addAll(generateRewards(5, 1, 3, active = false, escaped = false))
+        rewardsToInsertList.addAll(generateRewards(3, 10, 3, active = true, escaped = false))
+        rewardsToInsertList.addAll(generateRewards(3, 20, 3, active = true, escaped = true))
+        rewardsToInsertList.addAll(generateRewards(6, 30, 4, active = false, escaped = false))
+        rewardsToInsertList.addAll(generateRewards(7, 40, 4, active = true, escaped = false))
+        rewardsToInsertList.addAll(generateRewards(7, 50, 4, active = true, escaped = true))
+        rewardsToInsertList.addAll(generateRewards(2, 60, 5, active = true, escaped = true))
         //
         runBlocking {
             rewardDao.insert(rewardsToInsertList)
         }
-        checkTotalCountIs(33)
+        assertTableSize(33)
         //
-        var rewardEntitySortedLive = rewardDao.getAllRewardsOfSPecificLevelNotActive(3)
-        assertNotNull(rewardEntitySortedLive)
-        val rewardEntitySorted3 = rewardEntitySortedLive.getValueBlocking()
+        val rewardEntitySorted3 = runBlocking {
+            rewardDao.getAllRewardsOfSpecificLevelNotActive(3)
+        }
         assertNotNull(rewardEntitySorted3)
         if (rewardEntitySorted3 != null) {
             assertEquals(5, rewardEntitySorted3.size)
@@ -928,9 +1030,9 @@ class RewardDaoTest {
             }
         }
         //
-        rewardEntitySortedLive = rewardDao.getAllRewardsOfSPecificLevelNotActive(4)
-        assertNotNull(rewardEntitySortedLive)
-        val rewardEntitySorted4 = rewardEntitySortedLive.getValueBlocking()
+        val rewardEntitySorted4 = runBlocking {
+            rewardDao.getAllRewardsOfSpecificLevelNotActive(4)
+        }
         assertNotNull(rewardEntitySorted4)
         if (rewardEntitySorted4 != null) {
             assertEquals(6, rewardEntitySorted4.size)
@@ -940,9 +1042,9 @@ class RewardDaoTest {
             }
         }
         //
-        rewardEntitySortedLive = rewardDao.getAllRewardsOfSPecificLevelNotActive(5)
-        assertNotNull(rewardEntitySortedLive)
-        val rewardEntitySorted5 = rewardEntitySortedLive.getValueBlocking()
+        val rewardEntitySorted5 = runBlocking {
+            rewardDao.getAllRewardsOfSpecificLevelNotActive(5)
+        }
         assertNotNull(rewardEntitySorted5)
         if (rewardEntitySorted5 != null) {
             assertEquals(0, rewardEntitySorted5.size)
@@ -952,25 +1054,32 @@ class RewardDaoTest {
     }
 
     @Test
-    fun getAllRewardsOfSPecificLevelNotActiveOrEscapedTest() {
+    fun testGetAllRewardsOfSpecificLevelNotActiveOrEscapedOnEmptyTable() {
+        runBlocking {
+            assertTrue(rewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(2).isEmpty())
+        }
+    }
+
+    @Test
+    fun testGetAllRewardsOfSPecificLevelNotActiveOrEscaped() {
 
         val rewardsToInsertList = mutableListOf<RewardEntity>()
-        rewardsToInsertList.addAll(generateRewards(5, 3, active = false, escaped = false))
-        rewardsToInsertList.addAll(generateRewards(7, 3, active = true, escaped = true))
-        rewardsToInsertList.addAll(generateRewards(6, 4, active = false, escaped = false))
-        rewardsToInsertList.addAll(generateRewards(3, 4, active = true, escaped = true))
-        rewardsToInsertList.addAll(generateRewards(8, 4, active = true, escaped = false))
-        rewardsToInsertList.addAll(generateRewards(9, 3, active = true, escaped = false))
-        rewardsToInsertList.addAll(generateRewards(2, 5, active = true, escaped = false))
+        rewardsToInsertList.addAll(generateRewards(5, 1, 3, active = false, escaped = false))
+        rewardsToInsertList.addAll(generateRewards(7, 10, 3, active = true, escaped = true))
+        rewardsToInsertList.addAll(generateRewards(6, 20, 4, active = false, escaped = false))
+        rewardsToInsertList.addAll(generateRewards(3, 30, 4, active = true, escaped = true))
+        rewardsToInsertList.addAll(generateRewards(8, 40, 4, active = true, escaped = false))
+        rewardsToInsertList.addAll(generateRewards(9, 50, 3, active = true, escaped = false))
+        rewardsToInsertList.addAll(generateRewards(2, 60, 5, active = true, escaped = false))
         //
         runBlocking {
             rewardDao.insert(rewardsToInsertList)
         }
-        checkTotalCountIs(40)
+        assertTableSize(40)
         //
-        var rewardEntitySortedLive = rewardDao.getAllRewardsOfSPecificLevelNotActiveOrEscaped(3)
-        assertNotNull(rewardEntitySortedLive)
-        val rewardEntitySorted3 = rewardEntitySortedLive.getValueBlocking()
+        val rewardEntitySorted3 = runBlocking {
+            rewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(3)
+        }
         assertNotNull(rewardEntitySorted3)
         if (rewardEntitySorted3 != null) {
             assertEquals(12, rewardEntitySorted3.size)
@@ -981,9 +1090,9 @@ class RewardDaoTest {
             }
         }
         //
-        rewardEntitySortedLive = rewardDao.getAllRewardsOfSPecificLevelNotActiveOrEscaped(4)
-        assertNotNull(rewardEntitySortedLive)
-        val rewardEntitySorted4 = rewardEntitySortedLive.getValueBlocking()
+        val rewardEntitySorted4 = runBlocking {
+            rewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(4)
+        }
         assertNotNull(rewardEntitySorted4)
         if (rewardEntitySorted4 != null) {
             assertEquals(9, rewardEntitySorted4.size)
@@ -994,9 +1103,9 @@ class RewardDaoTest {
             }
         }
         //
-        rewardEntitySortedLive = rewardDao.getAllRewardsOfSPecificLevelNotActiveOrEscaped(5)
-        assertNotNull(rewardEntitySortedLive)
-        val rewardEntitySorted5 = rewardEntitySortedLive.getValueBlocking()
+        val rewardEntitySorted5 = runBlocking {
+            rewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(5)
+        }
         assertNotNull(rewardEntitySorted5)
         if (rewardEntitySorted5 != null) {
             assertEquals(0, rewardEntitySorted5.size)
@@ -1005,10 +1114,18 @@ class RewardDaoTest {
 
     }
 
-    ////////////////////////////////////////////////////////////////
+    ///////////////////////////////////
+    //COUNTS
+    ///////////////////////////////////
     @Test
-    fun countRewardsTest() {
+    fun testCountRewardsOnEmptyTable() {
+        runBlocking {
+            assertEquals(0, rewardDao.getNumberOfRows())
+        }
+    }
 
+    @Test
+    fun testCountRewards() {
         runBlocking {
             rewardDao.insert(generateRewards(125))
         }
@@ -1016,24 +1133,33 @@ class RewardDaoTest {
             rewardDao.getNumberOfRows()
         }
         assertEquals(125, totalRewards)
-        checkTotalCountIs(125)
+        assertTableSize(125)
 
     }
 
     @Test
-    fun countRewardsActiveNotEscapedLevelTest() {
+    fun testCountRewardsActiveNotEscapedRewardsForLevelOnEmptyTable() {
+        runBlocking {
+            assertEquals(0, rewardDao.getNumberOfActiveNotEscapedRewardsForLevel(4))
+        }
+    }
+
+    @Test
+    fun testCountRewardsActiveNotEscapedRewardsForLevel() {
 
         val rewardsToInsertList = mutableListOf<RewardEntity>()
-        rewardsToInsertList.addAll(generateRewards(3, 1, active = true, escaped = true))
-        rewardsToInsertList.addAll(generateRewards(5, 3, active = true, escaped = false))
-        rewardsToInsertList.addAll(generateRewards(7, 3, active = true, escaped = true))
-        rewardsToInsertList.addAll(generateRewards(9, 5, active = true, escaped = false))
-        rewardsToInsertList.addAll(generateRewards(13, 5, active = true, escaped = true))
+        rewardsToInsertList.addAll(generateRewards(3, 1, 1, active = true, escaped = true))
+        rewardsToInsertList.addAll(generateRewards(5, 10, 3, active = true, escaped = false))
+        rewardsToInsertList.addAll(generateRewards(7, 25, 3, active = true, escaped = true))
+        rewardsToInsertList.addAll(generateRewards(9, 35, 5, active = true, escaped = false))
+        rewardsToInsertList.addAll(generateRewards(13, 45, 5, active = true, escaped = true))
+
+        assertEquals(37, rewardsToInsertList.size)
 
         runBlocking {
             rewardDao.insert(rewardsToInsertList)
         }
-        checkTotalCountIs(37)
+        assertTableSize(37)
         val numberLevel1 = runBlocking {
             rewardDao.getNumberOfActiveNotEscapedRewardsForLevel(1)
         }
@@ -1052,19 +1178,26 @@ class RewardDaoTest {
     }
 
     @Test
-    fun countRewardsEscapedLevelTest() {
+    fun testCountRewardsEscapedRewardsForLevelOnEmptyTable() {
+        runBlocking {
+            assertEquals(0, rewardDao.getNumberOfEscapedRewardsForLevel(1))
+        }
+    }
+
+    @Test
+    fun testCountRewardsEscapedRewardsForLevel() {
 
         val rewardsToInsertList = mutableListOf<RewardEntity>()
-        rewardsToInsertList.addAll(generateRewards(3, 1, active = true, escaped = false))
-        rewardsToInsertList.addAll(generateRewards(5, 3, active = true, escaped = false))
-        rewardsToInsertList.addAll(generateRewards(7, 3, active = true, escaped = true))
-        rewardsToInsertList.addAll(generateRewards(9, 5, active = true, escaped = false))
-        rewardsToInsertList.addAll(generateRewards(13, 5, active = true, escaped = true))
+        rewardsToInsertList.addAll(generateRewards(3, 1, 1, active = true, escaped = false))
+        rewardsToInsertList.addAll(generateRewards(5, 10, 3, active = true, escaped = false))
+        rewardsToInsertList.addAll(generateRewards(7, 20, 3, active = true, escaped = true))
+        rewardsToInsertList.addAll(generateRewards(9, 30, 5, active = true, escaped = false))
+        rewardsToInsertList.addAll(generateRewards(13, 40, 5, active = true, escaped = true))
 
         runBlocking {
             rewardDao.insert(rewardsToInsertList)
         }
-        checkTotalCountIs(37)
+        assertTableSize(37)
         val numberLevel1 = runBlocking {
             rewardDao.getNumberOfEscapedRewardsForLevel(1)
         }
