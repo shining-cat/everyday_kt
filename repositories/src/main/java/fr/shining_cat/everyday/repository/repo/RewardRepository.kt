@@ -2,7 +2,7 @@ package fr.shining_cat.everyday.repository.repo
 
 import fr.shining_cat.everyday.commons.Constants
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_CODE_DATABASE_OPERATION_FAILED
-import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_DTO_NULL
+import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_NO_RESULT
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_INSERT_FAILED
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_UPDATE_FAILED
 import fr.shining_cat.everyday.locale.dao.RewardDao
@@ -80,9 +80,9 @@ class RewardRepositoryImpl(
         val rewardEntity = withContext(Dispatchers.IO) { rewardDao.getReward(rewardId) }
         return if (rewardEntity == null) {
             Output.Error(
-                Constants.ERROR_CODE_ENTITY_NULL,
-                ERROR_MESSAGE_DTO_NULL,
-                NullPointerException(ERROR_MESSAGE_DTO_NULL)
+                Constants.ERROR_CODE_NO_RESULT,
+                ERROR_MESSAGE_NO_RESULT,
+                NullPointerException(ERROR_MESSAGE_NO_RESULT)
             )
         }
         else {
@@ -99,9 +99,9 @@ class RewardRepositoryImpl(
     private suspend fun handleQueryResult(rewardEntities: List<RewardEntity>): Output<List<Reward>> {
         return if (rewardEntities.isEmpty()) {
             Output.Error(
-                Constants.ERROR_CODE_ENTITY_NULL,
-                ERROR_MESSAGE_DTO_NULL,
-                NullPointerException(ERROR_MESSAGE_DTO_NULL)
+                Constants.ERROR_CODE_NO_RESULT,
+                ERROR_MESSAGE_NO_RESULT,
+                NullPointerException(ERROR_MESSAGE_NO_RESULT)
             )
         }
         else {

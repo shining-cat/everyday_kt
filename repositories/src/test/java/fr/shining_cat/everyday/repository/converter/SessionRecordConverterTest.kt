@@ -19,7 +19,10 @@ class SessionRecordConverterTest {
     fun setUp() {
         sessionRecordConverter = SessionRecordConverter()
     }
-
+    @Test
+    fun test() {
+        Assert.fail("TODO: add tests for conversion of incomplete objects")
+    }
     @Test
     fun convertModelToEntity() {
         //without ID

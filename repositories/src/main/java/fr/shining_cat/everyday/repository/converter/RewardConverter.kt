@@ -41,8 +41,8 @@ class RewardConverter {
         return rewardEntity
     }
 
-    fun convertEntitiesToModels(rewardEntitiesLiveData: List<RewardEntity>): List<Reward> {
-        return rewardEntitiesLiveData.map { convertEntitytoModel(it) }
+    fun convertEntitiesToModels(rewardEntities: List<RewardEntity>): List<Reward> {
+        return rewardEntities.map { convertEntitytoModel(it) }
     }
 
 

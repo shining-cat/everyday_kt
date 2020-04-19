@@ -21,6 +21,7 @@ class SessionRecordRepositoryImplTest : AbstractBaseTest() {
 
     @Mock
     private lateinit var mockSessionRecordDao: SessionRecordDao
+
     @Mock
     private lateinit var mockSessionRecordConverter: SessionRecordConverter
 
@@ -43,20 +44,25 @@ class SessionRecordRepositoryImplTest : AbstractBaseTest() {
                 mockSessionRecordDao,
                 mockSessionRecordConverter
             )
-        Mockito.`when`(mockSessionRecordDao.getAllSessionsStartTimeAsc())
-            .thenReturn(listOf(mockSessionRecordEntity))
-        Mockito.`when`(mockSessionRecordDao.getAllSessionsStartTimeDesc())
-            .thenReturn(listOf(mockSessionRecordEntity))
-        Mockito.`when`(mockSessionRecordDao.getAllSessionsDurationAsc())
-            .thenReturn(listOf(mockSessionRecordEntity))
-        Mockito.`when`(mockSessionRecordDao.getAllSessionsDurationDesc())
-            .thenReturn(listOf(mockSessionRecordEntity))
-        Mockito.`when`(mockSessionRecordDao.getAllSessionsWithMp3())
-            .thenReturn(listOf(mockSessionRecordEntity))
-        Mockito.`when`(mockSessionRecordDao.getAllSessionsWithoutMp3())
-            .thenReturn(listOf(mockSessionRecordEntity))
-        Mockito.`when`(mockSessionRecordDao.getSessionsSearch(anyString()))
-            .thenReturn(listOf(mockSessionRecordEntity))
+        runBlocking {
+            Mockito.`when`(mockSessionRecordDao.insert(any())).thenReturn(arrayOf(1, 2, 3))
+            Mockito.`when`(mockSessionRecordDao.update(any())).thenReturn(3)
+            Mockito.`when`(mockSessionRecordDao.delete(any())).thenReturn(3)
+            Mockito.`when`(mockSessionRecordDao.asyncGetAllSessionsStartTimeAsc()).thenReturn(listOf(mockSessionRecordEntity))
+            Mockito.`when`(mockSessionRecordDao.getAllSessionsStartTimeAsc()).thenReturn(listOf(mockSessionRecordEntity))
+            Mockito.`when`(mockSessionRecordDao.getAllSessionsStartTimeDesc())
+                .thenReturn(listOf(mockSessionRecordEntity))
+            Mockito.`when`(mockSessionRecordDao.getAllSessionsDurationAsc())
+                .thenReturn(listOf(mockSessionRecordEntity))
+            Mockito.`when`(mockSessionRecordDao.getAllSessionsDurationDesc())
+                .thenReturn(listOf(mockSessionRecordEntity))
+            Mockito.`when`(mockSessionRecordDao.getAllSessionsWithMp3())
+                .thenReturn(listOf(mockSessionRecordEntity))
+            Mockito.`when`(mockSessionRecordDao.getAllSessionsWithoutMp3())
+                .thenReturn(listOf(mockSessionRecordEntity))
+            Mockito.`when`(mockSessionRecordDao.getSessionsSearch(anyString()))
+                .thenReturn(listOf(mockSessionRecordEntity))
+        }
     }
 
     /**
@@ -71,6 +77,7 @@ class SessionRecordRepositoryImplTest : AbstractBaseTest() {
     fun insert() {
         runBlocking {
             sessionRecordRepo.insert(listOf(mockSessionRecord))
+            Mockito.verify(mockSessionRecordConverter).convertModelsToEntities(any())
             Mockito.verify(mockSessionRecordDao).insert(any())
         }
     }
@@ -79,6 +86,7 @@ class SessionRecordRepositoryImplTest : AbstractBaseTest() {
     fun update() {
         runBlocking {
             sessionRecordRepo.update(mockSessionRecord)
+            Mockito.verify(mockSessionRecordConverter).convertModelToEntity(any())
             Mockito.verify(mockSessionRecordDao).update(any())
         }
     }
@@ -87,6 +95,7 @@ class SessionRecordRepositoryImplTest : AbstractBaseTest() {
     fun deleteSession() {
         runBlocking {
             sessionRecordRepo.delete(mockSessionRecord)
+            Mockito.verify(mockSessionRecordConverter).convertModelToEntity(any())
             Mockito.verify(mockSessionRecordDao).delete(any())
         }
     }
@@ -103,6 +112,7 @@ class SessionRecordRepositoryImplTest : AbstractBaseTest() {
     fun getAllSessionsStartTimeAsc() {
         runBlocking {
             sessionRecordRepo.getAllSessionsStartTimeAsc()
+            Mockito.verify(mockSessionRecordConverter).convertEntitiesToModels(any())
             Mockito.verify(mockSessionRecordDao).getAllSessionsStartTimeAsc()
         }
     }
@@ -111,6 +121,7 @@ class SessionRecordRepositoryImplTest : AbstractBaseTest() {
     fun getAllSessionsStartTimeDesc() {
         runBlocking {
             sessionRecordRepo.getAllSessionsStartTimeDesc()
+            Mockito.verify(mockSessionRecordConverter).convertEntitiesToModels(any())
             Mockito.verify(mockSessionRecordDao).getAllSessionsStartTimeDesc()
         }
     }
@@ -119,6 +130,7 @@ class SessionRecordRepositoryImplTest : AbstractBaseTest() {
     fun getAllSessionsDurationAsc() {
         runBlocking {
             sessionRecordRepo.getAllSessionsDurationAsc()
+            Mockito.verify(mockSessionRecordConverter).convertEntitiesToModels(any())
             Mockito.verify(mockSessionRecordDao).getAllSessionsDurationAsc()
         }
     }
@@ -127,6 +139,7 @@ class SessionRecordRepositoryImplTest : AbstractBaseTest() {
     fun getAllSessionsDurationDesc() {
         runBlocking {
             sessionRecordRepo.getAllSessionsDurationDesc()
+            Mockito.verify(mockSessionRecordConverter).convertEntitiesToModels(any())
             Mockito.verify(mockSessionRecordDao).getAllSessionsDurationDesc()
         }
     }
@@ -136,6 +149,7 @@ class SessionRecordRepositoryImplTest : AbstractBaseTest() {
     fun `try name`() {
         runBlocking {
             sessionRecordRepo.getAllSessionsWithMp3()
+            Mockito.verify(mockSessionRecordConverter).convertEntitiesToModels(any())
             Mockito.verify(mockSessionRecordDao).getAllSessionsWithMp3()
         }
     }
@@ -144,6 +158,7 @@ class SessionRecordRepositoryImplTest : AbstractBaseTest() {
     fun getAllSessionsWithMp3() {
         runBlocking {
             sessionRecordRepo.getAllSessionsWithMp3()
+            Mockito.verify(mockSessionRecordConverter).convertEntitiesToModels(any())
             Mockito.verify(mockSessionRecordDao).getAllSessionsWithMp3()
         }
     }
@@ -152,6 +167,7 @@ class SessionRecordRepositoryImplTest : AbstractBaseTest() {
     fun getAllSessionsWithoutMp3() {
         runBlocking {
             sessionRecordRepo.getAllSessionsWithoutMp3()
+            Mockito.verify(mockSessionRecordConverter).convertEntitiesToModels(any())
             Mockito.verify(mockSessionRecordDao).getAllSessionsWithoutMp3()
         }
     }
@@ -160,14 +176,16 @@ class SessionRecordRepositoryImplTest : AbstractBaseTest() {
     fun getSessionsSearch() {
         runBlocking {
             sessionRecordRepo.getSessionsSearch("search request")
+            Mockito.verify(mockSessionRecordConverter).convertEntitiesToModels(any())
             Mockito.verify(mockSessionRecordDao).getSessionsSearch(anyString())
         }
     }
 
     @Test
-    fun getAllSessionsNotLiveStartTimeAsc() {
+    fun asyncGetAllSessionsStartTimeAsc() {
         runBlocking {
-            sessionRecordRepo.getAllSessionsNotLiveStartTimeAsc()
+            sessionRecordRepo.asyncGetAllSessionsStartTimeAsc()
+            Mockito.verify(mockSessionRecordConverter).convertEntitiesToModels(any())
             Mockito.verify(mockSessionRecordDao).asyncGetAllSessionsStartTimeAsc()
         }
     }

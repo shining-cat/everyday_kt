@@ -51,15 +51,28 @@ class RewardRepositoryImplTest: AbstractBaseTest()  {
                 mockRewardDao,
                 mockRewardConverter
             )
-        Mockito.`when`(mockRewardDao.getReward(anyLong())).thenReturn(mockRewardEntity)
-        Mockito.`when`(mockRewardDao.getAllRewardsActiveAcquisitionDateAsc()).thenReturn(listOf(mockRewardEntity))
-        Mockito.`when`(mockRewardDao.getAllRewardsActiveAcquisitionDateDesc()).thenReturn(listOf(mockRewardEntity))
-        Mockito.`when`(mockRewardDao.getAllRewardsActiveLevelAsc()).thenReturn(listOf(mockRewardEntity))
-        Mockito.`when`(mockRewardDao.getAllRewardsActiveLevelDesc()).thenReturn(listOf(mockRewardEntity))
-        Mockito.`when`(mockRewardDao.getAllRewardsNotEscapedAcquisitionDatDesc()).thenReturn(listOf(mockRewardEntity))
-        Mockito.`when`(mockRewardDao.getAllRewardsEscapedAcquisitionDateDesc()).thenReturn(listOf(mockRewardEntity))
-        Mockito.`when`(mockRewardDao.getAllRewardsOfSpecificLevelNotActive(anyInt())).thenReturn(listOf(mockRewardEntity))
-        Mockito.`when`(mockRewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(anyInt())).thenReturn(listOf(mockRewardEntity))
+        runBlocking {
+            Mockito.`when`(mockRewardDao.getReward(anyLong())).thenReturn(mockRewardEntity)
+            Mockito.`when`(mockRewardConverter.convertModelsToEntities(any())).thenReturn(listOf(mockRewardEntity))
+            Mockito.`when`(mockRewardConverter.convertEntitiesToModels(any())).thenReturn(listOf(mockReward))
+            Mockito.`when`(mockRewardDao.insert(any())).thenReturn(arrayOf(1, 2, 3))
+            Mockito.`when`(mockRewardDao.update(any())).thenReturn(3)
+            Mockito.`when`(mockRewardDao.getAllRewardsActiveAcquisitionDateAsc()).thenReturn(listOf(mockRewardEntity))
+            Mockito.`when`(mockRewardDao.getAllRewardsActiveAcquisitionDateDesc())
+                .thenReturn(listOf(mockRewardEntity))
+            Mockito.`when`(mockRewardDao.getAllRewardsActiveLevelAsc())
+                .thenReturn(listOf(mockRewardEntity))
+            Mockito.`when`(mockRewardDao.getAllRewardsActiveLevelDesc())
+                .thenReturn(listOf(mockRewardEntity))
+            Mockito.`when`(mockRewardDao.getAllRewardsNotEscapedAcquisitionDatDesc())
+                .thenReturn(listOf(mockRewardEntity))
+            Mockito.`when`(mockRewardDao.getAllRewardsEscapedAcquisitionDateDesc())
+                .thenReturn(listOf(mockRewardEntity))
+            Mockito.`when`(mockRewardDao.getAllRewardsOfSpecificLevelNotActive(anyInt()))
+                .thenReturn(listOf(mockRewardEntity))
+            Mockito.`when`(mockRewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(anyInt()))
+                .thenReturn(listOf(mockRewardEntity))
+        }
     }
     /**
      * See [Memory leak in mockito-inline...](https://github.com/mockito/mockito/issues/1614)
@@ -74,6 +87,7 @@ class RewardRepositoryImplTest: AbstractBaseTest()  {
     fun insert() {
         runBlocking {
             rewardRepo.insert(listOf(mockReward))
+//            Mockito.verify(mockRewardConverter).convertModelsToEntities(any())
             Mockito.verify(mockRewardDao).insert(any())
         }
     }
@@ -82,15 +96,8 @@ class RewardRepositoryImplTest: AbstractBaseTest()  {
     fun updateRewards() {
         runBlocking {
             rewardRepo.update(listOf(mockReward))
+//            Mockito.verify(mockRewardConverter).convertModelsToEntities(any())
             Mockito.verify(mockRewardDao).update(any())
-        }
-    }
-
-    @Test
-    fun deleteReward() {
-        runBlocking {
-            rewardRepo.delete(listOf(mockReward))
-            Mockito.verify(mockRewardDao).delete(any())
         }
     }
 
@@ -103,9 +110,10 @@ class RewardRepositoryImplTest: AbstractBaseTest()  {
     }
 
     @Test
-    fun getRewardLive() {
+    fun getSpecificReward() {
         runBlocking {
             rewardRepo.getReward(8L)
+            Mockito.verify(mockRewardConverter).convertEntitytoModel(any())
             Mockito.verify(mockRewardDao).getReward(anyLong())
         }
     }
@@ -114,6 +122,7 @@ class RewardRepositoryImplTest: AbstractBaseTest()  {
     fun rewardsActiveAcquisitionDateAsc() {
         runBlocking {
             rewardRepo.rewardsActiveAcquisitionDateAsc()
+            Mockito.verify(mockRewardConverter).convertEntitiesToModels(any())
             Mockito.verify(mockRewardDao).getAllRewardsActiveAcquisitionDateAsc()
         }
     }
@@ -122,6 +131,7 @@ class RewardRepositoryImplTest: AbstractBaseTest()  {
     fun rewardsActiveAcquisitionDateDesc() {
         runBlocking {
             rewardRepo.rewardsActiveAcquisitionDateDesc()
+            Mockito.verify(mockRewardConverter).convertEntitiesToModels(any())
             Mockito.verify(mockRewardDao).getAllRewardsActiveAcquisitionDateDesc()
         }
     }
@@ -130,6 +140,7 @@ class RewardRepositoryImplTest: AbstractBaseTest()  {
     fun rewardsActiveLevelAsc() {
         runBlocking {
             rewardRepo.rewardsActiveLevelAsc()
+            Mockito.verify(mockRewardConverter).convertEntitiesToModels(any())
             Mockito.verify(mockRewardDao).getAllRewardsActiveLevelAsc()
         }
     }
@@ -138,6 +149,7 @@ class RewardRepositoryImplTest: AbstractBaseTest()  {
     fun rewardsActiveLevelDesc() {
         runBlocking {
             rewardRepo.rewardsActiveLevelDesc()
+            Mockito.verify(mockRewardConverter).convertEntitiesToModels(any())
             Mockito.verify(mockRewardDao).getAllRewardsActiveLevelDesc()
         }
     }
@@ -146,6 +158,7 @@ class RewardRepositoryImplTest: AbstractBaseTest()  {
     fun rewardsNotEscapedAcquisitionDateDesc() {
         runBlocking {
             rewardRepo.rewardsNotEscapedAcquisitionDateDesc()
+            Mockito.verify(mockRewardConverter).convertEntitiesToModels(any())
             Mockito.verify(mockRewardDao).getAllRewardsNotEscapedAcquisitionDatDesc()
         }
     }
@@ -154,14 +167,16 @@ class RewardRepositoryImplTest: AbstractBaseTest()  {
     fun rewardsEscapedAcquisitionDateDesc() {
         runBlocking {
             rewardRepo.rewardsEscapedAcquisitionDateDesc()
+            Mockito.verify(mockRewardConverter).convertEntitiesToModels(any())
             Mockito.verify(mockRewardDao).getAllRewardsEscapedAcquisitionDateDesc()
         }
     }
 
     @Test
-    fun rewardsOfSPecificLevelNotActive() {
+    fun rewardsOfSpecificLevelNotActive() {
         runBlocking {
             rewardRepo.rewardsOfSPecificLevelNotActive(3)
+            Mockito.verify(mockRewardConverter).convertEntitiesToModels(any())
             Mockito.verify(mockRewardDao).getAllRewardsOfSpecificLevelNotActive(anyInt())
         }
     }
@@ -170,6 +185,7 @@ class RewardRepositoryImplTest: AbstractBaseTest()  {
     fun rewardsOfSPecificLevelNotActiveOrEscaped() {
         runBlocking {
             rewardRepo.rewardsOfSPecificLevelNotActiveOrEscaped(4)
+            Mockito.verify(mockRewardConverter).convertEntitiesToModels(any())
             Mockito.verify(mockRewardDao).getAllRewardsOfSpecificLevelNotActiveOrEscaped(anyInt())
         }
     }
