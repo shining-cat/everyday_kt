@@ -5,8 +5,7 @@ import fr.shining_cat.everyday.models.Mood
 import fr.shining_cat.everyday.models.MoodValue
 import fr.shining_cat.everyday.models.RealDurationVsPlanned
 import fr.shining_cat.everyday.models.SessionRecord
-import junit.framework.Assert.assertEquals
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import java.util.*
@@ -19,21 +18,18 @@ class SessionRecordConverterTest {
     fun setUp() {
         sessionRecordConverter = SessionRecordConverter()
     }
-    @Test
-    fun test() {
-        Assert.fail("TODO: add tests for conversion of incomplete objects")
-    }
+
     @Test
     fun convertModelToEntity() {
         //without ID
         val sessionModel = generateSession(
             startMood = generateMood(1980, 5, 2, 15, 27, 54, MoodValue.WORST, MoodValue.NOT_SET, MoodValue.GOOD, MoodValue.BEST),
             endMood =   generateMood(1981,6,3,17,45,3, MoodValue.NOT_SET, MoodValue.GOOD, MoodValue.BAD, MoodValue.WORST),
-            notes = "convertModelToDTO testing notes string",
+            notes = "convertModelToEntity testing notes string",
             realDuration = 1500000,
             pausesCount = 3,
             realDurationVsPlanned = RealDurationVsPlanned.REAL_SHORTER,
-            guideMp3 = "convertModelToDTO testing guideMp3 string"
+            guideMp3 = "convertModelToEntity testing guideMp3 string"
         )
         val SessionRecordEntity = generateSessionRecordEntity(
             yearstart = 1980,
@@ -56,24 +52,24 @@ class SessionRecordConverterTest {
             endThoughtsValue = 1,
             endFeelingsValue = -1,
             endGlobalValue = -2,
-            notes = "convertModelToDTO testing notes string",
+            notes = "convertModelToEntity testing notes string",
             realDuration = 1500000,
             pausesCount = 3,
             realDurationVsPlanned = -1,
-            guideMp3 = "convertModelToDTO testing guideMp3 string"
+            guideMp3 = "convertModelToEntity testing guideMp3 string"
         )
         val SessionRecordEntitytranslated = sessionRecordConverter.convertModelToEntity(sessionModel)
-        compareTwoDTOsWithoutId(SessionRecordEntitytranslated, SessionRecordEntity)
+        compareTwoEntitysWithoutId(SessionRecordEntitytranslated, SessionRecordEntity)
         //with ID
         val sessionModelWithId = generateSession(
             id = 41,
             startMood = generateMood(1980, 5, 2, 15, 27, 54, MoodValue.WORST, MoodValue.NOT_SET, MoodValue.GOOD, MoodValue.BEST),
             endMood =   generateMood(1981,6,3,17,45,3,MoodValue.NOT_SET, MoodValue.GOOD, MoodValue.BAD, MoodValue.WORST),
-            notes = "convertModelToDTO testing notes string",
+            notes = "convertModelToEntity testing notes string",
             realDuration = 1500000,
             pausesCount = 3,
             realDurationVsPlanned = RealDurationVsPlanned.REAL_SHORTER,
-            guideMp3 = "convertModelToDTO testing guideMp3 string"
+            guideMp3 = "convertModelToEntity testing guideMp3 string"
         )
         val SessionRecordEntityWithId = generateSessionRecordEntity(
             desiredId = 41,
@@ -97,28 +93,28 @@ class SessionRecordConverterTest {
             endThoughtsValue = 1,
             endFeelingsValue = -1,
             endGlobalValue = -2,
-            notes = "convertModelToDTO testing notes string",
+            notes = "convertModelToEntity testing notes string",
             realDuration = 1500000,
             pausesCount = 3,
             realDurationVsPlanned = -1,
-            guideMp3 = "convertModelToDTO testing guideMp3 string"
+            guideMp3 = "convertModelToEntity testing guideMp3 string"
         )
         val SessionRecordEntitytranslatedWithId = sessionRecordConverter.convertModelToEntity(sessionModelWithId)
         assertEquals(SessionRecordEntitytranslatedWithId, SessionRecordEntityWithId)
     }
 
     @Test
-    fun convertDTOtoModel(){
+    fun convertEntitytoModel(){
         //with ID
         val sessionModelWithId = generateSession(
             id = 41,
             startMood = generateMood(1980, 5, 2, 15, 27, 54, MoodValue.WORST, MoodValue.NOT_SET, MoodValue.GOOD, MoodValue.BEST),
             endMood =   generateMood(1981,6,3,17,45,3,MoodValue.NOT_SET, MoodValue.GOOD, MoodValue.BAD, MoodValue.WORST),
-            notes = "convertDTOtoModel testing notes string",
+            notes = "convertEntitytoModel testing notes string",
             realDuration = 1500000,
             pausesCount = 3,
             realDurationVsPlanned = RealDurationVsPlanned.REAL_SHORTER,
-            guideMp3 = "convertDTOtoModel testing guideMp3 string"
+            guideMp3 = "convertEntitytoModel testing guideMp3 string"
         )
         val SessionRecordEntityWithId = generateSessionRecordEntity(
             desiredId = 41,
@@ -142,29 +138,18 @@ class SessionRecordConverterTest {
             endThoughtsValue = 1,
             endFeelingsValue = -1,
             endGlobalValue = -2,
-            notes = "convertDTOtoModel testing notes string",
+            notes = "convertEntitytoModel testing notes string",
             realDuration = 1500000,
             pausesCount = 3,
             realDurationVsPlanned = -1,
-            guideMp3 = "convertDTOtoModel testing guideMp3 string"
+            guideMp3 = "convertEntitytoModel testing guideMp3 string"
         )
         val sessionModelTranslatedWithId = sessionRecordConverter.convertEntitytoModel(SessionRecordEntityWithId)
         //here we check the ID field conversion
         assertEquals(sessionModelTranslatedWithId, sessionModelWithId)
     }
 
-
-    private fun compareTwoModelsWithoutId(sessionRecord1: SessionRecord, sessionRecord2: SessionRecord){
-        assertEquals(sessionRecord1.startMood, sessionRecord2.startMood)
-        assertEquals(sessionRecord1.endMood, sessionRecord2.endMood)
-        assertEquals(sessionRecord1.notes, sessionRecord2.notes)
-        assertEquals(sessionRecord1.realDuration, sessionRecord2.realDuration)
-        assertEquals(sessionRecord1.pausesCount, sessionRecord2.pausesCount)
-        assertEquals(sessionRecord1.realDurationVsPlanned, sessionRecord2.realDurationVsPlanned)
-        assertEquals(sessionRecord1.guideMp3, sessionRecord2.guideMp3)
-    }
-
-    private fun compareTwoDTOsWithoutId(sessionRecordEntity1: SessionRecordEntity, sessionRecordEntity2: SessionRecordEntity){
+    private fun compareTwoEntitysWithoutId(sessionRecordEntity1: SessionRecordEntity, sessionRecordEntity2: SessionRecordEntity){
         assertEquals(sessionRecordEntity1.startTimeOfRecord, sessionRecordEntity2.startTimeOfRecord)
         assertEquals(sessionRecordEntity1.startBodyValue, sessionRecordEntity2.startBodyValue)
         assertEquals(sessionRecordEntity1.startThoughtsValue, sessionRecordEntity2.startThoughtsValue)

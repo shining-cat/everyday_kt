@@ -7,7 +7,6 @@ import fr.shining_cat.everyday.models.critter.*
 import fr.shining_cat.everyday.testutils.AbstractBaseTest
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -88,11 +87,6 @@ class RewardConverterTest : AbstractBaseTest() {
     )
 
     //////////////////////////////////
-    @Test
-    fun test() {
-        fail("TODO: add tests for conversion of incomplete objects")
-    }
-
     @Test
     fun convertModelToEntity() {
         val convertedModel = rewardConverter.convertModelToEntity(reward)
