@@ -17,12 +17,12 @@ import fr.shining_cat.everyday.models.critter.*
 
 data class Reward(
     var id: Long = -1,
-    val flower: FlowerResourcesHolder.FlowerDrawable,
-    val mouth: MouthResourcesHolder.MouthDrawable,
-    val legs: LegsResourcesHolder.LegsDrawable,
-    val arms: ArmsResourcesHolder.ArmsDrawable,
-    val eyes: EyesResourcesHolder.EyesDrawable,
-    val horns: HornsResourcesHolder.HornsDrawable,
+    val flowerKey: Int,
+    val mouthKey: Int,
+    val legsKey: Int,
+    val armsKey: Int,
+    val eyesKey: Int,
+    val hornsKey: Int,
     val level: Level,
     var acquisitionDate: Long = NO_ACQUISITION_DATE,
     var escapingDate: Long = NO_ESCAPING_DATE,

@@ -34,12 +34,12 @@ class RewardConverterTest : AbstractBaseTest() {
 
     val reward = Reward(
         id = 29,
-        flower = FlowerResourcesHolder.FlowerDrawable.FLOWER_PART_1,
-        mouth = MouthResourcesHolder.MouthDrawable.MOUTH_PART_2,
-        legs = LegsResourcesHolder.LegsDrawable.LEGS_PART_3,
-        arms = ArmsResourcesHolder.ArmsDrawable.ARMS_PART_4,
-        eyes = EyesResourcesHolder.EyesDrawable.EYES_PART_5,
-        horns = HornsResourcesHolder.HornsDrawable.HORNS_PART_6,
+        flowerKey = 0,
+        mouthKey = 1,
+        legsKey = 2,
+        armsKey = 3,
+        eyesKey = 4,
+        hornsKey = 5,
         level = Level.fromKey(3),
         acquisitionDate = GregorianCalendar(
             2000,
@@ -61,12 +61,12 @@ class RewardConverterTest : AbstractBaseTest() {
 
     val rewardEntity = RewardEntity(
         id = 29,
-        flower = 1,
-        mouth = 2,
-        legs = 3,
-        arms = 4,
-        eyes = 5,
-        horns = 6,
+        flower = 0,
+        mouth = 1,
+        legs = 2,
+        arms = 3,
+        eyes = 4,
+        horns = 5,
         level = 3,
         acquisitionDate = GregorianCalendar(
             2000,

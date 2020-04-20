@@ -16,12 +16,12 @@ class RewardConverter {
     fun convertModelToEntity(reward: Reward): RewardEntity {
         val level = reward.level.key
         val rewardEntity = RewardEntity(
-            flower = reward.flower.key,
-            mouth = reward.mouth.key,
-            legs = reward.legs.key,
-            arms = reward.arms.key,
-            eyes = reward.eyes.key,
-            horns = reward.horns.key,
+            flower = reward.flowerKey,
+            mouth = reward.mouthKey,
+            legs = reward.legsKey,
+            arms = reward.armsKey,
+            eyes = reward.eyesKey,
+            horns = reward.hornsKey,
             level = level
         )
         if (reward.id != -1L) {
@@ -49,12 +49,12 @@ class RewardConverter {
     fun convertEntitytoModel(rewardEntity: RewardEntity): Reward {
         val rewardModel = Reward(
             id = rewardEntity.id,
-            flower = FlowerResourcesHolder.FlowerDrawable.fromKey(rewardEntity.flower),
-            mouth = MouthResourcesHolder.MouthDrawable.fromKey(rewardEntity.mouth),
-            legs = LegsResourcesHolder.LegsDrawable.fromKey(rewardEntity.legs),
-            arms = ArmsResourcesHolder.ArmsDrawable.fromKey(rewardEntity.arms),
-            eyes = EyesResourcesHolder.EyesDrawable.fromKey(rewardEntity.eyes),
-            horns = HornsResourcesHolder.HornsDrawable.fromKey(rewardEntity.horns),
+            flowerKey = rewardEntity.flower,
+            mouthKey = rewardEntity.mouth,
+            legsKey = rewardEntity.legs,
+            armsKey = rewardEntity.arms,
+            eyesKey = rewardEntity.eyes,
+            hornsKey = rewardEntity.horns,
             level = Level.fromKey(rewardEntity.level)
         )
         rewardModel.acquisitionDate =
