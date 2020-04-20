@@ -1,20 +1,19 @@
 package fr.shining_cat.everyday.repository.converter
 
-import java.text.SimpleDateFormat
-import java.util.*
-import java.util.concurrent.TimeUnit
-
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-
+import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntity
 import fr.shining_cat.everyday.models.Mood
 import fr.shining_cat.everyday.models.MoodValue
 import fr.shining_cat.everyday.models.RealDurationVsPlanned
 import fr.shining_cat.everyday.models.SessionRecord
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 
-class SessionRecordConverter {
+class SessionRecordConverter(
+    private val logger: Logger
+) {
 
     fun convertModelsToEntities(sessionRecords: List<SessionRecord>): List<SessionRecordEntity> {
         return sessionRecords.map { sessionModel -> convertModelToEntity(sessionModel) }

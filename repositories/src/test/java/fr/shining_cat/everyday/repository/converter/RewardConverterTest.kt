@@ -3,7 +3,6 @@ package fr.shining_cat.everyday.repository.converter
 import fr.shining_cat.everyday.locale.entities.RewardEntity
 import fr.shining_cat.everyday.models.Level
 import fr.shining_cat.everyday.models.Reward
-import fr.shining_cat.everyday.models.critter.*
 import fr.shining_cat.everyday.testutils.AbstractBaseTest
 import org.junit.After
 import org.junit.Assert.assertEquals

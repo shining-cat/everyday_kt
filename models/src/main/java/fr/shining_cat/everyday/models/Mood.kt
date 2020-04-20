@@ -15,10 +15,6 @@ data class Mood(
                                 "\n\tGlobal = " + globalValue
 }
 
-object MoodConstants{
-    const val NO_VALUE_SET: Int = 0
-}
-
 enum class MoodValue(val key: Int){
     WORST(-2),
     BAD(-1),

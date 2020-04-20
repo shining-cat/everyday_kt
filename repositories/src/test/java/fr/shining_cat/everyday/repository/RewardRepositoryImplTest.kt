@@ -18,7 +18,7 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
-class RewardRepositoryImplTest: AbstractBaseTest()  {
+class RewardRepositoryImplTest : AbstractBaseTest() {
 
     // We use a mock DAO, and only check that its methods are called by the repo when expected, with the right object type param.
     // When needed, we mock a return object for mockRewardDao methods
@@ -33,7 +33,7 @@ class RewardRepositoryImplTest: AbstractBaseTest()  {
 
     @Mock
     private lateinit var mockReward: Reward
-    
+
     @Mock
     lateinit var mockRewardEntity: RewardEntity
 
@@ -53,11 +53,14 @@ class RewardRepositoryImplTest: AbstractBaseTest()  {
             )
         runBlocking {
             Mockito.`when`(mockRewardDao.getReward(anyLong())).thenReturn(mockRewardEntity)
-            Mockito.`when`(mockRewardConverter.convertModelsToEntities(any())).thenReturn(listOf(mockRewardEntity))
-            Mockito.`when`(mockRewardConverter.convertEntitiesToModels(any())).thenReturn(listOf(mockReward))
+            Mockito.`when`(mockRewardConverter.convertModelsToEntities(any()))
+                .thenReturn(listOf(mockRewardEntity))
+            Mockito.`when`(mockRewardConverter.convertEntitiesToModels(any()))
+                .thenReturn(listOf(mockReward))
             Mockito.`when`(mockRewardDao.insert(any())).thenReturn(arrayOf(1, 2, 3))
             Mockito.`when`(mockRewardDao.update(any())).thenReturn(3)
-            Mockito.`when`(mockRewardDao.getAllRewardsActiveAcquisitionDateAsc()).thenReturn(listOf(mockRewardEntity))
+            Mockito.`when`(mockRewardDao.getAllRewardsActiveAcquisitionDateAsc())
+                .thenReturn(listOf(mockRewardEntity))
             Mockito.`when`(mockRewardDao.getAllRewardsActiveAcquisitionDateDesc())
                 .thenReturn(listOf(mockRewardEntity))
             Mockito.`when`(mockRewardDao.getAllRewardsActiveLevelAsc())
@@ -74,6 +77,7 @@ class RewardRepositoryImplTest: AbstractBaseTest()  {
                 .thenReturn(listOf(mockRewardEntity))
         }
     }
+
     /**
      * See [Memory leak in mockito-inline...](https://github.com/mockito/mockito/issues/1614)
      */

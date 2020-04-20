@@ -2,8 +2,8 @@ package fr.shining_cat.everyday.repository.repo
 
 import fr.shining_cat.everyday.commons.Constants
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_CODE_DATABASE_OPERATION_FAILED
-import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_NO_RESULT
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_INSERT_FAILED
+import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_NO_RESULT
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_UPDATE_FAILED
 import fr.shining_cat.everyday.locale.dao.RewardDao
 import fr.shining_cat.everyday.locale.entities.RewardEntity
@@ -12,7 +12,6 @@ import fr.shining_cat.everyday.repository.Output
 import fr.shining_cat.everyday.repository.converter.RewardConverter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.lang.Exception
 
 interface RewardRepository {
     suspend fun insert(rewards: List<Reward>): Output<Array<Long>>
@@ -45,8 +44,7 @@ class RewardRepositoryImpl(
         }
         return if (inserted.size == rewards.size) {
             Output.Success(inserted)
-        }
-        else {
+        } else {
             Output.Error(
                 ERROR_CODE_DATABASE_OPERATION_FAILED,
                 ERROR_MESSAGE_INSERT_FAILED,
@@ -63,8 +61,7 @@ class RewardRepositoryImpl(
         }
         return if (updated == rewards.size) {
             Output.Success(updated)
-        }
-        else {
+        } else {
             Output.Error(
                 ERROR_CODE_DATABASE_OPERATION_FAILED,
                 ERROR_MESSAGE_UPDATE_FAILED,
@@ -84,8 +81,7 @@ class RewardRepositoryImpl(
                 ERROR_MESSAGE_NO_RESULT,
                 NullPointerException(ERROR_MESSAGE_NO_RESULT)
             )
-        }
-        else {
+        } else {
             Output.Success(
                 withContext(Dispatchers.Default) {
                     rewardConverter.convertEntitytoModel(rewardEntity)
@@ -103,8 +99,7 @@ class RewardRepositoryImpl(
                 ERROR_MESSAGE_NO_RESULT,
                 NullPointerException(ERROR_MESSAGE_NO_RESULT)
             )
-        }
-        else {
+        } else {
             Output.Success(
                 withContext(Dispatchers.Default) {
                     rewardConverter.convertEntitiesToModels(rewardEntities)

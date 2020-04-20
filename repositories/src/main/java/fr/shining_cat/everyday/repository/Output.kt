@@ -1,7 +1,6 @@
 package fr.shining_cat.everyday.repository
 
 
-
 sealed class Output<out T> {
     data class Success<out T>(
         val result: T

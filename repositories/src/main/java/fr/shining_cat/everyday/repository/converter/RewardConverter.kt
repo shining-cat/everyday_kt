@@ -1,13 +1,15 @@
 package fr.shining_cat.everyday.repository.converter
 
+import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.locale.entities.RewardEntity
 import fr.shining_cat.everyday.locale.entities.RewardEntityConstants
 import fr.shining_cat.everyday.models.Level
 import fr.shining_cat.everyday.models.Reward
 import fr.shining_cat.everyday.models.RewardModelConstants
-import fr.shining_cat.everyday.models.critter.*
 
-class RewardConverter {
+class RewardConverter(
+    private val logger: Logger
+) {
 
     fun convertModelsToEntities(rewards: List<Reward>): List<RewardEntity> {
         return rewards.map { rewardModel -> convertModelToEntity(rewardModel) }

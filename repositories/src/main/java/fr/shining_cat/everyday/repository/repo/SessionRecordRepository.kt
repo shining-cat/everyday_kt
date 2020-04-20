@@ -8,7 +8,6 @@ import fr.shining_cat.everyday.repository.Output
 import fr.shining_cat.everyday.repository.converter.SessionRecordConverter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.lang.Exception
 
 interface SessionRecordRepository {
     suspend fun insert(sessionRecords: List<SessionRecord>): Output<Array<Long>>
@@ -39,8 +38,7 @@ class SessionRecordRepositoryImpl(
         }
         return if (inserted.size == sessionRecords.size) {
             Output.Success(inserted)
-        }
-        else {
+        } else {
             Output.Error(
                 Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                 Constants.ERROR_MESSAGE_INSERT_FAILED,
@@ -57,8 +55,7 @@ class SessionRecordRepositoryImpl(
         }
         return if (updated == 1) {
             Output.Success(updated)
-        }
-        else {
+        } else {
             Output.Error(
                 Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                 Constants.ERROR_MESSAGE_UPDATE_FAILED,
@@ -76,8 +73,7 @@ class SessionRecordRepositoryImpl(
         }
         return if (deleted == 1) {
             Output.Success(deleted)
-        }
-        else {
+        } else {
             Output.Error(
                 Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                 Constants.ERROR_MESSAGE_DELETE_FAILED,
@@ -97,8 +93,7 @@ class SessionRecordRepositoryImpl(
                 Constants.ERROR_MESSAGE_NO_RESULT,
                 NullPointerException(Constants.ERROR_MESSAGE_NO_RESULT)
             )
-        }
-        else {
+        } else {
             Output.Success(
                 withContext(Dispatchers.Default) {
                     sessionRecordConverter.convertEntitiesToModels(sessionRecordEntities)
