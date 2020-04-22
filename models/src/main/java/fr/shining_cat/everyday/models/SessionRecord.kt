@@ -10,6 +10,6 @@ data class SessionRecord(
     var notes: String,
     var realDuration: Long,
     var pausesCount: Int,
-    var realDurationVsPlanned: RealDurationVsPlanned, //<0 if real < planned; =0 if real = planned; >0 if real > planned  (obtained via Long.compare(real, planned)
+    var realDurationVsPlanned: RealDurationVsPlanned,
     var guideMp3: String
 )

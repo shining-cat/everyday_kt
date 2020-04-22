@@ -1,10 +1,9 @@
 package fr.shining_cat.everyday.models
 
-import fr.shining_cat.everyday.models.RewardModelConstants.DEFAULT_REWARD_COLOR
-import fr.shining_cat.everyday.models.RewardModelConstants.NO_ACQUISITION_DATE
-import fr.shining_cat.everyday.models.RewardModelConstants.NO_ESCAPING_DATE
-import fr.shining_cat.everyday.models.RewardModelConstants.NO_NAME
-import fr.shining_cat.everyday.models.critter.*
+import fr.shining_cat.everyday.models.RewardConstants.DEFAULT_REWARD_COLOR
+import fr.shining_cat.everyday.models.RewardConstants.NO_ACQUISITION_DATE
+import fr.shining_cat.everyday.models.RewardConstants.NO_ESCAPING_DATE
+import fr.shining_cat.everyday.models.RewardConstants.NO_NAME
 
 
 ////////////////////////////////////////
@@ -34,13 +33,14 @@ data class Reward(
     var armsColor: String = DEFAULT_REWARD_COLOR)
 
 
-object RewardModelConstants{
+object RewardConstants{
     const val NO_ACQUISITION_DATE: Long = 0
     const val NO_ESCAPING_DATE: Long = 0
     const val NO_NAME = ""
     const val DEFAULT_REWARD_COLOR = "#00000000"
 }
 
+//TODO: this should move to the Domain module when it is created:
 object RewardThresholds{
     //length of session for each duration level => this determines the Reward level
     const val REWARD_DURATION_LEVEL_1 = 0
@@ -56,7 +56,7 @@ object RewardThresholds{
     const val REWARD_STREAK_LEVEL_4 = 21
     const val REWARD_STREAK_LEVEL_5 = 28
 }
-
+//TODO: this should move to the Domain module when it is created:
 object RewardChances{
     //composition of a session reward as an array of probability of getting additional rewards (of the same level) (chance for 1, chance for a second, chance for a third, chance for a fourth)
     //so a user can earn up to 4 rewards for one session

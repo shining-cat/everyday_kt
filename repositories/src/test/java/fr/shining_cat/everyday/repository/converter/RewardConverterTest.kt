@@ -1,26 +1,36 @@
 package fr.shining_cat.everyday.repository.converter
 
+import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.locale.entities.RewardEntity
 import fr.shining_cat.everyday.models.Level
 import fr.shining_cat.everyday.models.Reward
 import fr.shining_cat.everyday.testutils.AbstractBaseTest
 import org.junit.After
+import org.junit.Assert
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mock
 import org.mockito.Mockito
+import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 import java.util.*
 
-@RunWith(MockitoJUnitRunner::class)
 class RewardConverterTest : AbstractBaseTest() {
+
+    @Mock
+    private lateinit var mockLogger: Logger
 
     private lateinit var rewardConverter: RewardConverter
 
+
     @Before
     fun setUp() {
-        rewardConverter = RewardConverter()
+        MockitoAnnotations.initMocks(this)
+        assertNotNull(mockLogger)
+        rewardConverter = RewardConverter(mockLogger)
     }
 
     /**

@@ -1,4 +1,4 @@
-package fr.shining_cat.everyday.repository
+package fr.shining_cat.everyday.repository.repo
 
 import fr.shining_cat.everyday.locale.dao.SessionRecordDao
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntity

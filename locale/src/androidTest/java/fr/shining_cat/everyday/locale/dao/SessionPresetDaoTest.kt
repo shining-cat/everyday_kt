@@ -8,6 +8,7 @@ import fr.shining_cat.everyday.locale.entities.SessionPresetEntity
 import kotlinx.coroutines.runBlocking
 import org.junit.*
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
@@ -59,7 +60,8 @@ class SessionPresetDaoTest {
         desiredIntermediateIntervalRandom: Boolean = false,
         desiredIntermediateIntervalSoundUri: String = "interval sound",
         desiredAudioGuideSoundUri: String = "audio guide sound",
-        desiredVibration: Boolean = false
+        desiredVibration: Boolean = false,
+        desiredLastEditTime: Long = 890L
     ): SessionPresetEntity {
         val returnEntity = SessionPresetEntity(
             duration = desiredDuration,
@@ -69,7 +71,8 @@ class SessionPresetDaoTest {
             intermediateIntervalRandom = desiredIntermediateIntervalRandom,
             intermediateIntervalSoundUri = desiredIntermediateIntervalSoundUri,
             audioGuideSoundUri = desiredAudioGuideSoundUri,
-            vibration = desiredVibration
+            vibration = desiredVibration,
+            lastEditTime = desiredLastEditTime
         )
         if (desiredId != -1L) {
             returnEntity.id = desiredId
@@ -87,7 +90,8 @@ class SessionPresetDaoTest {
         desiredIntermediateIntervalRandom: Boolean = false,
         desiredIntermediateIntervalSoundUri: String = "interval sound",
         desiredAudioGuideSoundUri: String = "audio guide sound",
-        desiredVibration: Boolean = false
+        desiredVibration: Boolean = false,
+        desiredLastEditTime: Long = 890L
     ): List<SessionPresetEntity> {
         val returnList = mutableListOf<SessionPresetEntity>()
         for (i in startingId until (startingId + numberOfEntities)) {
@@ -100,7 +104,8 @@ class SessionPresetDaoTest {
                 desiredIntermediateIntervalRandom = desiredIntermediateIntervalRandom,
                 desiredIntermediateIntervalSoundUri = desiredIntermediateIntervalSoundUri,
                 desiredAudioGuideSoundUri = desiredAudioGuideSoundUri,
-                desiredVibration = desiredVibration
+                desiredVibration = desiredVibration,
+                desiredLastEditTime = desiredLastEditTime + i*10
             )
             returnList.add(
                 oneSession
@@ -135,7 +140,8 @@ class SessionPresetDaoTest {
         }
         assertEquals(20, insertedIds.size)
     }
-///////////////////////////////////
+
+    ///////////////////////////////////
     //DELETES
     ///////////////////////////////////
 
@@ -145,7 +151,7 @@ class SessionPresetDaoTest {
         //
         assertTableSize(0)
         val countDeleted = runBlocking {
-            sessionPresetDao.delete(listOf(sessionPresetEntityToDeleteTest))
+            sessionPresetDao.delete(sessionPresetEntityToDeleteTest)
         }
         assertEquals(0, countDeleted)
         assertTableSize(0)
@@ -169,7 +175,7 @@ class SessionPresetDaoTest {
         //
         assertTableSize(6)
         val countDeleted = runBlocking {
-            sessionPresetDao.delete(listOf(sessionPresetEntityToDeleteTest))
+            sessionPresetDao.delete(sessionPresetEntityToDeleteTest)
         }
         assertEquals(0, countDeleted)
         assertTableSize(6)
@@ -187,45 +193,12 @@ class SessionPresetDaoTest {
         assertTableSize(50)
         //
         val countDeleted = runBlocking {
-            sessionPresetDao.delete(listOf(sessionPresetEntityToDeleteTest))
+            sessionPresetDao.delete(sessionPresetEntityToDeleteTest)
         }
         assertEquals(1, countDeleted)
         //
         assertTableSize(49)
 
-    }
-
-    @Test
-    fun testDeleteMultiSessionPresetOnEmptyTable() {
-        //create the test-subject list of items
-        val sessionPresetsToDeleteList = generateSessionPresets(17)
-        assertTableSize(0)
-        //delete test-subject list of items
-        val numberOfDeletedRows = runBlocking {
-            sessionPresetDao.delete(sessionPresetsToDeleteList)
-        }
-        assertTableSize(0)
-        assertEquals(0, numberOfDeletedRows)
-    }
-
-    @Test
-    fun testDeleteMultiSessionPreset() {
-        //insert the test-subject list of items
-        val sessionPresetsInserted = generateSessionPresets(17)
-        //insert and collect the ids
-        val insertedIds = runBlocking {
-            sessionPresetDao.insert(sessionPresetsInserted)
-        }
-        Assert.assertNotNull(insertedIds)
-        assertEquals(17, insertedIds.size)
-        val sessionPresetsToDelete = sessionPresetsInserted.subList(0, 10)
-
-        //delete test-subject list of items
-        val numberOfDeletedRows = runBlocking {
-            sessionPresetDao.delete(sessionPresetsToDelete)
-        }
-        assertEquals(10, numberOfDeletedRows)
-        assertTableSize(7)
     }
 
     @Test
@@ -259,7 +232,7 @@ class SessionPresetDaoTest {
     fun testGetSessionPresetsOnEmptyTable() {
         runBlocking {
             assertTableSize(0)
-            val sessionPresetEntities = sessionPresetDao.getSessionPresets()
+            val sessionPresetEntities = sessionPresetDao.getAllSessionPresetsLastEditTimeDesc()
             Assert.assertTrue(sessionPresetEntities.isEmpty())
         }
     }
@@ -269,8 +242,23 @@ class SessionPresetDaoTest {
         runBlocking {
             sessionPresetDao.insert(generateSessionPresets(37))
             assertTableSize(37)
-            val sessionPresetEntities = sessionPresetDao.getSessionPresets()
+            val sessionPresetEntities = sessionPresetDao.getAllSessionPresetsLastEditTimeDesc()
             assertEquals(37, sessionPresetEntities.size)
+        }
+    }
+
+    @Test
+    fun testGetSessionPresetsOrderIsCorrect() {
+        runBlocking {
+            sessionPresetDao.insert(generateSessionPresets(37))
+            assertTableSize(37)
+            val sessionPresetEntities = sessionPresetDao.getAllSessionPresetsLastEditTimeDesc()
+            assertEquals(37, sessionPresetEntities.size)
+            var lastEditTime = System.currentTimeMillis()
+            for(sessionPresetEntity in sessionPresetEntities){
+                assertTrue(sessionPresetEntity.lastEditTime <= lastEditTime)
+                lastEditTime = sessionPresetEntity.lastEditTime
+            }
         }
     }
 
@@ -352,7 +340,7 @@ class SessionPresetDaoTest {
         assertEquals(1, numberOfUpdatedItems)
         assertTableSize(54)
         val sessionPresetEntityUpdated = runBlocking {
-            sessionPresetDao.getSessionPresets().filter { it.id == 43L }[0]
+            sessionPresetDao.getAllSessionPresetsLastEditTimeDesc().filter { it.id == 43L }[0]
         }
         Assert.assertNotNull(sessionPresetEntityUpdated)
         assertEquals(4321L, sessionPresetEntity.duration)

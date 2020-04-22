@@ -5,7 +5,7 @@ import fr.shining_cat.everyday.locale.entities.RewardEntity
 import fr.shining_cat.everyday.locale.entities.RewardEntityConstants
 import fr.shining_cat.everyday.models.Level
 import fr.shining_cat.everyday.models.Reward
-import fr.shining_cat.everyday.models.RewardModelConstants
+import fr.shining_cat.everyday.models.RewardConstants
 
 class RewardConverter(
     private val logger: Logger
@@ -30,11 +30,11 @@ class RewardConverter(
             rewardEntity.id = reward.id
         }
         rewardEntity.acquisitionDate =
-            if (reward.acquisitionDate == RewardModelConstants.NO_ACQUISITION_DATE) RewardEntityConstants.NO_ACQUISITION_DATE else reward.acquisitionDate
+            if (reward.acquisitionDate == RewardConstants.NO_ACQUISITION_DATE) RewardEntityConstants.NO_ACQUISITION_DATE else reward.acquisitionDate
         rewardEntity.escapingDate =
-            if (reward.escapingDate == RewardModelConstants.NO_ESCAPING_DATE) RewardEntityConstants.NO_ESCAPING_DATE else reward.escapingDate
+            if (reward.escapingDate == RewardConstants.NO_ESCAPING_DATE) RewardEntityConstants.NO_ESCAPING_DATE else reward.escapingDate
         rewardEntity.name =
-            if (reward.name == RewardModelConstants.NO_NAME) RewardEntityConstants.NO_NAME else reward.name
+            if (reward.name == RewardConstants.NO_NAME) RewardEntityConstants.NO_NAME else reward.name
         rewardEntity.isActive = reward.isActive
         rewardEntity.isEscaped = reward.isEscaped
         rewardEntity.legsColor = reward.legsColor
@@ -60,11 +60,11 @@ class RewardConverter(
             level = Level.fromKey(rewardEntity.level)
         )
         rewardModel.acquisitionDate =
-            if (rewardEntity.acquisitionDate == RewardEntityConstants.NO_ACQUISITION_DATE) RewardModelConstants.NO_ACQUISITION_DATE else rewardEntity.acquisitionDate
+            if (rewardEntity.acquisitionDate == RewardEntityConstants.NO_ACQUISITION_DATE) RewardConstants.NO_ACQUISITION_DATE else rewardEntity.acquisitionDate
         rewardModel.escapingDate =
-            if (rewardEntity.escapingDate == RewardEntityConstants.NO_ESCAPING_DATE) RewardModelConstants.NO_ESCAPING_DATE else rewardEntity.escapingDate
+            if (rewardEntity.escapingDate == RewardEntityConstants.NO_ESCAPING_DATE) RewardConstants.NO_ESCAPING_DATE else rewardEntity.escapingDate
         rewardModel.name =
-            if (rewardEntity.name == RewardEntityConstants.NO_NAME) RewardModelConstants.NO_NAME else rewardEntity.name
+            if (rewardEntity.name == RewardEntityConstants.NO_NAME) RewardConstants.NO_NAME else rewardEntity.name
         rewardModel.isActive = rewardEntity.isActive
         rewardModel.isEscaped = rewardEntity.isEscaped
         rewardModel.legsColor = rewardEntity.legsColor

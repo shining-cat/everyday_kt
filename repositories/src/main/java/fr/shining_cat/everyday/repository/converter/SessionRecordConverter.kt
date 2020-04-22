@@ -16,7 +16,7 @@ class SessionRecordConverter(
 ) {
 
     fun convertModelsToEntities(sessionRecords: List<SessionRecord>): List<SessionRecordEntity> {
-        return sessionRecords.map { sessionModel -> convertModelToEntity(sessionModel) }
+        return sessionRecords.map { sessionRecord -> convertModelToEntity(sessionRecord) }
     }
 
     fun convertModelToEntity(sessionRecord: SessionRecord): SessionRecordEntity {
