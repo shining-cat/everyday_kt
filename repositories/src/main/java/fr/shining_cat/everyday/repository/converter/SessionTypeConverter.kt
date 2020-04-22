@@ -8,11 +8,11 @@ class SessionTypeConverter(
     private val logger: Logger
 ) {
 
-    fun convertModelsToEntities(sessionTypes: List<SessionType>): List<SessionTypeEntity> {
+    suspend fun convertModelsToEntities(sessionTypes: List<SessionType>): List<SessionTypeEntity> {
         return sessionTypes.map { sessionType -> convertModelToEntity(sessionType) }
     }
 
-    fun convertModelToEntity(sessionType: SessionType): SessionTypeEntity {
+    suspend fun convertModelToEntity(sessionType: SessionType): SessionTypeEntity {
         return SessionTypeEntity(
             id = sessionType.id,
             name = sessionType.name,
@@ -22,11 +22,11 @@ class SessionTypeConverter(
         )
     }
 
-    fun convertEntitiesToModels(sessionTypeEntities: List<SessionTypeEntity>): List<SessionType> {
+    suspend fun convertEntitiesToModels(sessionTypeEntities: List<SessionTypeEntity>): List<SessionType> {
         return sessionTypeEntities.map { sessionEntity -> convertEntitytoModel(sessionEntity) }
     }
 
-    fun convertEntitytoModel(sessionTypeEntity: SessionTypeEntity): SessionType {
+    suspend fun convertEntitytoModel(sessionTypeEntity: SessionTypeEntity): SessionType {
         return SessionType(
             id = sessionTypeEntity.id,
             name = sessionTypeEntity.name,

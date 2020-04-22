@@ -8,11 +8,11 @@ class SessionPresetConverter(
     private val logger: Logger
 ) {
 
-    fun convertModelsToEntities(sessionPresets: List<SessionPreset>): List<SessionPresetEntity> {
+    suspend fun convertModelsToEntities(sessionPresets: List<SessionPreset>): List<SessionPresetEntity> {
         return sessionPresets.map { sessionPreset -> convertModelToEntity(sessionPreset) }
     }
 
-    fun convertModelToEntity(sessionPreset: SessionPreset): SessionPresetEntity {
+    suspend fun convertModelToEntity(sessionPreset: SessionPreset): SessionPresetEntity {
         return SessionPresetEntity(
             id = sessionPreset.id,
             duration = sessionPreset.duration,
@@ -23,15 +23,16 @@ class SessionPresetConverter(
             intermediateIntervalSoundUri = sessionPreset.intermediateIntervalSoundUri,
             audioGuideSoundUri = sessionPreset.audioGuideSoundUri,
             vibration = sessionPreset.vibration,
-            lastEditTime = sessionPreset.lastEditTime
+            lastEditTime = sessionPreset.lastEditTime,
+            sessionTypeId = sessionPreset.sessionTypeId
         )
     }
 
-    fun convertEntitiesToModels(sessionPresetEntities: List<SessionPresetEntity>): List<SessionPreset> {
+    suspend fun convertEntitiesToModels(sessionPresetEntities: List<SessionPresetEntity>): List<SessionPreset> {
         return sessionPresetEntities.map { sessionEntity -> convertEntitytoModel(sessionEntity) }
     }
 
-    fun convertEntitytoModel(sessionPresetEntity: SessionPresetEntity): SessionPreset {
+    suspend fun convertEntitytoModel(sessionPresetEntity: SessionPresetEntity): SessionPreset {
         return SessionPreset(
             id = sessionPresetEntity.id,
             duration = sessionPresetEntity.duration,
@@ -42,7 +43,8 @@ class SessionPresetConverter(
             intermediateIntervalSoundUri = sessionPresetEntity.intermediateIntervalSoundUri,
             audioGuideSoundUri = sessionPresetEntity.audioGuideSoundUri,
             vibration = sessionPresetEntity.vibration,
-            lastEditTime = sessionPresetEntity.lastEditTime
+            lastEditTime = sessionPresetEntity.lastEditTime,
+            sessionTypeId = sessionPresetEntity.sessionTypeId
         )
     }
 }

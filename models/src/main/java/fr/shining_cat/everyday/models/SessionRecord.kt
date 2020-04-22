@@ -11,5 +11,6 @@ data class SessionRecord(
     var realDuration: Long,
     var pausesCount: Int,
     var realDurationVsPlanned: RealDurationVsPlanned,
-    var guideMp3: String
+    var guideMp3: String,
+    var sessionTypeId: Long
 )

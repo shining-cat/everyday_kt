@@ -12,6 +12,7 @@ import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.LA
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.SESSION_PRESET_ID
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.START_AND_END_SOUND
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.START_COUNTDOWN_LENGTH
+import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.TYPE
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.VIBRATION
 import fr.shining_cat.everyday.locale.entities.SessionPresetTable.SESSION_PRESET_TABLE_NAME
 
@@ -37,7 +38,9 @@ data class SessionPresetEntity(
     @ColumnInfo(name = VIBRATION)
     var vibration: Boolean,
     @ColumnInfo(name = LAST_EDIT_DATE)
-    var lastEditTime: Long
+    var lastEditTime: Long,
+    @ColumnInfo(name = TYPE)
+    var sessionTypeId: Long
 )
 
 object SessionPresetTable {
@@ -55,4 +58,5 @@ object SessionPresetEntityColumnNames {
     const val AUDIO_GUIDE = "audioGuide"
     const val VIBRATION = "vibration"
     const val LAST_EDIT_DATE = "lastEditDate"
+    const val TYPE = "type"
 }

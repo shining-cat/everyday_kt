@@ -15,11 +15,11 @@ class SessionRecordConverter(
     private val logger: Logger
 ) {
 
-    fun convertModelsToEntities(sessionRecords: List<SessionRecord>): List<SessionRecordEntity> {
+    suspend fun convertModelsToEntities(sessionRecords: List<SessionRecord>): List<SessionRecordEntity> {
         return sessionRecords.map { sessionRecord -> convertModelToEntity(sessionRecord) }
     }
 
-    fun convertModelToEntity(sessionRecord: SessionRecord): SessionRecordEntity {
+    suspend fun convertModelToEntity(sessionRecord: SessionRecord): SessionRecordEntity {
         val startMoodRecord = sessionRecord.startMood
         val endMoodRecord = sessionRecord.endMood
         val realDurationVsPlanned = sessionRecord.realDurationVsPlanned.key
@@ -42,15 +42,16 @@ class SessionRecordConverter(
             realDuration = sessionRecord.realDuration,
             pausesCount = sessionRecord.pausesCount,
             realDurationVsPlanned = realDurationVsPlanned,
-            guideMp3 = sessionRecord.guideMp3
+            guideMp3 = sessionRecord.guideMp3,
+            sessionTypeId = sessionRecord.sessionTypeId
         )
     }
 
-    fun convertEntitiesToModels(sessionRecordEntities: List<SessionRecordEntity>): List<SessionRecord> {
+    suspend fun convertEntitiesToModels(sessionRecordEntities: List<SessionRecordEntity>): List<SessionRecord> {
         return sessionRecordEntities.map { sessionEntity -> convertEntitytoModel(sessionEntity) }
     }
 
-    fun convertEntitytoModel(sessionRecordEntity: SessionRecordEntity): SessionRecord {
+    suspend fun convertEntitytoModel(sessionRecordEntity: SessionRecordEntity): SessionRecord {
         val startMoodRecord = Mood(
             timeOfRecord = sessionRecordEntity.startTimeOfRecord,
             bodyValue = MoodValue.fromKey(sessionRecordEntity.startBodyValue),
@@ -76,12 +77,13 @@ class SessionRecordConverter(
             realDuration = sessionRecordEntity.realDuration,
             pausesCount = sessionRecordEntity.pausesCount,
             realDurationVsPlanned = realDurationVsPlanned,
-            guideMp3 = sessionRecordEntity.guideMp3
+            guideMp3 = sessionRecordEntity.guideMp3,
+            sessionTypeId = sessionRecordEntity.sessionTypeId
         )
     }
 
     //this is used for the csv export
-    fun convertModelToStringArray(sessionRecord: SessionRecord): Array<String> {
+    suspend fun convertModelToStringArray(sessionRecord: SessionRecord): Array<String> {
         val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
         //0 is for NOT SET so export it as such
         val startMoodRecord = sessionRecord.startMood

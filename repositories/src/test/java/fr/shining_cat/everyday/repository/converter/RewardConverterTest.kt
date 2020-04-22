@@ -5,6 +5,7 @@ import fr.shining_cat.everyday.locale.entities.RewardEntity
 import fr.shining_cat.everyday.models.Level
 import fr.shining_cat.everyday.models.Reward
 import fr.shining_cat.everyday.testutils.AbstractBaseTest
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert
 import org.junit.Assert.assertEquals
@@ -98,15 +99,19 @@ class RewardConverterTest : AbstractBaseTest() {
     //////////////////////////////////
     @Test
     fun convertModelToEntity() {
-        val convertedModel = rewardConverter.convertModelToEntity(reward)
-        assertEquals(rewardEntity, convertedModel)
+        runBlocking {
+            val convertedModel = rewardConverter.convertModelToEntity(reward)
+            assertEquals(rewardEntity, convertedModel)
+        }
     }
 
 
     @Test
     fun convertEntitytoModel() {
-        val convertedEntity = rewardConverter.convertEntitytoModel(rewardEntity)
-        assertEquals(reward, convertedEntity)
+        runBlocking {
+            val convertedEntity = rewardConverter.convertEntitytoModel(rewardEntity)
+            assertEquals(reward, convertedEntity)
+        }
     }
 
 }

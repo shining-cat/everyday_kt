@@ -11,11 +11,11 @@ class RewardConverter(
     private val logger: Logger
 ) {
 
-    fun convertModelsToEntities(rewards: List<Reward>): List<RewardEntity> {
+    suspend fun convertModelsToEntities(rewards: List<Reward>): List<RewardEntity> {
         return rewards.map { rewardModel -> convertModelToEntity(rewardModel) }
     }
 
-    fun convertModelToEntity(reward: Reward): RewardEntity {
+    suspend fun convertModelToEntity(reward: Reward): RewardEntity {
         val level = reward.level.key
         val rewardEntity = RewardEntity(
             flower = reward.flowerKey,
@@ -43,12 +43,12 @@ class RewardConverter(
         return rewardEntity
     }
 
-    fun convertEntitiesToModels(rewardEntities: List<RewardEntity>): List<Reward> {
+    suspend fun convertEntitiesToModels(rewardEntities: List<RewardEntity>): List<Reward> {
         return rewardEntities.map { convertEntitytoModel(it) }
     }
 
 
-    fun convertEntitytoModel(rewardEntity: RewardEntity): Reward {
+    suspend fun convertEntitytoModel(rewardEntity: RewardEntity): Reward {
         val rewardModel = Reward(
             id = rewardEntity.id,
             flowerKey = rewardEntity.flower,

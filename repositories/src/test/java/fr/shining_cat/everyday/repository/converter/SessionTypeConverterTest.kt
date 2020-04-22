@@ -4,6 +4,7 @@ import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.locale.entities.SessionTypeEntity
 import fr.shining_cat.everyday.models.SessionType
 import fr.shining_cat.everyday.testutils.AbstractBaseTest
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -55,14 +56,18 @@ class SessionTypeConverterTest : AbstractBaseTest() {
     //////////////////////////////////
     @Test
     fun convertModelToEntity() {
-        val convertedModel = sessionTypeConverter.convertModelToEntity(sessionType)
-        assertEquals(sessionTypeEntity, convertedModel)
+        runBlocking {
+            val convertedModel = sessionTypeConverter.convertModelToEntity(sessionType)
+            assertEquals(sessionTypeEntity, convertedModel)
+        }
     }
 
 
     @Test
     fun convertEntitytoModel() {
-        val convertedEntity = sessionTypeConverter.convertEntitytoModel(sessionTypeEntity)
-        assertEquals(sessionType, convertedEntity)
+        runBlocking {
+            val convertedEntity = sessionTypeConverter.convertEntitytoModel(sessionTypeEntity)
+            assertEquals(sessionType, convertedEntity)
+        }
     }
 }

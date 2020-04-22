@@ -4,6 +4,7 @@ import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntity
 import fr.shining_cat.everyday.models.SessionPreset
 import fr.shining_cat.everyday.testutils.AbstractBaseTest
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
@@ -45,7 +46,8 @@ class SessionPresetConverterTest : AbstractBaseTest() {
         intermediateIntervalSoundUri = "intermediateIntervalSoundUri",
         audioGuideSoundUri = "audioGuideSoundUri",
         vibration = true,
-        lastEditTime = 567L
+        lastEditTime = 567L,
+        sessionTypeId = 678L
     )
 
     val sessionPresetEntity = SessionPresetEntity(
@@ -58,20 +60,25 @@ class SessionPresetConverterTest : AbstractBaseTest() {
         intermediateIntervalSoundUri = "intermediateIntervalSoundUri",
         audioGuideSoundUri = "audioGuideSoundUri",
         vibration = true,
-        lastEditTime = 567L
+        lastEditTime = 567L,
+        sessionTypeId = 678L
     )
 
     //////////////////////////////////
     @Test
     fun convertModelToEntity() {
-        val convertedModel = sessionPresetConverter.convertModelToEntity(sessionPreset)
-        assertEquals(sessionPresetEntity, convertedModel)
+        runBlocking {
+            val convertedModel = sessionPresetConverter.convertModelToEntity(sessionPreset)
+            assertEquals(sessionPresetEntity, convertedModel)
+        }
     }
 
 
     @Test
     fun convertEntitytoModel() {
-        val convertedEntity = sessionPresetConverter.convertEntitytoModel(sessionPresetEntity)
-        assertEquals(sessionPreset, convertedEntity)
+        runBlocking {
+            val convertedEntity = sessionPresetConverter.convertEntitytoModel(sessionPresetEntity)
+            assertEquals(sessionPreset, convertedEntity)
+        }
     }
 }
