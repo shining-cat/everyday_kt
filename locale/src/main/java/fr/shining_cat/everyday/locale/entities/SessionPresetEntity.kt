@@ -17,7 +17,7 @@ import fr.shining_cat.everyday.locale.entities.SessionPresetTable.SESSION_PRESET
 
 @Entity(tableName = SESSION_PRESET_TABLE_NAME)
 data class SessionPresetEntity(
-    @PrimaryKey(autoGenerate = true)@ColumnInfo(name = SESSION_PRESET_ID)
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = SESSION_PRESET_ID)
     var id: Long = 0L,
     //
     @ColumnInfo(name = DURATION)

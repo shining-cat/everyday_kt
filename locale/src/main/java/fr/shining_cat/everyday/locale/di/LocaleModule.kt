@@ -9,4 +9,5 @@ val localeModule = module {
     single { (get() as EveryDayRoomDatabase).rewardDao() }
     single { (get() as EveryDayRoomDatabase).sessionPresetDao() }
     single { (get() as EveryDayRoomDatabase).sessionRecordDao() }
+    single { (get() as EveryDayRoomDatabase).sessionTypeDao() }
 }

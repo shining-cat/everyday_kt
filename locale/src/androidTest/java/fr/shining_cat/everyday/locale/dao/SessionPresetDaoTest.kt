@@ -105,7 +105,7 @@ class SessionPresetDaoTest {
                 desiredIntermediateIntervalSoundUri = desiredIntermediateIntervalSoundUri,
                 desiredAudioGuideSoundUri = desiredAudioGuideSoundUri,
                 desiredVibration = desiredVibration,
-                desiredLastEditTime = desiredLastEditTime + i*10
+                desiredLastEditTime = desiredLastEditTime + i * 10
             )
             returnList.add(
                 oneSession
@@ -255,7 +255,7 @@ class SessionPresetDaoTest {
             val sessionPresetEntities = sessionPresetDao.getAllSessionPresetsLastEditTimeDesc()
             assertEquals(37, sessionPresetEntities.size)
             var lastEditTime = System.currentTimeMillis()
-            for(sessionPresetEntity in sessionPresetEntities){
+            for (sessionPresetEntity in sessionPresetEntities) {
                 assertTrue(sessionPresetEntity.lastEditTime <= lastEditTime)
                 lastEditTime = sessionPresetEntity.lastEditTime
             }
@@ -333,6 +333,7 @@ class SessionPresetDaoTest {
             "after update desiredIntermediateIntervalSoundUri"
         sessionPresetEntity.audioGuideSoundUri = "after update desiredAudioGuideSoundUri"
         sessionPresetEntity.vibration = true
+        sessionPresetEntity.lastEditTime = 74L
         //
         val numberOfUpdatedItems = runBlocking {
             sessionPresetDao.update(sessionPresetEntity)
@@ -360,5 +361,6 @@ class SessionPresetDaoTest {
             sessionPresetEntity.audioGuideSoundUri
         )
         assertEquals(true, sessionPresetEntity.vibration)
+        assertEquals(74L, sessionPresetEntity.lastEditTime)
     }
 }

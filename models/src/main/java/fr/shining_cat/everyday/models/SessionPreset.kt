@@ -10,5 +10,5 @@ data class SessionPreset(
     var intermediateIntervalSoundUri: String,
     var audioGuideSoundUri: String,
     var vibration: Boolean,
-    var lastEditDate: Long
+    var lastEditTime: Long
 )

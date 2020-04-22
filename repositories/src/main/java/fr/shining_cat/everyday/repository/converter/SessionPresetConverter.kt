@@ -23,7 +23,7 @@ class SessionPresetConverter(
             intermediateIntervalSoundUri = sessionPreset.intermediateIntervalSoundUri,
             audioGuideSoundUri = sessionPreset.audioGuideSoundUri,
             vibration = sessionPreset.vibration,
-            lastEditTime = sessionPreset.lastEditDate
+            lastEditTime = sessionPreset.lastEditTime
         )
     }
 
@@ -42,7 +42,7 @@ class SessionPresetConverter(
             intermediateIntervalSoundUri = sessionPresetEntity.intermediateIntervalSoundUri,
             audioGuideSoundUri = sessionPresetEntity.audioGuideSoundUri,
             vibration = sessionPresetEntity.vibration,
-            lastEditDate = sessionPresetEntity.lastEditTime
+            lastEditTime = sessionPresetEntity.lastEditTime
         )
     }
 }

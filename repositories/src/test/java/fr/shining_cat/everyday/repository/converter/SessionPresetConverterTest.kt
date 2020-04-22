@@ -45,7 +45,7 @@ class SessionPresetConverterTest : AbstractBaseTest() {
         intermediateIntervalSoundUri = "intermediateIntervalSoundUri",
         audioGuideSoundUri = "audioGuideSoundUri",
         vibration = true,
-        lastEditDate = 567L
+        lastEditTime = 567L
     )
 
     val sessionPresetEntity = SessionPresetEntity(
