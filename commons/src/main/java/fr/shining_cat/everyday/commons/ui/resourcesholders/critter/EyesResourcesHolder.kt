@@ -1,6 +1,6 @@
-package fr.shining_cat.everyday.models.critter
+package fr.shining_cat.everyday.commons.ui.resourcesholders.critter
 
-class EyesResourcesHolder: CritterPartResourcesHolder(){
+class EyesResourcesHolder : CritterPartResourcesHolder() {
 
     override val partsCount: Int = EyesDrawable.values().size
     override val firstItemIsOff = true

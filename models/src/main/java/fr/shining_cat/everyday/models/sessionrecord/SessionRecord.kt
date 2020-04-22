@@ -1,4 +1,4 @@
-package fr.shining_cat.everyday.models
+package fr.shining_cat.everyday.models.sessionrecord
 
 
 data class SessionRecord(

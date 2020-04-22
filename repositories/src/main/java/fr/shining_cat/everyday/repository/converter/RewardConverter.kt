@@ -3,9 +3,9 @@ package fr.shining_cat.everyday.repository.converter
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.locale.entities.RewardEntity
 import fr.shining_cat.everyday.locale.entities.RewardEntityConstants
-import fr.shining_cat.everyday.models.Level
-import fr.shining_cat.everyday.models.Reward
-import fr.shining_cat.everyday.models.RewardConstants
+import fr.shining_cat.everyday.models.reward.Level
+import fr.shining_cat.everyday.models.reward.Reward
+import fr.shining_cat.everyday.models.reward.RewardConstants
 
 class RewardConverter(
     private val logger: Logger

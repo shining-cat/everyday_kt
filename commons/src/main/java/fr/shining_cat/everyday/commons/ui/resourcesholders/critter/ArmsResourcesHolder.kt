@@ -1,6 +1,6 @@
-package fr.shining_cat.everyday.models.critter
+package fr.shining_cat.everyday.commons.ui.resourcesholders.critter
 
-class ArmsResourcesHolder: CritterPartResourcesHolder(){
+class ArmsResourcesHolder : CritterPartResourcesHolder() {
 
     override val partsCount: Int = ArmsDrawable.values().size
     override val firstItemIsOff = true
@@ -9,7 +9,7 @@ class ArmsResourcesHolder: CritterPartResourcesHolder(){
 
     override fun getResourceIdForKey(key: Int): Int = ArmsDrawable.fromKey(key)
 
-    private enum class ArmsDrawable(val key: Int, val resourceId: Int){
+    private enum class ArmsDrawable(val key: Int, val resourceId: Int) {
         ARMS_PART_OFF(0, -1),//R.drawable.arms_off),
         ARMS_PART_1(1, -1),//R.drawable.arms_1),
         ARMS_PART_2(2, -1),//R.drawable.arms_2),

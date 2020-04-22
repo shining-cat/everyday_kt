@@ -3,7 +3,7 @@ package fr.shining_cat.everyday.repository.repo
 import fr.shining_cat.everyday.commons.Constants
 import fr.shining_cat.everyday.locale.dao.SessionRecordDao
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntity
-import fr.shining_cat.everyday.models.SessionRecord
+import fr.shining_cat.everyday.models.sessionrecord.SessionRecord
 import fr.shining_cat.everyday.repository.Output
 import fr.shining_cat.everyday.repository.converter.SessionRecordConverter
 import kotlinx.coroutines.Dispatchers

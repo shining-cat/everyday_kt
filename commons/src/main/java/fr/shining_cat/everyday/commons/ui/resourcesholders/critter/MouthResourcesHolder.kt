@@ -1,6 +1,6 @@
-package fr.shining_cat.everyday.models.critter
+package fr.shining_cat.everyday.commons.ui.resourcesholders.critter
 
-class MouthResourcesHolder: CritterPartResourcesHolder(){
+class MouthResourcesHolder : CritterPartResourcesHolder() {
 
     override val partsCount: Int = MouthDrawable.values().size
     override val firstItemIsOff = false

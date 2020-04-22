@@ -1,9 +1,9 @@
-package fr.shining_cat.everyday.models
+package fr.shining_cat.everyday.models.reward
 
-import fr.shining_cat.everyday.models.RewardConstants.DEFAULT_REWARD_COLOR
-import fr.shining_cat.everyday.models.RewardConstants.NO_ACQUISITION_DATE
-import fr.shining_cat.everyday.models.RewardConstants.NO_ESCAPING_DATE
-import fr.shining_cat.everyday.models.RewardConstants.NO_NAME
+import fr.shining_cat.everyday.models.reward.RewardConstants.DEFAULT_REWARD_COLOR
+import fr.shining_cat.everyday.models.reward.RewardConstants.NO_ACQUISITION_DATE
+import fr.shining_cat.everyday.models.reward.RewardConstants.NO_ESCAPING_DATE
+import fr.shining_cat.everyday.models.reward.RewardConstants.NO_NAME
 
 
 ////////////////////////////////////////
@@ -30,10 +30,11 @@ data class Reward(
     var name: String = NO_NAME,
     var legsColor: String = DEFAULT_REWARD_COLOR,
     var bodyColor: String = DEFAULT_REWARD_COLOR,
-    var armsColor: String = DEFAULT_REWARD_COLOR)
+    var armsColor: String = DEFAULT_REWARD_COLOR
+)
 
 
-object RewardConstants{
+object RewardConstants {
     const val NO_ACQUISITION_DATE: Long = 0
     const val NO_ESCAPING_DATE: Long = 0
     const val NO_NAME = ""
@@ -41,7 +42,7 @@ object RewardConstants{
 }
 
 //TODO: this should move to the Domain module when it is created:
-object RewardThresholds{
+object RewardThresholds {
     //length of session for each duration level => this determines the Reward level
     const val REWARD_DURATION_LEVEL_1 = 0
     const val REWARD_DURATION_LEVEL_2 = 300000 //5mn
@@ -56,15 +57,16 @@ object RewardThresholds{
     const val REWARD_STREAK_LEVEL_4 = 21
     const val REWARD_STREAK_LEVEL_5 = 28
 }
+
 //TODO: this should move to the Domain module when it is created:
-object RewardChances{
+object RewardChances {
     //composition of a session reward as an array of probability of getting additional rewards (of the same level) (chance for 1, chance for a second, chance for a third, chance for a fourth)
     //so a user can earn up to 4 rewards for one session
     //this is based on the REWARD_STREAK_LEVEL
-    val REWARD_CHANCE_LEVEL_1 = arrayOf(100,  0,  0,  0)
-    val REWARD_CHANCE_LEVEL_2 = arrayOf(100, 20,  0,  0)
-    val REWARD_CHANCE_LEVEL_3 = arrayOf(100, 30, 10,  0)
-    val REWARD_CHANCE_LEVEL_4 = arrayOf(100, 40, 15,  5)
+    val REWARD_CHANCE_LEVEL_1 = arrayOf(100, 0, 0, 0)
+    val REWARD_CHANCE_LEVEL_2 = arrayOf(100, 20, 0, 0)
+    val REWARD_CHANCE_LEVEL_3 = arrayOf(100, 30, 10, 0)
+    val REWARD_CHANCE_LEVEL_4 = arrayOf(100, 40, 15, 5)
     val REWARD_CHANCE_LEVEL_5 = arrayOf(100, 50, 20, 10)
 }
 

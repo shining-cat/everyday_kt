@@ -1,6 +1,6 @@
 package fr.shining_cat.everyday.repository.repo
 
-import fr.shining_cat.everyday.models.critter.*
+import fr.shining_cat.everyday.commons.ui.resourcesholders.critter.*
 
 interface CritterPartsRepository {
     suspend fun getArmsResourcesHolder(): CritterPartResourcesHolder

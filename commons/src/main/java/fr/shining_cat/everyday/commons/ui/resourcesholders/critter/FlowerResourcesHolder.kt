@@ -1,6 +1,6 @@
-package fr.shining_cat.everyday.models.critter
+package fr.shining_cat.everyday.commons.ui.resourcesholders.critter
 
-class FlowerResourcesHolder: CritterPartResourcesHolder(){
+class FlowerResourcesHolder : CritterPartResourcesHolder() {
 
     override val partsCount: Int = FlowerDrawable.values().size
     override val firstItemIsOff = true

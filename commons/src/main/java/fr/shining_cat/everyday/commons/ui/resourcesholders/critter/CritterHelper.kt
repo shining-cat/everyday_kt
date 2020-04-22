@@ -1,13 +1,4 @@
-package fr.shining_cat.everyday.models.critter
-
-import com.google.common.collect.ImmutableSet
-import fr.shining_cat.everyday.models.Level
-import fr.shining_cat.everyday.models.critter.CritterConstants.ARMS_CODE_INDEX_IN_CRITTER_CODE
-import fr.shining_cat.everyday.models.critter.CritterConstants.CODE_SEPARATOR
-import fr.shining_cat.everyday.models.critter.CritterConstants.EYES_CODE_INDEX_IN_CRITTER_CODE
-import fr.shining_cat.everyday.models.critter.CritterConstants.HORNS_CODE_INDEX_IN_CRITTER_CODE
-import fr.shining_cat.everyday.models.critter.CritterConstants.LEGS_CODE_INDEX_IN_CRITTER_CODE
-import kotlin.random.Random
+package fr.shining_cat.everyday.commons.ui.resourcesholders.critter
 
 //TODO: seems that CritterHelper will no longer be needed
 class CritterHelper(

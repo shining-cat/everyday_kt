@@ -1,4 +1,4 @@
-package fr.shining_cat.everyday.models.critter
+package fr.shining_cat.everyday.commons.ui.resourcesholders.critter
 
 abstract class CritterPartResourcesHolder {
 

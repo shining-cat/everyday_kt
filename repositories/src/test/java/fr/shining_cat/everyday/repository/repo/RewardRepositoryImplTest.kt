@@ -2,10 +2,8 @@ package fr.shining_cat.everyday.repository.repo
 
 import fr.shining_cat.everyday.locale.dao.RewardDao
 import fr.shining_cat.everyday.locale.entities.RewardEntity
-import fr.shining_cat.everyday.models.Reward
+import fr.shining_cat.everyday.models.reward.Reward
 import fr.shining_cat.everyday.repository.converter.RewardConverter
-import fr.shining_cat.everyday.repository.repo.RewardRepository
-import fr.shining_cat.everyday.repository.repo.RewardRepositoryImpl
 import fr.shining_cat.everyday.testutils.AbstractBaseTest
 import kotlinx.coroutines.runBlocking
 import org.junit.After

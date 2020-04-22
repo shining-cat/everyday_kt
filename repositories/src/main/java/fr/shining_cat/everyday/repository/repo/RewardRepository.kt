@@ -7,7 +7,7 @@ import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_NO_RESU
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_UPDATE_FAILED
 import fr.shining_cat.everyday.locale.dao.RewardDao
 import fr.shining_cat.everyday.locale.entities.RewardEntity
-import fr.shining_cat.everyday.models.Reward
+import fr.shining_cat.everyday.models.reward.Reward
 import fr.shining_cat.everyday.repository.Output
 import fr.shining_cat.everyday.repository.converter.RewardConverter
 import kotlinx.coroutines.Dispatchers

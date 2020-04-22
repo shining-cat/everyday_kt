@@ -61,7 +61,8 @@ class SessionPresetDaoTest {
         desiredIntermediateIntervalSoundUri: String = "interval sound",
         desiredAudioGuideSoundUri: String = "audio guide sound",
         desiredVibration: Boolean = false,
-        desiredLastEditTime: Long = 890L
+        desiredLastEditTime: Long = 890L,
+        sessionTypeId: Long = 901L
     ): SessionPresetEntity {
         val returnEntity = SessionPresetEntity(
             duration = desiredDuration,
@@ -72,7 +73,8 @@ class SessionPresetDaoTest {
             intermediateIntervalSoundUri = desiredIntermediateIntervalSoundUri,
             audioGuideSoundUri = desiredAudioGuideSoundUri,
             vibration = desiredVibration,
-            lastEditTime = desiredLastEditTime
+            lastEditTime = desiredLastEditTime,
+            sessionTypeId = sessionTypeId
         )
         if (desiredId != -1L) {
             returnEntity.id = desiredId

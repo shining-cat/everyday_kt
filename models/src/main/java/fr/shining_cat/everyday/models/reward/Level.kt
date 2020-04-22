@@ -1,4 +1,4 @@
-package fr.shining_cat.everyday.models
+package fr.shining_cat.everyday.models.reward
 
 // TODO : we need 6 versions of FLOWER and MOUTH + 7 versions of LEGS, ARMS, and EYES (6 normal and 1 "off" version : legs or arms folded, eyes closed), the "off" version of HORNS is simply empty
 //parts always "active" : flower, mouth

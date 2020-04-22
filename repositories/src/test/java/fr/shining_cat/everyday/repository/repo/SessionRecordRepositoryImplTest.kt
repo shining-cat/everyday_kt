@@ -2,10 +2,8 @@ package fr.shining_cat.everyday.repository.repo
 
 import fr.shining_cat.everyday.locale.dao.SessionRecordDao
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntity
-import fr.shining_cat.everyday.models.SessionRecord
+import fr.shining_cat.everyday.models.sessionrecord.SessionRecord
 import fr.shining_cat.everyday.repository.converter.SessionRecordConverter
-import fr.shining_cat.everyday.repository.repo.SessionRecordRepository
-import fr.shining_cat.everyday.repository.repo.SessionRecordRepositoryImpl
 import fr.shining_cat.everyday.testutils.AbstractBaseTest
 import kotlinx.coroutines.runBlocking
 import org.junit.After

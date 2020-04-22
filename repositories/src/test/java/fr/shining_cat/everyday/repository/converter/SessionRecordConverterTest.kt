@@ -2,10 +2,10 @@ package fr.shining_cat.everyday.repository.converter
 
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntity
-import fr.shining_cat.everyday.models.Mood
-import fr.shining_cat.everyday.models.MoodValue
-import fr.shining_cat.everyday.models.RealDurationVsPlanned
-import fr.shining_cat.everyday.models.SessionRecord
+import fr.shining_cat.everyday.models.sessionrecord.Mood
+import fr.shining_cat.everyday.models.sessionrecord.MoodValue
+import fr.shining_cat.everyday.models.sessionrecord.RealDurationVsPlanned
+import fr.shining_cat.everyday.models.sessionrecord.SessionRecord
 import fr.shining_cat.everyday.testutils.AbstractBaseTest
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -46,39 +46,40 @@ class SessionRecordConverterTest : AbstractBaseTest() {
         assertEquals(entityTranslated, sessionRecord)
     }
 
-    val sessionRecord = SessionRecord(
-        id = 41,
-        startMood = generateMood(
-            1980,
-            5,
-            2,
-            15,
-            27,
-            54,
-            MoodValue.WORST,
-            MoodValue.NOT_SET,
-            MoodValue.GOOD,
-            MoodValue.BEST
-        ),
-        endMood = generateMood(
-            1981,
-            6,
-            3,
-            17,
-            45,
-            3,
-            MoodValue.NOT_SET,
-            MoodValue.GOOD,
-            MoodValue.BAD,
-            MoodValue.WORST
-        ),
-        notes = "testing notes string",
-        realDuration = 1500000,
-        pausesCount = 3,
-        realDurationVsPlanned = RealDurationVsPlanned.REAL_SHORTER,
-        guideMp3 = "testing guideMp3 string",
-        sessionTypeId = 5678L
-    )
+    val sessionRecord =
+        SessionRecord(
+            id = 41,
+            startMood = generateMood(
+                1980,
+                5,
+                2,
+                15,
+                27,
+                54,
+                MoodValue.WORST,
+                MoodValue.NOT_SET,
+                MoodValue.GOOD,
+                MoodValue.BEST
+            ),
+            endMood = generateMood(
+                1981,
+                6,
+                3,
+                17,
+                45,
+                3,
+                MoodValue.NOT_SET,
+                MoodValue.GOOD,
+                MoodValue.BAD,
+                MoodValue.WORST
+            ),
+            notes = "testing notes string",
+            realDuration = 1500000,
+            pausesCount = 3,
+            realDurationVsPlanned = RealDurationVsPlanned.REAL_SHORTER,
+            guideMp3 = "testing guideMp3 string",
+            sessionTypeId = 5678L
+        )
 
     val sessionRecordEntity = SessionRecordEntity(
         id = 41,

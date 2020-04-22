@@ -2,10 +2,10 @@ package fr.shining_cat.everyday.repository.converter
 
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntity
-import fr.shining_cat.everyday.models.Mood
-import fr.shining_cat.everyday.models.MoodValue
-import fr.shining_cat.everyday.models.RealDurationVsPlanned
-import fr.shining_cat.everyday.models.SessionRecord
+import fr.shining_cat.everyday.models.sessionrecord.Mood
+import fr.shining_cat.everyday.models.sessionrecord.MoodValue
+import fr.shining_cat.everyday.models.sessionrecord.RealDurationVsPlanned
+import fr.shining_cat.everyday.models.sessionrecord.SessionRecord
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -54,17 +54,33 @@ class SessionRecordConverter(
     suspend fun convertEntitytoModel(sessionRecordEntity: SessionRecordEntity): SessionRecord {
         val startMoodRecord = Mood(
             timeOfRecord = sessionRecordEntity.startTimeOfRecord,
-            bodyValue = MoodValue.fromKey(sessionRecordEntity.startBodyValue),
-            thoughtsValue = MoodValue.fromKey(sessionRecordEntity.startThoughtsValue),
-            feelingsValue = MoodValue.fromKey(sessionRecordEntity.startFeelingsValue),
-            globalValue = MoodValue.fromKey(sessionRecordEntity.startGlobalValue)
+            bodyValue = MoodValue.fromKey(
+                sessionRecordEntity.startBodyValue
+            ),
+            thoughtsValue = MoodValue.fromKey(
+                sessionRecordEntity.startThoughtsValue
+            ),
+            feelingsValue = MoodValue.fromKey(
+                sessionRecordEntity.startFeelingsValue
+            ),
+            globalValue = MoodValue.fromKey(
+                sessionRecordEntity.startGlobalValue
+            )
         )
         val endMoodRecord = Mood(
             timeOfRecord = sessionRecordEntity.endTimeOfRecord,
-            bodyValue = MoodValue.fromKey(sessionRecordEntity.endBodyValue),
-            thoughtsValue = MoodValue.fromKey(sessionRecordEntity.endThoughtsValue),
-            feelingsValue = MoodValue.fromKey(sessionRecordEntity.endFeelingsValue),
-            globalValue = MoodValue.fromKey(sessionRecordEntity.endGlobalValue)
+            bodyValue = MoodValue.fromKey(
+                sessionRecordEntity.endBodyValue
+            ),
+            thoughtsValue = MoodValue.fromKey(
+                sessionRecordEntity.endThoughtsValue
+            ),
+            feelingsValue = MoodValue.fromKey(
+                sessionRecordEntity.endFeelingsValue
+            ),
+            globalValue = MoodValue.fromKey(
+                sessionRecordEntity.endGlobalValue
+            )
         )
         val realDurationVsPlanned =
             RealDurationVsPlanned.fromKey(sessionRecordEntity.realDurationVsPlanned)

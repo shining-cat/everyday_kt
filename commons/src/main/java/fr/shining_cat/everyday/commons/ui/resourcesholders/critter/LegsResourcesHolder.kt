@@ -1,6 +1,6 @@
-package fr.shining_cat.everyday.models.critter
+package fr.shining_cat.everyday.commons.ui.resourcesholders.critter
 
-class LegsResourcesHolder: CritterPartResourcesHolder(){
+class LegsResourcesHolder : CritterPartResourcesHolder() {
 
     override val partsCount: Int = LegsDrawable.values().size
     override val firstItemIsOff = true
