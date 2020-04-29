@@ -9,11 +9,17 @@ import androidx.room.RoomDatabase
 import fr.shining_cat.everyday.locale.dao.RewardDao
 import fr.shining_cat.everyday.locale.dao.SessionPresetDao
 import fr.shining_cat.everyday.locale.dao.SessionRecordDao
+import fr.shining_cat.everyday.locale.dao.SessionTypeDao
 import fr.shining_cat.everyday.locale.entities.RewardEntity
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntity
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntity
+import fr.shining_cat.everyday.locale.entities.SessionTypeEntity
 
-@Database(entities = [SessionRecordEntity::class, RewardEntity::class, SessionPresetEntity::class], version = 1, exportSchema = false)
+@Database(
+    entities = [SessionRecordEntity::class, RewardEntity::class, SessionPresetEntity::class, SessionTypeEntity::class],
+    version = 1,
+    exportSchema = false
+)
 abstract class EveryDayRoomDatabase : RoomDatabase() {
 
     /**
@@ -25,9 +31,12 @@ abstract class EveryDayRoomDatabase : RoomDatabase() {
 
     abstract fun sessionPresetDao(): SessionPresetDao
 
+    abstract fun sessionTypeDao(): SessionTypeDao
+
     companion object {
         var TEST_MODE = false
         val DATABASE_NAME = "everyday_database.db"
+
         //singleton to prevent having multiple instances of the database opened at the same time :
         @Volatile
         private var INSTANCE: EveryDayRoomDatabase? = null
@@ -48,7 +57,8 @@ abstract class EveryDayRoomDatabase : RoomDatabase() {
                             EveryDayRoomDatabase::class.java
                         )
                             .build()
-                    } else {
+                    }
+                    else {
                         instance = Room.databaseBuilder(
                             context,
                             EveryDayRoomDatabase::class.java,

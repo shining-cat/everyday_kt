@@ -19,6 +19,7 @@ import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.ST
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.START_GLOBAL_VALUE
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.START_THOUGHTS_VALUE
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.START_TIME_OF_RECORD
+import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.TYPE
 import fr.shining_cat.everyday.locale.entities.SessionRecordTable.SESSION_RECORD_TABLE
 
 @Entity(tableName = SESSION_RECORD_TABLE)
@@ -57,7 +58,9 @@ data class SessionRecordEntity(
     @ColumnInfo(name = REAL_DURATION_VS_PLANNED)
     var realDurationVsPlanned: Int, //<0 if real < planned; =0 if real = planned; >0 if real > planned  (obtained via Long.compare(real, planned)
     @ColumnInfo(name = MP3_GUIDE)
-    var guideMp3: String
+    var guideMp3: String,
+    @ColumnInfo(name = TYPE)
+    var sessionTypeId: Long
 )
 
 object SessionRecordTable {
@@ -83,6 +86,7 @@ object SessionRecordEntityColumnNames {
     const val PAUSES_COUNT = "pausesCount"
     const val REAL_DURATION_VS_PLANNED = "realDurationVsPlanned"
     const val MP3_GUIDE = "guideMp3"
+    const val TYPE = "type"
 }
 
 fun getSessionRecordHeaders(): Array<String> {

@@ -98,7 +98,8 @@ class SessionRecordDaoTest {
         realDuration: Long = 1590000,
         pausesCount: Int = 7,
         realDurationVsPlanned: Int = 0,
-        guideMp3: String = "generateSessionRecordEntity default guideMp3"
+        guideMp3: String = "generateSessionRecordEntity default guideMp3",
+        sessionTypeId: Long = 5678L
     ): SessionRecordEntity {
         if (desiredId == -1L) {
             return SessionRecordEntity(
@@ -132,9 +133,11 @@ class SessionRecordDaoTest {
                 realDuration = realDuration,
                 pausesCount = pausesCount,
                 realDurationVsPlanned = realDurationVsPlanned,
-                guideMp3 = guideMp3
+                guideMp3 = guideMp3,
+                sessionTypeId = sessionTypeId
             )
-        } else {
+        }
+        else {
             return SessionRecordEntity(
                 id = desiredId,
                 startTimeOfRecord = GregorianCalendar(
@@ -167,7 +170,8 @@ class SessionRecordDaoTest {
                 realDuration = realDuration,
                 pausesCount = pausesCount,
                 realDurationVsPlanned = realDurationVsPlanned,
-                guideMp3 = guideMp3
+                guideMp3 = guideMp3,
+                sessionTypeId = sessionTypeId
             )
         }
     }

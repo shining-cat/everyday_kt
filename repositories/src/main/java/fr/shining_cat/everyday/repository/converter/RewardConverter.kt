@@ -1,38 +1,40 @@
 package fr.shining_cat.everyday.repository.converter
 
+import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.locale.entities.RewardEntity
 import fr.shining_cat.everyday.locale.entities.RewardEntityConstants
-import fr.shining_cat.everyday.models.Level
-import fr.shining_cat.everyday.models.Reward
-import fr.shining_cat.everyday.models.RewardModelConstants
-import fr.shining_cat.everyday.models.critter.*
+import fr.shining_cat.everyday.models.reward.Level
+import fr.shining_cat.everyday.models.reward.Reward
+import fr.shining_cat.everyday.models.reward.RewardConstants
 
-class RewardConverter {
+class RewardConverter(
+    private val logger: Logger
+) {
 
-    fun convertModelsToEntities(rewards: List<Reward>): List<RewardEntity> {
+    suspend fun convertModelsToEntities(rewards: List<Reward>): List<RewardEntity> {
         return rewards.map { rewardModel -> convertModelToEntity(rewardModel) }
     }
 
-    fun convertModelToEntity(reward: Reward): RewardEntity {
+    suspend fun convertModelToEntity(reward: Reward): RewardEntity {
         val level = reward.level.key
         val rewardEntity = RewardEntity(
-            flower = reward.flower.key,
-            mouth = reward.mouth.key,
-            legs = reward.legs.key,
-            arms = reward.arms.key,
-            eyes = reward.eyes.key,
-            horns = reward.horns.key,
+            flower = reward.flowerKey,
+            mouth = reward.mouthKey,
+            legs = reward.legsKey,
+            arms = reward.armsKey,
+            eyes = reward.eyesKey,
+            horns = reward.hornsKey,
             level = level
         )
         if (reward.id != -1L) {
             rewardEntity.id = reward.id
         }
         rewardEntity.acquisitionDate =
-            if (reward.acquisitionDate == RewardModelConstants.NO_ACQUISITION_DATE) RewardEntityConstants.NO_ACQUISITION_DATE else reward.acquisitionDate
+            if (reward.acquisitionDate == RewardConstants.NO_ACQUISITION_DATE) RewardEntityConstants.NO_ACQUISITION_DATE else reward.acquisitionDate
         rewardEntity.escapingDate =
-            if (reward.escapingDate == RewardModelConstants.NO_ESCAPING_DATE) RewardEntityConstants.NO_ESCAPING_DATE else reward.escapingDate
+            if (reward.escapingDate == RewardConstants.NO_ESCAPING_DATE) RewardEntityConstants.NO_ESCAPING_DATE else reward.escapingDate
         rewardEntity.name =
-            if (reward.name == RewardModelConstants.NO_NAME) RewardEntityConstants.NO_NAME else reward.name
+            if (reward.name == RewardConstants.NO_NAME) RewardEntityConstants.NO_NAME else reward.name
         rewardEntity.isActive = reward.isActive
         rewardEntity.isEscaped = reward.isEscaped
         rewardEntity.legsColor = reward.legsColor
@@ -41,28 +43,28 @@ class RewardConverter {
         return rewardEntity
     }
 
-    fun convertEntitiesToModels(rewardEntitiesLiveData: List<RewardEntity>): List<Reward> {
-        return rewardEntitiesLiveData.map { convertEntitytoModel(it) }
+    suspend fun convertEntitiesToModels(rewardEntities: List<RewardEntity>): List<Reward> {
+        return rewardEntities.map { convertEntitytoModel(it) }
     }
 
 
-    fun convertEntitytoModel(rewardEntity: RewardEntity): Reward {
+    suspend fun convertEntitytoModel(rewardEntity: RewardEntity): Reward {
         val rewardModel = Reward(
             id = rewardEntity.id,
-            flower = FlowerResourcesHolder.FlowerDrawable.fromKey(rewardEntity.flower),
-            mouth = MouthResourcesHolder.MouthDrawable.fromKey(rewardEntity.mouth),
-            legs = LegsResourcesHolder.LegsDrawable.fromKey(rewardEntity.legs),
-            arms = ArmsResourcesHolder.ArmsDrawable.fromKey(rewardEntity.arms),
-            eyes = EyesResourcesHolder.EyesDrawable.fromKey(rewardEntity.eyes),
-            horns = HornsResourcesHolder.HornsDrawable.fromKey(rewardEntity.horns),
+            flowerKey = rewardEntity.flower,
+            mouthKey = rewardEntity.mouth,
+            legsKey = rewardEntity.legs,
+            armsKey = rewardEntity.arms,
+            eyesKey = rewardEntity.eyes,
+            hornsKey = rewardEntity.horns,
             level = Level.fromKey(rewardEntity.level)
         )
         rewardModel.acquisitionDate =
-            if (rewardEntity.acquisitionDate == RewardEntityConstants.NO_ACQUISITION_DATE) RewardModelConstants.NO_ACQUISITION_DATE else rewardEntity.acquisitionDate
+            if (rewardEntity.acquisitionDate == RewardEntityConstants.NO_ACQUISITION_DATE) RewardConstants.NO_ACQUISITION_DATE else rewardEntity.acquisitionDate
         rewardModel.escapingDate =
-            if (rewardEntity.escapingDate == RewardEntityConstants.NO_ESCAPING_DATE) RewardModelConstants.NO_ESCAPING_DATE else rewardEntity.escapingDate
+            if (rewardEntity.escapingDate == RewardEntityConstants.NO_ESCAPING_DATE) RewardConstants.NO_ESCAPING_DATE else rewardEntity.escapingDate
         rewardModel.name =
-            if (rewardEntity.name == RewardEntityConstants.NO_NAME) RewardModelConstants.NO_NAME else rewardEntity.name
+            if (rewardEntity.name == RewardEntityConstants.NO_NAME) RewardConstants.NO_NAME else rewardEntity.name
         rewardModel.isActive = rewardEntity.isActive
         rewardModel.isEscaped = rewardEntity.isEscaped
         rewardModel.legsColor = rewardEntity.legsColor

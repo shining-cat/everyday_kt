@@ -11,7 +11,7 @@ import fr.shining_cat.everyday.locale.entities.SessionRecordTable.SESSION_RECORD
 
 
 @Dao
-abstract class SessionRecordDao{
+abstract class SessionRecordDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insert(sessionRecords: List<SessionRecordEntity>): Array<Long>

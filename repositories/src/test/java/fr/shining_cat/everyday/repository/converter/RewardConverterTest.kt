@@ -1,27 +1,34 @@
 package fr.shining_cat.everyday.repository.converter
 
+import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.locale.entities.RewardEntity
-import fr.shining_cat.everyday.models.Level
-import fr.shining_cat.everyday.models.Reward
-import fr.shining_cat.everyday.models.critter.*
+import fr.shining_cat.everyday.models.reward.Level
+import fr.shining_cat.everyday.models.reward.Reward
 import fr.shining_cat.everyday.testutils.AbstractBaseTest
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
+import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.MockitoAnnotations
 import java.util.*
 
-@RunWith(MockitoJUnitRunner::class)
 class RewardConverterTest : AbstractBaseTest() {
+
+    @Mock
+    private lateinit var mockLogger: Logger
 
     private lateinit var rewardConverter: RewardConverter
 
+
     @Before
     fun setUp() {
-        rewardConverter = RewardConverter()
+        MockitoAnnotations.initMocks(this)
+        assertNotNull(mockLogger)
+        rewardConverter = RewardConverter(mockLogger)
     }
 
     /**
@@ -32,190 +39,14 @@ class RewardConverterTest : AbstractBaseTest() {
         Mockito.framework().clearInlineMocks()
     }
 
-    ////////////////////////////
-//    private fun generateRewardEntity(
-//        desiredFlower: Int = 1,
-//        desiredMouth: Int = 2,
-//        desiredLegs: Int = 3,
-//        desiredArms: Int = 4,
-//        desiredEyes: Int = 5,
-//        desiredHorns: Int = 6,
-//        desiredLevel: Int = 1,
-//        active: Boolean = true,
-//        escaped: Boolean = false,
-//        desiredId: Long = -1,
-//        yearAcquired: Int = 2000,
-//        monthAcquired: Int = 5,
-//        dayAcquired: Int = 13,
-//        yearEscaped: Int = 2001,
-//        monthEscaped: Int = 6,
-//        dayEscaped: Int = 25,
-//        desiredName: String = "this is my name",
-//        desiredLegsColor: String = "#FF000000",
-//        desiredBodyColor: String = "#00FF0000",
-//        desiredArmsColor: String = "#0000FF00"
-//    ): RewardEntity {
-//        if (desiredId == -1L) {
-//            return RewardEntity(
-//                flower = desiredFlower,
-//                mouth = desiredMouth,
-//                legs = desiredLegs,
-//                arms = desiredArms,
-//                eyes = desiredEyes,
-//                horns = desiredHorns,
-//                level = desiredLevel,
-//                acquisitionDate = GregorianCalendar(
-//                    yearAcquired,
-//                    monthAcquired,
-//                    dayAcquired
-//                ).timeInMillis,
-//                escapingDate = GregorianCalendar(
-//                    yearEscaped,
-//                    monthEscaped,
-//                    dayEscaped
-//                ).timeInMillis,
-//                isActive = active,
-//                isEscaped = escaped,
-//                name = desiredName,
-//                legsColor = desiredLegsColor,
-//                bodyColor = desiredBodyColor,
-//                armsColor = desiredArmsColor
-//            )
-//        }
-//        else {
-//            return RewardEntity(
-//                id = desiredId,
-//                flower = desiredFlower,
-//                mouth = desiredMouth,
-//                legs = desiredLegs,
-//                arms = desiredArms,
-//                eyes = desiredEyes,
-//                horns = desiredHorns,
-//                level = desiredLevel,
-//                acquisitionDate = GregorianCalendar(
-//                    yearAcquired,
-//                    monthAcquired,
-//                    dayAcquired
-//                ).timeInMillis,
-//                escapingDate = GregorianCalendar(
-//                    yearEscaped,
-//                    monthEscaped,
-//                    dayEscaped
-//                ).timeInMillis,
-//                isActive = active,
-//                isEscaped = escaped,
-//                name = desiredName,
-//                legsColor = desiredLegsColor,
-//                bodyColor = desiredBodyColor,
-//                armsColor = desiredArmsColor
-//            )
-//        }
-//    }
-//
-//    fun generateRewardModel(
-//        desiredFlower: Int = 1,
-//        desiredMouth: Int = 2,
-//        desiredLegs: Int = 3,
-//        desiredArms: Int = 4,
-//        desiredEyes: Int = 5,
-//        desiredHorns: Int = 6,
-//        desiredLevel: Int = 1,
-//        active: Boolean = true,
-//        escaped: Boolean = false,
-//        desiredId: Long = -1,
-//        yearAcquired: Int = 2000,
-//        monthAcquired: Int = 5,
-//        dayAcquired: Int = 13,
-//        yearEscaped: Int = 2001,
-//        monthEscaped: Int = 6,
-//        dayEscaped: Int = 25,
-//        desiredName: String = "this is my name",
-//        desiredLegsColor: String = "#FF000000",
-//        desiredBodyColor: String = "#00FF0000",
-//        desiredArmsColor: String = "#0000FF00"
-//    ): Reward {
-//        if (desiredId == -1L) {
-//            return Reward(
-//                flower = FlowerResourcesHolder.FlowerDrawable.fromKey(desiredFlower),
-//                mouth = MouthResourcesHolder.MouthDrawable.fromKey(desiredMouth),
-//                legs = LegsResourcesHolder.LegsDrawable.fromKey(desiredLegs),
-//                arms = ArmsResourcesHolder.ArmsDrawable.fromKey(desiredArms),
-//                eyes = EyesResourcesHolder.EyesDrawable.fromKey(desiredEyes),
-//                horns = HornsResourcesHolder.HornsDrawable.fromKey(desiredHorns),
-//                level = Level.fromKey(desiredLevel),
-//                acquisitionDate = GregorianCalendar(
-//                    yearAcquired,
-//                    monthAcquired,
-//                    dayAcquired
-//                ).timeInMillis,
-//                escapingDate = GregorianCalendar(
-//                    yearEscaped,
-//                    monthEscaped,
-//                    dayEscaped
-//                ).timeInMillis,
-//                isActive = active,
-//                isEscaped = escaped,
-//                name = desiredName,
-//                legsColor = desiredLegsColor,
-//                bodyColor = desiredBodyColor,
-//                armsColor = desiredArmsColor
-//            )
-//        }
-//        else {
-//            return Reward(
-//                id = desiredId,
-//                flower = FlowerResourcesHolder.FlowerDrawable.fromKey(desiredFlower),
-//                mouth = MouthResourcesHolder.MouthDrawable.fromKey(desiredMouth),
-//                legs = LegsResourcesHolder.LegsDrawable.fromKey(desiredLegs),
-//                arms = ArmsResourcesHolder.ArmsDrawable.fromKey(desiredArms),
-//                eyes = EyesResourcesHolder.EyesDrawable.fromKey(desiredEyes),
-//                horns = HornsResourcesHolder.HornsDrawable.fromKey(desiredHorns),
-//                level = Level.fromKey(desiredLevel),
-//                acquisitionDate = GregorianCalendar(
-//                    yearAcquired,
-//                    monthAcquired,
-//                    dayAcquired
-//                ).timeInMillis,
-//                escapingDate = GregorianCalendar(
-//                    yearEscaped,
-//                    monthEscaped,
-//                    dayEscaped
-//                ).timeInMillis,
-//                isActive = active,
-//                isEscaped = escaped,
-//                name = desiredName,
-//                legsColor = desiredLegsColor,
-//                bodyColor = desiredBodyColor,
-//                armsColor = desiredArmsColor
-//            )
-//        }
-//    }
-//
-//    fun generateRewardModels(
-//        numberOfRewardsDto: Int = 1,
-//        desiredLevel: Int = 1,
-//        active: Boolean = true,
-//        escaped: Boolean = false
-//    ): List<Reward> {
-//        val returnList = mutableListOf<Reward>()
-//        for (i in 0 until numberOfRewardsDto) {
-//            returnList.add(generateRewardModel(
-//                desiredLevel = desiredLevel,
-//                active = active,
-//                escaped = escaped))
-//        }
-//        return returnList
-//    }
-    ///////////////////////////////
-
     val reward = Reward(
-        id=29,
-        flower = FlowerResourcesHolder.FlowerDrawable.FLOWER_PART_1,
-        mouth = MouthResourcesHolder.MouthDrawable.MOUTH_PART_2,
-        legs = LegsResourcesHolder.LegsDrawable.LEGS_PART_3,
-        arms = ArmsResourcesHolder.ArmsDrawable.ARMS_PART_4,
-        eyes = EyesResourcesHolder.EyesDrawable.EYES_PART_5,
-        horns = HornsResourcesHolder.HornsDrawable.HORNS_PART_6,
+        id = 29,
+        flowerKey = 0,
+        mouthKey = 1,
+        legsKey = 2,
+        armsKey = 3,
+        eyesKey = 4,
+        hornsKey = 5,
         level = Level.fromKey(3),
         acquisitionDate = GregorianCalendar(
             2000,
@@ -236,13 +67,13 @@ class RewardConverterTest : AbstractBaseTest() {
     )
 
     val rewardEntity = RewardEntity(
-        id=29,
-        flower = 1,
-        mouth = 2,
-        legs = 3,
-        arms = 4,
-        eyes = 5,
-        horns = 6,
+        id = 29,
+        flower = 0,
+        mouth = 1,
+        legs = 2,
+        arms = 3,
+        eyes = 4,
+        horns = 5,
         level = 3,
         acquisitionDate = GregorianCalendar(
             2000,
@@ -263,18 +94,21 @@ class RewardConverterTest : AbstractBaseTest() {
     )
 
     //////////////////////////////////
-
     @Test
     fun convertModelToEntity() {
-        val convertedModel = rewardConverter.convertModelToEntity(reward)
-        assertEquals(rewardEntity, convertedModel)
+        runBlocking {
+            val convertedModel = rewardConverter.convertModelToEntity(reward)
+            assertEquals(rewardEntity, convertedModel)
+        }
     }
 
 
     @Test
     fun convertEntitytoModel() {
-        val convertedEntity = rewardConverter.convertEntitytoModel(rewardEntity)
-        assertEquals(reward, convertedEntity)
+        runBlocking {
+            val convertedEntity = rewardConverter.convertEntitytoModel(rewardEntity)
+            assertEquals(reward, convertedEntity)
+        }
     }
 
 }
