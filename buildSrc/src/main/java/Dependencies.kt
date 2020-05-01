@@ -20,9 +20,8 @@ object Modules {
     const val models = ":models"
     const val repositories = ":repositories"
     const val commons = ":commons"
-    const val navigation = ":navigation"
     const val screens = ":screens"
-    const val settings = ":settings"
+    const val domain = ":domain"
     const val testutils = ":testutils"
 }
 
@@ -38,8 +37,8 @@ object Libraries {
 
 object KotlinLibraries {
     //stay at the IDE gradle plugin expected version of kotlin for the present gradle version to avoid gradle unwarranted compatibility warning
-    const val kotlinJdk7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.50"
-    const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.50"
+    const val kotlinJdk7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.72"
+    const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72"
 }
 
 object AndroidLibraries {
@@ -52,6 +51,12 @@ object AndroidLibraries {
     const val roomCompiler = "androidx.room:room-compiler:2.2.2"
     const val roomRunTime = "androidx.room:room-runtime:2.2.2"
     const val roomKtx = "androidx.room:room-ktx:2.2.2"
+
+    const val navigation_fragment = "androidx.navigation:navigation-fragment:2.2.2"
+    const val navigation_fragment_ktx = "androidx.navigation:navigation-fragment-ktx:2.2.2"
+    const val navigation_ui = "androidx.navigation:navigation-ui:2.2.2"
+    const val navigation_ui_ktx = "androidx.navigation:navigation-ui-ktx:2.2.2"
+
 }
 
 object TestLibraries {
