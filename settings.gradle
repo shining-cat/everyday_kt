@@ -2,6 +2,7 @@ include ':app'
 //transverse modules
 include ':commons'
 include ':testutils'
+include ':domain'
 //data modules
 include ':repositories'
 include ':locale'

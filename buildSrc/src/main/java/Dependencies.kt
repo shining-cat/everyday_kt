@@ -21,6 +21,7 @@ object Modules {
     const val repositories = ":repositories"
     const val commons = ":commons"
     const val screens = ":screens"
+    const val domain = ":domain"
     const val testutils = ":testutils"
 }
 

@@ -4,6 +4,7 @@ import android.app.Application
 import com.facebook.stetho.Stetho
 import fr.shining_cat.everyday.commons.di.commonsModule
 import fr.shining_cat.everyday.di.appModule
+import fr.shining_cat.everyday.domain.di.domainModule
 import fr.shining_cat.everyday.locale.di.localeModule
 import fr.shining_cat.everyday.models.di.modelsModule
 import fr.shining_cat.everyday.repository.di.repositoriesModule
@@ -32,7 +33,8 @@ class EverydayApplication : Application() {
                     localeModule,
                     modelsModule,
                     repositoriesModule,
-                    screensModule
+                    screensModule,
+                    domainModule
                 )
             )
         }
