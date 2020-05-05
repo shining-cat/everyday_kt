@@ -11,6 +11,11 @@ android{
 dependencies {
     implementation AndroidLibraries.appCompat
     implementation AndroidLibraries.constraintLayout
+    implementation AndroidLibraries.material
+    implementation AndroidLibraries.navigation_fragment
+    implementation AndroidLibraries.navigation_fragment_ktx
+    implementation AndroidLibraries.navigation_ui
+    implementation AndroidLibraries.navigation_ui_ktx
 
     implementation project(Modules.commons)
     implementation project(Modules.locale)
@@ -20,4 +25,5 @@ dependencies {
     implementation project(Modules.domain)
 
     implementation Libraries.stetho
+    implementation Libraries.lottie
 }

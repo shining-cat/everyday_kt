@@ -2,6 +2,14 @@ apply plugin: 'com.android.library'
 apply from: '../common.gradle'
 
 dependencies {
+    
+    implementation AndroidLibraries.material
+    implementation AndroidLibraries.navigation_fragment
+    implementation AndroidLibraries.navigation_fragment_ktx
+    implementation AndroidLibraries.navigation_ui
+    implementation AndroidLibraries.navigation_ui_ktx
+
+    implementation Libraries.lottie
 
     implementation project(Modules.models)
     implementation project(Modules.commons)
@@ -16,6 +24,4 @@ dependencies {
     //not needed, but not adding these gets the IDE put Warnings on these packages, although code will compile and tests will run
     testImplementation TestLibraries.mockitoCore
     androidTestImplementation TestLibraries.mockitoInline
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.2.2'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.2.2'
 }

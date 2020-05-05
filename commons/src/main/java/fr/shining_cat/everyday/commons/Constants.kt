@@ -15,5 +15,7 @@ class Constants {
         const val ERROR_MESSAGE_INSERT_FAILED = "Error while inserting in database"
         const val ERROR_MESSAGE_DELETE_FAILED = "Error while deleting in database"
 
+        //Constants
+        const val SPLASH_MIN_DURATION_MILLIS = 5000L
     }
 }
