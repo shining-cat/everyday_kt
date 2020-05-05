@@ -50,6 +50,10 @@ dependencies {
     implementation Libraries.koin
     implementation Libraries.koin_viewmodel
 
+    // Lifecycle
+    implementation AndroidLibraries.lifecycle_viewmodel
+    implementation AndroidLibraries.lifecycle_extensions
+
     androidTestImplementation TestLibraries.junit
     androidTestImplementation TestLibraries.androidTestRunner
     testImplementation TestLibraries.junit

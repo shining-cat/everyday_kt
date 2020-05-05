@@ -10,7 +10,7 @@ buildscript {
     dependencies {
         classpath AndroidLibraries.gradle
         classpath KotlinLibraries.kotlinGradlePlugin
-        //gradle plugin to manage dependencies updates
+        //gradle plugin to manage dependencies updates: see gradle tasks help > dependencyUpdates
         classpath Libraries.gradleVersionsPlugin
         classpath "org.jacoco:org.jacoco.core:0.8.5"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"

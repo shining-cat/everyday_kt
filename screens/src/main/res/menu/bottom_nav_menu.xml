@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+<!--    <item-->
+<!--        android:id="@+id/navigation_home"-->
+<!--        android:icon="@drawable/ic_nav_replay_24"-->
+<!--        android:title="@string/title_home" />-->
+
+<!--    <item-->
+<!--        android:id="@+id/navigation_sessions"-->
+<!--        android:icon="@drawable/ic_nav_live_24"-->
+<!--        android:title="@string/title_sessions" />-->
+
+<!--    <item-->
+<!--        android:id="@+id/navigation_statistics"-->
+<!--        android:icon="@drawable/ic_nav_schedule_24"-->
+<!--        android:title="@string/title_statistics" />-->
+
+<!--    <item-->
+<!--        android:id="@+id/navigation_rewards"-->
+<!--        android:icon="@drawable/ic_nav_monocs_24"-->
+<!--        android:title="@string/title_rewards" />-->
+
+</menu>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+<!--    <fragment-->
+<!--        android:id="@+id/navigation_home"-->
+<!--        android:name="full package and class name of target fragment"-->
+<!--        android:label="@string/title_home"-->
+<!--        tools:layout="@layout/fragment layout file" />-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/navigation_sessions"-->
+<!--        android:name="full package and class name of target fragment"-->
+<!--        android:label="@string/title_sessions"-->
+<!--        tools:layout="@layout/fragment layout file" />-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/navigation_statistics"-->
+<!--        android:name="full package and class name of target fragment"-->
+<!--        android:label="@string/title_statistics"-->
+<!--        tools:layout="@layout/fragment layout file" />-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/navigation_rewards"-->
+<!--        android:name="full package and class name of target fragment"-->
+<!--        android:label="@string/title_rewards"-->
+<!--        tools:layout="@layout/fragment layout file" />-->
+
+</navigation>
