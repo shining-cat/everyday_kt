@@ -14,6 +14,7 @@ dependencies {
 
     implementation project(Modules.models)
     implementation project(Modules.commons)
+    implementation project(Modules.interModulesNavigation)
 
 
     testImplementation project(Modules.testutils)

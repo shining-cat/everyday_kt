@@ -3,6 +3,7 @@ include ':app'
 include ':commons'
 include ':testutils'
 include ':domain'
+include ':navigation'
 //data modules
 include ':repositories'
 include ':locale'
