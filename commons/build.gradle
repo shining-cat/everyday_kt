@@ -3,7 +3,6 @@ apply from: '../common.gradle'
 
 dependencies {
 
-    implementation AndroidLibraries.material
     implementation AndroidLibraries.appCompat
 
     //commons should have no dependencies to any other module, but every other module might have to it

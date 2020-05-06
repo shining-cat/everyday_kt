@@ -2,7 +2,8 @@ apply plugin: 'com.android.library'
 apply from: '../common.gradle'
 
 dependencies {
-    
+    implementation AndroidLibraries.appCompat
+    implementation AndroidLibraries.constraintLayout
     implementation AndroidLibraries.material
     implementation AndroidLibraries.navigation_fragment
     implementation AndroidLibraries.navigation_fragment_ktx
@@ -13,6 +14,7 @@ dependencies {
 
     implementation project(Modules.models)
     implementation project(Modules.commons)
+
 
     testImplementation project(Modules.testutils)
     testImplementation TestLibraries.mockitoInline
