@@ -20,6 +20,7 @@ dependencies {
     implementation project(Modules.commons)
     implementation project(Modules.locale)
     implementation project(Modules.models)
+    implementation project(Modules.interModulesNavigation)
     implementation project(Modules.repositories)
     implementation project(Modules.screens)
     implementation project(Modules.domain)

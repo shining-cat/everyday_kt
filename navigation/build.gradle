@@ -1,0 +1,8 @@
+apply plugin: 'com.android.library'
+apply from: '../common.gradle'
+
+dependencies {
+
+    implementation project(Modules.commons)
+    implementation project(Modules.testutils)
+}
