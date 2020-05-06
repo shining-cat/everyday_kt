@@ -12,12 +12,13 @@ import org.koin.android.ext.android.get
 
 abstract class AbstractActivity : AppCompatActivity() {
 
-    private val LOG_TAG = AbstractActivity::class.java.name
+    private val LOG_TAG = AbstractActivity::class.java.simpleName
 
     private val logger: Logger = get()
 
     private val loadingView: View by bind(R.id.loading_view)
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //we will ignore the orientation lock warning for now, as we only plan to display the app in portrait mode for now

@@ -5,6 +5,7 @@ dependencies {
 
     implementation project(Modules.models)
     implementation project(Modules.commons)
+    implementation project(Modules.repositories)
 
     testImplementation project(Modules.testutils)
     testImplementation TestLibraries.mockitoInline

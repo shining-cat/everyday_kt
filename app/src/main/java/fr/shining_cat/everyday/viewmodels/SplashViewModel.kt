@@ -15,7 +15,7 @@ class SplashViewModel(
     private val logger: Logger
 ) : AbstractViewModels(appDispatchers) {
 
-    private val LOG_TAG = SplashViewModel::class.java.name
+    private val LOG_TAG = SplashViewModel::class.java.simpleName
 
     private val _initReadyLiveData = MutableLiveData(false)
     val initReadyLiveData: LiveData<Boolean> = _initReadyLiveData
