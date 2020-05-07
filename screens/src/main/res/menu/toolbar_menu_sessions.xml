@@ -3,14 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
         <item
-            android:id="@+id/actionbar_about"
-            android:icon="@drawable/topbar_button_about"
+            android:id="@+id/actionbar_sessions_calendar"
+            android:icon="@drawable/topbar_button_calendar"
             android:title="@string/title_about"
             app:showAsAction="always" />
 
         <item
-            android:id="@+id/actionbar_settings"
-            android:icon="@drawable/topbar_button_settings"
+            android:id="@+id/actionbar_sessions_list"
+            android:icon="@drawable/topbar_button_list"
             android:title="@string/title_settings"
             app:showAsAction="always" />
 

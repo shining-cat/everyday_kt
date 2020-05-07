@@ -4,8 +4,12 @@
     <string name="title_settings">Paramètres</string>
     <string name="title_home">Accueil</string>
     <string name="title_sessions">Sessions</string>
+    <string name="title_sessions_calendar">Calendrier</string>
+    <string name="title_sessions_list">Liste</string>
     <string name="title_statistics">Statistiques</string>
     <string name="title_rewards">Récompenses</string>
+    <string name="title_rewards_grid">Grille</string>
+    <string name="title_rewards_list">Liste</string>
 
     <!-- INFOS SCREEN -->
     <string name="app_made_by" translatable="true">Création et réalisation :</string>
