@@ -34,6 +34,7 @@ class ScreenActivity : AbstractActivity() {
             logger.d(LOG_TAG, "Navigated to $dest")
         }
         hideLoadingView()
+
     }
 
     private fun setupBottomNavMenu(navController: NavController) {
