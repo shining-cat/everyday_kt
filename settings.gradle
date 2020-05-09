@@ -10,3 +10,4 @@ include ':locale'
 include ':models'
 //features
 include ':screens'
+include ':settings'

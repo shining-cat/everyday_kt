@@ -7,6 +7,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import fr.shining_cat.everyday.commons.Logger
+import fr.shining_cat.everyday.navigation.Actions
+import fr.shining_cat.everyday.navigation.Destination
 import fr.shining_cat.everyday.screens.R
 import fr.shining_cat.everyday.screens.views.ScreenActivity
 import kotlinx.android.synthetic.main.home_fragment.*
@@ -51,4 +53,21 @@ class HomeFragment : Fragment() {
         return super.onCreateOptionsMenu(menu, inflater)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.actionbar_settings -> {
+                startActivity(context?.let { Actions.openDestination(it, Destination.SettingsDestination()) })
+                return true
+            }
+            R.id.actionbar_about -> {
+                showAboutDialog()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun showAboutDialog() {
+        TODO("not implemented")
+    }
 }

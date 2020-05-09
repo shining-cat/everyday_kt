@@ -23,6 +23,7 @@ object Modules {
     const val interModulesNavigation = ":navigation"
     const val screens = ":screens"
     const val domain = ":domain"
+    const val settings = ":settings"
     const val testutils = ":testutils"
 }
 
@@ -64,6 +65,8 @@ object AndroidLibraries {
     //Lifecycle
     const val lifecycle_viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-alpha02"
     const val lifecycle_extensions = "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    //preferences
+    const val jetpack_preferences = "androidx.preference:preference-ktx:1.1.1"
 }
 
 object TestLibraries {

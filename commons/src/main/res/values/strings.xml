@@ -1,7 +1,10 @@
 <resources>
     <!--Infos-->
-    <string name="app_name">EveryDay WIP KOTLIN</string>
-    <string name="app_version">Version 0.4</string>
+    <string name="app_name" translatable="false">EveryDay WIP KOTLIN</string>
+    <string name="app_version" translatable="false">Version 0.4</string>
+
+
+    <string name="title_settings">Paramètres</string>
 
     <!-- GENERIC STRINGS -->
     <string name="generic_string_NO" translatable="true">Non</string>
@@ -9,14 +12,14 @@
     <string name="generic_string_VALIDATE" translatable="true">Valider</string>
     <string name="generic_string_BACK" translatable="true">Retour</string>
     <string name="generic_string_CANCEL" translatable="true">Annuler</string>
-    <string name="generic_string_OK" translatable="true">OK</string>
+    <string name="generic_string_OK" translatable="false">OK</string>
     <string name="generic_string_CLOSE" translatable="true">Fermer</string>
     <string name="generic_string_HOURS" translatable="true">Heure(s)</string>
-    <string name="generic_string_SHORT_HOURS" translatable="true">h</string>
+    <string name="generic_string_SHORT_HOURS" translatable="false">h</string>
     <string name="generic_string_MINUTES" translatable="true">Minute(s)</string>
-    <string name="generic_string_SHORT_MINUTES" translatable="true">mn</string>
+    <string name="generic_string_SHORT_MINUTES" translatable="false">mn</string>
     <string name="generic_string_SECONDS" translatable="true">Seconde(s)</string>
-    <string name="generic_string_SHORT_SECONDS" translatable="true">s</string>
+    <string name="generic_string_SHORT_SECONDS" translatable="false">s</string>
     <string name="generic_string_WARNING" translatable="true">Attention</string>
     <string name="generic_string_SHARE" translatable="true">Partager</string>
     <string name="generic_string_EDIT" translatable="true">Modifier</string>
