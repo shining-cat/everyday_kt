@@ -2,7 +2,6 @@ package fr.shining_cat.everyday.commons
 
 class Constants {
 
-
     companion object {
         // Error codes
         const val ERROR_CODE_EXCEPTION = -100

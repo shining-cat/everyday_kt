@@ -5,9 +5,11 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.R
 import fr.shining_cat.everyday.commons.extensions.bind
+import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelper
 import org.koin.android.ext.android.get
 
 abstract class AbstractActivity : AppCompatActivity() {
@@ -15,6 +17,7 @@ abstract class AbstractActivity : AppCompatActivity() {
     private val LOG_TAG = AbstractActivity::class.java.simpleName
 
     private val logger: Logger = get()
+    private val sharedPrefsHelper:SharedPrefsHelper = get()
 
     private val loadingView: View by bind(R.id.loading_view)
 
@@ -23,6 +26,8 @@ abstract class AbstractActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         //we will ignore the orientation lock warning for now, as we only plan to display the app in portrait mode for now
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        //apply theme setting from prefs
+        AppCompatDelegate.setDefaultNightMode(sharedPrefsHelper.getDefaultNightMode())
     }
 
     ///////////////////////////////////

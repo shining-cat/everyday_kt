@@ -1,4 +1,35 @@
 <resources>
-
-
+<!---->
+    <string name="sessionsPreferencesCategory_title">Sessions</string>
+    <string name="keepScreenOnPreference_title">Garder l\'écran allumé</string>
+    <string name="keepScreenOnPreference_switch_off_text">Autoriser la mise en veille</string>
+    <string name="keepScreenOnPreference_switch_on_text">Empêcher la mise en veille</string>
+    <string name="doNotDisturbPreference_title">Ne pas déranger</string>
+    <string name="doNotDisturbPreference_switch_off_text">Autoriser les notifications pendant la session</string>
+    <string name="doNotDisturbPreference_switch_on_text">Couper les notifications pendant la session</string>
+    <string name="planeModePreference_title">Invitation à activer le mode "Avion"</string>
+    <string name="planeModePreference_switch_off_text">Ne rien faire</string>
+    <string name="planeModePreference_switch_on_text">Diriger vers le réglage "Mode avion" en début et fin de session</string>
+<!---->
+    <string name="notificationsPreferencesCategory_title">Notification</string>
+    <string name="notificationsPreferences_summary">Recevoir une notification si aucune session n\’a été enregistrée dans la journée arrivée l’heure programmée</string>
+    <string name="notificationsPreferences_notification_activated_title">Activer le rappel</string>
+    <string name="notificationsPreferences_notification_text_title">Texte de notification</string>
+    <string name="notificationsPreferences_notification_text_default_text">C\'est l\'heure de pratiquer!</string>
+<!---->
+    <string name="customisationPreferencesCategory_title">Personnalisation</string>
+    <string name="defaultNightModePreference_title">Apparence</string>
+    <string name="defaultNightModePreference_follow_system">suivre le système</string>
+    <string name="defaultNightModePreference_always_dark">thème sombre</string>
+    <string name="defaultNightModePreference_always_light">thème clair</string>
+    <string name="infiniteSessionPreferencePreference_title">Session infinie</string>
+    <string name="infiniteSessionPreferencePreference_switch_off_text">Arrêter le chronomètre en fin de session</string>
+    <string name="infiniteSessionPreferencePreference_switch_on_text">Ne pas arrêter le chronomètre en fin de session</string>
+    <string name="rewardsActivationPreference_title">Activer les récompenses</string>
+    <string name="statisticsActivationPreference_title">Enregistrer les sessions</string>
+<!---->
+    <string name="dataManagementPreferencesCategory_title">Gestion des données</string>
+    <string name="eraseDataPreference_title">Effacer toutes les données</string>
+    <string name="exportSessionsPreference_title">Exporter les sessions</string>
+    <string name="importSessionsPreference_title">Importer les sessions</string>
 </resources>
