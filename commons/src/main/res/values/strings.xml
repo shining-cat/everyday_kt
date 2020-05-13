@@ -28,5 +28,6 @@
     <string name="generic_string_OPEN_SETTING" translatable="true">Ouvrir le réglage</string>
     <string name="generic_string_CONTINUE" translatable="true">Continuer</string>
     <string name="generic_string_PASS" translatable="true">Passer</string>
+    <string name="confirm_suppress">Confirmer la suppression</string>
 
 </resources>

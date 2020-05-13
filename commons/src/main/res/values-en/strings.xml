@@ -18,4 +18,5 @@
     <string name="generic_string_OPEN_SETTING">Open Setting</string>
     <string name="generic_string_CONTINUE">Continue</string>
     <string name="generic_string_PASS">Skip</string>
+    <string name="confirm_suppress">Confirm suppression</string>
 </resources>

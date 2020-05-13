@@ -5,9 +5,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.*
 import androidx.preference.*
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelper
 import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelperSettings
+import fr.shining_cat.everyday.commons.ui.views.BottomDialogConfirmSuppress
 import fr.shining_cat.everyday.settings.R
 import org.koin.android.ext.android.get
 
@@ -240,6 +242,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private fun openEraseAllDataDialog() {
         logger.d(LOG_TAG, "TODO: openEraseAllDataDialog")
+        val bottomSheetDialog = BottomDialogConfirmSuppress()
+        bottomSheetDialog.show(parentFragmentManager, "test")
     }
 
 }
