@@ -40,12 +40,21 @@
 
     <!--Shape Appearance for medium components like cards, alert dialogs-->
     <style name="ShapeAppearance.Everyday.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
-        <!--Your custom shape here-->
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">8dp</item>
+        <item name="cornerSizeTopRight">8dp</item>
+        <item name="cornerSizeBottomLeft">8dp</item>
+        <item name="cornerSizeBottomRight">8dp</item>
     </style>
 
     <!--Shape Appearance for large components like side and bottom navigation drawers-->
     <style name="ShapeAppearance.Everyday.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
-        <!--Your custom shape here-->
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">16dp</item>
+        <item name="cornerSizeTopRight">16dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
     </style>
+
 
 </resources>

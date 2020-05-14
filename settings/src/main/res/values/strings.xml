@@ -30,6 +30,18 @@
 <!---->
     <string name="dataManagementPreferencesCategory_title">Gestion des données</string>
     <string name="eraseDataPreference_title">Effacer toutes les données</string>
+
     <string name="exportSessionsPreference_title">Exporter les sessions</string>
+    <string name="exportSessionsPreference_dialog_title">Export</string>
+    <string name="exportSessionsPreference_dialog_message">Toutes les sessions enregistrées seront exportées dans un fichier .csv</string>
+    <string name="exportSessionsPreference_dialog_confirm_button">exporter</string>
+    <string name="exportSessionsPreference_no_sessions_found_error_message" translatable="true">Aucune session trouvée.</string>
+    <string name="exportSessionsPreference_progressdialog_title" translatable="true">Export en cours</string>
+
     <string name="importSessionsPreference_title">Importer les sessions</string>
+    <string name="importSessionsPreference_dialog_title">Importer des sessions depuis un fichier .csv</string>
+    <string name="importSessionsPreference_dialog_message">Les sessions importées seront ajoutées à la base. Pour avoir un modèle de fichier, enregistrer une session fictive et faire un export.</string>
+    <string name="importSessionsPreference_dialog_confirm_button">choisir le fichier</string>
+    <string name="importSessionsPreference_parsing_progressdialog_title" translatable="true">Lecture du fichier en cours</string>
+    <string name="importSessionsPreference_writing_progressdialog_title" translatable="true">Import en cours</string>
 </resources>

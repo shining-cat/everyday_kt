@@ -66,6 +66,10 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
             ?: ""//TODO: check if empty on app init, and if it is, set to R.string.preference_notification_text to handle translation
     }
 
+    fun setNotificationText(notificationText:String){
+        sharedPreferences.edit().putString(SharedPrefsHelperSettings.NOTIFICATION_TEXT, notificationText).apply()
+    }
+
     fun getNotificationSound(): String {
         return sharedPreferences.getString(
             SharedPrefsHelperSettings.NOTIFICATION_SOUND,

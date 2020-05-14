@@ -68,6 +68,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun showAboutDialog() {
-        TODO("not implemented")
+        logger.d(LOG_TAG, "todo: showAboutDialog")
+        //TODO("not implemented")
     }
 }

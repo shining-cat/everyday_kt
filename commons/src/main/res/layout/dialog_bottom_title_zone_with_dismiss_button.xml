@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:showIn="@layout/dialog_bottom_big_button"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:background="@drawable/top_rounded_corners_shape"
+    android:backgroundTint="?attr/colorPrimary">
+
+<!--    <View-->
+<!--        android:id="@+id/dialog_bottom_title_background"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:background="?attr/colorPrimary"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <ImageView
+        android:id="@+id/dialog_bottom_dismiss_button"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        app:layout_constraintDimensionRatio="1:1"
+        android:src="@drawable/ic_cross"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:padding="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:focusable="true" />
+<!--    <ImageView-->
+<!--        android:id="@+id/dialog_bottom_dismiss_button"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        app:layout_constraintDimensionRatio="1:1"-->
+<!--        android:src="@drawable/ic_cross"-->
+<!--        android:background="?attr/selectableItemBackground"-->
+<!--        android:clickable="true"-->
+<!--        android:padding="12dp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/dialog_bottom_title_background"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/dialog_bottom_title_background"-->
+<!--        android:focusable="true" />-->
+
+    <TextView
+        android:id="@+id/dialog_bottom_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:backgroundTint="?attr/colorPrimary"
+        tools:text="@string/confirm_suppress"
+        android:textAlignment="viewStart"
+        android:textColor="?attr/colorOnPrimary"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/dialog_bottom_dismiss_button"
+        app:layout_constraintBottom_toBottomOf="@+id/dialog_bottom_dismiss_button"
+        app:layout_constraintTop_toTopOf="@+id/dialog_bottom_dismiss_button" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
