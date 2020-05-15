@@ -1,6 +1,7 @@
 package fr.shining_cat.everyday.commons.helpers
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
 
 object SharedPrefsHelperSettings {
@@ -66,8 +67,9 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
             ?: ""//TODO: check if empty on app init, and if it is, set to R.string.preference_notification_text to handle translation
     }
 
-    fun setNotificationText(notificationText:String){
-        sharedPreferences.edit().putString(SharedPrefsHelperSettings.NOTIFICATION_TEXT, notificationText).apply()
+    fun setNotificationText(notificationText: String) {
+        sharedPreferences.edit()
+            .putString(SharedPrefsHelperSettings.NOTIFICATION_TEXT, notificationText).apply()
     }
 
     fun getNotificationSound(): String {
@@ -85,12 +87,15 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
     }
 
     fun getDefaultNightMode(): Int {
-        return Integer.valueOf(
-            sharedPreferences.getString(
-                SharedPrefsHelperSettings.DEFAULT_NIGHT_MODE,
-                null
-            )?:MODE_NIGHT_FOLLOW_SYSTEM.toString()
+        return sharedPreferences.getInt(
+            SharedPrefsHelperSettings.DEFAULT_NIGHT_MODE,
+            MODE_NIGHT_FOLLOW_SYSTEM
         )
+    }
+
+    fun setDefaultNightMode(defaultNightMode: Int) {
+        sharedPreferences.edit()
+            .putInt(SharedPrefsHelperSettings.DEFAULT_NIGHT_MODE, defaultNightMode).apply()
     }
 
     fun getRewardsActivated(): Boolean {

@@ -26,11 +26,15 @@ abstract class AbstractActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         //we will ignore the orientation lock warning for now, as we only plan to display the app in portrait mode for now
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+    }
+
+    override fun onResume() {
+        super.onResume()
         //apply theme setting from prefs
         AppCompatDelegate.setDefaultNightMode(sharedPrefsHelper.getDefaultNightMode())
     }
 
-    ///////////////////////////////////
+///////////////////////////////////
     // LOADING VIEW
     ///////////////////////////////////
 

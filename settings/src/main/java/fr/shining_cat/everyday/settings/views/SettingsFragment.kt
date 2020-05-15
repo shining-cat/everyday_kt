@@ -2,6 +2,7 @@ package fr.shining_cat.everyday.settings.views
 
 import android.content.Context
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.*
 import androidx.preference.*
 import fr.shining_cat.everyday.commons.Logger
@@ -10,6 +11,7 @@ import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelperSettings
 import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissableBigButton
 import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissableEditTextAndConfirm
 import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissableMessageAndConfirm
+import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissableSelectListAndConfirm
 import fr.shining_cat.everyday.settings.R
 import org.koin.android.ext.android.get
 
@@ -22,6 +24,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private lateinit var notificationTimePreference: SwitchPreferenceCompat
     private lateinit var notificationTextPreference: Preference
     private lateinit var notificationSoundPreference: SwitchPreferenceCompat
+    private lateinit var defaultNightModePreference: Preference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         //Set the name of the SharedPreferences file used to be ours instead of default
@@ -147,10 +150,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
         notificationSoundPreference.isVisible = notificationActivated
     }
 
-    private fun getNotificationTextDisplay(): String{
+    private fun getNotificationTextDisplay(): String {
         val presetNotificationText = sharedPrefsHelper.getNotificationText()
         return if (presetNotificationText.isNotBlank()) presetNotificationText
-            else getString(R.string.notificationsPreferences_notification_text_default_text)
+        else getString(R.string.notificationsPreferences_notification_text_default_text)
     }
 
     private fun openNotificationTextInputDialog() {
@@ -172,36 +175,37 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     notificationTextPreference.summary = inputText
                 }
             })
-        openNotificationTextInputBottomSheetDialog.show(parentFragmentManager, "openNotificationTextInputDialog")
+        openNotificationTextInputBottomSheetDialog.show(
+            parentFragmentManager,
+            "openNotificationTextInputDialog"
+        )
     }
 
     /////////////////
     private fun setupCustomisationPreferences(context: Context, screen: PreferenceScreen) {
-        val defaultNightModePreference = ListPreference(context)
-        defaultNightModePreference.key = SharedPrefsHelperSettings.DEFAULT_NIGHT_MODE
-        defaultNightModePreference.title = getString(R.string.defaultNightModePreference_title)
-        val defaultNightModeDisplayValues = arrayOf(
+        val defaultNightModeLabels = listOf(
             getString(R.string.defaultNightModePreference_follow_system),
             getString(R.string.defaultNightModePreference_always_dark),
             getString(R.string.defaultNightModePreference_always_light)
         )
-        val defaultNightModeSavedValues = arrayOf(
-            MODE_NIGHT_FOLLOW_SYSTEM.toString(),
-            MODE_NIGHT_YES.toString(),
-            MODE_NIGHT_NO.toString()
+        val defaultNightModeValues = listOf(
+            MODE_NIGHT_FOLLOW_SYSTEM,
+            MODE_NIGHT_YES,
+            MODE_NIGHT_NO
         )
+        defaultNightModePreference = Preference(context)
+        defaultNightModePreference.title = getString(R.string.defaultNightModePreference_title)
         val selectedNightMode = sharedPrefsHelper.getDefaultNightMode()
         val selectedNightModeDisplay =
-            defaultNightModeDisplayValues[defaultNightModeSavedValues.indexOf(selectedNightMode.toString())]
+            defaultNightModeLabels[defaultNightModeValues.indexOf(selectedNightMode)]
         defaultNightModePreference.summary = selectedNightModeDisplay
-        defaultNightModePreference.dialogTitle =
-            getString(R.string.defaultNightModePreference_title)
         defaultNightModePreference.isIconSpaceReserved = false
-        defaultNightModePreference.entries = defaultNightModeDisplayValues
-        defaultNightModePreference.entryValues = defaultNightModeSavedValues
-        defaultNightModePreference.onPreferenceChangeListener =
-            Preference.OnPreferenceChangeListener { _, newValue ->
-                setDefaultNightMode(Integer.valueOf(newValue as String))
+        defaultNightModePreference.onPreferenceClickListener =
+            Preference.OnPreferenceClickListener {
+                openSelectDefaultNightModeDialog(
+                    defaultNightModeLabels,
+                    defaultNightModeValues
+                )
                 true
             }
         //
@@ -237,6 +241,45 @@ class SettingsFragment : PreferenceFragmentCompat() {
         customisationCategory.addPreference(infiniteSessionPreference)
         customisationCategory.addPreference(rewardsActivationPreference)
         customisationCategory.addPreference(statisticsActivationPreference)
+    }
+
+    private fun updateDefaultNightModePreferenceSummary() {
+
+    }
+
+    private fun openSelectDefaultNightModeDialog(labels: List<String>, androidDefaultNightModeValues: List<Int>) {
+        val selectedIndex = androidDefaultNightModeValues.indexOf(sharedPrefsHelper.getDefaultNightMode())
+        val openSelectDefaultNightModeBottomSheetDialog =
+            BottomDialogDismissableSelectListAndConfirm.newInstance(
+                getString(R.string.defaultNightModePreference_title),
+                labels,
+                getString(R.string.generic_string_VALIDATE),
+                selectedIndex
+            )
+        openSelectDefaultNightModeBottomSheetDialog.setBottomDialogDismissableSelectListAndConfirmListener(
+            object :
+                BottomDialogDismissableSelectListAndConfirm.BottomDialogDismissableSelectListAndConfirmListener {
+                override fun onDismissed() {
+                    //nothing to do here
+                }
+
+                override fun onValidateSelection(optionSelectedIndex: Int) {
+                    logger.d(
+                        LOG_TAG,
+                        "openSelectDefaultNightModeDialog::onConfirmButtonClicked::selected index $optionSelectedIndex, displaying: ${labels[optionSelectedIndex]}"
+                    )
+                    val androidDefaultNightModeValue = androidDefaultNightModeValues[optionSelectedIndex]
+                    sharedPrefsHelper.setDefaultNightMode(androidDefaultNightModeValue)
+                    setDefaultNightMode(androidDefaultNightModeValue)
+                    //force refresh of parent activity to apply theme choice
+                    activity?.recreate()
+                    defaultNightModePreference.summary = labels[optionSelectedIndex]
+                }
+            })
+        openSelectDefaultNightModeBottomSheetDialog.show(
+            parentFragmentManager,
+            "openSelectDefaultNightModeDialog"
+        )
     }
 
     /////////////////
