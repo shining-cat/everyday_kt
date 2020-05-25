@@ -16,7 +16,8 @@
     <string name="notificationsPreferences_notification_activated_title">Activer le rappel</string>
     <string name="notificationsPreferences_notification_text_title">Texte de notification</string>
     <string name="notificationsPreferences_notification_text_default_text">C\'est l\'heure de pratiquer!</string>
-<!---->
+    <string name="notificationsPreferences_notification_time_title">Heure de notification</string>
+    <!---->
     <string name="customisationPreferencesCategory_title">Personnalisation</string>
     <string name="defaultNightModePreference_title">Apparence</string>
     <string name="defaultNightModePreference_follow_system">suivre le système</string>

@@ -8,10 +8,7 @@ import androidx.preference.*
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelper
 import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelperSettings
-import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissableBigButton
-import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissableEditTextAndConfirm
-import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissableMessageAndConfirm
-import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissableSelectListAndConfirm
+import fr.shining_cat.everyday.commons.ui.views.dialogs.*
 import fr.shining_cat.everyday.settings.R
 import org.koin.android.ext.android.get
 
@@ -21,7 +18,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private val logger: Logger = get()
     private val sharedPrefsHelper: SharedPrefsHelper = get()
 
-    private lateinit var notificationTimePreference: SwitchPreferenceCompat
+    private lateinit var notificationTimePreference: Preference
     private lateinit var notificationTextPreference: Preference
     private lateinit var notificationSoundPreference: SwitchPreferenceCompat
     private lateinit var defaultNightModePreference: Preference
@@ -92,16 +89,17 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 true
             }
         //
-        notificationTimePreference = SwitchPreferenceCompat(context)
+        notificationTimePreference = Preference(context)
         notificationTimePreference.key = SharedPrefsHelperSettings.NOTIFICATION_TIME
         notificationTimePreference.title =
-            getString(R.string.notificationsPreferencesCategory_title)
-        notificationTimePreference.summaryOff =
-            getString(R.string.notificationsPreferencesCategory_title)
-        notificationTimePreference.summaryOn =
-            getString(R.string.notificationsPreferencesCategory_title)
-        notificationTimePreference.setDefaultValue(false)
+            getString(R.string.notificationsPreferences_notification_time_title)
+        notificationTimePreference.summary = sharedPrefsHelper.getNotificationTime()
         notificationTimePreference.isIconSpaceReserved = false
+        notificationTimePreference.onPreferenceClickListener =
+            Preference.OnPreferenceClickListener {
+                openNotificationTimeInputDialog()
+                true
+            }
         //
         notificationTextPreference = Preference(context)
         notificationTextPreference.key = SharedPrefsHelperSettings.NOTIFICATION_TEXT
@@ -138,6 +136,39 @@ class SettingsFragment : PreferenceFragmentCompat() {
         notificationsCategory.addPreference(notificationSoundPreference)
         //
         updateSubNotificationPreferences(sharedPrefsHelper.getNotificationActivated())
+    }
+
+    private fun openNotificationTimeInputDialog() {
+        val presetNotificationTime = sharedPrefsHelper.getNotificationTime()
+        val hour = Integer.valueOf(presetNotificationTime.substring(0, 2))
+        val minute = Integer.valueOf(presetNotificationTime.substring(3))
+        val openNotificationTimeInputBottomSheetDialog =
+            BottomDialogDismissableTimePicker.newInstance(
+                getString(R.string.notificationsPreferences_notification_time_title),
+                getString(R.string.generic_string_OK),
+                hour,
+                minute
+            )
+        openNotificationTimeInputBottomSheetDialog.setBottomDialogDismissableTimePickerListener(
+            object :
+                BottomDialogDismissableTimePicker.BottomDialogDismissableTimePickerListener {
+                override fun onDismissed() {
+                    //nothing to do here
+                }
+
+                override fun onConfirmButtonClicked(hour: Int, minutes: Int) {
+                    val hoursAsString = String.format("%02d", hour)
+                    val minutesAsString = String.format("%02d", minutes)
+                    val notificationTime = "$hoursAsString:$minutesAsString"
+                    logger.d(LOG_TAG, "openNotificationTimeInputBottomSheetDialog::onConfirmButtonClicked::notificationTime = $notificationTime")
+                    sharedPrefsHelper.setNotificationTime(notificationTime)
+                    notificationTimePreference.summary = notificationTime
+                }
+            })
+        openNotificationTimeInputBottomSheetDialog.show(
+            parentFragmentManager,
+            "openNotificationTimeInputDialog"
+        )
     }
 
     private fun updateSubNotificationPreferences(notificationActivated: Boolean) {
@@ -241,10 +272,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         customisationCategory.addPreference(infiniteSessionPreference)
         customisationCategory.addPreference(rewardsActivationPreference)
         customisationCategory.addPreference(statisticsActivationPreference)
-    }
-
-    private fun updateDefaultNightModePreferenceSummary() {
-
     }
 
     private fun openSelectDefaultNightModeDialog(labels: List<String>, androidDefaultNightModeValues: List<Int>) {

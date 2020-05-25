@@ -33,4 +33,15 @@
     <string name="eraseDataPreference_title">Erase all data</string>
     <string name="exportSessionsPreference_title">Export sessions</string>
     <string name="importSessionsPreference_title">Import sessions</string>
+    <string name="notificationsPreferences_notification_time_title">Time of notification</string>
+    <string name="importSessionsPreference_writing_progressdialog_title">Importing</string>
+    <string name="importSessionsPreference_parsing_progressdialog_title">Reading file</string>
+    <string name="importSessionsPreference_dialog_confirm_button">Choose file</string>
+    <string name="importSessionsPreference_dialog_message">Imported sessions will be added to the database. To get a file template, record a fake session and export.</string>
+    <string name="importSessionsPreference_dialog_title">Import sessions from a .csv file</string>
+    <string name="exportSessionsPreference_progressdialog_title">Exporting</string>
+    <string name="exportSessionsPreference_no_sessions_found_error_message">No session found</string>
+    <string name="exportSessionsPreference_dialog_confirm_button">export</string>
+    <string name="exportSessionsPreference_dialog_message">Recorded sessions will be written in a .csv file.</string>
+    <string name="exportSessionsPreference_dialog_title">Export</string>
 </resources>

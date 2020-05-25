@@ -1,7 +1,6 @@
 package fr.shining_cat.everyday.commons.helpers
 
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
 
 object SharedPrefsHelperSettings {
@@ -52,11 +51,16 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
         )
     }
 
-    fun getNotificationTime(): Long {
-        return sharedPreferences.getLong(
+    fun setNotificationTime(notificationTime: String) {
+        sharedPreferences.edit()
+            .putString(SharedPrefsHelperSettings.NOTIFICATION_TIME, notificationTime).apply()
+    }
+
+    fun getNotificationTime(): String {
+        return sharedPreferences.getString(
             SharedPrefsHelperSettings.NOTIFICATION_TIME,
-            0L //TODO: set default value to 12:00
-        )
+            "12:00" //TODO: set default value to 12:00
+        ) ?: "12:00"
     }
 
     fun getNotificationText(): String {
