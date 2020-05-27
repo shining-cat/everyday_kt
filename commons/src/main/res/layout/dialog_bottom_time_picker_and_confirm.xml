@@ -21,6 +21,7 @@
         android:id="@+id/dialog_bottom_time_picker"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        style="@style/TimePickerWidgetStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dialog_bottom_title_zone_with_dismiss_button" />
