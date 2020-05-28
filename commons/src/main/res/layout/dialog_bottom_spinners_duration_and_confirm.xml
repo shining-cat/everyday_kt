@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/top_rounded_corners_shape"
+    android:backgroundTint="?attr/colorSurface"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/dialog_bottom_title_zone_with_dismiss_button"
+        layout="@layout/dialog_bottom_title_zone_with_dismiss_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/dialog_bottom_duration_pickers_holder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_bottom_title_zone_with_dismiss_button">
+
+        <NumberPicker
+            android:id="@+id/dialog_bottom_duration_hours_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:descendantFocusability="blocksDescendants"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/dialog_bottom_duration_hours_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/generic_string_SHORT_HOURS"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/dialog_bottom_duration_hours_picker"
+            app:layout_constraintStart_toEndOf="@+id/dialog_bottom_duration_hours_picker"
+            app:layout_constraintTop_toTopOf="@+id/dialog_bottom_duration_hours_picker" />
+
+        <NumberPicker
+            android:id="@+id/dialog_bottom_duration_minutes_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:descendantFocusability="blocksDescendants"
+            app:layout_constraintStart_toEndOf="@+id/dialog_bottom_duration_hours_unit"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/dialog_bottom_duration_minutes_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/generic_string_SHORT_MINUTES"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/dialog_bottom_duration_minutes_picker"
+            app:layout_constraintStart_toEndOf="@+id/dialog_bottom_duration_minutes_picker"
+            app:layout_constraintTop_toTopOf="@+id/dialog_bottom_duration_minutes_picker" />
+
+        <NumberPicker
+            android:id="@+id/dialog_bottom_duration_seconds_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:descendantFocusability="blocksDescendants"
+            app:layout_constraintStart_toEndOf="@+id/dialog_bottom_duration_minutes_unit"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/dialog_bottom_duration_seconds_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/generic_string_SHORT_SECONDS"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/dialog_bottom_duration_seconds_picker"
+            app:layout_constraintStart_toEndOf="@+id/dialog_bottom_duration_seconds_picker"
+            app:layout_constraintTop_toTopOf="@+id/dialog_bottom_duration_seconds_picker" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/dialog_bottom_instruction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_bottom_duration_pickers_holder"
+        tools:text="If an explanation is needed put it here" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/dialog_bottom_confirm_button"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:padding="16dp"
+        android:textColor="?attr/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_bottom_instruction"
+        tools:text="@string/generic_string_DELETE" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

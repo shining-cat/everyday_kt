@@ -2,7 +2,6 @@ package fr.shining_cat.everyday.settings.views
 
 import android.content.Context
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.*
 import androidx.preference.*
 import fr.shining_cat.everyday.commons.Logger
@@ -20,8 +19,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private lateinit var notificationTimePreference: Preference
     private lateinit var notificationTextPreference: Preference
-    private lateinit var notificationSoundPreference: SwitchPreferenceCompat
+    private lateinit var notificationSoundPreference: Preference
     private lateinit var defaultNightModePreference: Preference
+    private lateinit var startCountDownLengthPreference: Preference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         //Set the name of the SharedPreferences file used to be ours instead of default
@@ -113,16 +113,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 true
             }
         //
-        notificationSoundPreference = SwitchPreferenceCompat(context)
+        notificationSoundPreference = Preference(context)
         notificationSoundPreference.key = SharedPrefsHelperSettings.NOTIFICATION_SOUND
         notificationSoundPreference.title =
-            getString(R.string.notificationsPreferencesCategory_title)
-        notificationSoundPreference.summaryOff =
-            getString(R.string.notificationsPreferencesCategory_title)
-        notificationSoundPreference.summaryOn =
-            getString(R.string.notificationsPreferencesCategory_title)
-        notificationSoundPreference.setDefaultValue(false)
+            getString(R.string.notificationsPreferences_notification_sound_title)
         notificationSoundPreference.isIconSpaceReserved = false
+        notificationSoundPreference.onPreferenceClickListener =
+            Preference.OnPreferenceClickListener {
+                openNotificationSoundSelectDialog()
+                true
+            }
         //
         val notificationsCategory = PreferenceCategoryLongSummary(context)
         notificationsCategory.title = getString(R.string.notificationsPreferencesCategory_title)
@@ -142,14 +142,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val presetNotificationTime = sharedPrefsHelper.getNotificationTime()
         val hour = Integer.valueOf(presetNotificationTime.substring(0, 2))
         val minute = Integer.valueOf(presetNotificationTime.substring(3))
-        val openNotificationTimeInputBottomSheetDialog =
+        val notificationTimeInputBottomSheetDialog =
             BottomDialogDismissableTimePicker.newInstance(
                 getString(R.string.notificationsPreferences_notification_time_title),
                 getString(R.string.generic_string_OK),
                 hour,
                 minute
             )
-        openNotificationTimeInputBottomSheetDialog.setBottomDialogDismissableTimePickerListener(
+        notificationTimeInputBottomSheetDialog.setBottomDialogDismissableTimePickerListener(
             object :
                 BottomDialogDismissableTimePicker.BottomDialogDismissableTimePickerListener {
                 override fun onDismissed() {
@@ -160,12 +160,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     val hoursAsString = String.format("%02d", hour)
                     val minutesAsString = String.format("%02d", minutes)
                     val notificationTime = "$hoursAsString:$minutesAsString"
-                    logger.d(LOG_TAG, "openNotificationTimeInputBottomSheetDialog::onConfirmButtonClicked::notificationTime = $notificationTime")
+                    logger.d(
+                        LOG_TAG,
+                        "openNotificationTimeInputBottomSheetDialog::onConfirmButtonClicked::notificationTime = $notificationTime"
+                    )
                     sharedPrefsHelper.setNotificationTime(notificationTime)
                     notificationTimePreference.summary = notificationTime
                 }
             })
-        openNotificationTimeInputBottomSheetDialog.show(
+        notificationTimeInputBottomSheetDialog.show(
             parentFragmentManager,
             "openNotificationTimeInputDialog"
         )
@@ -188,13 +191,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun openNotificationTextInputDialog() {
-        val openNotificationTextInputBottomSheetDialog =
+        val notificationTextInputBottomSheetDialog =
             BottomDialogDismissableEditTextAndConfirm.newInstance(
                 getString(R.string.notificationsPreferences_notification_text_title),
                 getNotificationTextDisplay(),
                 getString(R.string.generic_string_OK)
             )
-        openNotificationTextInputBottomSheetDialog.setBottomDialogDismissableMessageAndConfirmListener(
+        notificationTextInputBottomSheetDialog.setBottomDialogDismissableMessageAndConfirmListener(
             object :
                 BottomDialogDismissableEditTextAndConfirm.BottomDialogDismissableEditTextAndConfirmListener {
                 override fun onDismissed() {
@@ -206,13 +209,40 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     notificationTextPreference.summary = inputText
                 }
             })
-        openNotificationTextInputBottomSheetDialog.show(
+        notificationTextInputBottomSheetDialog.show(
+            parentFragmentManager,
+            "openNotificationTextInputDialog"
+        )
+    }
+
+    private fun openNotificationSoundSelectDialog() {
+        val notificationSoundSelectDialogBottomSheetDialog =
+            BottomDialogDismissableEditTextAndConfirm.newInstance(
+                getString(R.string.notificationsPreferences_notification_text_title),
+                getNotificationTextDisplay(),
+                getString(R.string.generic_string_OK)
+            )
+        notificationSoundSelectDialogBottomSheetDialog.setBottomDialogDismissableMessageAndConfirmListener(
+            object :
+                BottomDialogDismissableEditTextAndConfirm.BottomDialogDismissableEditTextAndConfirmListener {
+                override fun onDismissed() {
+                    //nothing to do here
+                }
+
+                override fun onValidateInputText(inputText: String) {
+                    sharedPrefsHelper.setNotificationText(inputText)
+                    notificationTextPreference.summary = inputText
+                }
+            })
+        notificationSoundSelectDialogBottomSheetDialog.show(
             parentFragmentManager,
             "openNotificationTextInputDialog"
         )
     }
 
     /////////////////
+
+    //TODO: add countdown before start length setting
     private fun setupCustomisationPreferences(context: Context, screen: PreferenceScreen) {
         val defaultNightModeLabels = listOf(
             getString(R.string.defaultNightModePreference_follow_system),
@@ -237,6 +267,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     defaultNightModeLabels,
                     defaultNightModeValues
                 )
+                true
+            }
+        //
+        startCountDownLengthPreference = Preference(context)
+        startCountDownLengthPreference.title =
+            getString(R.string.startCountDownLengthPreference_title)
+        startCountDownLengthPreference.key = SharedPrefsHelperSettings.COUNTDOWN_LENGTH
+        updateCountDownLengthSummary()
+        startCountDownLengthPreference.isIconSpaceReserved = false
+        startCountDownLengthPreference.onPreferenceClickListener =
+            Preference.OnPreferenceClickListener {
+                openSetCountDownLengthDialog()
                 true
             }
         //
@@ -269,21 +311,60 @@ class SettingsFragment : PreferenceFragmentCompat() {
         customisationCategory.isIconSpaceReserved = false
         screen.addPreference(customisationCategory)
         customisationCategory.addPreference(defaultNightModePreference)
+        customisationCategory.addPreference(startCountDownLengthPreference)
         customisationCategory.addPreference(infiniteSessionPreference)
         customisationCategory.addPreference(rewardsActivationPreference)
         customisationCategory.addPreference(statisticsActivationPreference)
     }
 
-    private fun openSelectDefaultNightModeDialog(labels: List<String>, androidDefaultNightModeValues: List<Int>) {
-        val selectedIndex = androidDefaultNightModeValues.indexOf(sharedPrefsHelper.getDefaultNightMode())
-        val openSelectDefaultNightModeBottomSheetDialog =
+    private fun openSetCountDownLengthDialog() {
+        val setCountDownLengthBottomSheetDialog =
+            BottomDialogDismissableSpinnersDurationAndConfirm.newInstance(
+                title = getString(R.string.startCountDownLengthPreference_title),
+                showHours = false,
+                showMinutes = false,
+                showSeconds = true,
+                explanationMessage = getString(R.string.startCountDownLengthPreference_explanation),
+                confirmButtonLabel = getString(R.string.generic_string_OK),
+                initialLengthMs = sharedPrefsHelper.getCountDownLength()
+            )
+        setCountDownLengthBottomSheetDialog.setBottomDialogDismissableSpinnerSecondsAndConfirmListener(
+            object :
+                BottomDialogDismissableSpinnersDurationAndConfirm.BottomDialogDismissableSpinnerSecondsAndConfirmListener {
+                override fun onDismissed() {
+                    //nothing to do here
+                }
+
+                override fun onConfirmButtonClicked(lengthMs: Long) {
+                    sharedPrefsHelper.setCountDownLength(lengthMs)
+                    updateCountDownLengthSummary()
+                }
+            })
+        setCountDownLengthBottomSheetDialog.show(parentFragmentManager, "openExportSessionsDialog")
+    }
+
+    private fun updateCountDownLengthSummary(){
+        startCountDownLengthPreference.summary =
+            getString(R.string.startCountDownLengthPreference_explanation) + ": " +
+            getString(R.string.startCountDownLengthPreference_value_display).format(
+                sharedPrefsHelper.getCountDownLength().toInt() / 1000
+            )
+    }
+
+    private fun openSelectDefaultNightModeDialog(
+        labels: List<String>,
+        androidDefaultNightModeValues: List<Int>
+    ) {
+        val selectedIndex =
+            androidDefaultNightModeValues.indexOf(sharedPrefsHelper.getDefaultNightMode())
+        val selectDefaultNightModeBottomSheetDialog =
             BottomDialogDismissableSelectListAndConfirm.newInstance(
                 getString(R.string.defaultNightModePreference_title),
                 labels,
                 getString(R.string.generic_string_VALIDATE),
                 selectedIndex
             )
-        openSelectDefaultNightModeBottomSheetDialog.setBottomDialogDismissableSelectListAndConfirmListener(
+        selectDefaultNightModeBottomSheetDialog.setBottomDialogDismissableSelectListAndConfirmListener(
             object :
                 BottomDialogDismissableSelectListAndConfirm.BottomDialogDismissableSelectListAndConfirmListener {
                 override fun onDismissed() {
@@ -295,7 +376,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         LOG_TAG,
                         "openSelectDefaultNightModeDialog::onConfirmButtonClicked::selected index $optionSelectedIndex, displaying: ${labels[optionSelectedIndex]}"
                     )
-                    val androidDefaultNightModeValue = androidDefaultNightModeValues[optionSelectedIndex]
+                    val androidDefaultNightModeValue =
+                        androidDefaultNightModeValues[optionSelectedIndex]
                     sharedPrefsHelper.setDefaultNightMode(androidDefaultNightModeValue)
                     setDefaultNightMode(androidDefaultNightModeValue)
                     //force refresh of parent activity to apply theme choice
@@ -303,7 +385,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     defaultNightModePreference.summary = labels[optionSelectedIndex]
                 }
             })
-        openSelectDefaultNightModeBottomSheetDialog.show(
+        selectDefaultNightModeBottomSheetDialog.show(
             parentFragmentManager,
             "openSelectDefaultNightModeDialog"
         )
@@ -348,13 +430,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun openExportSessionsDialog() {
-        val openExportSessionsBottomSheetDialog =
+        val exportSessionsBottomSheetDialog =
             BottomDialogDismissableMessageAndConfirm.newInstance(
                 getString(R.string.exportSessionsPreference_dialog_title),
                 getString(R.string.exportSessionsPreference_dialog_message),
                 getString(R.string.exportSessionsPreference_dialog_confirm_button)
             )
-        openExportSessionsBottomSheetDialog.setBottomDialogDismissableMessageAndConfirmListener(
+        exportSessionsBottomSheetDialog.setBottomDialogDismissableMessageAndConfirmListener(
             object :
                 BottomDialogDismissableMessageAndConfirm.BottomDialogDismissableMessageAndConfirmListener {
                 override fun onDismissed() {
@@ -369,18 +451,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     )
                 }
             })
-        openExportSessionsBottomSheetDialog.show(parentFragmentManager, "openExportSessionsDialog")
+        exportSessionsBottomSheetDialog.show(parentFragmentManager, "openExportSessionsDialog")
 
     }
 
     private fun openImportSessionsDialog() {
-        val openImportSessionsBottomSheetDialog =
+        val importSessionsBottomSheetDialog =
             BottomDialogDismissableMessageAndConfirm.newInstance(
                 getString(R.string.importSessionsPreference_dialog_title),
                 getString(R.string.importSessionsPreference_dialog_message),
                 getString(R.string.importSessionsPreference_dialog_confirm_button)
             )
-        openImportSessionsBottomSheetDialog.setBottomDialogDismissableMessageAndConfirmListener(
+        importSessionsBottomSheetDialog.setBottomDialogDismissableMessageAndConfirmListener(
             object :
                 BottomDialogDismissableMessageAndConfirm.BottomDialogDismissableMessageAndConfirmListener {
                 override fun onDismissed() {
@@ -395,15 +477,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     )
                 }
             })
-        openImportSessionsBottomSheetDialog.show(parentFragmentManager, "openImportSessionsDialog")
+        importSessionsBottomSheetDialog.show(parentFragmentManager, "openImportSessionsDialog")
     }
 
     private fun openEraseAllDataDialog() {
-        val openEraseAllDataBottomSheetDialog = BottomDialogDismissableBigButton.newInstance(
+        val eraseAllDataBottomSheetDialog = BottomDialogDismissableBigButton.newInstance(
             getString(R.string.confirm_suppress),
             getString(R.string.generic_string_DELETE)
         )
-        openEraseAllDataBottomSheetDialog.setBottomDialogDismissableBigButtonListener(object :
+        eraseAllDataBottomSheetDialog.setBottomDialogDismissableBigButtonListener(object :
             BottomDialogDismissableBigButton.BottomDialogDismissableBigButtonListener {
             override fun onDismissed() {
                 //nothing to do here
@@ -418,7 +500,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
 
         })
-        openEraseAllDataBottomSheetDialog.show(parentFragmentManager, "openEraseAllDataDialog")
+        eraseAllDataBottomSheetDialog.show(parentFragmentManager, "openEraseAllDataDialog")
     }
 
 }

@@ -14,6 +14,7 @@ object SharedPrefsHelperSettings {
     const val NOTIFICATION_TEXT = "notification.text"
     const val NOTIFICATION_SOUND = "notification.sound"
     const val INFINITE_SESSION = "customization.infinite.session"
+    const val COUNTDOWN_LENGTH = "customization.countdown.length"
     const val DEFAULT_NIGHT_MODE = "customization.default.night.mode"
     const val REWARDS_ACTIVATED = "customization.rewards.activated"
     const val STATISTICS_ACTIVATED = "customization.stats.activated"
@@ -59,7 +60,7 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
     fun getNotificationTime(): String {
         return sharedPreferences.getString(
             SharedPrefsHelperSettings.NOTIFICATION_TIME,
-            "12:00" //TODO: set default value to 12:00
+            "12:00"
         ) ?: "12:00"
     }
 
@@ -87,6 +88,17 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
         return sharedPreferences.getBoolean(
             SharedPrefsHelperSettings.INFINITE_SESSION,
             false
+        )
+    }
+    fun setCountDownLength(length: Long) {
+        sharedPreferences.edit()
+            .putLong(SharedPrefsHelperSettings.COUNTDOWN_LENGTH, length).apply()
+    }
+
+    fun getCountDownLength(): Long {
+        return sharedPreferences.getLong(
+            SharedPrefsHelperSettings.COUNTDOWN_LENGTH,
+            5000L
         )
     }
 

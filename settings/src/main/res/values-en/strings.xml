@@ -34,6 +34,10 @@
     <string name="exportSessionsPreference_title">Export sessions</string>
     <string name="importSessionsPreference_title">Import sessions</string>
     <string name="notificationsPreferences_notification_time_title">Time of notification</string>
+    <string name="notificationsPreferences_notification_sound_title">Sound of notification</string>
+    <string name="startCountDownLengthPreference_title">Countdown length</string>
+    <string name="startCountDownLengthPreference_value_display">%1$d seconds</string>
+    <string name="startCountDownLengthPreference_explanation">Delay before session start</string>
     <string name="importSessionsPreference_writing_progressdialog_title">Importing</string>
     <string name="importSessionsPreference_parsing_progressdialog_title">Reading file</string>
     <string name="importSessionsPreference_dialog_confirm_button">Choose file</string>

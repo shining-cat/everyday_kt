@@ -17,12 +17,16 @@
     <string name="notificationsPreferences_notification_text_title">Texte de notification</string>
     <string name="notificationsPreferences_notification_text_default_text">C\'est l\'heure de pratiquer!</string>
     <string name="notificationsPreferences_notification_time_title">Heure de notification</string>
+    <string name="notificationsPreferences_notification_sound_title">Son de notification</string>
     <!---->
     <string name="customisationPreferencesCategory_title">Personnalisation</string>
     <string name="defaultNightModePreference_title">Apparence</string>
     <string name="defaultNightModePreference_follow_system">suivre le système</string>
     <string name="defaultNightModePreference_always_dark">thème sombre</string>
     <string name="defaultNightModePreference_always_light">thème clair</string>
+    <string name="startCountDownLengthPreference_title">Compte à rebours</string>
+    <string name="startCountDownLengthPreference_value_display">%1$d secondes</string>
+    <string name="startCountDownLengthPreference_explanation">Délai avant le démarrage d\'une session</string>
     <string name="infiniteSessionPreferencePreference_title">Session infinie</string>
     <string name="infiniteSessionPreferencePreference_switch_off_text">Arrêter le chronomètre en fin de session</string>
     <string name="infiniteSessionPreferencePreference_switch_on_text">Ne pas arrêter le chronomètre en fin de session</string>
