@@ -12,7 +12,8 @@ object SharedPrefsHelperSettings {
     const val NOTIFICATION_ACTIVATED = "notification.activated"
     const val NOTIFICATION_TIME = "notification.time"
     const val NOTIFICATION_TEXT = "notification.text"
-    const val NOTIFICATION_SOUND = "notification.sound"
+    const val NOTIFICATION_SOUND_URI = "notification.sound.uri"
+    const val NOTIFICATION_SOUND_TITLE = "notification.sound.title"
     const val INFINITE_SESSION = "customization.infinite.session"
     const val COUNTDOWN_LENGTH = "customization.countdown.length"
     const val DEFAULT_NIGHT_MODE = "customization.default.night.mode"
@@ -21,7 +22,6 @@ object SharedPrefsHelperSettings {
 
 }
 
-//SharedPreferences are set through a PreferenceFragmentCompat in fr.shining_cat.everyday.settings.views.SettingsFragment, so we only handle getters here
 class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
 
     fun getKeepScreenOn(): Boolean {
@@ -77,11 +77,27 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
             .putString(SharedPrefsHelperSettings.NOTIFICATION_TEXT, notificationText).apply()
     }
 
-    fun getNotificationSound(): String {
+    fun getNotificationSoundUri(): String {
         return sharedPreferences.getString(
-            SharedPrefsHelperSettings.NOTIFICATION_SOUND,
+            SharedPrefsHelperSettings.NOTIFICATION_SOUND_URI,
             "" //"" means Silent
         ) ?: ""
+    }//TODO: check if empty on app init, and if it is, set to RingtoneManager.getDefaultUri(mRingtoneType)
+
+    fun setNotificationSoundUri(selectedRingtoneUri: String) {
+        sharedPreferences.edit()
+            .putString(SharedPrefsHelperSettings.NOTIFICATION_SOUND_URI, selectedRingtoneUri).apply()
+    }
+    fun getNotificationSoundTitle(): String {
+        return sharedPreferences.getString(
+            SharedPrefsHelperSettings.NOTIFICATION_SOUND_TITLE,
+            ""
+        ) ?: ""
+    }//TODO: check if empty on app init, and if it is, set to set to R.string.silence to handle translation
+
+    fun setNotificationSoundTitle(selectedRingtoneTitle: String) {
+        sharedPreferences.edit()
+            .putString(SharedPrefsHelperSettings.NOTIFICATION_SOUND_TITLE, selectedRingtoneTitle).apply()
     }
 
     fun getInfiniteSession(): Boolean {

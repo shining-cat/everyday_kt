@@ -114,13 +114,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
         //
         notificationSoundPreference = Preference(context)
-        notificationSoundPreference.key = SharedPrefsHelperSettings.NOTIFICATION_SOUND
+        notificationSoundPreference.key = SharedPrefsHelperSettings.NOTIFICATION_SOUND_URI
         notificationSoundPreference.title =
             getString(R.string.notificationsPreferences_notification_sound_title)
         notificationSoundPreference.isIconSpaceReserved = false
+        val selectedNotificationSoundUri = sharedPrefsHelper.getNotificationSoundUri()
+        notificationSoundPreference.summary = sharedPrefsHelper.getNotificationSoundTitle()
         notificationSoundPreference.onPreferenceClickListener =
             Preference.OnPreferenceClickListener {
-                openNotificationSoundSelectDialog()
+                openNotificationSoundSelectDialog(selectedNotificationSoundUri)
                 true
             }
         //
@@ -137,6 +139,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         //
         updateSubNotificationPreferences(sharedPrefsHelper.getNotificationActivated())
     }
+
 
     private fun openNotificationTimeInputDialog() {
         val presetNotificationTime = sharedPrefsHelper.getNotificationTime()
@@ -215,34 +218,41 @@ class SettingsFragment : PreferenceFragmentCompat() {
         )
     }
 
-    private fun openNotificationSoundSelectDialog() {
+    private fun openNotificationSoundSelectDialog(selectedNotificationSoundUri: String) {
+        val ringtonesAssets = resources.getStringArray(fr.shining_cat.everyday.commons.R.array.ringtonesAssetsNames)
+        val ringtonesTitles = resources.getStringArray(fr.shining_cat.everyday.commons.R.array.ringtonesTitles)
         val notificationSoundSelectDialogBottomSheetDialog =
-            BottomDialogDismissableEditTextAndConfirm.newInstance(
-                getString(R.string.notificationsPreferences_notification_text_title),
-                getNotificationTextDisplay(),
-                getString(R.string.generic_string_OK)
+            BottomDialogDismissableRingtonePicker.newInstance(
+                getString(R.string.notificationsPreferences_notification_sound_title),
+                selectedNotificationSoundUri,
+                false,
+                ringtonesAssets,
+                ringtonesTitles
             )
-        notificationSoundSelectDialogBottomSheetDialog.setBottomDialogDismissableMessageAndConfirmListener(
+        notificationSoundSelectDialogBottomSheetDialog.setBottomDialogDismissableRingtonePickerListener(
             object :
-                BottomDialogDismissableEditTextAndConfirm.BottomDialogDismissableEditTextAndConfirmListener {
+                BottomDialogDismissableRingtonePicker.BottomDialogDismissableRingtonePickerListener {
                 override fun onDismissed() {
                     //nothing to do here
                 }
 
-                override fun onValidateInputText(inputText: String) {
-                    sharedPrefsHelper.setNotificationText(inputText)
-                    notificationTextPreference.summary = inputText
+                override fun onValidateRingtoneSelected(
+                    selectedRingtoneUri: String,
+                    selectedRingtoneName: String
+                ) {
+                    sharedPrefsHelper.setNotificationSoundUri(selectedRingtoneUri)
+                    sharedPrefsHelper.setNotificationSoundTitle(selectedRingtoneName)
+                    notificationTextPreference.summary = selectedRingtoneName
                 }
             })
         notificationSoundSelectDialogBottomSheetDialog.show(
             parentFragmentManager,
-            "openNotificationTextInputDialog"
+            "openNotificationSoundSelectDialog"
         )
     }
 
     /////////////////
 
-    //TODO: add countdown before start length setting
     private fun setupCustomisationPreferences(context: Context, screen: PreferenceScreen) {
         val defaultNightModeLabels = listOf(
             getString(R.string.defaultNightModePreference_follow_system),

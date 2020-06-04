@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--assets ringtones descriptions Strings-->
+    <string name="singing_bowl_low_long_one_hit" translatable="true">Low pitch singing bowl, one long hit</string>
+    <string name="singing_bowl_high_short_one_hit" translatable="true">High pitch singing bowl one short hit</string>
+    <string name="singing_bowl_high_short_two_hits_slow" translatable="true">High pitch singing bowl two short slow hits</string>
+    <string name="singing_bowl_high_short_three_hits_slow" translatable="true">High pitch singing bowl three short slow hits</string>
+    <string name="singing_bowl_high_short_two_hits_fast" translatable="true">High pitch singing bowl two short quick hits</string>
+    <string name="singing_bowl_high_short_three_hits_fast" translatable="true">High pitch singing bowl three short quick hits</string>
+    <string name="silence" translatable="true">Silence</string>
+
+</resources>

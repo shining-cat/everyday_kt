@@ -28,8 +28,8 @@
     <string name="startCountDownLengthPreference_value_display">%1$d secondes</string>
     <string name="startCountDownLengthPreference_explanation">Délai avant le démarrage d\'une session</string>
     <string name="infiniteSessionPreferencePreference_title">Session infinie</string>
-    <string name="infiniteSessionPreferencePreference_switch_off_text">Arrêter le chronomètre en fin de session</string>
-    <string name="infiniteSessionPreferencePreference_switch_on_text">Ne pas arrêter le chronomètre en fin de session</string>
+    <string name="infiniteSessionPreferencePreference_switch_off_text">Arrêter le compteur en fin de session</string>
+    <string name="infiniteSessionPreferencePreference_switch_on_text">Ne pas arrêter le compteur en fin de session</string>
     <string name="rewardsActivationPreference_title">Activer les récompenses</string>
     <string name="statisticsActivationPreference_title">Enregistrer les sessions</string>
 <!---->
