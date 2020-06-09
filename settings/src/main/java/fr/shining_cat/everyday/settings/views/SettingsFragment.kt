@@ -90,7 +90,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
         //
         notificationTimePreference = Preference(context)
-        notificationTimePreference.key = SharedPrefsHelperSettings.NOTIFICATION_TIME
         notificationTimePreference.title =
             getString(R.string.notificationsPreferences_notification_time_title)
         notificationTimePreference.summary = sharedPrefsHelper.getNotificationTime()
@@ -102,7 +101,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
         //
         notificationTextPreference = Preference(context)
-        notificationTextPreference.key = SharedPrefsHelperSettings.NOTIFICATION_TEXT
         notificationTextPreference.title =
             getString(R.string.notificationsPreferences_notification_text_title)
         notificationTextPreference.summary = getNotificationTextDisplay()
@@ -114,15 +112,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
         //
         notificationSoundPreference = Preference(context)
-        notificationSoundPreference.key = SharedPrefsHelperSettings.NOTIFICATION_SOUND_URI
         notificationSoundPreference.title =
             getString(R.string.notificationsPreferences_notification_sound_title)
         notificationSoundPreference.isIconSpaceReserved = false
-        val selectedNotificationSoundUri = sharedPrefsHelper.getNotificationSoundUri()
         notificationSoundPreference.summary = sharedPrefsHelper.getNotificationSoundTitle()
         notificationSoundPreference.onPreferenceClickListener =
             Preference.OnPreferenceClickListener {
-                openNotificationSoundSelectDialog(selectedNotificationSoundUri)
+                openNotificationSoundSelectDialog()
                 true
             }
         //
@@ -218,16 +214,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
         )
     }
 
-    private fun openNotificationSoundSelectDialog(selectedNotificationSoundUri: String) {
+    private fun openNotificationSoundSelectDialog() {
+        val selectedNotificationSoundUri = sharedPrefsHelper.getNotificationSoundUri()
         val ringtonesAssets = resources.getStringArray(fr.shining_cat.everyday.commons.R.array.ringtonesAssetsNames)
         val ringtonesTitles = resources.getStringArray(fr.shining_cat.everyday.commons.R.array.ringtonesTitles)
         val notificationSoundSelectDialogBottomSheetDialog =
             BottomDialogDismissableRingtonePicker.newInstance(
-                getString(R.string.notificationsPreferences_notification_sound_title),
-                selectedNotificationSoundUri,
-                false,
-                ringtonesAssets,
-                ringtonesTitles
+                title = getString(R.string.notificationsPreferences_notification_sound_title),
+                initialSelectionUri = selectedNotificationSoundUri,
+                confirmButtonLabel = getString(R.string.generic_string_OK),
+                showSilenceChoice = false,
+                ringtonesAssetsNames = ringtonesAssets,
+                ringtonesDisplayNames = ringtonesTitles
             )
         notificationSoundSelectDialogBottomSheetDialog.setBottomDialogDismissableRingtonePickerListener(
             object :
@@ -242,7 +240,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 ) {
                     sharedPrefsHelper.setNotificationSoundUri(selectedRingtoneUri)
                     sharedPrefsHelper.setNotificationSoundTitle(selectedRingtoneName)
-                    notificationTextPreference.summary = selectedRingtoneName
+                    notificationSoundPreference.summary = selectedRingtoneName
                 }
             })
         notificationSoundSelectDialogBottomSheetDialog.show(
@@ -283,7 +281,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         startCountDownLengthPreference = Preference(context)
         startCountDownLengthPreference.title =
             getString(R.string.startCountDownLengthPreference_title)
-        startCountDownLengthPreference.key = SharedPrefsHelperSettings.COUNTDOWN_LENGTH
         updateCountDownLengthSummary()
         startCountDownLengthPreference.isIconSpaceReserved = false
         startCountDownLengthPreference.onPreferenceClickListener =

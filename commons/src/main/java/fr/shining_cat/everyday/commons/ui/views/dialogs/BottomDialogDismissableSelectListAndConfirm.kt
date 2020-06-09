@@ -77,7 +77,7 @@ class BottomDialogDismissableSelectListAndConfirm : BottomSheetDialogFragment() 
         val optionsLabels = arguments?.getStringArrayList(OPTIONS_ARG)?.toList() ?: listOf()
         val initialSelectedIndex = arguments?.getInt(INITIAL_SELECTED_INDEX_ARG)?: -1
         selectListAdapter.optionsLabels = optionsLabels
-        if(initialSelectedIndex != -1) selectListAdapter.forceInitialSelectedPosition(initialSelectedIndex)
+        if(initialSelectedIndex != -1) selectListAdapter.forceInitialSelectedOption(initialSelectedIndex)
         selectListRecycler.adapter = selectListAdapter
         val layoutManager = LinearLayoutManager(context)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
