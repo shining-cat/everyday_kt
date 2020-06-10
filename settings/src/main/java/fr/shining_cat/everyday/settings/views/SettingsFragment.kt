@@ -223,7 +223,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 title = getString(R.string.notificationsPreferences_notification_sound_title),
                 initialSelectionUri = selectedNotificationSoundUri,
                 confirmButtonLabel = getString(R.string.generic_string_OK),
-                showSilenceChoice = false,
+                showSilenceChoice = true,
+//                showSilenceChoice = false,
                 ringtonesAssetsNames = ringtonesAssets,
                 ringtonesDisplayNames = ringtonesTitles
             )

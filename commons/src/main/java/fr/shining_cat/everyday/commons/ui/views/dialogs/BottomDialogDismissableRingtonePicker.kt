@@ -124,8 +124,10 @@ class BottomDialogDismissableRingtonePicker : BottomSheetDialogFragment() {
 
     private fun playSelectedRingtone(ringtoneToPlayUri: Uri) {
         playingRingtone?.stop()
-        playingRingtone = RingtoneManager.getRingtone(context, ringtoneToPlayUri)
-        playingRingtone?.play()
+        if(ringtoneToPlayUri.toString().isNotBlank()) {
+            playingRingtone = RingtoneManager.getRingtone(context, ringtoneToPlayUri)
+            playingRingtone?.play()
+        }
     }
 
     private fun buildCompleteRingtonesMap(): List<Pair<String, Uri>> {
@@ -156,8 +158,10 @@ class BottomDialogDismissableRingtonePicker : BottomSheetDialogFragment() {
     }
 
     private fun getSilentRingtone(): List<Pair<String, Uri>> =
-        listOf(Pair(getString(R.string.silence), Uri.parse("")))
+        listOf(Pair(getString(R.string.silence), Uri.parse("")), selectListDividerItem)
 
+
+    private val selectListDividerItem = Pair("", Uri.parse(""))
 
     private fun getDeviceRingtones(): List<Pair<String, Uri>> {
         val ringtoneManager = RingtoneManager(context)
@@ -189,6 +193,7 @@ class BottomDialogDismissableRingtonePicker : BottomSheetDialogFragment() {
                 )
             }
         }
+        if(list.isNotEmpty()) list.add(selectListDividerItem)
         return list
     }
 
