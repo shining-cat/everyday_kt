@@ -10,10 +10,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.R
@@ -119,6 +122,14 @@ class BottomDialogDismissableRingtonePicker : BottomSheetDialogFragment() {
         confirmButton.text = confirmButtonLabel
         confirmButton.setOnClickListener {
             transmitSelectedRingtone(completeRingtonesList[selectListAdapter.selectedPosition])
+        }
+        //
+//        val container = view.findViewById<Button>(R.id.dialog_bottom_container)
+        this.dialog?.setOnShowListener { dialog ->
+            val d = dialog as BottomSheetDialog
+            val bottomSheet = d.findViewById<View>(R.id.design_bottom_sheet) as FrameLayout
+            val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
     }
 
