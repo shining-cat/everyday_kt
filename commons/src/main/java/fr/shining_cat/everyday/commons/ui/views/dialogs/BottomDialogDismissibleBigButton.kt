@@ -10,7 +10,7 @@ import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import fr.shining_cat.everyday.commons.R
 
-class BottomDialogDismissableBigButton : BottomSheetDialogFragment() {
+class BottomDialogDismissibleBigButton : BottomSheetDialogFragment() {
 
     private val TITLE_ARG = "title_argument"
     private val BIG_BUTTON_LABEL_ARG = "big_button_label_argument"
@@ -27,8 +27,8 @@ class BottomDialogDismissableBigButton : BottomSheetDialogFragment() {
     }
 
     companion object {
-        fun newInstance(title: String, bigButtonLabel: String): BottomDialogDismissableBigButton =
-            BottomDialogDismissableBigButton()
+        fun newInstance(title: String, bigButtonLabel: String): BottomDialogDismissibleBigButton =
+            BottomDialogDismissibleBigButton()
                 .apply {
                 arguments = Bundle().apply {
                     putString(TITLE_ARG, title)

@@ -1,7 +1,6 @@
 package fr.shining_cat.everyday.commons.ui.views.dialogs
 
 import android.content.Context
-import android.content.DialogInterface
 import android.media.Ringtone
 import android.media.RingtoneManager
 import android.net.Uri
@@ -22,9 +21,9 @@ import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.R
 import org.koin.android.ext.android.get
 
-class BottomDialogDismissableRingtonePicker : BottomSheetDialogFragment() {
+class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
 
-    private val LOG_TAG = BottomDialogDismissableRingtonePicker::class.java.name
+    private val LOG_TAG = BottomDialogDismissibleRingtonePicker::class.java.name
     private val logger: Logger = get()
 
     private val TITLE_ARG = "title_argument"
@@ -60,8 +59,8 @@ class BottomDialogDismissableRingtonePicker : BottomSheetDialogFragment() {
             showSilenceChoice: Boolean = false,
             ringtonesAssetsNames: Array<String> = emptyArray(),
             ringtonesDisplayNames: Array<String> = emptyArray()
-        ): BottomDialogDismissableRingtonePicker =
-            BottomDialogDismissableRingtonePicker()
+        ): BottomDialogDismissibleRingtonePicker =
+            BottomDialogDismissibleRingtonePicker()
                 .apply {
                     arguments = Bundle().apply {
                         putString(TITLE_ARG, title)
@@ -123,13 +122,12 @@ class BottomDialogDismissableRingtonePicker : BottomSheetDialogFragment() {
         confirmButton.setOnClickListener {
             transmitSelectedRingtone(completeRingtonesList[selectListAdapter.selectedPosition])
         }
-        //
-//        val container = view.findViewById<Button>(R.id.dialog_bottom_container)
+        //preventing disturbing dialog size-changes when scrolling list by setting peek height to expanded (full) height
         this.dialog?.setOnShowListener { dialog ->
             val d = dialog as BottomSheetDialog
             val bottomSheet = d.findViewById<View>(R.id.design_bottom_sheet) as FrameLayout
             val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            bottomSheetBehavior.peekHeight = bottomSheet.height
         }
     }
 

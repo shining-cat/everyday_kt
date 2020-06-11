@@ -12,7 +12,7 @@ import android.widget.TimePicker
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import fr.shining_cat.everyday.commons.R
 
-class BottomDialogDismissableTimePicker : BottomSheetDialogFragment() {
+class BottomDialogDismissibleTimePicker : BottomSheetDialogFragment() {
 
     private val TITLE_ARG = "title_argument"
     private val HOUR_ARG = "hour_argument"
@@ -36,8 +36,8 @@ class BottomDialogDismissableTimePicker : BottomSheetDialogFragment() {
             confirmButtonLabel: String,
             hour: Int = 0,
             minutes: Int = 0
-        ): BottomDialogDismissableTimePicker =
-            BottomDialogDismissableTimePicker()
+        ): BottomDialogDismissibleTimePicker =
+            BottomDialogDismissibleTimePicker()
                 .apply {
                     arguments = Bundle().apply {
                         putString(TITLE_ARG, title)

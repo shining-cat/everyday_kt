@@ -142,7 +142,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val hour = Integer.valueOf(presetNotificationTime.substring(0, 2))
         val minute = Integer.valueOf(presetNotificationTime.substring(3))
         val notificationTimeInputBottomSheetDialog =
-            BottomDialogDismissableTimePicker.newInstance(
+            BottomDialogDismissibleTimePicker.newInstance(
                 getString(R.string.notificationsPreferences_notification_time_title),
                 getString(R.string.generic_string_OK),
                 hour,
@@ -150,7 +150,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             )
         notificationTimeInputBottomSheetDialog.setBottomDialogDismissableTimePickerListener(
             object :
-                BottomDialogDismissableTimePicker.BottomDialogDismissableTimePickerListener {
+                BottomDialogDismissibleTimePicker.BottomDialogDismissableTimePickerListener {
                 override fun onDismissed() {
                     //nothing to do here
                 }
@@ -191,14 +191,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private fun openNotificationTextInputDialog() {
         val notificationTextInputBottomSheetDialog =
-            BottomDialogDismissableEditTextAndConfirm.newInstance(
+            BottomDialogDismissibleEditTextAndConfirm.newInstance(
                 getString(R.string.notificationsPreferences_notification_text_title),
                 getNotificationTextDisplay(),
                 getString(R.string.generic_string_OK)
             )
         notificationTextInputBottomSheetDialog.setBottomDialogDismissableMessageAndConfirmListener(
             object :
-                BottomDialogDismissableEditTextAndConfirm.BottomDialogDismissableEditTextAndConfirmListener {
+                BottomDialogDismissibleEditTextAndConfirm.BottomDialogDismissableEditTextAndConfirmListener {
                 override fun onDismissed() {
                     //nothing to do here
                 }
@@ -219,7 +219,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val ringtonesAssets = resources.getStringArray(fr.shining_cat.everyday.commons.R.array.ringtonesAssetsNames)
         val ringtonesTitles = resources.getStringArray(fr.shining_cat.everyday.commons.R.array.ringtonesTitles)
         val notificationSoundSelectDialogBottomSheetDialog =
-            BottomDialogDismissableRingtonePicker.newInstance(
+            BottomDialogDismissibleRingtonePicker.newInstance(
                 title = getString(R.string.notificationsPreferences_notification_sound_title),
                 initialSelectionUri = selectedNotificationSoundUri,
                 confirmButtonLabel = getString(R.string.generic_string_OK),
@@ -230,7 +230,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             )
         notificationSoundSelectDialogBottomSheetDialog.setBottomDialogDismissableRingtonePickerListener(
             object :
-                BottomDialogDismissableRingtonePicker.BottomDialogDismissableRingtonePickerListener {
+                BottomDialogDismissibleRingtonePicker.BottomDialogDismissableRingtonePickerListener {
                 override fun onDismissed() {
                     //nothing to do here
                 }
@@ -327,7 +327,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private fun openSetCountDownLengthDialog() {
         val setCountDownLengthBottomSheetDialog =
-            BottomDialogDismissableSpinnersDurationAndConfirm.newInstance(
+            BottomDialogDismissibleSpinnersDurationAndConfirm.newInstance(
                 title = getString(R.string.startCountDownLengthPreference_title),
                 showHours = false,
                 showMinutes = false,
@@ -338,7 +338,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             )
         setCountDownLengthBottomSheetDialog.setBottomDialogDismissableSpinnerSecondsAndConfirmListener(
             object :
-                BottomDialogDismissableSpinnersDurationAndConfirm.BottomDialogDismissableSpinnerSecondsAndConfirmListener {
+                BottomDialogDismissibleSpinnersDurationAndConfirm.BottomDialogDismissableSpinnerSecondsAndConfirmListener {
                 override fun onDismissed() {
                     //nothing to do here
                 }
@@ -366,7 +366,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val selectedIndex =
             androidDefaultNightModeValues.indexOf(sharedPrefsHelper.getDefaultNightMode())
         val selectDefaultNightModeBottomSheetDialog =
-            BottomDialogDismissableSelectListAndConfirm.newInstance(
+            BottomDialogDismissibleSelectListAndConfirm.newInstance(
                 getString(R.string.defaultNightModePreference_title),
                 labels,
                 getString(R.string.generic_string_VALIDATE),
@@ -374,7 +374,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             )
         selectDefaultNightModeBottomSheetDialog.setBottomDialogDismissableSelectListAndConfirmListener(
             object :
-                BottomDialogDismissableSelectListAndConfirm.BottomDialogDismissableSelectListAndConfirmListener {
+                BottomDialogDismissibleSelectListAndConfirm.BottomDialogDismissableSelectListAndConfirmListener {
                 override fun onDismissed() {
                     //nothing to do here
                 }
@@ -439,14 +439,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private fun openExportSessionsDialog() {
         val exportSessionsBottomSheetDialog =
-            BottomDialogDismissableMessageAndConfirm.newInstance(
+            BottomDialogDismissibleMessageAndConfirm.newInstance(
                 getString(R.string.exportSessionsPreference_dialog_title),
                 getString(R.string.exportSessionsPreference_dialog_message),
                 getString(R.string.exportSessionsPreference_dialog_confirm_button)
             )
         exportSessionsBottomSheetDialog.setBottomDialogDismissableMessageAndConfirmListener(
             object :
-                BottomDialogDismissableMessageAndConfirm.BottomDialogDismissableMessageAndConfirmListener {
+                BottomDialogDismissibleMessageAndConfirm.BottomDialogDismissableMessageAndConfirmListener {
                 override fun onDismissed() {
                     //nothing to do here
                 }
@@ -465,14 +465,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private fun openImportSessionsDialog() {
         val importSessionsBottomSheetDialog =
-            BottomDialogDismissableMessageAndConfirm.newInstance(
+            BottomDialogDismissibleMessageAndConfirm.newInstance(
                 getString(R.string.importSessionsPreference_dialog_title),
                 getString(R.string.importSessionsPreference_dialog_message),
                 getString(R.string.importSessionsPreference_dialog_confirm_button)
             )
         importSessionsBottomSheetDialog.setBottomDialogDismissableMessageAndConfirmListener(
             object :
-                BottomDialogDismissableMessageAndConfirm.BottomDialogDismissableMessageAndConfirmListener {
+                BottomDialogDismissibleMessageAndConfirm.BottomDialogDismissableMessageAndConfirmListener {
                 override fun onDismissed() {
                     //nothing to do here
                 }
@@ -489,12 +489,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun openEraseAllDataDialog() {
-        val eraseAllDataBottomSheetDialog = BottomDialogDismissableBigButton.newInstance(
+        val eraseAllDataBottomSheetDialog = BottomDialogDismissibleBigButton.newInstance(
             getString(R.string.confirm_suppress),
             getString(R.string.generic_string_DELETE)
         )
         eraseAllDataBottomSheetDialog.setBottomDialogDismissableBigButtonListener(object :
-            BottomDialogDismissableBigButton.BottomDialogDismissableBigButtonListener {
+            BottomDialogDismissibleBigButton.BottomDialogDismissableBigButtonListener {
             override fun onDismissed() {
                 //nothing to do here
             }

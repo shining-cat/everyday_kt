@@ -14,7 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import fr.shining_cat.everyday.commons.R
 import java.util.concurrent.TimeUnit
 
-class BottomDialogDismissableSpinnersDurationAndConfirm : BottomSheetDialogFragment() {
+class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragment() {
 
     private val TITLE_ARG = "title_argument"
     private val SHOW_HOURS_ARG = "show_hours_argument"
@@ -49,8 +49,8 @@ class BottomDialogDismissableSpinnersDurationAndConfirm : BottomSheetDialogFragm
             explanationMessage: String,
             confirmButtonLabel: String,
             initialLengthMs: Long = 0
-        ): BottomDialogDismissableSpinnersDurationAndConfirm =
-            BottomDialogDismissableSpinnersDurationAndConfirm()
+        ): BottomDialogDismissibleSpinnersDurationAndConfirm =
+            BottomDialogDismissibleSpinnersDurationAndConfirm()
                 .apply {
                     arguments = Bundle().apply {
                         putString(TITLE_ARG, title)

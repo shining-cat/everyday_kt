@@ -10,7 +10,7 @@ import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import fr.shining_cat.everyday.commons.R
 
-class BottomDialogDismissableMessageAndConfirm : BottomSheetDialogFragment() {
+class BottomDialogDismissibleMessageAndConfirm : BottomSheetDialogFragment() {
 
     private val TITLE_ARG = "title_argument"
     private val MESSAGE_ARG = "message_argument"
@@ -28,8 +28,8 @@ class BottomDialogDismissableMessageAndConfirm : BottomSheetDialogFragment() {
     }
 
     companion object {
-        fun newInstance(title: String, message: String, confirmButtonLabel: String): BottomDialogDismissableMessageAndConfirm =
-            BottomDialogDismissableMessageAndConfirm()
+        fun newInstance(title: String, message: String, confirmButtonLabel: String): BottomDialogDismissibleMessageAndConfirm =
+            BottomDialogDismissibleMessageAndConfirm()
                 .apply {
                 arguments = Bundle().apply {
                     putString(TITLE_ARG, title)

@@ -11,7 +11,7 @@ import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import fr.shining_cat.everyday.commons.R
 
-class BottomDialogDismissableEditTextAndConfirm : BottomSheetDialogFragment() {
+class BottomDialogDismissibleEditTextAndConfirm : BottomSheetDialogFragment() {
 
     private val TITLE_ARG = "title_argument"
     private val HINT_ARG = "hint_argument"
@@ -29,8 +29,8 @@ class BottomDialogDismissableEditTextAndConfirm : BottomSheetDialogFragment() {
     }
 
     companion object {
-        fun newInstance(title: String, editTextHint: String, confirmButtonLabel: String): BottomDialogDismissableEditTextAndConfirm =
-            BottomDialogDismissableEditTextAndConfirm()
+        fun newInstance(title: String, editTextHint: String, confirmButtonLabel: String): BottomDialogDismissibleEditTextAndConfirm =
+            BottomDialogDismissibleEditTextAndConfirm()
                 .apply {
                 arguments = Bundle().apply {
                     putString(TITLE_ARG, title)
