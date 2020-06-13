@@ -16,16 +16,16 @@ class BottomDialogDismissibleEditTextAndConfirm : BottomSheetDialogFragment() {
     private val TITLE_ARG = "title_argument"
     private val HINT_ARG = "hint_argument"
     private val CONFIRM_BUTTON_LABEL_ARG = "confirm_button_label_argument"
-    private var bottomDialogDismissableEditTextAndConfirmListenerListener: BottomDialogDismissableEditTextAndConfirmListener? =
+    private var bottomDialogDismissibleEditTextAndConfirmListenerListener: BottomDialogDismissibleEditTextAndConfirmListener? =
         null
 
-    interface BottomDialogDismissableEditTextAndConfirmListener {
+    interface BottomDialogDismissibleEditTextAndConfirmListener {
         fun onDismissed()
         fun onValidateInputText(inputText: String)
     }
 
-    fun setBottomDialogDismissableMessageAndConfirmListener(listener: BottomDialogDismissableEditTextAndConfirmListener) {
-        this.bottomDialogDismissableEditTextAndConfirmListenerListener = listener
+    fun setBottomDialogDismissibleMessageAndConfirmListener(listener: BottomDialogDismissibleEditTextAndConfirmListener) {
+        this.bottomDialogDismissibleEditTextAndConfirmListenerListener = listener
     }
 
     companion object {
@@ -56,7 +56,7 @@ class BottomDialogDismissibleEditTextAndConfirm : BottomSheetDialogFragment() {
         //
         val dismissButton = view.findViewById<ImageView>(R.id.dialog_bottom_dismiss_button)
         dismissButton.setOnClickListener {
-            bottomDialogDismissableEditTextAndConfirmListenerListener?.onDismissed()
+            bottomDialogDismissibleEditTextAndConfirmListenerListener?.onDismissed()
             dismiss()
         }
         //
@@ -72,7 +72,7 @@ class BottomDialogDismissibleEditTextAndConfirm : BottomSheetDialogFragment() {
 
     private fun transmitInputText(editText: EditText){
         val inputText = editText.text.toString()
-        bottomDialogDismissableEditTextAndConfirmListenerListener?.onValidateInputText(inputText)
+        bottomDialogDismissibleEditTextAndConfirmListenerListener?.onValidateInputText(inputText)
         dismiss()
     }
 

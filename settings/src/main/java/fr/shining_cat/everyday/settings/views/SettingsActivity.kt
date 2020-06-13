@@ -29,7 +29,7 @@ class SettingsActivity : AbstractActivity() {
             .commit()
     }
 
-    private fun setToolBar(){
+    private fun setToolBar() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

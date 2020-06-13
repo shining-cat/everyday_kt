@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!---->
+    <!---->
     <string name="sessionsPreferencesCategory_title">Sessions</string>
     <string name="keepScreenOnPreference_switch_off_text">Allow sleep mode</string>
     <string name="keepScreenOnPreference_switch_on_text">Prevent sleep mode</string>
@@ -11,13 +11,13 @@
     <string name="keepScreenOnPreference_title">Keep screen on</string>
     <string name="doNotDisturbPreference_title">Do not disturb</string>
     <string name="planeModePreference_title">Airplane mode reminder</string>
-<!---->
+    <!---->
     <string name="notificationsPreferencesCategory_title">Notification</string>
     <string name="notificationsPreferences_summary">Get a notification if no session has been recorded when the set time has come</string>
     <string name="notificationsPreferences_notification_activated_title">Activate reminder</string>
     <string name="notificationsPreferences_notification_text_title">Notification text</string>
     <string name="notificationsPreferences_notification_text_default_text">It\'s time to practice!</string>
-<!---->
+    <!---->
     <string name="customisationPreferencesCategory_title">Customisation</string>
     <string name="defaultNightModePreference_title">Appearance</string>
     <string name="defaultNightModePreference_follow_system">follow system</string>
@@ -28,7 +28,7 @@
     <string name="infiniteSessionPreferencePreference_switch_on_text">Keep counter running at session end</string>
     <string name="rewardsActivationPreference_title">Activate rewards collection</string>
     <string name="statisticsActivationPreference_title">Record sessions information</string>
-<!---->
+    <!---->
     <string name="dataManagementPreferencesCategory_title">Data management</string>
     <string name="eraseDataPreference_title">Erase all data</string>
     <string name="exportSessionsPreference_title">Export sessions</string>

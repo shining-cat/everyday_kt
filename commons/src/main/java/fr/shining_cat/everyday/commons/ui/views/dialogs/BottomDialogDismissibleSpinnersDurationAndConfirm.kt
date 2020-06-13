@@ -28,16 +28,16 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
     private lateinit var minutesPicker: NumberPicker
     private lateinit var secondsPicker: NumberPicker
 
-    private var bottomDialogDismissableSpinnerSecondsAndConfirmListener: BottomDialogDismissableSpinnerSecondsAndConfirmListener? =
+    private var bottomDialogDismissibleSpinnerSecondsAndConfirmListener: BottomDialogDismissibleSpinnerSecondsAndConfirmListener? =
         null
 
-    interface BottomDialogDismissableSpinnerSecondsAndConfirmListener {
+    interface BottomDialogDismissibleSpinnerSecondsAndConfirmListener {
         fun onDismissed()
         fun onConfirmButtonClicked(lengthMs: Long)
     }
 
-    fun setBottomDialogDismissableSpinnerSecondsAndConfirmListener(listener: BottomDialogDismissableSpinnerSecondsAndConfirmListener) {
-        this.bottomDialogDismissableSpinnerSecondsAndConfirmListener = listener
+    fun setBottomDialogDismissibleSpinnerSecondsAndConfirmListener(listener: BottomDialogDismissibleSpinnerSecondsAndConfirmListener) {
+        this.bottomDialogDismissibleSpinnerSecondsAndConfirmListener = listener
     }
 
     companion object {
@@ -83,7 +83,7 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
         //
         val dismissButton = view.findViewById<ImageView>(R.id.dialog_bottom_dismiss_button)
         dismissButton.setOnClickListener {
-            bottomDialogDismissableSpinnerSecondsAndConfirmListener?.onDismissed()
+            bottomDialogDismissibleSpinnerSecondsAndConfirmListener?.onDismissed()
             dismiss()
         }
         //
@@ -116,7 +116,7 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
     }
 
     private fun transmitInputLength() {
-        bottomDialogDismissableSpinnerSecondsAndConfirmListener?.onConfirmButtonClicked(
+        bottomDialogDismissibleSpinnerSecondsAndConfirmListener?.onConfirmButtonClicked(
             collectLengthSelected()
         )
         dismiss()

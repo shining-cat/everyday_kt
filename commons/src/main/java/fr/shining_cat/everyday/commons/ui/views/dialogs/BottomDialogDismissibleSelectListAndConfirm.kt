@@ -26,16 +26,16 @@ class BottomDialogDismissibleSelectListAndConfirm : BottomSheetDialogFragment() 
     private val OPTIONS_ARG = "options_argument"
     private val CONFIRM_BUTTON_LABEL_ARG = "confirm_button_label_argument"
     private val INITIAL_SELECTED_INDEX_ARG = "initial_selected_index_argument"
-    private var bottomDialogDismissableSelectListAndConfirmListenerListener: BottomDialogDismissableSelectListAndConfirmListener? =
+    private var bottomDialogDismissibleSelectListAndConfirmListenerListener: BottomDialogDismissibleSelectListAndConfirmListener? =
         null
 
-    interface BottomDialogDismissableSelectListAndConfirmListener {
+    interface BottomDialogDismissibleSelectListAndConfirmListener {
         fun onDismissed()
         fun onValidateSelection(optionSelectedIndex: Int)
     }
 
-    fun setBottomDialogDismissableSelectListAndConfirmListener(listener: BottomDialogDismissableSelectListAndConfirmListener) {
-        this.bottomDialogDismissableSelectListAndConfirmListenerListener = listener
+    fun setBottomDialogDismissibleSelectListAndConfirmListener(listener: BottomDialogDismissibleSelectListAndConfirmListener) {
+        this.bottomDialogDismissibleSelectListAndConfirmListenerListener = listener
     }
 
     companion object {
@@ -71,7 +71,7 @@ class BottomDialogDismissibleSelectListAndConfirm : BottomSheetDialogFragment() 
         //
         val dismissButton = view.findViewById<ImageView>(R.id.dialog_bottom_dismiss_button)
         dismissButton.setOnClickListener {
-            bottomDialogDismissableSelectListAndConfirmListenerListener?.onDismissed()
+            bottomDialogDismissibleSelectListAndConfirmListenerListener?.onDismissed()
             dismiss()
         }
         //
@@ -100,7 +100,7 @@ class BottomDialogDismissibleSelectListAndConfirm : BottomSheetDialogFragment() 
     }
 
     private fun transmitChosenOption(optionSelectedIndex: Int) {
-        bottomDialogDismissableSelectListAndConfirmListenerListener?.onValidateSelection(
+        bottomDialogDismissibleSelectListAndConfirmListenerListener?.onValidateSelection(
             optionSelectedIndex
         )
         dismiss()

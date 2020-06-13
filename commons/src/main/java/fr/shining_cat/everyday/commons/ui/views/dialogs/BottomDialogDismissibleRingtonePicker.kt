@@ -32,7 +32,7 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
     private val RINGTONES_ASSETS_ARG = "ringtones_assets_argument"
     private val RINGTONES_TITLES_ARG = "ringtones_titles_argument"
     private val CONFIRM_BUTTON_LABEL_ARG = "confirm_button_label_argument"
-    private var bottomDialogDismissableRingtonePickerListener: BottomDialogDismissableRingtonePickerListener? =
+    private var bottomDialogDismissibleRingtonePickerListener: BottomDialogDismissibleRingtonePickerListener? =
         null
 
     private var playingRingtone: Ringtone? = null
@@ -42,13 +42,13 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
         playingRingtone?.stop()
     }
 
-    interface BottomDialogDismissableRingtonePickerListener {
+    interface BottomDialogDismissibleRingtonePickerListener {
         fun onDismissed()
         fun onValidateRingtoneSelected(selectedRingtoneUri: String, selectedRingtoneName: String)
     }
 
-    fun setBottomDialogDismissableRingtonePickerListener(listener: BottomDialogDismissableRingtonePickerListener) {
-        this.bottomDialogDismissableRingtonePickerListener = listener
+    fun setBottomDialogDismissibleRingtonePickerListener(listener: BottomDialogDismissibleRingtonePickerListener) {
+        this.bottomDialogDismissibleRingtonePickerListener = listener
     }
 
     companion object {
@@ -93,7 +93,7 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
         //
         val dismissButton = view.findViewById<ImageView>(R.id.dialog_bottom_dismiss_button)
         dismissButton.setOnClickListener {
-            bottomDialogDismissableRingtonePickerListener?.onDismissed()
+            bottomDialogDismissibleRingtonePickerListener?.onDismissed()
             dismiss()
         }
         //
@@ -216,7 +216,7 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
     }
 
     private fun transmitSelectedRingtone(selectedRingtone: Pair<String, Uri>) {
-        bottomDialogDismissableRingtonePickerListener?.onValidateRingtoneSelected(
+        bottomDialogDismissibleRingtonePickerListener?.onValidateRingtoneSelected(
             selectedRingtoneUri = selectedRingtone.second.toString(),
             selectedRingtoneName = selectedRingtone.first
         )
