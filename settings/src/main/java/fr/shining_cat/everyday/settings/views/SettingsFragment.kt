@@ -10,7 +10,6 @@ import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelper
 import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelperSettings
 import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleBigButton
 import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleMessageAndConfirm
-import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleSpinnersDurationAndConfirm
 import fr.shining_cat.everyday.settings.R
 import fr.shining_cat.everyday.settings.views.components.*
 import org.koin.android.ext.android.get
@@ -146,16 +145,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 true
             }
         //
-        startCountDownLengthPreference = Preference(prefContext)
-        startCountDownLengthPreference.title =
-            getString(R.string.startCountDownLengthPreference_title)
-        updateCountDownLengthSummary()
-        startCountDownLengthPreference.isIconSpaceReserved = false
-        startCountDownLengthPreference.onPreferenceClickListener =
-            Preference.OnPreferenceClickListener {
-                openSetCountDownLengthDialog()
-                true
-            }
+        startCountDownLengthPreference = prefBottomDialogBuilder.buildPrefBottomDialogCountdownLengthPicker()
         //
         val infiniteSessionPreference = SwitchPreferenceCompat(prefContext)
         infiniteSessionPreference.key = SharedPrefsHelperSettings.INFINITE_SESSION
@@ -192,41 +182,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         customisationCategory.addPreference(statisticsActivationPreference)
     }
 
-    private fun openSetCountDownLengthDialog() {
-        val setCountDownLengthBottomSheetDialog =
-            BottomDialogDismissibleSpinnersDurationAndConfirm.newInstance(
-                title = getString(R.string.startCountDownLengthPreference_title),
-                showHours = false,
-                showMinutes = false,
-                showSeconds = true,
-                explanationMessage = getString(R.string.startCountDownLengthPreference_explanation),
-                confirmButtonLabel = getString(R.string.generic_string_OK),
-                initialLengthMs = sharedPrefsHelper.getCountDownLength()
-            )
-        setCountDownLengthBottomSheetDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener(
-            object :
-                BottomDialogDismissibleSpinnersDurationAndConfirm.BottomDialogDismissibleSpinnerSecondsAndConfirmListener {
-                override fun onDismissed() {
-                    //nothing to do here
-                }
-
-                override fun onConfirmButtonClicked(lengthMs: Long) {
-                    sharedPrefsHelper.setCountDownLength(lengthMs)
-                    updateCountDownLengthSummary()
-                }
-            })
-        setCountDownLengthBottomSheetDialog.show(parentFragmentManager, "openExportSessionsDialog")
-    }
-
-    private fun updateCountDownLengthSummary() {
-        startCountDownLengthPreference.summary =
-            getString(R.string.startCountDownLengthPreference_explanation) + ": " +
-                    getString(R.string.startCountDownLengthPreference_value_display).format(
-                        sharedPrefsHelper.getCountDownLength().toInt() / 1000
-                    )
-    }
-
-    /////////////////
+   /////////////////
     private fun setupDataManagementPreferences() {
         val prefContext = preferenceManager.context
         val importSessionsPreference = Preference(prefContext)

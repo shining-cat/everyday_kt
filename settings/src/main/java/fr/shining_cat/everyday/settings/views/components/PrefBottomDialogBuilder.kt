@@ -40,4 +40,11 @@ class PrefBottomDialogBuilder(
         logger
     )
 
+    fun buildPrefBottomDialogCountdownLengthPicker() = PrefBottomDialogCountdownLengthPicker(
+        context,
+        sharedPrefsHelper,
+        fragmentManager,
+        logger
+    )
+
 }
