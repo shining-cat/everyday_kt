@@ -1,14 +1,15 @@
 package fr.shining_cat.everyday.settings.views
 
-import android.content.Context
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatDelegate.*
-import androidx.preference.*
+import androidx.preference.Preference
+import androidx.preference.PreferenceCategory
+import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreferenceCompat
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelper
 import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelperSettings
-import fr.shining_cat.everyday.commons.ui.views.dialogs.*
 import fr.shining_cat.everyday.settings.R
+import fr.shining_cat.everyday.settings.views.components.*
 import org.koin.android.ext.android.get
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -17,30 +18,33 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private val logger: Logger = get()
     private val sharedPrefsHelper: SharedPrefsHelper = get()
 
-    private lateinit var notificationTimePreference: Preference
-    private lateinit var notificationTextPreference: Preference
-    private lateinit var notificationSoundPreference: Preference
-    private lateinit var defaultNightModePreference: Preference
-    private lateinit var startCountDownLengthPreference: Preference
+    private lateinit var prefBottomDialogBuilder: PrefBottomDialogBuilder
+    private lateinit var notificationTextPref: PrefBottomDialogNotificationEditText
+    private lateinit var notificationSoundPref: PrefBottomDialogNotificationSoundSelect
+    private lateinit var notificationTimePref: PrefBottomDialogNotificationTimePicker
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        //Set the name of the SharedPreferences file used to be ours instead of default
+        //Set the name of the SharedPreferences file to be ours instead of default
         preferenceManager.sharedPreferencesName = SharedPrefsHelperSettings.NAME
         //
-        val context = preferenceManager.context
-        val screen = preferenceManager.createPreferenceScreen(context)
+        val prefContext = preferenceManager.context
+        preferenceScreen = preferenceManager.createPreferenceScreen(prefContext)
+        prefBottomDialogBuilder = PrefBottomDialogBuilder(
+            prefContext,
+            sharedPrefsHelper,
+            parentFragmentManager,
+            logger
+        )
         //
-        setupSessionsPreferences(context, screen)
-        setupNotificationsPreferences(context, screen)
-        setupCustomisationPreferences(context, screen)
-        setupDataManagementPreferences(context, screen)
-        //
-        preferenceScreen = screen
+        setupSessionsPreferences()
+        setupNotificationsPreferences()
+        setupCustomisationPreferences()
+        setupDataManagementPreferences()
     }
 
-
-    private fun setupSessionsPreferences(context: Context, screen: PreferenceScreen) {
-        val keepScreenOnPreference = SwitchPreferenceCompat(context)
+    private fun setupSessionsPreferences() {
+        val prefContext = preferenceManager.context
+        val keepScreenOnPreference = SwitchPreferenceCompat(prefContext)
         keepScreenOnPreference.key = SharedPrefsHelperSettings.KEEP_SCREEN_ON
         keepScreenOnPreference.title = getString(R.string.keepScreenOnPreference_title)
         keepScreenOnPreference.summaryOff =
@@ -50,7 +54,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         keepScreenOnPreference.isIconSpaceReserved = false
         //
         //TODO:will need permission to alter do not disturb mode
-        val doNotDisturbPreference = SwitchPreferenceCompat(context)
+        val doNotDisturbPreference = SwitchPreferenceCompat(prefContext)
         doNotDisturbPreference.key = SharedPrefsHelperSettings.DO_NOT_DISTURB
         doNotDisturbPreference.title = getString(R.string.doNotDisturbPreference_title)
         doNotDisturbPreference.summaryOff =
@@ -59,7 +63,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         doNotDisturbPreference.setDefaultValue(false)
         doNotDisturbPreference.isIconSpaceReserved = false
         //
-        val planeModePreference = SwitchPreferenceCompat(context)
+        val planeModePreference = SwitchPreferenceCompat(prefContext)
         planeModePreference.key = SharedPrefsHelperSettings.PLANE_MODE_REMINDER
         planeModePreference.title = getString(R.string.planeModePreference_title)
         planeModePreference.summaryOff = getString(R.string.planeModePreference_switch_off_text)
@@ -67,18 +71,19 @@ class SettingsFragment : PreferenceFragmentCompat() {
         planeModePreference.setDefaultValue(false)
         planeModePreference.isIconSpaceReserved = false
         //
-        val sessionsCategory = PreferenceCategory(context)
+        val sessionsCategory = PreferenceCategory(prefContext)
         sessionsCategory.title = getString(R.string.sessionsPreferencesCategory_title)
         sessionsCategory.isIconSpaceReserved = false
-        screen.addPreference(sessionsCategory)
+        preferenceScreen.addPreference(sessionsCategory)
         sessionsCategory.addPreference(keepScreenOnPreference)
         sessionsCategory.addPreference(doNotDisturbPreference)
         sessionsCategory.addPreference(planeModePreference)
     }
 
     /////////////////
-    private fun setupNotificationsPreferences(context: Context, screen: PreferenceScreen) {
-        val notificationActivatedPreference = SwitchPreferenceCompat(context)
+    private fun setupNotificationsPreferences() {
+        val prefContext = preferenceManager.context
+        val notificationActivatedPreference = SwitchPreferenceCompat(prefContext)
         notificationActivatedPreference.key = SharedPrefsHelperSettings.NOTIFICATION_ACTIVATED
         notificationActivatedPreference.title =
             getString(R.string.notificationsPreferences_notification_activated_title)
@@ -89,208 +94,57 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 true
             }
         //
-        notificationTimePreference = Preference(context)
-        notificationTimePreference.title =
-            getString(R.string.notificationsPreferences_notification_time_title)
-        notificationTimePreference.summary = sharedPrefsHelper.getNotificationTime()
-        notificationTimePreference.isIconSpaceReserved = false
-        notificationTimePreference.onPreferenceClickListener =
-            Preference.OnPreferenceClickListener {
-                openNotificationTimeInputDialog()
-                true
-            }
+        notificationTimePref = prefBottomDialogBuilder.buildPrefBottomDialogNotificationTimePicker()
         //
-        notificationTextPreference = Preference(context)
-        notificationTextPreference.title =
-            getString(R.string.notificationsPreferences_notification_text_title)
-        notificationTextPreference.summary = getNotificationTextDisplay()
-        notificationTextPreference.isIconSpaceReserved = false
-        notificationTextPreference.onPreferenceClickListener =
-            Preference.OnPreferenceClickListener {
-                openNotificationTextInputDialog()
-                true
-            }
+        notificationTextPref = prefBottomDialogBuilder.buildPrefBottomDialogNotificationEditText()
         //
-        notificationSoundPreference = Preference(context)
-        notificationSoundPreference.title =
-            getString(R.string.notificationsPreferences_notification_sound_title)
-        notificationSoundPreference.isIconSpaceReserved = false
-        notificationSoundPreference.summary = sharedPrefsHelper.getNotificationSoundTitle()
-        notificationSoundPreference.onPreferenceClickListener =
-            Preference.OnPreferenceClickListener {
-                openNotificationSoundSelectDialog()
-                true
-            }
+        notificationSoundPref =
+            prefBottomDialogBuilder.buildPrefBottomDialogNotificationSoundSelect()
         //
-        val notificationsCategory = PreferenceCategoryLongSummary(context)
+        val notificationsCategory =
+            PreferenceCategoryLongSummary(
+                prefContext
+            )
         notificationsCategory.title = getString(R.string.notificationsPreferencesCategory_title)
         notificationsCategory.summary = getString(R.string.notificationsPreferences_summary)
         notificationsCategory.isIconSpaceReserved = false
         notificationsCategory.isSingleLineTitle = false
-        screen.addPreference(notificationsCategory)
+        preferenceScreen.addPreference(notificationsCategory)
         notificationsCategory.addPreference(notificationActivatedPreference)
-        notificationsCategory.addPreference(notificationTimePreference)
-        notificationsCategory.addPreference(notificationTextPreference)
-        notificationsCategory.addPreference(notificationSoundPreference)
+        notificationsCategory.addPreference(notificationTimePref)
+        notificationsCategory.addPreference(notificationTextPref)
+        notificationsCategory.addPreference(notificationSoundPref)
         //
         updateSubNotificationPreferences(sharedPrefsHelper.getNotificationActivated())
     }
 
-
-    private fun openNotificationTimeInputDialog() {
-        val presetNotificationTime = sharedPrefsHelper.getNotificationTime()
-        val hour = Integer.valueOf(presetNotificationTime.substring(0, 2))
-        val minute = Integer.valueOf(presetNotificationTime.substring(3))
-        val notificationTimeInputBottomSheetDialog =
-            BottomDialogDismissibleTimePicker.newInstance(
-                getString(R.string.notificationsPreferences_notification_time_title),
-                getString(R.string.generic_string_OK),
-                hour,
-                minute
-            )
-        notificationTimeInputBottomSheetDialog.setBottomDialogDismissableTimePickerListener(
-            object :
-                BottomDialogDismissibleTimePicker.BottomDialogDismissableTimePickerListener {
-                override fun onDismissed() {
-                    //nothing to do here
-                }
-
-                override fun onConfirmButtonClicked(hour: Int, minutes: Int) {
-                    val hoursAsString = String.format("%02d", hour)
-                    val minutesAsString = String.format("%02d", minutes)
-                    val notificationTime = "$hoursAsString:$minutesAsString"
-                    logger.d(
-                        LOG_TAG,
-                        "openNotificationTimeInputBottomSheetDialog::onConfirmButtonClicked::notificationTime = $notificationTime"
-                    )
-                    sharedPrefsHelper.setNotificationTime(notificationTime)
-                    notificationTimePreference.summary = notificationTime
-                }
-            })
-        notificationTimeInputBottomSheetDialog.show(
-            parentFragmentManager,
-            "openNotificationTimeInputDialog"
-        )
-    }
-
     private fun updateSubNotificationPreferences(notificationActivated: Boolean) {
-        logger.d(LOG_TAG, "updateSubNotificationPreferences::$notificationActivated")
-        notificationTimePreference.isEnabled = notificationActivated
-        notificationTextPreference.isEnabled = notificationActivated
-        notificationSoundPreference.isEnabled = notificationActivated
-        notificationTimePreference.isVisible = notificationActivated
-        notificationTextPreference.isVisible = notificationActivated
-        notificationSoundPreference.isVisible = notificationActivated
-    }
-
-    private fun getNotificationTextDisplay(): String {
-        val presetNotificationText = sharedPrefsHelper.getNotificationText()
-        return if (presetNotificationText.isNotBlank()) presetNotificationText
-        else getString(R.string.notificationsPreferences_notification_text_default_text)
-    }
-
-    private fun openNotificationTextInputDialog() {
-        val notificationTextInputBottomSheetDialog =
-            BottomDialogDismissibleEditTextAndConfirm.newInstance(
-                getString(R.string.notificationsPreferences_notification_text_title),
-                getNotificationTextDisplay(),
-                getString(R.string.generic_string_OK)
-            )
-        notificationTextInputBottomSheetDialog.setBottomDialogDismissableMessageAndConfirmListener(
-            object :
-                BottomDialogDismissibleEditTextAndConfirm.BottomDialogDismissableEditTextAndConfirmListener {
-                override fun onDismissed() {
-                    //nothing to do here
-                }
-
-                override fun onValidateInputText(inputText: String) {
-                    sharedPrefsHelper.setNotificationText(inputText)
-                    notificationTextPreference.summary = inputText
-                }
-            })
-        notificationTextInputBottomSheetDialog.show(
-            parentFragmentManager,
-            "openNotificationTextInputDialog"
-        )
-    }
-
-    private fun openNotificationSoundSelectDialog() {
-        val selectedNotificationSoundUri = sharedPrefsHelper.getNotificationSoundUri()
-        val ringtonesAssets = resources.getStringArray(fr.shining_cat.everyday.commons.R.array.ringtonesAssetsNames)
-        val ringtonesTitles = resources.getStringArray(fr.shining_cat.everyday.commons.R.array.ringtonesTitles)
-        val notificationSoundSelectDialogBottomSheetDialog =
-            BottomDialogDismissibleRingtonePicker.newInstance(
-                title = getString(R.string.notificationsPreferences_notification_sound_title),
-                initialSelectionUri = selectedNotificationSoundUri,
-                confirmButtonLabel = getString(R.string.generic_string_OK),
-                showSilenceChoice = true,
-//                showSilenceChoice = false,
-                ringtonesAssetsNames = ringtonesAssets,
-                ringtonesDisplayNames = ringtonesTitles
-            )
-        notificationSoundSelectDialogBottomSheetDialog.setBottomDialogDismissableRingtonePickerListener(
-            object :
-                BottomDialogDismissibleRingtonePicker.BottomDialogDismissableRingtonePickerListener {
-                override fun onDismissed() {
-                    //nothing to do here
-                }
-
-                override fun onValidateRingtoneSelected(
-                    selectedRingtoneUri: String,
-                    selectedRingtoneName: String
-                ) {
-                    sharedPrefsHelper.setNotificationSoundUri(selectedRingtoneUri)
-                    sharedPrefsHelper.setNotificationSoundTitle(selectedRingtoneName)
-                    notificationSoundPreference.summary = selectedRingtoneName
-                }
-            })
-        notificationSoundSelectDialogBottomSheetDialog.show(
-            parentFragmentManager,
-            "openNotificationSoundSelectDialog"
-        )
+        notificationTimePref.isEnabled = notificationActivated
+        notificationTextPref.isEnabled = notificationActivated
+        notificationSoundPref.isEnabled = notificationActivated
+        notificationTimePref.isVisible = notificationActivated
+        notificationTextPref.isVisible = notificationActivated
+        notificationSoundPref.isVisible = notificationActivated
     }
 
     /////////////////
 
-    private fun setupCustomisationPreferences(context: Context, screen: PreferenceScreen) {
-        val defaultNightModeLabels = listOf(
-            getString(R.string.defaultNightModePreference_follow_system),
-            getString(R.string.defaultNightModePreference_always_dark),
-            getString(R.string.defaultNightModePreference_always_light)
-        )
-        val defaultNightModeValues = listOf(
-            MODE_NIGHT_FOLLOW_SYSTEM,
-            MODE_NIGHT_YES,
-            MODE_NIGHT_NO
-        )
-        defaultNightModePreference = Preference(context)
-        defaultNightModePreference.title = getString(R.string.defaultNightModePreference_title)
-        val selectedNightMode = sharedPrefsHelper.getDefaultNightMode()
-        val selectedNightModeDisplay =
-            defaultNightModeLabels[defaultNightModeValues.indexOf(selectedNightMode)]
-        defaultNightModePreference.summary = selectedNightModeDisplay
-        defaultNightModePreference.isIconSpaceReserved = false
-        defaultNightModePreference.onPreferenceClickListener =
-            Preference.OnPreferenceClickListener {
-                openSelectDefaultNightModeDialog(
-                    defaultNightModeLabels,
-                    defaultNightModeValues
-                )
+    private fun setupCustomisationPreferences() {
+        val prefContext = preferenceManager.context
+        //
+        val defaultNightModePreference =
+            prefBottomDialogBuilder.buildPrefBottomDialogDefaultNightModeSelect()
+        defaultNightModePreference.onPreferenceChangeListener =
+            Preference.OnPreferenceChangeListener { _, _ ->
+                //force refresh of parent activity to apply theme choice
+                activity?.recreate()
                 true
             }
         //
-        startCountDownLengthPreference = Preference(context)
-        startCountDownLengthPreference.title =
-            getString(R.string.startCountDownLengthPreference_title)
-        updateCountDownLengthSummary()
-        startCountDownLengthPreference.isIconSpaceReserved = false
-        startCountDownLengthPreference.onPreferenceClickListener =
-            Preference.OnPreferenceClickListener {
-                openSetCountDownLengthDialog()
-                true
-            }
+        val startCountDownLengthPreference =
+            prefBottomDialogBuilder.buildPrefBottomDialogCountdownLengthPicker()
         //
-        val infiniteSessionPreference = SwitchPreferenceCompat(context)
+        val infiniteSessionPreference = SwitchPreferenceCompat(prefContext)
         infiniteSessionPreference.key = SharedPrefsHelperSettings.INFINITE_SESSION
         infiniteSessionPreference.title =
             getString(R.string.infiniteSessionPreferencePreference_title)
@@ -301,23 +155,23 @@ class SettingsFragment : PreferenceFragmentCompat() {
         infiniteSessionPreference.setDefaultValue(false)
         infiniteSessionPreference.isIconSpaceReserved = false
         //
-        val rewardsActivationPreference = SwitchPreferenceCompat(context)
+        val rewardsActivationPreference = SwitchPreferenceCompat(prefContext)
         rewardsActivationPreference.key = SharedPrefsHelperSettings.REWARDS_ACTIVATED
         rewardsActivationPreference.title = getString(R.string.rewardsActivationPreference_title)
         rewardsActivationPreference.setDefaultValue(true)
         rewardsActivationPreference.isIconSpaceReserved = false
         //
-        val statisticsActivationPreference = SwitchPreferenceCompat(context)
+        val statisticsActivationPreference = SwitchPreferenceCompat(prefContext)
         statisticsActivationPreference.key = SharedPrefsHelperSettings.STATISTICS_ACTIVATED
         statisticsActivationPreference.title =
             getString(R.string.statisticsActivationPreference_title)
         statisticsActivationPreference.setDefaultValue(true)
         statisticsActivationPreference.isIconSpaceReserved = false
         //
-        val customisationCategory = PreferenceCategory(context)
+        val customisationCategory = PreferenceCategory(prefContext)
         customisationCategory.title = getString(R.string.customisationPreferencesCategory_title)
         customisationCategory.isIconSpaceReserved = false
-        screen.addPreference(customisationCategory)
+        preferenceScreen.addPreference(customisationCategory)
         customisationCategory.addPreference(defaultNightModePreference)
         customisationCategory.addPreference(startCountDownLengthPreference)
         customisationCategory.addPreference(infiniteSessionPreference)
@@ -325,190 +179,23 @@ class SettingsFragment : PreferenceFragmentCompat() {
         customisationCategory.addPreference(statisticsActivationPreference)
     }
 
-    private fun openSetCountDownLengthDialog() {
-        val setCountDownLengthBottomSheetDialog =
-            BottomDialogDismissibleSpinnersDurationAndConfirm.newInstance(
-                title = getString(R.string.startCountDownLengthPreference_title),
-                showHours = false,
-                showMinutes = false,
-                showSeconds = true,
-                explanationMessage = getString(R.string.startCountDownLengthPreference_explanation),
-                confirmButtonLabel = getString(R.string.generic_string_OK),
-                initialLengthMs = sharedPrefsHelper.getCountDownLength()
-            )
-        setCountDownLengthBottomSheetDialog.setBottomDialogDismissableSpinnerSecondsAndConfirmListener(
-            object :
-                BottomDialogDismissibleSpinnersDurationAndConfirm.BottomDialogDismissableSpinnerSecondsAndConfirmListener {
-                override fun onDismissed() {
-                    //nothing to do here
-                }
-
-                override fun onConfirmButtonClicked(lengthMs: Long) {
-                    sharedPrefsHelper.setCountDownLength(lengthMs)
-                    updateCountDownLengthSummary()
-                }
-            })
-        setCountDownLengthBottomSheetDialog.show(parentFragmentManager, "openExportSessionsDialog")
-    }
-
-    private fun updateCountDownLengthSummary(){
-        startCountDownLengthPreference.summary =
-            getString(R.string.startCountDownLengthPreference_explanation) + ": " +
-            getString(R.string.startCountDownLengthPreference_value_display).format(
-                sharedPrefsHelper.getCountDownLength().toInt() / 1000
-            )
-    }
-
-    private fun openSelectDefaultNightModeDialog(
-        labels: List<String>,
-        androidDefaultNightModeValues: List<Int>
-    ) {
-        val selectedIndex =
-            androidDefaultNightModeValues.indexOf(sharedPrefsHelper.getDefaultNightMode())
-        val selectDefaultNightModeBottomSheetDialog =
-            BottomDialogDismissibleSelectListAndConfirm.newInstance(
-                getString(R.string.defaultNightModePreference_title),
-                labels,
-                getString(R.string.generic_string_VALIDATE),
-                selectedIndex
-            )
-        selectDefaultNightModeBottomSheetDialog.setBottomDialogDismissableSelectListAndConfirmListener(
-            object :
-                BottomDialogDismissibleSelectListAndConfirm.BottomDialogDismissableSelectListAndConfirmListener {
-                override fun onDismissed() {
-                    //nothing to do here
-                }
-
-                override fun onValidateSelection(optionSelectedIndex: Int) {
-                    logger.d(
-                        LOG_TAG,
-                        "openSelectDefaultNightModeDialog::onConfirmButtonClicked::selected index $optionSelectedIndex, displaying: ${labels[optionSelectedIndex]}"
-                    )
-                    val androidDefaultNightModeValue =
-                        androidDefaultNightModeValues[optionSelectedIndex]
-                    sharedPrefsHelper.setDefaultNightMode(androidDefaultNightModeValue)
-                    setDefaultNightMode(androidDefaultNightModeValue)
-                    //force refresh of parent activity to apply theme choice
-                    activity?.recreate()
-                    defaultNightModePreference.summary = labels[optionSelectedIndex]
-                }
-            })
-        selectDefaultNightModeBottomSheetDialog.show(
-            parentFragmentManager,
-            "openSelectDefaultNightModeDialog"
-        )
-    }
-
     /////////////////
-    private fun setupDataManagementPreferences(context: Context, screen: PreferenceScreen) {
-        val importSessionsPreference = Preference(context)
-        importSessionsPreference.title = getString(R.string.importSessionsPreference_title)
-        importSessionsPreference.isIconSpaceReserved = false
-        importSessionsPreference.onPreferenceClickListener =
-            Preference.OnPreferenceClickListener {
-                openImportSessionsDialog()
-                true
-            }
+    private fun setupDataManagementPreferences() {
+        val prefContext = preferenceManager.context
         //
-        val exportSessionsPreference = Preference(context)
-        exportSessionsPreference.title = getString(R.string.exportSessionsPreference_title)
-        exportSessionsPreference.isIconSpaceReserved = false
-        exportSessionsPreference.onPreferenceClickListener =
-            Preference.OnPreferenceClickListener {
-                openExportSessionsDialog()
-                true
-            }
+        val importSessionsPreference = prefBottomDialogBuilder.buildPrefBottomDialogImportData()
         //
-        val eraseDataPreference = Preference(context)
-        eraseDataPreference.title = getString(R.string.eraseDataPreference_title)
-        eraseDataPreference.isIconSpaceReserved = false
-        eraseDataPreference.onPreferenceClickListener =
-            Preference.OnPreferenceClickListener {
-                openEraseAllDataDialog()
-                true
-            }
+        val exportSessionsPreference = prefBottomDialogBuilder.buildPrefBottomDialogExportData()
         //
-        val customisationCategory = PreferenceCategory(context)
-        customisationCategory.title = getString(R.string.dataManagementPreferencesCategory_title)
-        customisationCategory.isIconSpaceReserved = false
-        screen.addPreference(customisationCategory)
-        customisationCategory.addPreference(importSessionsPreference)
-        customisationCategory.addPreference(exportSessionsPreference)
-        customisationCategory.addPreference(eraseDataPreference)
-    }
-
-    private fun openExportSessionsDialog() {
-        val exportSessionsBottomSheetDialog =
-            BottomDialogDismissibleMessageAndConfirm.newInstance(
-                getString(R.string.exportSessionsPreference_dialog_title),
-                getString(R.string.exportSessionsPreference_dialog_message),
-                getString(R.string.exportSessionsPreference_dialog_confirm_button)
-            )
-        exportSessionsBottomSheetDialog.setBottomDialogDismissableMessageAndConfirmListener(
-            object :
-                BottomDialogDismissibleMessageAndConfirm.BottomDialogDismissableMessageAndConfirmListener {
-                override fun onDismissed() {
-                    //nothing to do here
-                }
-
-                override fun onConfirmButtonClicked() {
-                    //TODO: call export sessions Usecase
-                    logger.d(
-                        LOG_TAG,
-                        "openExportSessionsDialog::onConfirmButtonClicked::TODO: call export sessions Usecase"
-                    )
-                }
-            })
-        exportSessionsBottomSheetDialog.show(parentFragmentManager, "openExportSessionsDialog")
-
-    }
-
-    private fun openImportSessionsDialog() {
-        val importSessionsBottomSheetDialog =
-            BottomDialogDismissibleMessageAndConfirm.newInstance(
-                getString(R.string.importSessionsPreference_dialog_title),
-                getString(R.string.importSessionsPreference_dialog_message),
-                getString(R.string.importSessionsPreference_dialog_confirm_button)
-            )
-        importSessionsBottomSheetDialog.setBottomDialogDismissableMessageAndConfirmListener(
-            object :
-                BottomDialogDismissibleMessageAndConfirm.BottomDialogDismissableMessageAndConfirmListener {
-                override fun onDismissed() {
-                    //nothing to do here
-                }
-
-                override fun onConfirmButtonClicked() {
-                    //TODO: call import sessions Usecase
-                    logger.d(
-                        LOG_TAG,
-                        "openImportSessionsDialog::onConfirmButtonClicked::TODO: call import sessions Usecase"
-                    )
-                }
-            })
-        importSessionsBottomSheetDialog.show(parentFragmentManager, "openImportSessionsDialog")
-    }
-
-    private fun openEraseAllDataDialog() {
-        val eraseAllDataBottomSheetDialog = BottomDialogDismissibleBigButton.newInstance(
-            getString(R.string.confirm_suppress),
-            getString(R.string.generic_string_DELETE)
-        )
-        eraseAllDataBottomSheetDialog.setBottomDialogDismissableBigButtonListener(object :
-            BottomDialogDismissibleBigButton.BottomDialogDismissableBigButtonListener {
-            override fun onDismissed() {
-                //nothing to do here
-            }
-
-            override fun onBigButtonClicked() {
-                //TODO: call Erase all data Usecase
-                logger.d(
-                    LOG_TAG,
-                    "openEraseAllDataDialog::onBigButtonClicked::TODO: call Erase all data Usecase"
-                )
-            }
-
-        })
-        eraseAllDataBottomSheetDialog.show(parentFragmentManager, "openEraseAllDataDialog")
+        val eraseDataPreference = prefBottomDialogBuilder.buildPrefBottomDialogEraseAllData()
+        //
+        val dataManagementCategory = PreferenceCategory(prefContext)
+        dataManagementCategory.title = getString(R.string.dataManagementPreferencesCategory_title)
+        dataManagementCategory.isIconSpaceReserved = false
+        preferenceScreen.addPreference(dataManagementCategory)
+        dataManagementCategory.addPreference(importSessionsPreference)
+        dataManagementCategory.addPreference(exportSessionsPreference)
+        dataManagementCategory.addPreference(eraseDataPreference)
     }
 
 }

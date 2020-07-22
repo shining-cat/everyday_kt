@@ -1,4 +1,4 @@
-package fr.shining_cat.everyday.settings.views
+package fr.shining_cat.everyday.settings.views.components
 
 import android.content.Context
 import android.widget.TextView

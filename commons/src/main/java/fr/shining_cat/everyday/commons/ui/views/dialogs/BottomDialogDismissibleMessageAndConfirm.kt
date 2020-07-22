@@ -15,16 +15,16 @@ class BottomDialogDismissibleMessageAndConfirm : BottomSheetDialogFragment() {
     private val TITLE_ARG = "title_argument"
     private val MESSAGE_ARG = "message_argument"
     private val CONFIRM_BUTTON_LABEL_ARG = "confirm_button_label_argument"
-    private var bottomDialogDismissableMessageAndConfirmListenerListener: BottomDialogDismissableMessageAndConfirmListener? =
+    private var bottomDialogDismissibleMessageAndConfirmListenerListener: BottomDialogDismissibleMessageAndConfirmListener? =
         null
 
-    interface BottomDialogDismissableMessageAndConfirmListener {
+    interface BottomDialogDismissibleMessageAndConfirmListener {
         fun onDismissed()
         fun onConfirmButtonClicked()
     }
 
-    fun setBottomDialogDismissableMessageAndConfirmListener(listener: BottomDialogDismissableMessageAndConfirmListener) {
-        this.bottomDialogDismissableMessageAndConfirmListenerListener = listener
+    fun setBottomDialogDismissibleMessageAndConfirmListener(listener: BottomDialogDismissibleMessageAndConfirmListener) {
+        this.bottomDialogDismissibleMessageAndConfirmListenerListener = listener
     }
 
     companion object {
@@ -55,7 +55,7 @@ class BottomDialogDismissibleMessageAndConfirm : BottomSheetDialogFragment() {
         //
         val dismissButton = view.findViewById<ImageView>(R.id.dialog_bottom_dismiss_button)
         dismissButton.setOnClickListener {
-            bottomDialogDismissableMessageAndConfirmListenerListener?.onDismissed()
+            bottomDialogDismissibleMessageAndConfirmListenerListener?.onDismissed()
             dismiss()
         }
         //
@@ -66,7 +66,7 @@ class BottomDialogDismissibleMessageAndConfirm : BottomSheetDialogFragment() {
         val confirmButtonLabel = arguments?.getString(CONFIRM_BUTTON_LABEL_ARG, "")?:""
         val confirmButton = view.findViewById<Button>(R.id.dialog_bottom_confirm_button)
         confirmButton.text = confirmButtonLabel
-        confirmButton.setOnClickListener { bottomDialogDismissableMessageAndConfirmListenerListener?.onConfirmButtonClicked() }
+        confirmButton.setOnClickListener { bottomDialogDismissibleMessageAndConfirmListenerListener?.onConfirmButtonClicked() }
     }
 
 }

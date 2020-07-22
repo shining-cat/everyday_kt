@@ -14,16 +14,16 @@ class BottomDialogDismissibleBigButton : BottomSheetDialogFragment() {
 
     private val TITLE_ARG = "title_argument"
     private val BIG_BUTTON_LABEL_ARG = "big_button_label_argument"
-    private var bottomDialogDismissableBigButtonListener: BottomDialogDismissableBigButtonListener? =
+    private var bottomDialogDismissibleBigButtonListener: BottomDialogDismissibleBigButtonListener? =
         null
 
-    interface BottomDialogDismissableBigButtonListener {
+    interface BottomDialogDismissibleBigButtonListener {
         fun onDismissed()
         fun onBigButtonClicked()
     }
 
-    fun setBottomDialogDismissableBigButtonListener(listener: BottomDialogDismissableBigButtonListener) {
-        this.bottomDialogDismissableBigButtonListener = listener
+    fun setBottomDialogDismissibleBigButtonListener(listener: BottomDialogDismissibleBigButtonListener) {
+        this.bottomDialogDismissibleBigButtonListener = listener
     }
 
     companion object {
@@ -53,14 +53,14 @@ class BottomDialogDismissibleBigButton : BottomSheetDialogFragment() {
         //
         val dismissButton = view.findViewById<ImageView>(R.id.dialog_bottom_dismiss_button)
         dismissButton.setOnClickListener {
-            bottomDialogDismissableBigButtonListener?.onDismissed()
+            bottomDialogDismissibleBigButtonListener?.onDismissed()
             dismiss()
         }
         //
         val bigButtonLabel = arguments?.getString(BIG_BUTTON_LABEL_ARG, "")?:""
         val bigButton = view.findViewById<Button>(R.id.dialog_bottom_big_button)
         bigButton.text = bigButtonLabel
-        bigButton.setOnClickListener { bottomDialogDismissableBigButtonListener?.onBigButtonClicked() }
+        bigButton.setOnClickListener { bottomDialogDismissibleBigButtonListener?.onBigButtonClicked() }
     }
 
 }

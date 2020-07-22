@@ -18,16 +18,16 @@ class BottomDialogDismissibleTimePicker : BottomSheetDialogFragment() {
     private val HOUR_ARG = "hour_argument"
     private val MINUTE_ARG = "minute_argument"
     private val CONFIRM_BUTTON_LABEL_ARG = "confirm_button_label_argument"
-    private var bottomDialogDismissableTimePickerListener: BottomDialogDismissableTimePickerListener? =
+    private var bottomDialogDismissibleTimePickerListener: BottomDialogDismissibleTimePickerListener? =
         null
 
-    interface BottomDialogDismissableTimePickerListener {
+    interface BottomDialogDismissibleTimePickerListener {
         fun onDismissed()
         fun onConfirmButtonClicked(hour: Int, minutes: Int)
     }
 
-    fun setBottomDialogDismissableTimePickerListener(listener: BottomDialogDismissableTimePickerListener) {
-        this.bottomDialogDismissableTimePickerListener = listener
+    fun setBottomDialogDismissibleTimePickerListener(listener: BottomDialogDismissibleTimePickerListener) {
+        this.bottomDialogDismissibleTimePickerListener = listener
     }
 
     companion object {
@@ -63,7 +63,7 @@ class BottomDialogDismissibleTimePicker : BottomSheetDialogFragment() {
         //
         val dismissButton = view.findViewById<ImageView>(R.id.dialog_bottom_dismiss_button)
         dismissButton.setOnClickListener {
-            bottomDialogDismissableTimePickerListener?.onDismissed()
+            bottomDialogDismissibleTimePickerListener?.onDismissed()
             dismiss()
         }
         //
@@ -94,7 +94,7 @@ class BottomDialogDismissibleTimePicker : BottomSheetDialogFragment() {
     }
 
     private fun transmitSelectedTime(hour: Int = 0, minutes: Int = 0) {
-        bottomDialogDismissableTimePickerListener?.onConfirmButtonClicked(hour, minutes)
+        bottomDialogDismissibleTimePickerListener?.onConfirmButtonClicked(hour, minutes)
         dismiss()
     }
 

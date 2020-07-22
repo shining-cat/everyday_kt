@@ -1,5 +1,5 @@
 <resources>
-<!---->
+    <!---->
     <string name="sessionsPreferencesCategory_title">Sessions</string>
     <string name="keepScreenOnPreference_title">Garder l\'écran allumé</string>
     <string name="keepScreenOnPreference_switch_off_text">Autoriser la mise en veille</string>
@@ -10,7 +10,7 @@
     <string name="planeModePreference_title">Invitation à activer le mode "Avion"</string>
     <string name="planeModePreference_switch_off_text">Ne rien faire</string>
     <string name="planeModePreference_switch_on_text">Diriger vers le réglage "Mode avion" en début et fin de session</string>
-<!---->
+    <!---->
     <string name="notificationsPreferencesCategory_title">Notification</string>
     <string name="notificationsPreferences_summary">Recevoir une notification si aucune session n\’a été enregistrée dans la journée arrivée l’heure programmée</string>
     <string name="notificationsPreferences_notification_activated_title">Activer le rappel</string>
@@ -32,7 +32,7 @@
     <string name="infiniteSessionPreferencePreference_switch_on_text">Ne pas arrêter le compteur en fin de session</string>
     <string name="rewardsActivationPreference_title">Activer les récompenses</string>
     <string name="statisticsActivationPreference_title">Enregistrer les sessions</string>
-<!---->
+    <!---->
     <string name="dataManagementPreferencesCategory_title">Gestion des données</string>
     <string name="eraseDataPreference_title">Effacer toutes les données</string>
 
