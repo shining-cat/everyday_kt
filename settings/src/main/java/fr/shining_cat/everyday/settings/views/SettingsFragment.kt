@@ -8,8 +8,6 @@ import androidx.preference.SwitchPreferenceCompat
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelper
 import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelperSettings
-import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleBigButton
-import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleMessageAndConfirm
 import fr.shining_cat.everyday.settings.R
 import fr.shining_cat.everyday.settings.views.components.*
 import org.koin.android.ext.android.get
@@ -24,8 +22,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private lateinit var notificationTextPref: PrefBottomDialogNotificationEditText
     private lateinit var notificationSoundPref: PrefBottomDialogNotificationSoundSelect
     private lateinit var notificationTimePref: PrefBottomDialogNotificationTimePicker
-    private lateinit var defaultNightModePreference: Preference
-    private lateinit var startCountDownLengthPreference: Preference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         //Set the name of the SharedPreferences file to be ours instead of default
@@ -136,7 +132,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private fun setupCustomisationPreferences() {
         val prefContext = preferenceManager.context
         //
-        defaultNightModePreference =
+        val defaultNightModePreference =
             prefBottomDialogBuilder.buildPrefBottomDialogDefaultNightModeSelect()
         defaultNightModePreference.onPreferenceChangeListener =
             Preference.OnPreferenceChangeListener { _, _ ->
@@ -145,7 +141,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 true
             }
         //
-        startCountDownLengthPreference = prefBottomDialogBuilder.buildPrefBottomDialogCountdownLengthPicker()
+        val startCountDownLengthPreference =
+            prefBottomDialogBuilder.buildPrefBottomDialogCountdownLengthPicker()
         //
         val infiniteSessionPreference = SwitchPreferenceCompat(prefContext)
         infiniteSessionPreference.key = SharedPrefsHelperSettings.INFINITE_SESSION
@@ -182,117 +179,23 @@ class SettingsFragment : PreferenceFragmentCompat() {
         customisationCategory.addPreference(statisticsActivationPreference)
     }
 
-   /////////////////
+    /////////////////
     private fun setupDataManagementPreferences() {
         val prefContext = preferenceManager.context
-        val importSessionsPreference = Preference(prefContext)
-        importSessionsPreference.title = getString(R.string.importSessionsPreference_title)
-        importSessionsPreference.isIconSpaceReserved = false
-        importSessionsPreference.onPreferenceClickListener =
-            Preference.OnPreferenceClickListener {
-                openImportSessionsDialog()
-                true
-            }
         //
-        val exportSessionsPreference = Preference(prefContext)
-        exportSessionsPreference.title = getString(R.string.exportSessionsPreference_title)
-        exportSessionsPreference.isIconSpaceReserved = false
-        exportSessionsPreference.onPreferenceClickListener =
-            Preference.OnPreferenceClickListener {
-                openExportSessionsDialog()
-                true
-            }
+        val importSessionsPreference = prefBottomDialogBuilder.buildPrefBottomDialogImportData()
         //
-        val eraseDataPreference = Preference(prefContext)
-        eraseDataPreference.title = getString(R.string.eraseDataPreference_title)
-        eraseDataPreference.isIconSpaceReserved = false
-        eraseDataPreference.onPreferenceClickListener =
-            Preference.OnPreferenceClickListener {
-                openEraseAllDataDialog()
-                true
-            }
+        val exportSessionsPreference = prefBottomDialogBuilder.buildPrefBottomDialogExportData()
         //
-        val customisationCategory = PreferenceCategory(prefContext)
-        customisationCategory.title = getString(R.string.dataManagementPreferencesCategory_title)
-        customisationCategory.isIconSpaceReserved = false
-        preferenceScreen.addPreference(customisationCategory)
-        customisationCategory.addPreference(importSessionsPreference)
-        customisationCategory.addPreference(exportSessionsPreference)
-        customisationCategory.addPreference(eraseDataPreference)
-    }
-
-    private fun openExportSessionsDialog() {
-        val exportSessionsBottomSheetDialog =
-            BottomDialogDismissibleMessageAndConfirm.newInstance(
-                getString(R.string.exportSessionsPreference_dialog_title),
-                getString(R.string.exportSessionsPreference_dialog_message),
-                getString(R.string.exportSessionsPreference_dialog_confirm_button)
-            )
-        exportSessionsBottomSheetDialog.setBottomDialogDismissibleMessageAndConfirmListener(
-            object :
-                BottomDialogDismissibleMessageAndConfirm.BottomDialogDismissibleMessageAndConfirmListener {
-                override fun onDismissed() {
-                    //nothing to do here
-                }
-
-                override fun onConfirmButtonClicked() {
-                    //TODO: call export sessions Usecase
-                    logger.d(
-                        LOG_TAG,
-                        "openExportSessionsDialog::onConfirmButtonClicked::TODO: call export sessions Usecase"
-                    )
-                }
-            })
-        exportSessionsBottomSheetDialog.show(parentFragmentManager, "openExportSessionsDialog")
-
-    }
-
-    private fun openImportSessionsDialog() {
-        val importSessionsBottomSheetDialog =
-            BottomDialogDismissibleMessageAndConfirm.newInstance(
-                getString(R.string.importSessionsPreference_dialog_title),
-                getString(R.string.importSessionsPreference_dialog_message),
-                getString(R.string.importSessionsPreference_dialog_confirm_button)
-            )
-        importSessionsBottomSheetDialog.setBottomDialogDismissibleMessageAndConfirmListener(
-            object :
-                BottomDialogDismissibleMessageAndConfirm.BottomDialogDismissibleMessageAndConfirmListener {
-                override fun onDismissed() {
-                    //nothing to do here
-                }
-
-                override fun onConfirmButtonClicked() {
-                    //TODO: call import sessions Usecase
-                    logger.d(
-                        LOG_TAG,
-                        "openImportSessionsDialog::onConfirmButtonClicked::TODO: call import sessions Usecase"
-                    )
-                }
-            })
-        importSessionsBottomSheetDialog.show(parentFragmentManager, "openImportSessionsDialog")
-    }
-
-    private fun openEraseAllDataDialog() {
-        val eraseAllDataBottomSheetDialog = BottomDialogDismissibleBigButton.newInstance(
-            getString(R.string.confirm_suppress),
-            getString(R.string.generic_string_DELETE)
-        )
-        eraseAllDataBottomSheetDialog.setBottomDialogDismissibleBigButtonListener(object :
-            BottomDialogDismissibleBigButton.BottomDialogDismissibleBigButtonListener {
-            override fun onDismissed() {
-                //nothing to do here
-            }
-
-            override fun onBigButtonClicked() {
-                //TODO: call Erase all data Usecase
-                logger.d(
-                    LOG_TAG,
-                    "openEraseAllDataDialog::onBigButtonClicked::TODO: call Erase all data Usecase"
-                )
-            }
-
-        })
-        eraseAllDataBottomSheetDialog.show(parentFragmentManager, "openEraseAllDataDialog")
+        val eraseDataPreference = prefBottomDialogBuilder.buildPrefBottomDialogEraseAllData()
+        //
+        val dataManagementCategory = PreferenceCategory(prefContext)
+        dataManagementCategory.title = getString(R.string.dataManagementPreferencesCategory_title)
+        dataManagementCategory.isIconSpaceReserved = false
+        preferenceScreen.addPreference(dataManagementCategory)
+        dataManagementCategory.addPreference(importSessionsPreference)
+        dataManagementCategory.addPreference(exportSessionsPreference)
+        dataManagementCategory.addPreference(eraseDataPreference)
     }
 
 }

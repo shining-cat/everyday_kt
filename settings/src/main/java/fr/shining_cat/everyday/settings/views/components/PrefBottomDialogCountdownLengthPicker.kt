@@ -58,6 +58,6 @@ class PrefBottomDialogCountdownLengthPicker(
                     updateSummary()
                 }
             })
-        setCountDownLengthBottomSheetDialog.show(fragmentManager, "openExportSessionsDialog")
+        setCountDownLengthBottomSheetDialog.show(fragmentManager, "openCountDownLengthPickerDialog")
     }
 }

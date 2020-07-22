@@ -47,4 +47,21 @@ class PrefBottomDialogBuilder(
         logger
     )
 
+    fun buildPrefBottomDialogExportData() = PrefBottomDialogExportData(
+        context,
+        fragmentManager,
+        logger
+    )
+
+    fun buildPrefBottomDialogImportData() = PrefBottomDialogImportData(
+        context,
+        fragmentManager,
+        logger
+    )
+
+    fun buildPrefBottomDialogEraseAllData() = PrefBottomDialogEraseAllData(
+        context,
+        fragmentManager,
+        logger
+    )
 }
