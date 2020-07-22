@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--raw sound files names in res/raw -->
+    <string-array name="ringtonesAssetsNames">
+        <item>singing_bowl_low_long_one_hit</item>
+        <item>singing_bowl_high_short_one_hit</item>
+        <item>singing_bowl_high_short_two_hits_slow</item>
+        <item>singing_bowl_high_short_three_hits_slow</item>
+        <item>singing_bowl_high_short_two_hits_fast</item>
+        <item>singing_bowl_high_short_three_hits_fast</item>
+    </string-array>
+
+    <!--ringtones descriptions refs in the same order as @assetsRingtones -->
+    <string-array name="ringtonesTitles">
+        <item>@string/singing_bowl_low_long_one_hit</item>
+        <item>@string/singing_bowl_high_short_one_hit</item>
+        <item>@string/singing_bowl_high_short_two_hits_slow</item>
+        <item>@string/singing_bowl_high_short_three_hits_slow</item>
+        <item>@string/singing_bowl_high_short_two_hits_fast</item>
+        <item>@string/singing_bowl_high_short_three_hits_fast</item>
+    </string-array>
+
+    <!--assets ringtones descriptions Strings-->
+    <string name="singing_bowl_low_long_one_hit" translatable="true">Bol chantant grave, un coup long</string>
+    <string name="singing_bowl_high_short_one_hit" translatable="true">Bol chantant aigu, un coup court</string>
+    <string name="singing_bowl_high_short_two_hits_slow" translatable="true">Bol chantant aigu, deux coups courts lents</string>
+    <string name="singing_bowl_high_short_three_hits_slow" translatable="true">Bol chantant aigu, trois coups courts lents</string>
+    <string name="singing_bowl_high_short_two_hits_fast" translatable="true">Bol chantant aigu, deux coups courts rapides</string>
+    <string name="singing_bowl_high_short_three_hits_fast" translatable="true">Bol chantant aigu, trois coups courts rapides</string>
+    <string name="silence" translatable="true">Silence</string>
+
+</resources>

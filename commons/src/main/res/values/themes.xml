@@ -25,7 +25,7 @@
         <item name="colorOnPrimary">@color/grey_50</item>
         <item name="colorOnSecondary">@color/grey_900</item>
         <item name="colorOnBackground">@color/black</item>
-        <item name="colorOnSurface">@color/grey_50</item>
+        <item name="colorOnSurface">@color/grey_900</item>
         <item name="colorOnError">@color/white</item>
         <!--Material type attributes-->
         <item name="textAppearanceHeadline1">@style/TextAppearance.Everyday.Headline1</item>
@@ -61,5 +61,15 @@
         <item name="android:navigationBarDividerColor" tools:ignore="NewApi">
             ?attr/colorControlHighlight
         </item>
+    </style>
+
+    <style name="TimePickerWidgetStyle" parent="@android:style/Widget.Material.Light.TimePicker">
+        <!--TODO? tried overwriting the default light version of the TimePicker because I don't like it using the Accent color as a header background color, but headerTextColor is private,
+                so there does not seem to be a way to assort the header text color to the background... o_O -->
+<!--    Pb: this is a private attribute : <item name="android:headerTextColor">?attr/colorOnSurface</item>-->
+<!--        <item name="android:headerBackground">#BDBDBD</item>-->
+<!--        <item name="android:numbersBackgroundColor">#BDBDBD</item>-->
+<!--        <item name="android:numbersTextColor">#FF0000</item>-->
+<!--        <item name="android:numbersInnerTextColor">#00FF00</item>-->
     </style>
 </resources>

@@ -5,6 +5,7 @@ dependencies {
 
     implementation AndroidLibraries.material
     implementation AndroidLibraries.appCompat
+    implementation AndroidLibraries.constraintLayout
 
     //commons should have no dependencies to any other module, but every other module might have to it
 

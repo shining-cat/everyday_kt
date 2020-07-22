@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!---->
+    <string name="sessionsPreferencesCategory_title">Sessions</string>
+    <string name="keepScreenOnPreference_switch_off_text">Allow sleep mode</string>
+    <string name="keepScreenOnPreference_switch_on_text">Prevent sleep mode</string>
+    <string name="doNotDisturbPreference_switch_off_text">Do not activate \"Do not disturb\" mode</string>
+    <string name="doNotDisturbPreference_switch_on_text">Activate \"Do not disturb\" mode</string>
+    <string name="planeModePreference_switch_off_text">Do not remind to activate \"Airplane mode\"</string>
+    <string name="planeModePreference_switch_on_text">Remind to activate \"Airplane mode\"</string>
+    <string name="keepScreenOnPreference_title">Keep screen on</string>
+    <string name="doNotDisturbPreference_title">Do not disturb</string>
+    <string name="planeModePreference_title">Airplane mode reminder</string>
+    <!---->
+    <string name="notificationsPreferencesCategory_title">Notification</string>
+    <string name="notificationsPreferences_summary">Get a notification if no session has been recorded when the set time has come</string>
+    <string name="notificationsPreferences_notification_activated_title">Activate reminder</string>
+    <string name="notificationsPreferences_notification_text_title">Notification text</string>
+    <string name="notificationsPreferences_notification_text_default_text">It\'s time to practice!</string>
+    <!---->
+    <string name="customisationPreferencesCategory_title">Customisation</string>
+    <string name="defaultNightModePreference_title">Appearance</string>
+    <string name="defaultNightModePreference_follow_system">follow system</string>
+    <string name="defaultNightModePreference_always_dark">dark theme</string>
+    <string name="defaultNightModePreference_always_light">light theme</string>
+    <string name="infiniteSessionPreferencePreference_title">Infinite session</string>
+    <string name="infiniteSessionPreferencePreference_switch_off_text">Stop counter at session end</string>
+    <string name="infiniteSessionPreferencePreference_switch_on_text">Keep counter running at session end</string>
+    <string name="rewardsActivationPreference_title">Activate rewards collection</string>
+    <string name="statisticsActivationPreference_title">Record sessions information</string>
+    <!---->
+    <string name="dataManagementPreferencesCategory_title">Data management</string>
+    <string name="eraseDataPreference_title">Erase all data</string>
+    <string name="exportSessionsPreference_title">Export sessions</string>
+    <string name="importSessionsPreference_title">Import sessions</string>
+    <string name="notificationsPreferences_notification_time_title">Time of notification</string>
+    <string name="notificationsPreferences_notification_sound_title">Sound of notification</string>
+    <string name="startCountDownLengthPreference_title">Countdown length</string>
+    <string name="startCountDownLengthPreference_value_display">%1$d seconds</string>
+    <string name="startCountDownLengthPreference_explanation">Delay before session start</string>
+    <string name="importSessionsPreference_writing_progressdialog_title">Importing</string>
+    <string name="importSessionsPreference_parsing_progressdialog_title">Reading file</string>
+    <string name="importSessionsPreference_dialog_confirm_button">Choose file</string>
+    <string name="importSessionsPreference_dialog_message">Imported sessions will be added to the database. To get a file template, record a fake session and export.</string>
+    <string name="importSessionsPreference_dialog_title">Import sessions from a .csv file</string>
+    <string name="exportSessionsPreference_progressdialog_title">Exporting</string>
+    <string name="exportSessionsPreference_no_sessions_found_error_message">No session found</string>
+    <string name="exportSessionsPreference_dialog_confirm_button">export</string>
+    <string name="exportSessionsPreference_dialog_message">Recorded sessions will be written in a .csv file.</string>
+    <string name="exportSessionsPreference_dialog_title">Export</string>
+</resources>

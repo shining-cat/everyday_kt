@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="title_about">À propos</string>
-    <string name="title_settings">Paramètres</string>
     <string name="title_home">Accueil</string>
     <string name="title_sessions">Sessions</string>
     <string name="title_sessions_calendar">Calendrier</string>

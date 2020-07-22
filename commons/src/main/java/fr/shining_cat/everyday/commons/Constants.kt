@@ -2,7 +2,6 @@ package fr.shining_cat.everyday.commons
 
 class Constants {
 
-
     companion object {
         // Error codes
         const val ERROR_CODE_EXCEPTION = -100
@@ -16,6 +15,6 @@ class Constants {
         const val ERROR_MESSAGE_DELETE_FAILED = "Error while deleting in database"
 
         //Constants
-        const val SPLASH_MIN_DURATION_MILLIS = 2000L
+        const val SPLASH_MIN_DURATION_MILLIS = 1000L
     }
 }

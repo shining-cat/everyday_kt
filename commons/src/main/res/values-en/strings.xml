@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_settings">Settings</string>
+    <string name="generic_string_NO">No</string>
+    <string name="generic_string_YES">Yes</string>
+    <string name="generic_string_VALIDATE">Confirm</string>
+    <string name="generic_string_BACK">Back</string>
+    <string name="generic_string_CANCEL">Cancel</string>
+    <string name="generic_string_CLOSE">Close</string>
+    <string name="generic_string_HOURS">Hour(s)</string>
+    <string name="generic_string_MINUTES">Minute(s)</string>
+    <string name="generic_string_SECONDS">Second(s)</string>
+    <string name="generic_string_WARNING">Warning</string>
+    <string name="generic_string_SHARE">Share</string>
+    <string name="generic_string_EDIT">Edit</string>
+    <string name="generic_string_DELETE">Delete</string>
+    <string name="generic_string_ERROR">Error</string>
+    <string name="generic_string_OPEN_SETTING">Open Setting</string>
+    <string name="generic_string_CONTINUE">Continue</string>
+    <string name="generic_string_PASS">Skip</string>
+    <string name="confirm_suppress">Confirm suppression</string>
+</resources>
