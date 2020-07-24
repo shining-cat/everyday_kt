@@ -30,11 +30,11 @@ class BottomDialogDismissibleBigButton : BottomSheetDialogFragment() {
         fun newInstance(title: String, bigButtonLabel: String): BottomDialogDismissibleBigButton =
             BottomDialogDismissibleBigButton()
                 .apply {
-                arguments = Bundle().apply {
-                    putString(TITLE_ARG, title)
-                    putString(BIG_BUTTON_LABEL_ARG, bigButtonLabel)
+                    arguments = Bundle().apply {
+                        putString(TITLE_ARG, title)
+                        putString(BIG_BUTTON_LABEL_ARG, bigButtonLabel)
+                    }
                 }
-            }
 
     }
 
@@ -47,7 +47,7 @@ class BottomDialogDismissibleBigButton : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val title = arguments?.getString(TITLE_ARG, "")?:""
+        val title = arguments?.getString(TITLE_ARG, "") ?: ""
         val titleField = view.findViewById<TextView>(R.id.dialog_bottom_title)
         titleField.text = title
         //
@@ -57,7 +57,7 @@ class BottomDialogDismissibleBigButton : BottomSheetDialogFragment() {
             dismiss()
         }
         //
-        val bigButtonLabel = arguments?.getString(BIG_BUTTON_LABEL_ARG, "")?:""
+        val bigButtonLabel = arguments?.getString(BIG_BUTTON_LABEL_ARG, "") ?: ""
         val bigButton = view.findViewById<Button>(R.id.dialog_bottom_big_button)
         bigButton.text = bigButtonLabel
         bigButton.setOnClickListener { bottomDialogDismissibleBigButtonListener?.onBigButtonClicked() }

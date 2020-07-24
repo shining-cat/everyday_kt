@@ -4,21 +4,18 @@ import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.locale.entities.RewardEntity
 import fr.shining_cat.everyday.models.reward.Level
 import fr.shining_cat.everyday.models.reward.Reward
-import fr.shining_cat.everyday.testutils.AbstractBaseTest
+import io.mockk.MockKAnnotations
+import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.MockitoAnnotations
 import java.util.*
 
-class RewardConverterTest : AbstractBaseTest() {
+class RewardConverterTest {
 
-    @Mock
+    @MockK
     private lateinit var mockLogger: Logger
 
     private lateinit var rewardConverter: RewardConverter
@@ -26,17 +23,9 @@ class RewardConverterTest : AbstractBaseTest() {
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this)
         assertNotNull(mockLogger)
         rewardConverter = RewardConverter(mockLogger)
-    }
-
-    /**
-     * See [Memory leak in mockito-inline...](https://github.com/mockito/mockito/issues/1614)
-     */
-    @After
-    fun clearMocks() {
-        Mockito.framework().clearInlineMocks()
     }
 
     val reward = Reward(
@@ -96,19 +85,19 @@ class RewardConverterTest : AbstractBaseTest() {
     //////////////////////////////////
     @Test
     fun convertModelToEntity() {
-        runBlocking {
-            val convertedModel = rewardConverter.convertModelToEntity(reward)
-            assertEquals(rewardEntity, convertedModel)
+        val convertedModel = runBlocking {
+            rewardConverter.convertModelToEntity(reward)
         }
+        assertEquals(rewardEntity, convertedModel)
     }
 
 
     @Test
     fun convertEntitytoModel() {
-        runBlocking {
-            val convertedEntity = rewardConverter.convertEntitytoModel(rewardEntity)
-            assertEquals(reward, convertedEntity)
+        val convertedEntity = runBlocking {
+            rewardConverter.convertEntitytoModel(rewardEntity)
         }
+        assertEquals(reward, convertedEntity)
     }
 
 }

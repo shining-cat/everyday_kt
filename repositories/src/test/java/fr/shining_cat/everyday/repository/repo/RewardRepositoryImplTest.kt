@@ -3,43 +3,43 @@ package fr.shining_cat.everyday.repository.repo
 import fr.shining_cat.everyday.locale.dao.RewardDao
 import fr.shining_cat.everyday.locale.entities.RewardEntity
 import fr.shining_cat.everyday.models.reward.Reward
+import fr.shining_cat.everyday.repository.Output
 import fr.shining_cat.everyday.repository.converter.RewardConverter
-import fr.shining_cat.everyday.testutils.AbstractBaseTest
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.impl.annotations.MockK
+import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.runBlocking
-import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.mockito.ArgumentMatchers.anyInt
-import org.mockito.ArgumentMatchers.anyLong
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.MockitoAnnotations
 
-class RewardRepositoryImplTest : AbstractBaseTest() {
+class RewardRepositoryImplTest {
 
     // We use a mock DAO, and only check that its methods are called by the repo when expected, with the right object type param.
     // When needed, we mock a return object for mockRewardDao methods
     // No need to test further, because the DAO is tested independently
     // No need to test the properties of the object, because the converter used by the repo is tested independently
 
-    @Mock
+    @MockK
     private lateinit var mockRewardDao: RewardDao
 
-    @Mock
+    @MockK
     private lateinit var mockRewardConverter: RewardConverter
 
-    @Mock
+    @MockK
     private lateinit var mockReward: Reward
 
-    @Mock
+    @MockK
     lateinit var mockRewardEntity: RewardEntity
 
     private lateinit var rewardRepo: RewardRepository
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this)
         Assert.assertNotNull(mockRewardDao)
         Assert.assertNotNull(mockReward)
         Assert.assertNotNull(mockRewardEntity)
@@ -49,170 +49,227 @@ class RewardRepositoryImplTest : AbstractBaseTest() {
                 mockRewardDao,
                 mockRewardConverter
             )
-        runBlocking {
-            Mockito.`when`(mockRewardDao.getReward(anyLong())).thenReturn(mockRewardEntity)
-            Mockito.`when`(mockRewardConverter.convertModelsToEntities(any()))
-                .thenReturn(listOf(mockRewardEntity))
-            Mockito.`when`(mockRewardConverter.convertEntitiesToModels(any()))
-                .thenReturn(listOf(mockReward))
-            Mockito.`when`(mockRewardDao.insert(any())).thenReturn(arrayOf(1, 2, 3))
-            Mockito.`when`(mockRewardDao.update(any())).thenReturn(3)
-            Mockito.`when`(mockRewardDao.getAllRewardsActiveAcquisitionDateAsc())
-                .thenReturn(listOf(mockRewardEntity))
-            Mockito.`when`(mockRewardDao.getAllRewardsActiveAcquisitionDateDesc())
-                .thenReturn(listOf(mockRewardEntity))
-            Mockito.`when`(mockRewardDao.getAllRewardsActiveLevelAsc())
-                .thenReturn(listOf(mockRewardEntity))
-            Mockito.`when`(mockRewardDao.getAllRewardsActiveLevelDesc())
-                .thenReturn(listOf(mockRewardEntity))
-            Mockito.`when`(mockRewardDao.getAllRewardsNotEscapedAcquisitionDatDesc())
-                .thenReturn(listOf(mockRewardEntity))
-            Mockito.`when`(mockRewardDao.getAllRewardsEscapedAcquisitionDateDesc())
-                .thenReturn(listOf(mockRewardEntity))
-            Mockito.`when`(mockRewardDao.getAllRewardsOfSpecificLevelNotActive(anyInt()))
-                .thenReturn(listOf(mockRewardEntity))
-            Mockito.`when`(mockRewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(anyInt()))
-                .thenReturn(listOf(mockRewardEntity))
-        }
-    }
-
-    /**
-     * See [Memory leak in mockito-inline...](https://github.com/mockito/mockito/issues/1614)
-     */
-    @After
-    fun clearMocks() {
-        Mockito.framework().clearInlineMocks()
     }
 
     ///////////////////////////////
     @Test
     fun insert() {
-        runBlocking {
-            rewardRepo.insert(listOf(mockReward))
-//            Mockito.verify(mockRewardConverter).convertModelsToEntities(any())
-            Mockito.verify(mockRewardDao).insert(any())
+        coEvery { mockRewardConverter.convertModelsToEntities(any()) } returns listOf(
+            mockRewardEntity,
+            mockRewardEntity,
+            mockRewardEntity
+        )
+        coEvery { mockRewardDao.insert(any()) } returns arrayOf(1L,2L,3L)
+        val output = runBlocking {
+            rewardRepo.insert(listOf(mockReward, mockReward, mockReward))
         }
+        coVerify { mockRewardConverter.convertModelsToEntities(any()) }
+        coVerify { mockRewardDao.insert(any()) }
+        assertTrue(output is Output.Success)
+        assertEquals(arrayOf(1L,2L,3L), (output as Output.Success).result)
     }
 
     @Test
     fun updateRewards() {
-        runBlocking {
-            rewardRepo.update(listOf(mockReward))
-//            Mockito.verify(mockRewardConverter).convertModelsToEntities(any())
-            Mockito.verify(mockRewardDao).update(any())
+        coEvery { mockRewardConverter.convertModelsToEntities(any()) } returns listOf(
+            mockRewardEntity,
+            mockRewardEntity,
+            mockRewardEntity
+        )
+        coEvery { mockRewardDao.update(any()) } returns 3
+        val output = runBlocking {
+            rewardRepo.update(listOf(mockReward, mockReward, mockReward))
         }
+        coVerify { mockRewardConverter.convertModelsToEntities(any()) }
+        coVerify { mockRewardDao.update(any()) }
+        assertTrue(output is Output.Success)
+        assertEquals(3, (output as Output.Success).result)
     }
 
     @Test
     fun deleteAllRewards() {
-        runBlocking {
+        coEvery { mockRewardDao.deleteAllRewards() } returns 7
+        val output = runBlocking {
             rewardRepo.deleteAllRewards()
-            Mockito.verify(mockRewardDao).deleteAllRewards()
         }
+        coVerify { mockRewardDao.deleteAllRewards() }
+        assertEquals(7, output)
     }
 
+    ////////////////
+    //GETTERS
     @Test
     fun getSpecificReward() {
-        runBlocking {
+        coEvery { mockRewardDao.getReward(8L) } returns mockRewardEntity
+        coEvery { mockRewardConverter.convertEntitytoModel(any()) } returns mockReward
+        val output = runBlocking {
             rewardRepo.getReward(8L)
-            Mockito.verify(mockRewardConverter).convertEntitytoModel(any())
-            Mockito.verify(mockRewardDao).getReward(anyLong())
         }
+        coVerify { mockRewardConverter.convertEntitytoModel(any()) }
+        coVerify { mockRewardDao.getReward(any()) }
+        assertTrue(output is Output.Success)
+        assertEquals(mockReward, (output as Output.Success).result)
     }
 
     @Test
     fun rewardsActiveAcquisitionDateAsc() {
-        runBlocking {
+        coEvery { mockRewardDao.getAllRewardsActiveAcquisitionDateAsc() } returns listOf(
+            mockRewardEntity
+        )
+        coEvery { mockRewardConverter.convertEntitiesToModels(any()) } returns listOf(mockReward)
+        val output = runBlocking {
             rewardRepo.rewardsActiveAcquisitionDateAsc()
-            Mockito.verify(mockRewardConverter).convertEntitiesToModels(any())
-            Mockito.verify(mockRewardDao).getAllRewardsActiveAcquisitionDateAsc()
         }
+        coVerify { mockRewardDao.getAllRewardsActiveAcquisitionDateAsc() }
+        coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
+        assertTrue(output is Output.Success)
+        assertEquals(listOf(mockReward), (output as Output.Success).result)
     }
 
     @Test
     fun rewardsActiveAcquisitionDateDesc() {
-        runBlocking {
+        coEvery { mockRewardDao.getAllRewardsActiveAcquisitionDateDesc() } returns listOf(
+            mockRewardEntity
+        )
+        coEvery { mockRewardConverter.convertEntitiesToModels(any()) } returns listOf(mockReward)
+        val output = runBlocking {
             rewardRepo.rewardsActiveAcquisitionDateDesc()
-            Mockito.verify(mockRewardConverter).convertEntitiesToModels(any())
-            Mockito.verify(mockRewardDao).getAllRewardsActiveAcquisitionDateDesc()
         }
+        coVerify { mockRewardDao.getAllRewardsActiveAcquisitionDateDesc() }
+        coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
+        assertTrue(output is Output.Success)
+        assertEquals(listOf(mockReward), (output as Output.Success).result)
     }
 
     @Test
     fun rewardsActiveLevelAsc() {
-        runBlocking {
+        coEvery { mockRewardDao.getAllRewardsActiveLevelAsc() } returns listOf(
+            mockRewardEntity
+        )
+        coEvery { mockRewardConverter.convertEntitiesToModels(any()) } returns listOf(mockReward)
+        val output = runBlocking {
             rewardRepo.rewardsActiveLevelAsc()
-            Mockito.verify(mockRewardConverter).convertEntitiesToModels(any())
-            Mockito.verify(mockRewardDao).getAllRewardsActiveLevelAsc()
         }
+        coVerify { mockRewardDao.getAllRewardsActiveLevelAsc() }
+        coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
+        assertTrue(output is Output.Success)
+        assertEquals(listOf(mockReward), (output as Output.Success).result)
     }
 
     @Test
     fun rewardsActiveLevelDesc() {
-        runBlocking {
+        coEvery { mockRewardDao.getAllRewardsActiveLevelDesc() } returns listOf(
+            mockRewardEntity
+        )
+        coEvery { mockRewardConverter.convertEntitiesToModels(any()) } returns listOf(mockReward)
+        val output = runBlocking {
             rewardRepo.rewardsActiveLevelDesc()
-            Mockito.verify(mockRewardConverter).convertEntitiesToModels(any())
-            Mockito.verify(mockRewardDao).getAllRewardsActiveLevelDesc()
         }
+        coVerify { mockRewardDao.getAllRewardsActiveLevelDesc() }
+        coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
+        assertTrue(output is Output.Success)
+        assertEquals(listOf(mockReward), (output as Output.Success).result)
     }
 
     @Test
     fun rewardsNotEscapedAcquisitionDateDesc() {
-        runBlocking {
+        coEvery { mockRewardDao.getAllRewardsNotEscapedAcquisitionDatDesc() } returns listOf(
+            mockRewardEntity
+        )
+        coEvery { mockRewardConverter.convertEntitiesToModels(any()) } returns listOf(mockReward)
+        val output = runBlocking {
             rewardRepo.rewardsNotEscapedAcquisitionDateDesc()
-            Mockito.verify(mockRewardConverter).convertEntitiesToModels(any())
-            Mockito.verify(mockRewardDao).getAllRewardsNotEscapedAcquisitionDatDesc()
         }
+        coVerify { mockRewardDao.getAllRewardsNotEscapedAcquisitionDatDesc() }
+        coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
+        assertTrue(output is Output.Success)
+        assertEquals(listOf(mockReward), (output as Output.Success).result)
     }
 
     @Test
     fun rewardsEscapedAcquisitionDateDesc() {
-        runBlocking {
+        coEvery { mockRewardDao.getAllRewardsEscapedAcquisitionDateDesc() } returns listOf(
+            mockRewardEntity
+        )
+        coEvery { mockRewardConverter.convertEntitiesToModels(any()) } returns listOf(mockReward)
+        val output = runBlocking {
             rewardRepo.rewardsEscapedAcquisitionDateDesc()
-            Mockito.verify(mockRewardConverter).convertEntitiesToModels(any())
-            Mockito.verify(mockRewardDao).getAllRewardsEscapedAcquisitionDateDesc()
         }
+        coVerify { mockRewardDao.getAllRewardsEscapedAcquisitionDateDesc() }
+        coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
+        assertTrue(output is Output.Success)
+        assertEquals(listOf(mockReward), (output as Output.Success).result)
     }
 
     @Test
     fun rewardsOfSpecificLevelNotActive() {
-        runBlocking {
+        coEvery { mockRewardDao.getAllRewardsOfSpecificLevelNotActive(any()) } returns listOf(
+            mockRewardEntity
+        )
+        coEvery { mockRewardConverter.convertEntitiesToModels(any()) } returns listOf(mockReward)
+        val output = runBlocking {
             rewardRepo.rewardsOfSPecificLevelNotActive(3)
-            Mockito.verify(mockRewardConverter).convertEntitiesToModels(any())
-            Mockito.verify(mockRewardDao).getAllRewardsOfSpecificLevelNotActive(anyInt())
         }
+        coVerify { mockRewardDao.getAllRewardsOfSpecificLevelNotActive(any()) }
+        coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
+        assertTrue(output is Output.Success)
+        assertEquals(listOf(mockReward), (output as Output.Success).result)
     }
 
     @Test
     fun rewardsOfSPecificLevelNotActiveOrEscaped() {
-        runBlocking {
+        coEvery { mockRewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(any()) } returns listOf(
+            mockRewardEntity
+        )
+        coEvery { mockRewardConverter.convertEntitiesToModels(any()) } returns listOf(mockReward)
+        val output = runBlocking {
             rewardRepo.rewardsOfSPecificLevelNotActiveOrEscaped(4)
-            Mockito.verify(mockRewardConverter).convertEntitiesToModels(any())
-            Mockito.verify(mockRewardDao).getAllRewardsOfSpecificLevelNotActiveOrEscaped(anyInt())
         }
+        coVerify { mockRewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(any()) }
+        coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
+        assertTrue(output is Output.Success)
+        assertEquals(listOf(mockReward), (output as Output.Success).result)
     }
 
+    ////////////////
+    //COUNTS
     @Test
     fun allRewardsCount() {
-        runBlocking {
-            rewardRepo.allRewardsCount()
-            Mockito.verify(mockRewardDao).getNumberOfRows()
+        coEvery { mockRewardDao.getNumberOfRows() } returns 13
+        val count = runBlocking {
+            rewardRepo.countAllRewards()
         }
+        coVerify { mockRewardDao.getNumberOfRows() }
+        assertEquals(13, count)
     }
 
     @Test
     fun activeNotEscapedRewardsForLevel() {
-        runBlocking {
-            rewardRepo.activeNotEscapedRewardsForLevel(5)
-            Mockito.verify(mockRewardDao).getNumberOfActiveNotEscapedRewardsForLevel(anyInt())
+        coEvery { mockRewardDao.getNumberOfActiveNotEscapedRewardsForLevel(any()) } returns 1
+        coEvery { mockRewardDao.getNumberOfActiveNotEscapedRewardsForLevel(4) } returns 7
+        val count4 = runBlocking {
+            rewardRepo.countActiveNotEscapedRewardsForLevel(4)
         }
+        val count5 = runBlocking {
+            rewardRepo.countActiveNotEscapedRewardsForLevel(5)
+        }
+        coVerify { mockRewardDao.getNumberOfActiveNotEscapedRewardsForLevel(any()) }
+        assertEquals(7, count4)
+        assertEquals(1, count5)
     }
 
     @Test
     fun escapedRewardsForLevel() {
-        runBlocking {
-            rewardRepo.escapedRewardsForLevel(1)
-            Mockito.verify(mockRewardDao).getNumberOfEscapedRewardsForLevel(anyInt())
+        coEvery { mockRewardDao.getNumberOfEscapedRewardsForLevel(any()) } returns 1
+        coEvery { mockRewardDao.getNumberOfEscapedRewardsForLevel(3) } returns 9
+        val count3 = runBlocking {
+            rewardRepo.countEscapedRewardsForLevel(3)
         }
+        val count5 = runBlocking {
+            rewardRepo.countEscapedRewardsForLevel(5)
+        }
+        coVerify (exactly = 2){ mockRewardDao.getNumberOfEscapedRewardsForLevel(any()) }
+        assertEquals(9, count3)
+        assertEquals(1, count5)
     }
 }

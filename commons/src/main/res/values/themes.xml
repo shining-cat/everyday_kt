@@ -42,21 +42,29 @@
         <item name="textAppearanceCaption">@style/TextAppearance.Everyday.Caption</item>
         <item name="textAppearanceOverline">@style/TextAppearance.Everyday.Overline</item>
         <!--Material shape attributes-->
-        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Everyday.SmallComponent</item>
-        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Everyday.MediumComponent</item>
-        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Everyday.LargeComponent</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Everyday.SmallComponent
+        </item>
+        <item name="shapeAppearanceMediumComponent">
+            @style/ShapeAppearance.Everyday.MediumComponent
+        </item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Everyday.LargeComponent
+        </item>
         <!--Component styles-->
-        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MaterialComponents.Dialog.Alert</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MaterialComponents.Dialog.Alert
+        </item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.Everyday.BottomSheetDialog</item>
         <item name="navigationViewStyle">@style/Widget.Everyday.NavigationView</item>
-        <item name="bottomNavigationStyle">@style/Widget.MaterialComponents.BottomNavigationView.Colored</item>
+        <item name="bottomNavigationStyle">
+            @style/Widget.MaterialComponents.BottomNavigationView.Colored
+        </item>
         <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.PrimarySurface</item>
     </style>
 
     <style name="Base.Theme.MaterialTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:statusBarColor" tools:ignore="NewApi">?attr/colorPrimaryVariant</item>
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
-        <item name="android:navigationBarColor" tools:ignore="NewApi">?attr/colorPrimaryVariant</item>
+        <item name="android:navigationBarColor" tools:ignore="NewApi">?attr/colorPrimaryVariant
+        </item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">true</item>
         <item name="android:navigationBarDividerColor" tools:ignore="NewApi">
             ?attr/colorControlHighlight
@@ -66,10 +74,10 @@
     <style name="TimePickerWidgetStyle" parent="@android:style/Widget.Material.Light.TimePicker">
         <!--TODO? tried overwriting the default light version of the TimePicker because I don't like it using the Accent color as a header background color, but headerTextColor is private,
                 so there does not seem to be a way to assort the header text color to the background... o_O -->
-<!--    Pb: this is a private attribute : <item name="android:headerTextColor">?attr/colorOnSurface</item>-->
-<!--        <item name="android:headerBackground">#BDBDBD</item>-->
-<!--        <item name="android:numbersBackgroundColor">#BDBDBD</item>-->
-<!--        <item name="android:numbersTextColor">#FF0000</item>-->
-<!--        <item name="android:numbersInnerTextColor">#00FF00</item>-->
+        <!--    Pb: this is a private attribute : <item name="android:headerTextColor">?attr/colorOnSurface</item>-->
+        <!--        <item name="android:headerBackground">#BDBDBD</item>-->
+        <!--        <item name="android:numbersBackgroundColor">#BDBDBD</item>-->
+        <!--        <item name="android:numbersTextColor">#FF0000</item>-->
+        <!--        <item name="android:numbersInnerTextColor">#00FF00</item>-->
     </style>
 </resources>

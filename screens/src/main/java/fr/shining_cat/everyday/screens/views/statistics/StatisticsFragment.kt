@@ -35,12 +35,14 @@ class StatisticsFragment : Fragment() {
         statisticsViewModelViewModel.initViewModel()
         return root
     }
-    private fun setupToolbar(root: View){
+
+    private fun setupToolbar(root: View) {
         logger.d(LOG_TAG, "setupToolbar")
         val toolbar: Toolbar = root.findViewById(R.id.toolbar)
         (activity as ScreenActivity).setSupportActionBar(toolbar)
         setHasOptionsMenu(true)
     }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         logger.d(LOG_TAG, "onCreateOptionsMenu")
         inflater.inflate(R.menu.toolbar_menu_home, menu)

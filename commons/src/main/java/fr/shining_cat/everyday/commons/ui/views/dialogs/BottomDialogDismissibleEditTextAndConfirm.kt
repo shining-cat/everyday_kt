@@ -29,15 +29,19 @@ class BottomDialogDismissibleEditTextAndConfirm : BottomSheetDialogFragment() {
     }
 
     companion object {
-        fun newInstance(title: String, editTextHint: String, confirmButtonLabel: String): BottomDialogDismissibleEditTextAndConfirm =
+        fun newInstance(
+            title: String,
+            editTextHint: String,
+            confirmButtonLabel: String
+        ): BottomDialogDismissibleEditTextAndConfirm =
             BottomDialogDismissibleEditTextAndConfirm()
                 .apply {
-                arguments = Bundle().apply {
-                    putString(TITLE_ARG, title)
-                    putString(HINT_ARG, editTextHint)
-                    putString(CONFIRM_BUTTON_LABEL_ARG, confirmButtonLabel)
+                    arguments = Bundle().apply {
+                        putString(TITLE_ARG, title)
+                        putString(HINT_ARG, editTextHint)
+                        putString(CONFIRM_BUTTON_LABEL_ARG, confirmButtonLabel)
+                    }
                 }
-            }
 
     }
 
@@ -50,7 +54,7 @@ class BottomDialogDismissibleEditTextAndConfirm : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val title = arguments?.getString(TITLE_ARG, "")?:""
+        val title = arguments?.getString(TITLE_ARG, "") ?: ""
         val titleField = view.findViewById<TextView>(R.id.dialog_bottom_title)
         titleField.text = title
         //
@@ -60,17 +64,17 @@ class BottomDialogDismissibleEditTextAndConfirm : BottomSheetDialogFragment() {
             dismiss()
         }
         //
-        val editTextHint = arguments?.getString(HINT_ARG, "")?:""
+        val editTextHint = arguments?.getString(HINT_ARG, "") ?: ""
         val editText = view.findViewById<EditText>(R.id.dialog_bottom_edit_text)
         editText.setText(editTextHint)
         //
-        val confirmButtonLabel = arguments?.getString(CONFIRM_BUTTON_LABEL_ARG, "")?:""
+        val confirmButtonLabel = arguments?.getString(CONFIRM_BUTTON_LABEL_ARG, "") ?: ""
         val confirmButton = view.findViewById<Button>(R.id.dialog_bottom_confirm_button)
         confirmButton.text = confirmButtonLabel
-        confirmButton.setOnClickListener { transmitInputText(editText)}
+        confirmButton.setOnClickListener { transmitInputText(editText) }
     }
 
-    private fun transmitInputText(editText: EditText){
+    private fun transmitInputText(editText: EditText) {
         val inputText = editText.text.toString()
         bottomDialogDismissibleEditTextAndConfirmListenerListener?.onValidateInputText(inputText)
         dismiss()

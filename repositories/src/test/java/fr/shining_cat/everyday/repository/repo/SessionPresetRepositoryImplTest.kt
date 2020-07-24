@@ -4,35 +4,34 @@ import fr.shining_cat.everyday.locale.dao.SessionPresetDao
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntity
 import fr.shining_cat.everyday.models.SessionPreset
 import fr.shining_cat.everyday.repository.converter.SessionPresetConverter
-import fr.shining_cat.everyday.testutils.AbstractBaseTest
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
-import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.MockitoAnnotations
 
-class SessionPresetRepositoryImplTest : AbstractBaseTest() {
+class SessionPresetRepositoryImplTest {
 
-    @Mock
+    @MockK
     private lateinit var mockSessionPresetDao: SessionPresetDao
 
-    @Mock
+    @MockK
     private lateinit var mockSessionPresetConverter: SessionPresetConverter
 
-    @Mock
+    @MockK
     private lateinit var mockSessionPreset: SessionPreset
 
-    @Mock
+    @MockK
     lateinit var mockSessionPresetEntity: SessionPresetEntity
 
     private lateinit var sessionPresetRepo: SessionPresetRepository
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this)
         assertNotNull(mockSessionPresetDao)
         assertNotNull(mockSessionPreset)
         assertNotNull(mockSessionPresetEntity)
@@ -40,56 +39,47 @@ class SessionPresetRepositoryImplTest : AbstractBaseTest() {
             mockSessionPresetDao,
             mockSessionPresetConverter
         )
-        runBlocking {
-            Mockito.`when`(mockSessionPresetDao.insert(any())).thenReturn(arrayOf(1, 2, 3))
-            Mockito.`when`(mockSessionPresetDao.update(any())).thenReturn(3)
-            Mockito.`when`(mockSessionPresetDao.delete(any())).thenReturn(3)
-            Mockito.`when`(mockSessionPresetDao.getAllSessionPresetsLastEditTimeDesc())
-                .thenReturn(listOf(mockSessionPresetEntity))
-        }
-
-    }
-
-    /**
-     * See [Memory leak in mockito-inline...](https://github.com/mockito/mockito/issues/1614)
-     */
-    @After
-    fun clearMocks() {
-        Mockito.framework().clearInlineMocks()
+        coEvery { mockSessionPresetDao.insert(any()) } returns arrayOf(1, 2, 3)
+        coEvery { mockSessionPresetDao.update(any()) } returns 3
+        coEvery { mockSessionPresetDao.delete(any()) } returns 3
+        coEvery { mockSessionPresetDao.getAllSessionPresetsLastEditTimeDesc() } returns listOf(
+            mockSessionPresetEntity
+        )
     }
 
     @Test
     fun insert() {
         runBlocking {
             sessionPresetRepo.insert(listOf(mockSessionPreset))
-            Mockito.verify(mockSessionPresetConverter).convertModelsToEntities(any())
-            Mockito.verify(mockSessionPresetDao).insert(any())
         }
+        coVerify { mockSessionPresetConverter.convertModelsToEntities(any()) }
+        coVerify { mockSessionPresetDao.insert(any()) }
     }
 
     @Test
     fun update() {
         runBlocking {
             sessionPresetRepo.update(mockSessionPreset)
-            Mockito.verify(mockSessionPresetConverter).convertModelToEntity(any())
-            Mockito.verify(mockSessionPresetDao).update(any())
         }
+        coVerify { mockSessionPresetConverter.convertModelToEntity(any()) }
+        coVerify { mockSessionPresetDao.update(any()) }
     }
 
     @Test
     fun deleteSession() {
         runBlocking {
             sessionPresetRepo.delete(mockSessionPreset)
-            Mockito.verify(mockSessionPresetConverter).convertModelToEntity(any())
-            Mockito.verify(mockSessionPresetDao).delete(any())
         }
+        coVerify { mockSessionPresetConverter.convertModelToEntity(any()) }
+        coVerify { mockSessionPresetDao.delete(any()) }
     }
+
     @Test
     fun getAllSessionsStartTimeAsc() {
         runBlocking {
             sessionPresetRepo.getAllSessionPresetsLastEditTimeDesc()
-            Mockito.verify(mockSessionPresetConverter).convertEntitiesToModels(any())
-            Mockito.verify(mockSessionPresetDao).getAllSessionPresetsLastEditTimeDesc()
         }
+        coVerify { mockSessionPresetConverter.convertEntitiesToModels(any()) }
+        coVerify { mockSessionPresetDao.getAllSessionPresetsLastEditTimeDesc() }
     }
 }

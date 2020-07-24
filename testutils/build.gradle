@@ -3,6 +3,4 @@ apply from: '../common.gradle'
 
 dependencies {
 
-    implementation TestLibraries.mockitoCore
-    implementation TestLibraries.mockitoInline
 }

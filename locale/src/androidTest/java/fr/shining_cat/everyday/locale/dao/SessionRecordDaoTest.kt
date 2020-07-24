@@ -136,8 +136,7 @@ class SessionRecordDaoTest {
                 guideMp3 = guideMp3,
                 sessionTypeId = sessionTypeId
             )
-        }
-        else {
+        } else {
             return SessionRecordEntity(
                 id = desiredId,
                 startTimeOfRecord = GregorianCalendar(

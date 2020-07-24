@@ -14,8 +14,7 @@ class Logger {
         if (BuildConfig.DEBUG) {
             if (throwable == null) {
                 Log.e(tag, msg)
-            }
-            else {
+            } else {
                 Log.e(tag, msg, throwable)
             }
         }

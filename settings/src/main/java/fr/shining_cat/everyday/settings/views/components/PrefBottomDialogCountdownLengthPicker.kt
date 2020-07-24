@@ -5,7 +5,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.preference.Preference
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelper
-import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleEditTextAndConfirm
 import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleSpinnersDurationAndConfirm
 import fr.shining_cat.everyday.settings.R
 
@@ -24,7 +23,7 @@ class PrefBottomDialogCountdownLengthPicker(
         updateSummary()
     }
 
-    private fun updateSummary(){
+    private fun updateSummary() {
         summary = context.getString(R.string.startCountDownLengthPreference_explanation) + ": " +
                 context.getString(R.string.startCountDownLengthPreference_value_display).format(
                     sharedPrefsHelper.getCountDownLength().toInt() / 1000
