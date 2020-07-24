@@ -21,63 +21,97 @@ class SessionPresetRepositoryImpl(
     val sessionPresetConverter: SessionPresetConverter
 ) : SessionPresetRepository {
 
+    private fun genericReadError(exception: java.lang.Exception) = Output.Error(
+        Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
+        Constants.ERROR_MESSAGE_READ_FAILED,
+        exception
+    )
+
+
     override suspend fun insert(sessionPresets: List<SessionPreset>): Output<Array<Long>> {
-        val inserted = withContext(Dispatchers.IO) {
-            sessionPresetDao.insert(
-                sessionPresetConverter.convertModelsToEntities(sessionPresets)
-            )
-        }
-        return if (inserted.size == sessionPresets.size) {
-            Output.Success(inserted)
-        } else {
+        return try {
+            val inserted = withContext(Dispatchers.IO) {
+                sessionPresetDao.insert(
+                    sessionPresetConverter.convertModelsToEntities(sessionPresets)
+                )
+            }
+            if (inserted.size == sessionPresets.size) {
+                Output.Success(inserted)
+            } else {
+                Output.Error(
+                    Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
+                    Constants.ERROR_MESSAGE_INSERT_FAILED,
+                    Exception(Constants.ERROR_MESSAGE_INSERT_FAILED)
+                )
+            }
+        } catch (exception: Exception) {
             Output.Error(
                 Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                 Constants.ERROR_MESSAGE_INSERT_FAILED,
-                Exception(Constants.ERROR_MESSAGE_INSERT_FAILED)
+                exception
             )
         }
     }
 
     override suspend fun update(sessionPreset: SessionPreset): Output<Int> {
-        val updated = withContext(Dispatchers.IO) {
-            sessionPresetDao.update(
-                sessionPresetConverter.convertModelToEntity(sessionPreset)
-            )
-        }
-        return if (updated == 1) {
-            Output.Success(updated)
-        } else {
+        return try {
+            val updated = withContext(Dispatchers.IO) {
+                sessionPresetDao.update(
+                    sessionPresetConverter.convertModelToEntity(sessionPreset)
+                )
+            }
+            if (updated == 1) {
+                Output.Success(updated)
+            } else {
+                Output.Error(
+                    Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
+                    Constants.ERROR_MESSAGE_UPDATE_FAILED,
+                    Exception(Constants.ERROR_MESSAGE_UPDATE_FAILED)
+                )
+            }
+        } catch (exception: Exception) {
             Output.Error(
                 Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                 Constants.ERROR_MESSAGE_UPDATE_FAILED,
-                Exception(Constants.ERROR_MESSAGE_UPDATE_FAILED)
+                exception
             )
-
         }
     }
 
     override suspend fun delete(sessionPreset: SessionPreset): Output<Int> {
-        val deleted = withContext(Dispatchers.IO) {
-            sessionPresetDao.delete(
-                sessionPresetConverter.convertModelToEntity(sessionPreset)
-            )
-        }
-        return if (deleted == 1) {
-            Output.Success(deleted)
-        } else {
+        return try {
+            val deleted = withContext(Dispatchers.IO) {
+                sessionPresetDao.delete(
+                    sessionPresetConverter.convertModelToEntity(sessionPreset)
+                )
+            }
+            if (deleted == 1) {
+                Output.Success(deleted)
+            } else {
+                Output.Error(
+                    Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
+                    Constants.ERROR_MESSAGE_DELETE_FAILED,
+                    Exception(Constants.ERROR_MESSAGE_DELETE_FAILED)
+                )
+            }
+        } catch (exception: Exception) {
             Output.Error(
                 Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                 Constants.ERROR_MESSAGE_DELETE_FAILED,
-                Exception(Constants.ERROR_MESSAGE_DELETE_FAILED)
+                exception
             )
         }
     }
 
     override suspend fun getAllSessionPresetsLastEditTimeDesc(): Output<List<SessionPreset>> {
-        val sessionPresetEntities = withContext(Dispatchers.IO) {
-            sessionPresetDao.getAllSessionPresetsLastEditTimeDesc()
+        return try {
+            val sessionPresetEntities = withContext(Dispatchers.IO) {
+                sessionPresetDao.getAllSessionPresetsLastEditTimeDesc()
+            }
+            handleQueryResult(sessionPresetEntities)
+        } catch (exception: Exception) {
+            genericReadError(exception)
         }
-        return handleQueryResult(sessionPresetEntities)
     }
 
     private suspend fun handleQueryResult(sessionPresetEntities: List<SessionPresetEntity>): Output<List<SessionPreset>> {
