@@ -1,6 +1,6 @@
 package fr.shining_cat.everyday.repository.repo
 
-import fr.shining_cat.everyday.commons.ui.resourcesholders.critter.*
+import fr.shining_cat.everyday.commons.ui.resourcesholders.critter.CritterPartResourcesHolder
 
 interface CritterPartsRepository {
     suspend fun getArmsResourcesHolder(): CritterPartResourcesHolder
@@ -11,6 +11,7 @@ interface CritterPartsRepository {
     suspend fun getMouthResourcesHolder(): CritterPartResourcesHolder
 }
 
+//returns from this repo are based on hard-coded objects, they will not be encapsulated inside Output objects because there is no failure possible retrieving them
 class CritterPartsRepositoryImpl : CritterPartsRepository {
 
     var armsHolder: CritterPartResourcesHolder? = null
