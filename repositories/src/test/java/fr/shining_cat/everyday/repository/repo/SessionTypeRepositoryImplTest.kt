@@ -4,35 +4,34 @@ import fr.shining_cat.everyday.locale.dao.SessionTypeDao
 import fr.shining_cat.everyday.locale.entities.SessionTypeEntity
 import fr.shining_cat.everyday.models.SessionType
 import fr.shining_cat.everyday.repository.converter.SessionTypeConverter
-import fr.shining_cat.everyday.testutils.AbstractBaseTest
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
-import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.MockitoAnnotations
 
-class SessionTypeRepositoryImplTest : AbstractBaseTest() {
+class SessionTypeRepositoryImplTest {
 
-    @Mock
+    @MockK
     private lateinit var mockSessionTypeDao: SessionTypeDao
 
-    @Mock
+    @MockK
     private lateinit var mockSessionTypeConverter: SessionTypeConverter
 
-    @Mock
+    @MockK
     private lateinit var mockSessionType: SessionType
 
-    @Mock
+    @MockK
     lateinit var mockSessionTypeEntity: SessionTypeEntity
 
     private lateinit var sessionTypeRepo: SessionTypeRepository
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this)
         assertNotNull(mockSessionTypeDao)
         assertNotNull(mockSessionType)
         assertNotNull(mockSessionTypeEntity)
@@ -40,56 +39,48 @@ class SessionTypeRepositoryImplTest : AbstractBaseTest() {
             mockSessionTypeDao,
             mockSessionTypeConverter
         )
-        runBlocking {
-            Mockito.`when`(mockSessionTypeDao.insert(any())).thenReturn(arrayOf(1, 2, 3))
-            Mockito.`when`(mockSessionTypeDao.update(any())).thenReturn(3)
-            Mockito.`when`(mockSessionTypeDao.delete(any())).thenReturn(3)
-            Mockito.`when`(mockSessionTypeDao.getAllSessionTypesLastEditTimeDesc())
-                .thenReturn(listOf(mockSessionTypeEntity))
-        }
+        coEvery { mockSessionTypeDao.insert(any()) } returns arrayOf(1, 2, 3)
+        coEvery { mockSessionTypeDao.update(any()) } returns 3
+        coEvery { mockSessionTypeDao.delete(any()) } returns 3
+        coEvery { mockSessionTypeDao.getAllSessionTypesLastEditTimeDesc() } returns listOf(
+            mockSessionTypeEntity
+        )
 
-    }
-
-    /**
-     * See [Memory leak in mockito-inline...](https://github.com/mockito/mockito/issues/1614)
-     */
-    @After
-    fun clearMocks() {
-        Mockito.framework().clearInlineMocks()
     }
 
     @Test
     fun insert() {
         runBlocking {
             sessionTypeRepo.insert(listOf(mockSessionType))
-            Mockito.verify(mockSessionTypeConverter).convertModelsToEntities(any())
-            Mockito.verify(mockSessionTypeDao).insert(any())
         }
+        coVerify { mockSessionTypeConverter.convertModelsToEntities(any()) }
+        coVerify { mockSessionTypeDao.insert(any()) }
     }
 
     @Test
     fun update() {
         runBlocking {
             sessionTypeRepo.update(mockSessionType)
-            Mockito.verify(mockSessionTypeConverter).convertModelToEntity(any())
-            Mockito.verify(mockSessionTypeDao).update(any())
         }
+        coVerify { mockSessionTypeConverter.convertModelToEntity(any()) }
+        coVerify { mockSessionTypeDao.update(any()) }
     }
 
     @Test
     fun deleteSession() {
         runBlocking {
             sessionTypeRepo.delete(mockSessionType)
-            Mockito.verify(mockSessionTypeConverter).convertModelToEntity(any())
-            Mockito.verify(mockSessionTypeDao).delete(any())
         }
+        coVerify { mockSessionTypeConverter.convertModelToEntity(any()) }
+        coVerify { mockSessionTypeDao.delete(any()) }
     }
+
     @Test
     fun getAllSessionsStartTimeAsc() {
         runBlocking {
             sessionTypeRepo.getAllSessionTypesLastEditTimeDesc()
-            Mockito.verify(mockSessionTypeConverter).convertEntitiesToModels(any())
-            Mockito.verify(mockSessionTypeDao).getAllSessionTypesLastEditTimeDesc()
         }
+        coVerify { mockSessionTypeConverter.convertEntitiesToModels(any()) }
+        coVerify { mockSessionTypeDao.getAllSessionTypesLastEditTimeDesc() }
     }
 }

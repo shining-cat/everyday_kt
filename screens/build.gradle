@@ -10,21 +10,13 @@ dependencies {
     implementation AndroidLibraries.navigation_ui
     implementation AndroidLibraries.navigation_ui_ktx
 
-    implementation Libraries.lottie
-
     implementation project(Modules.models)
     implementation project(Modules.commons)
     implementation project(Modules.interModulesNavigation)
 
-
     testImplementation project(Modules.testutils)
-    testImplementation TestLibraries.mockitoInline
 
     androidTestImplementation project(Modules.testutils)
     androidTestImplementation TestLibraries.archCoreTest
-    androidTestImplementation TestLibraries.mockitoCore
 
-    //not needed, but not adding these gets the IDE put Warnings on these packages, although code will compile and tests will run
-    testImplementation TestLibraries.mockitoCore
-    androidTestImplementation TestLibraries.mockitoInline
 }

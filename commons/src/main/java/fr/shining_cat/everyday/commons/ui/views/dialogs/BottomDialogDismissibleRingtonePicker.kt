@@ -103,14 +103,21 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
         val initialSelectionUriString = arguments?.getString(INITIAL_SELECTION_URI_ARG, "") ?: ""
         val selectListAdapter = SelectListAdapter(logger)
         selectListAdapter.optionsLabels = completeRingtonesLabels
-        selectListAdapter.forceInitialSelectedOption(completeRingtonesUris.indexOf(Uri.parse(initialSelectionUriString)))
+        selectListAdapter.forceInitialSelectedOption(
+            completeRingtonesUris.indexOf(
+                Uri.parse(
+                    initialSelectionUriString
+                )
+            )
+        )
         val selectListRecycler = view.findViewById<RecyclerView>(R.id.dialog_bottom_recycler)
         selectListRecycler.adapter = selectListAdapter
         val layoutManager = LinearLayoutManager(context)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         selectListRecycler.layoutManager = layoutManager
         //
-        selectListAdapter.setSelectListAdapterListener(object : SelectListAdapter.SelectListAdapterListener{
+        selectListAdapter.setSelectListAdapterListener(object :
+            SelectListAdapter.SelectListAdapterListener {
             override fun onOptionSelected(selectedPosition: Int) {
                 playSelectedRingtone(completeRingtonesUris[selectedPosition])
             }
@@ -133,7 +140,7 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
 
     private fun playSelectedRingtone(ringtoneToPlayUri: Uri) {
         playingRingtone?.stop()
-        if(ringtoneToPlayUri.toString().isNotBlank()) {
+        if (ringtoneToPlayUri.toString().isNotBlank()) {
             playingRingtone = RingtoneManager.getRingtone(context, ringtoneToPlayUri)
             playingRingtone?.play()
         }
@@ -202,7 +209,7 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
                 )
             }
         }
-        if(list.isNotEmpty()) list.add(selectListDividerItem)
+        if (list.isNotEmpty()) list.add(selectListDividerItem)
         return list
     }
 

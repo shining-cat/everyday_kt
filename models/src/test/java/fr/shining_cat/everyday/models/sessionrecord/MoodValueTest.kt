@@ -11,18 +11,28 @@ class MoodValueTest {
     fun testGetFromKey() {
         assertEquals(
             MoodValue.WORST, fromKey(
-                MoodValue.WORST.key))
+                MoodValue.WORST.key
+            )
+        )
         assertEquals(
             MoodValue.BAD, fromKey(
-                MoodValue.BAD.key))
+                MoodValue.BAD.key
+            )
+        )
         assertEquals(
             MoodValue.NOT_SET, fromKey(
-                MoodValue.NOT_SET.key))
+                MoodValue.NOT_SET.key
+            )
+        )
         assertEquals(
             MoodValue.GOOD, fromKey(
-                MoodValue.GOOD.key))
+                MoodValue.GOOD.key
+            )
+        )
         assertEquals(
             MoodValue.BEST, fromKey(
-                MoodValue.BEST.key))
+                MoodValue.BEST.key
+            )
+        )
     }
 }

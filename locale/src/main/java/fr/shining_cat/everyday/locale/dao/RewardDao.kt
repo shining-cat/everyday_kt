@@ -69,17 +69,14 @@ abstract class RewardDao {
 ////////////////////////////////////////////////////////////////
     //COUNTS :
     //ALL ENTRIES (this is used to determine if possible rewards have been generated already or not)
-
     @Query("SELECT COUNT($REWARD_ID) FROM $REWARD_TABLE")
     abstract suspend fun getNumberOfRows(): Int
 
     //ACTIVE and NOT LOST rewards for level
-
     @Query("SELECT COUNT($REWARD_ID) FROM $REWARD_TABLE WHERE $LEVEL == :level AND $ACTIVE_STATE == 1 AND $ESCAPED_STATE == 0")
     abstract suspend fun getNumberOfActiveNotEscapedRewardsForLevel(level: Int): Int
 
     //ACTIVE and LOST rewards for level
-
     @Query("SELECT COUNT($REWARD_ID) FROM $REWARD_TABLE WHERE $LEVEL == :level AND $ACTIVE_STATE == 1 AND $ESCAPED_STATE == 1")
     abstract suspend fun getNumberOfEscapedRewardsForLevel(level: Int): Int
 }

@@ -6,26 +6,25 @@ import fr.shining_cat.everyday.models.sessionrecord.Mood
 import fr.shining_cat.everyday.models.sessionrecord.MoodValue
 import fr.shining_cat.everyday.models.sessionrecord.RealDurationVsPlanned
 import fr.shining_cat.everyday.models.sessionrecord.SessionRecord
-import fr.shining_cat.everyday.testutils.AbstractBaseTest
+import io.mockk.MockKAnnotations
+import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
 import java.util.*
 
-class SessionRecordConverterTest : AbstractBaseTest() {
+class SessionRecordConverterTest {
 
-    @Mock
+    @MockK
     private lateinit var mockLogger: Logger
 
     private lateinit var sessionRecordConverter: SessionRecordConverter
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this)
         assertNotNull(mockLogger)
         sessionRecordConverter = SessionRecordConverter(mockLogger)
     }

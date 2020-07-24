@@ -77,8 +77,6 @@ object TestLibraries {
     const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.1"
     // UNIT TESTS
     const val junit = "androidx.test.ext:junit:1.1.2-beta01"
-    //Mockito for kotlin
-    const val mockitoCore = "org.mockito:mockito-core:3.3.3"
-    const val mockitoInline = "org.mockito:mockito-inline:3.3.3"
+    const val mockk = "io.mockk:mockk:1.9.3"
 
 }

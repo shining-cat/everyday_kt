@@ -11,7 +11,6 @@ import fr.shining_cat.everyday.navigation.Actions
 import fr.shining_cat.everyday.navigation.Destination
 import fr.shining_cat.everyday.screens.R
 import fr.shining_cat.everyday.screens.views.ScreenActivity
-import kotlinx.android.synthetic.main.home_fragment.*
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -41,12 +40,13 @@ class HomeFragment : Fragment() {
     }
 
 
-    private fun setupToolbar(root: View){
+    private fun setupToolbar(root: View) {
         logger.d(LOG_TAG, "setupToolbar")
         val toolbar: Toolbar = root.findViewById(R.id.toolbar)
         (activity as ScreenActivity).setSupportActionBar(toolbar)
         setHasOptionsMenu(true)
     }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         logger.d(LOG_TAG, "onCreateOptionsMenu")
         inflater.inflate(R.menu.toolbar_menu_home, menu)
@@ -56,7 +56,12 @@ class HomeFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.actionbar_settings -> {
-                startActivity(context?.let { Actions.openDestination(it, Destination.SettingsDestination()) })
+                startActivity(context?.let {
+                    Actions.openDestination(
+                        it,
+                        Destination.SettingsDestination()
+                    )
+                })
                 return true
             }
             R.id.actionbar_about -> {

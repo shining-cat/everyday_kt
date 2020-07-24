@@ -19,6 +19,7 @@
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="android:windowLightNavigationBar" tools:ignore="NewApi">false</item>
     </style>
+
     <style name="TimePickerWidgetStyle" parent="@android:style/Widget.Material.TimePicker">
         <!--empty overwriting here, the default dark version of the TimePicker is Ok-->
     </style>

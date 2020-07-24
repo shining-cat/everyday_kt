@@ -12,7 +12,9 @@ class RealDurationVsPlannedTest {
     fun testGetFromKey() {
         assertEquals(
             RealDurationVsPlanned.EQUAL, fromKey(
-                RealDurationVsPlanned.EQUAL.key))
+                RealDurationVsPlanned.EQUAL.key
+            )
+        )
         assertEquals(
             RealDurationVsPlanned.REAL_LONGER,
             fromKey(RealDurationVsPlanned.REAL_LONGER.key)

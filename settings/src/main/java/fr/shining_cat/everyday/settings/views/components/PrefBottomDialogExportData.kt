@@ -4,10 +4,7 @@ import android.content.Context
 import androidx.fragment.app.FragmentManager
 import androidx.preference.Preference
 import fr.shining_cat.everyday.commons.Logger
-import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelper
-import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleEditTextAndConfirm
 import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleMessageAndConfirm
-import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleSpinnersDurationAndConfirm
 import fr.shining_cat.everyday.settings.R
 
 class PrefBottomDialogExportData(

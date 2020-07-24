@@ -18,12 +18,12 @@ class PrefBottomDialogDefaultNightModeSelect(
 
     private val LOG_TAG = PrefBottomDialogDefaultNightModeSelect::class.java.name
 
-    private val defaultNightModeLabels:List<String> = listOf(
-    context.getString(R.string.defaultNightModePreference_follow_system),
-    context.getString(R.string.defaultNightModePreference_always_dark),
-    context.getString(R.string.defaultNightModePreference_always_light)
+    private val defaultNightModeLabels: List<String> = listOf(
+        context.getString(R.string.defaultNightModePreference_follow_system),
+        context.getString(R.string.defaultNightModePreference_always_dark),
+        context.getString(R.string.defaultNightModePreference_always_light)
     )
-    private val androidDefaultNightModeValues:List<Int> = listOf(
+    private val androidDefaultNightModeValues: List<Int> = listOf(
         AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM,
         AppCompatDelegate.MODE_NIGHT_YES,
         AppCompatDelegate.MODE_NIGHT_NO

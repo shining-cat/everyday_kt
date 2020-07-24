@@ -57,8 +57,7 @@ abstract class EveryDayRoomDatabase : RoomDatabase() {
                             EveryDayRoomDatabase::class.java
                         )
                             .build()
-                    }
-                    else {
+                    } else {
                         instance = Room.databaseBuilder(
                             context,
                             EveryDayRoomDatabase::class.java,

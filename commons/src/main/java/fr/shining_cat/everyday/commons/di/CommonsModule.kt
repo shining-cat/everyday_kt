@@ -6,7 +6,6 @@ import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelper
 import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelperSettings
 import kotlinx.coroutines.Dispatchers
-import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val commonsModule = module {

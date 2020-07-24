@@ -1,72 +1,64 @@
 package fr.shining_cat.everyday.commons.helpers
 
 import android.content.SharedPreferences
-import org.junit.Assert
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.impl.annotations.MockK
 import org.junit.Before
-import org.junit.Test
-import org.mockito.ArgumentMatchers
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.MockitoAnnotations
 
 class SharedPrefsHelperTest {
 
-    @Mock
+    @MockK
     private lateinit var mockSharedPreferences: SharedPreferences
 
-    @Mock
+    @MockK
     private lateinit var mockSharedPreferencesEditor: SharedPreferences.Editor
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this)
+        coEvery { mockSharedPreferencesEditor.apply() } returns Unit
     }
 
-//    @Test
-//    fun `test get value`() {
-//        val value = "value"
-//        Mockito.`when`(
-//            mockSharedPreferences.getString(
-//                ArgumentMatchers.anyString(),
-//                ArgumentMatchers.anyString()
-//            )
-//        ).thenReturn(value)
-//        val sharedPrefsHelper =
-//            SharedPrefsHelper(
-//                mockSharedPreferences
-//            )
-//        Assert.assertEquals(value, sharedPrefsHelper.getvalue())
-//        Mockito.verify(mockSharedPreferences).getString(
-//            ArgumentMatchers.eq(
-//                SharedPrefsHelperSettings.KEY_VALUE
-//            ), ArgumentMatchers.eq("")
-//        )
-//    }
-//
-//    @Test
-//    fun `test set value`() {
-//        val value = "value"
-//        Mockito.`when`(mockSharedPreferences.edit()).thenReturn(mockSharedPreferencesEditor)
-//        Mockito.`when`(
-//            mockSharedPreferencesEditor.putString(
-//                ArgumentMatchers.anyString(),
-//                ArgumentMatchers.anyString()
-//            )
-//        ).thenReturn(mockSharedPreferencesEditor)
-//
-//        val sharedPrefsHelper =
-//            SharedPrefsHelper(
-//                mockSharedPreferences
-//            )
-//        sharedPrefsHelper.setValue(value)
-//
-//        Mockito.verify(mockSharedPreferencesEditor).putString(
-//            ArgumentMatchers.eq(
-//                SharedPrefsHelperSettings.KEY_VALUE
-//            ), ArgumentMatchers.eq(
-//                value
-//            )
-//        )
-//    }
+    /* @Test
+     fun `test get value`() {
+         val value = true
+         coEvery { mockSharedPreferences.getBoolean(any(), any()) } returns value
+         val sharedPrefsHelper =
+             SharedPrefsHelper(
+                 mockSharedPreferences
+             )
+         Assert.assertEquals(value, sharedPrefsHelper.getvalue())
+         coVerify {
+             mockSharedPreferences.getBoolean(
+                 eq(SharedPrefsHelperSettings.KEY_value),
+                 eq(true)
+             )
+         }
+     }
 
+     @Test
+     fun `test set value`() {
+         val value = true
+         coEvery { mockSharedPreferences.edit() } returns mockSharedPreferencesEditor
+         coEvery {
+             mockSharedPreferencesEditor.putBoolean(
+                 any(),
+                 any()
+             )
+         } returns mockSharedPreferencesEditor
+
+         val sharedPrefsHelper =
+             SharedPrefsHelper(
+                 mockSharedPreferences
+             )
+         sharedPrefsHelper.setvalue(value)
+
+         coVerify {
+             mockSharedPreferencesEditor.putBoolean(
+                 SharedPrefsHelperSettings.KEY_value,
+                 value
+             )
+         }
+     }*/
 }

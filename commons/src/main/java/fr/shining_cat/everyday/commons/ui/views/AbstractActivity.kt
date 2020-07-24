@@ -17,7 +17,7 @@ abstract class AbstractActivity : AppCompatActivity() {
     private val LOG_TAG = AbstractActivity::class.java.simpleName
 
     private val logger: Logger = get()
-    private val sharedPrefsHelper:SharedPrefsHelper = get()
+    private val sharedPrefsHelper: SharedPrefsHelper = get()
 
     private val loadingView: View by bind(R.id.loading_view)
 

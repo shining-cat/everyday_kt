@@ -28,15 +28,19 @@ class BottomDialogDismissibleMessageAndConfirm : BottomSheetDialogFragment() {
     }
 
     companion object {
-        fun newInstance(title: String, message: String, confirmButtonLabel: String): BottomDialogDismissibleMessageAndConfirm =
+        fun newInstance(
+            title: String,
+            message: String,
+            confirmButtonLabel: String
+        ): BottomDialogDismissibleMessageAndConfirm =
             BottomDialogDismissibleMessageAndConfirm()
                 .apply {
-                arguments = Bundle().apply {
-                    putString(TITLE_ARG, title)
-                    putString(MESSAGE_ARG, message)
-                    putString(CONFIRM_BUTTON_LABEL_ARG, confirmButtonLabel)
+                    arguments = Bundle().apply {
+                        putString(TITLE_ARG, title)
+                        putString(MESSAGE_ARG, message)
+                        putString(CONFIRM_BUTTON_LABEL_ARG, confirmButtonLabel)
+                    }
                 }
-            }
 
     }
 
@@ -49,7 +53,7 @@ class BottomDialogDismissibleMessageAndConfirm : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val title = arguments?.getString(TITLE_ARG, "")?:""
+        val title = arguments?.getString(TITLE_ARG, "") ?: ""
         val titleField = view.findViewById<TextView>(R.id.dialog_bottom_title)
         titleField.text = title
         //
@@ -59,11 +63,11 @@ class BottomDialogDismissibleMessageAndConfirm : BottomSheetDialogFragment() {
             dismiss()
         }
         //
-        val message = arguments?.getString(MESSAGE_ARG, "")?:""
+        val message = arguments?.getString(MESSAGE_ARG, "") ?: ""
         val messageField = view.findViewById<TextView>(R.id.dialog_bottom_message)
         messageField.text = message
         //
-        val confirmButtonLabel = arguments?.getString(CONFIRM_BUTTON_LABEL_ARG, "")?:""
+        val confirmButtonLabel = arguments?.getString(CONFIRM_BUTTON_LABEL_ARG, "") ?: ""
         val confirmButton = view.findViewById<Button>(R.id.dialog_bottom_confirm_button)
         confirmButton.text = confirmButtonLabel
         confirmButton.setOnClickListener { bottomDialogDismissibleMessageAndConfirmListenerListener?.onConfirmButtonClicked() }

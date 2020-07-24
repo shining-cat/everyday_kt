@@ -95,10 +95,9 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
         //
         val explanation = arguments?.getString(EXPLANATION_ARG, "") ?: ""
         val explanationTv = view.findViewById<TextView>(R.id.dialog_bottom_instruction)
-        if(explanation.isNotBlank()){
+        if (explanation.isNotBlank()) {
             explanationTv.text = explanation
-        }
-        else{
+        } else {
             explanationTv.visibility = GONE
         }
         //
@@ -179,6 +178,9 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
         hoursPicker.value = fullHours
         minutesPicker.value = fullMinutes
         secondsPicker.value = fullSeconds
-        Log.e("DIALOG", "fullHours = $fullHours, fullMinutes = $fullMinutes, fullSeconds = $fullSeconds")
+        Log.e(
+            "DIALOG",
+            "fullHours = $fullHours, fullMinutes = $fullMinutes, fullSeconds = $fullSeconds"
+        )
     }
 }

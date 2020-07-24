@@ -2,8 +2,10 @@ package fr.shining_cat.everyday.repository.repo
 
 import fr.shining_cat.everyday.commons.Constants
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_CODE_DATABASE_OPERATION_FAILED
+import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_COUNT_FAILED
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_INSERT_FAILED
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_NO_RESULT
+import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_READ_FAILED
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_UPDATE_FAILED
 import fr.shining_cat.everyday.locale.dao.RewardDao
 import fr.shining_cat.everyday.locale.entities.RewardEntity
@@ -16,7 +18,7 @@ import kotlinx.coroutines.withContext
 interface RewardRepository {
     suspend fun insert(rewards: List<Reward>): Output<Array<Long>>
     suspend fun update(rewards: List<Reward>): Output<Int>
-    suspend fun deleteAllRewards(): Int
+    suspend fun deleteAllRewards(): Output<Int>
     suspend fun getReward(rewardId: Long): Output<Reward>
     suspend fun rewardsActiveAcquisitionDateAsc(): Output<List<Reward>>
     suspend fun rewardsActiveAcquisitionDateDesc(): Output<List<Reward>>
@@ -26,9 +28,9 @@ interface RewardRepository {
     suspend fun rewardsEscapedAcquisitionDateDesc(): Output<List<Reward>>
     suspend fun rewardsOfSPecificLevelNotActive(level: Int): Output<List<Reward>>
     suspend fun rewardsOfSPecificLevelNotActiveOrEscaped(level: Int): Output<List<Reward>>
-    suspend fun allRewardsCount(): Int
-    suspend fun activeNotEscapedRewardsForLevel(level: Int): Int
-    suspend fun escapedRewardsForLevel(level: Int): Int
+    suspend fun countAllRewards(): Output<Int>
+    suspend fun countActiveNotEscapedRewardsForLevel(level: Int): Output<Int>
+    suspend fun countEscapedRewardsForLevel(level: Int): Output<Int>
 }
 
 class RewardRepositoryImpl(
@@ -36,62 +38,226 @@ class RewardRepositoryImpl(
     private val rewardConverter: RewardConverter
 ) : RewardRepository {
 
+    val genericReadError = Output.Error(
+        ERROR_CODE_DATABASE_OPERATION_FAILED,
+        ERROR_MESSAGE_READ_FAILED,
+        Exception(ERROR_MESSAGE_READ_FAILED)
+    )
+
+    val genericCountError = Output.Error(
+        ERROR_CODE_DATABASE_OPERATION_FAILED,
+        ERROR_MESSAGE_COUNT_FAILED,
+        Exception(ERROR_MESSAGE_COUNT_FAILED)
+    )
+
     override suspend fun insert(rewards: List<Reward>): Output<Array<Long>> {
-        val inserted = withContext(Dispatchers.IO) {
-            rewardDao.insert(
-                rewardConverter.convertModelsToEntities(rewards)
-            )
-        }
-        return if (inserted.size == rewards.size) {
-            Output.Success(inserted)
-        } else {
-            Output.Error(
-                ERROR_CODE_DATABASE_OPERATION_FAILED,
-                ERROR_MESSAGE_INSERT_FAILED,
-                Exception(ERROR_MESSAGE_INSERT_FAILED)
-            )
+        val errorReturn = Output.Error(
+            ERROR_CODE_DATABASE_OPERATION_FAILED,
+            ERROR_MESSAGE_INSERT_FAILED,
+            Exception(ERROR_MESSAGE_INSERT_FAILED)
+        )
+        return try {
+            val inserted = withContext(Dispatchers.IO) {
+                rewardDao.insert(
+                    rewardConverter.convertModelsToEntities(rewards)
+                )
+            }
+            if (inserted.size == rewards.size) {
+                Output.Success(inserted)
+            } else {
+                errorReturn
+            }
+        } catch (exception: Exception) {
+            errorReturn
         }
     }
 
     override suspend fun update(rewards: List<Reward>): Output<Int> {
-        val updated = withContext(Dispatchers.IO) {
-            rewardDao.update(
-                rewardConverter.convertModelsToEntities(rewards)
-            )
-        }
-        return if (updated == rewards.size) {
-            Output.Success(updated)
-        } else {
-            Output.Error(
-                ERROR_CODE_DATABASE_OPERATION_FAILED,
-                ERROR_MESSAGE_UPDATE_FAILED,
-                Exception(ERROR_MESSAGE_UPDATE_FAILED)
-            )
+        val errorReturn = Output.Error(
+            ERROR_CODE_DATABASE_OPERATION_FAILED,
+            ERROR_MESSAGE_UPDATE_FAILED,
+            Exception(ERROR_MESSAGE_UPDATE_FAILED)
+        )
+        return try {
+            val updated = withContext(Dispatchers.IO) {
+                rewardDao.update(
+                    rewardConverter.convertModelsToEntities(rewards)
+                )
+            }
+            if (updated == rewards.size) {
+                Output.Success(updated)
+            } else {
+                errorReturn
+            }
+        } catch (exception: Exception) {
+            errorReturn
         }
     }
 
-    override suspend fun deleteAllRewards(): Int =
-        withContext(Dispatchers.IO) { rewardDao.deleteAllRewards() }
+    override suspend fun deleteAllRewards(): Output<Int> {
+        val errorReturn = Output.Error(
+            ERROR_CODE_DATABASE_OPERATION_FAILED,
+            ERROR_MESSAGE_UPDATE_FAILED,
+            Exception(ERROR_MESSAGE_UPDATE_FAILED)
+        )
+        return try {
+            val deleted = withContext(Dispatchers.IO) { rewardDao.deleteAllRewards() }
+            Output.Success(deleted)
+        } catch (exception: Exception) {
+            errorReturn
+        }
+    }
 
     override suspend fun getReward(rewardId: Long): Output<Reward> {
-        val rewardEntity = withContext(Dispatchers.IO) { rewardDao.getReward(rewardId) }
-        return if (rewardEntity == null) {
-            Output.Error(
-                Constants.ERROR_CODE_NO_RESULT,
-                ERROR_MESSAGE_NO_RESULT,
-                NullPointerException(ERROR_MESSAGE_NO_RESULT)
-            )
-        } else {
-            Output.Success(
-                withContext(Dispatchers.Default) {
-                    rewardConverter.convertEntitytoModel(rewardEntity)
-                }
-            )
+        return try {
+            val rewardEntity = withContext(Dispatchers.IO) { rewardDao.getReward(rewardId) }
+            return if (rewardEntity == null) {
+                Output.Error(
+                    Constants.ERROR_CODE_NO_RESULT,
+                    ERROR_MESSAGE_NO_RESULT,
+                    NullPointerException(ERROR_MESSAGE_NO_RESULT)
+                )
+            } else {
+                Output.Success(
+                    withContext(Dispatchers.Default) {
+                        rewardConverter.convertEntitytoModel(rewardEntity)
+                    }
+                )
+            }
+        } catch (exception: Exception) {
+            genericReadError
         }
-
     }
 
     //rewards active
+
+    override suspend fun rewardsActiveAcquisitionDateAsc(): Output<List<Reward>> {
+        return try {
+            val rewardEntities = withContext(Dispatchers.IO) {
+                rewardDao.getAllRewardsActiveAcquisitionDateAsc()
+            }
+            handleQueryResult(rewardEntities)
+        } catch (exception: Exception) {
+            genericReadError
+        }
+    }
+
+    override suspend fun rewardsActiveAcquisitionDateDesc(): Output<List<Reward>> {
+        return try {
+            val rewardEntities = withContext(Dispatchers.IO) {
+                rewardDao.getAllRewardsActiveAcquisitionDateDesc()
+            }
+            handleQueryResult(rewardEntities)
+        } catch (exception: Exception) {
+            genericReadError
+        }
+    }
+
+    override suspend fun rewardsActiveLevelAsc(): Output<List<Reward>> {
+        return try {
+            val rewardEntities = withContext(Dispatchers.IO) {
+                rewardDao.getAllRewardsActiveLevelAsc()
+            }
+            handleQueryResult(rewardEntities)
+        } catch (exception: Exception) {
+            genericReadError
+        }
+    }
+
+    override suspend fun rewardsActiveLevelDesc(): Output<List<Reward>> {
+        return try {
+            val rewardEntities = withContext(Dispatchers.IO) {
+                rewardDao.getAllRewardsActiveLevelDesc()
+            }
+            handleQueryResult(rewardEntities)
+        } catch (exception: Exception) {
+            genericReadError
+        }
+    }
+
+    //ACTIVE and NOT-LOST rewards :
+    override suspend fun rewardsNotEscapedAcquisitionDateDesc(): Output<List<Reward>> {
+        return try {
+            val rewardEntities = withContext(Dispatchers.IO) {
+                rewardDao.getAllRewardsNotEscapedAcquisitionDatDesc()
+            }
+            handleQueryResult(rewardEntities)
+        } catch (exception: Exception) {
+            genericReadError
+        }
+    }
+
+    //ACTIVE and LOST rewards :
+    override suspend fun rewardsEscapedAcquisitionDateDesc(): Output<List<Reward>> {
+        return try {
+            val rewardEntities = withContext(Dispatchers.IO) {
+                rewardDao.getAllRewardsEscapedAcquisitionDateDesc()
+            }
+            handleQueryResult(rewardEntities)
+        } catch (exception: Exception) {
+            genericReadError
+        }
+    }
+
+    //NON-ACTIVE rewards for specific LEVEL:
+    override suspend fun rewardsOfSPecificLevelNotActive(level: Int): Output<List<Reward>> {
+        return try {
+            val rewardEntities = withContext(Dispatchers.IO) {
+                rewardDao.getAllRewardsOfSpecificLevelNotActive(level)
+            }
+            handleQueryResult(rewardEntities)
+        } catch (exception: Exception) {
+            genericReadError
+        }
+    }
+
+    //NON-ACTIVE or ACTIVE-and-ESCAPED rewards for specific LEVEL:
+    override suspend fun rewardsOfSPecificLevelNotActiveOrEscaped(level: Int): Output<List<Reward>> {
+        return try {
+            val rewardEntities = withContext(Dispatchers.IO) {
+                rewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(level)
+            }
+            handleQueryResult(rewardEntities)
+        } catch (exception: Exception) {
+            genericReadError
+        }
+    }
+
+    //COUNTS :
+    override suspend fun countAllRewards(): Output<Int> {
+        return try {
+            val count = withContext(Dispatchers.IO) {
+                rewardDao.getNumberOfRows()
+            }
+            Output.Success(count)
+        } catch (exception: Exception) {
+            genericCountError
+        }
+    }
+
+    override suspend fun countActiveNotEscapedRewardsForLevel(level: Int): Output<Int> {
+        return try {
+            val count = withContext(Dispatchers.IO) {
+                rewardDao.getNumberOfActiveNotEscapedRewardsForLevel(level)
+            }
+            Output.Success(count)
+        } catch (exception: Exception) {
+            genericCountError
+        }
+    }
+
+    override suspend fun countEscapedRewardsForLevel(level: Int): Output<Int> {
+        return try {
+            val count = withContext(Dispatchers.IO) {
+                rewardDao.getNumberOfEscapedRewardsForLevel(level)
+            }
+            Output.Success(count)
+        } catch (exception: Exception) {
+            genericCountError
+        }
+    }
+
+    //
     private suspend fun handleQueryResult(rewardEntities: List<RewardEntity>): Output<List<Reward>> {
         return if (rewardEntities.isEmpty()) {
             Output.Error(
@@ -107,73 +273,4 @@ class RewardRepositoryImpl(
             )
         }
     }
-
-    override suspend fun rewardsActiveAcquisitionDateAsc(): Output<List<Reward>> {
-        val rewardEntities = withContext(Dispatchers.IO) {
-            rewardDao.getAllRewardsActiveAcquisitionDateAsc()
-        }
-        return handleQueryResult(rewardEntities)
-    }
-
-    override suspend fun rewardsActiveAcquisitionDateDesc(): Output<List<Reward>> {
-        val rewardEntities = withContext(Dispatchers.IO) {
-            rewardDao.getAllRewardsActiveAcquisitionDateDesc()
-        }
-        return handleQueryResult(rewardEntities)
-    }
-
-    override suspend fun rewardsActiveLevelAsc(): Output<List<Reward>> {
-        val rewardEntities = withContext(Dispatchers.IO) {
-            rewardDao.getAllRewardsActiveLevelAsc()
-        }
-        return handleQueryResult(rewardEntities)
-    }
-
-    override suspend fun rewardsActiveLevelDesc(): Output<List<Reward>> {
-        val rewardEntities = withContext(Dispatchers.IO) {
-            rewardDao.getAllRewardsActiveLevelDesc()
-        }
-        return handleQueryResult(rewardEntities)
-    }
-
-    //ACTIVE and NOT-LOST rewards :
-    override suspend fun rewardsNotEscapedAcquisitionDateDesc(): Output<List<Reward>> {
-        val rewardEntities = withContext(Dispatchers.IO) {
-            rewardDao.getAllRewardsNotEscapedAcquisitionDatDesc()
-        }
-        return handleQueryResult(rewardEntities)
-    }
-
-    //ACTIVE and LOST rewards :
-    override suspend fun rewardsEscapedAcquisitionDateDesc(): Output<List<Reward>> {
-        val rewardEntities = withContext(Dispatchers.IO) {
-            rewardDao.getAllRewardsEscapedAcquisitionDateDesc()
-        }
-        return handleQueryResult(rewardEntities)
-    }
-
-    //NON-ACTIVE rewards for specific LEVEL:
-    override suspend fun rewardsOfSPecificLevelNotActive(level: Int): Output<List<Reward>> {
-        val rewardEntities = withContext(Dispatchers.IO) {
-            rewardDao.getAllRewardsOfSpecificLevelNotActive(level)
-        }
-        return handleQueryResult(rewardEntities)
-    }
-
-    //NON-ACTIVE or ACTIVE-and-ESCAPED rewards for specific LEVEL:
-    override suspend fun rewardsOfSPecificLevelNotActiveOrEscaped(level: Int): Output<List<Reward>> {
-        val rewardEntities = withContext(Dispatchers.IO) {
-            rewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(level)
-        }
-        return handleQueryResult(rewardEntities)
-    }
-
-    //COUNTS :
-    override suspend fun allRewardsCount(): Int = rewardDao.getNumberOfRows()
-
-    override suspend fun activeNotEscapedRewardsForLevel(level: Int): Int =
-        rewardDao.getNumberOfActiveNotEscapedRewardsForLevel(level)
-
-    override suspend fun escapedRewardsForLevel(level: Int): Int =
-        rewardDao.getNumberOfEscapedRewardsForLevel(level)
 }

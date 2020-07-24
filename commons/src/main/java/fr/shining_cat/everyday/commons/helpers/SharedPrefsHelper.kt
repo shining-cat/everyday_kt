@@ -86,8 +86,10 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
 
     fun setNotificationSoundUri(selectedRingtoneUri: String) {
         sharedPreferences.edit()
-            .putString(SharedPrefsHelperSettings.NOTIFICATION_SOUND_URI, selectedRingtoneUri).apply()
+            .putString(SharedPrefsHelperSettings.NOTIFICATION_SOUND_URI, selectedRingtoneUri)
+            .apply()
     }
+
     fun getNotificationSoundTitle(): String {
         return sharedPreferences.getString(
             SharedPrefsHelperSettings.NOTIFICATION_SOUND_TITLE,
@@ -97,7 +99,8 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
 
     fun setNotificationSoundTitle(selectedRingtoneTitle: String) {
         sharedPreferences.edit()
-            .putString(SharedPrefsHelperSettings.NOTIFICATION_SOUND_TITLE, selectedRingtoneTitle).apply()
+            .putString(SharedPrefsHelperSettings.NOTIFICATION_SOUND_TITLE, selectedRingtoneTitle)
+            .apply()
     }
 
     fun getInfiniteSession(): Boolean {
@@ -106,6 +109,7 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
             false
         )
     }
+
     fun setCountDownLength(length: Long) {
         sharedPreferences.edit()
             .putLong(SharedPrefsHelperSettings.COUNTDOWN_LENGTH, length).apply()
