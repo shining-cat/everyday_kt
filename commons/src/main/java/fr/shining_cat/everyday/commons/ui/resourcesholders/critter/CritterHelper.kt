@@ -2,12 +2,12 @@ package fr.shining_cat.everyday.commons.ui.resourcesholders.critter
 
 //TODO: seems that CritterHelper will no longer be needed
 class CritterHelper(
-    private val flowerResourcesHolder: FlowerResourcesHolder,
-    private val mouthResourcesHolder: MouthResourcesHolder,
-    private val legsResourcesHolder: LegsResourcesHolder,
-    private val armsResourcesHolder: ArmsResourcesHolder,
-    private val eyesResourcesHolder: EyesResourcesHolder,
-    private val hornsResourcesHolder: HornsResourcesHolder
+    private val flowerResourcesHolder: CritterPartResourcesHolder.FlowerResourcesHolder,
+    private val mouthResourcesHolder: CritterPartResourcesHolder.MouthResourcesHolder,
+    private val legsResourcesHolder: CritterPartResourcesHolder.LegsResourcesHolder,
+    private val armsResourcesHolder: CritterPartResourcesHolder.ArmsResourcesHolder,
+    private val eyesResourcesHolder: CritterPartResourcesHolder.EyesResourcesHolder,
+    private val hornsResourcesHolder: CritterPartResourcesHolder.HornsResourcesHolder
 ) {
     //TODO: probably not needed anymore: the random selection will be done on a Reward object
 //    fun getRandomCritterCode(level: Level): String {
