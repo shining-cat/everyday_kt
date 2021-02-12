@@ -17,23 +17,24 @@ The user can also review the rewards acquired, and sort them on level, date of a
 Creatures can be shared and customized, setting for a name and different colors for different body parts.
  
 ### Architecture
-
-
 project objectives include:
 - Kotlin
 - Modular architecture
+- MVVM
 - Tests
 - Coroutines
-- Room + DAO + Repositories with Converters + Models
+- Room + DAO + Repositories with Converters + Usecases + Models
 - WorkManager component
 - Navigation component
 - MotionLayout
 - Lottie Animations
-- Proguard or R8
 
 ### Project sources includes Jake Wharton's ProjectDependencyGraph to vizualize dependencies between modules
 To use it:
-- install Graphviz
+- install Graphviz on your computer
 - add install path to PATH windows var
-- launch Gradle task projectDependencyGraph
+- launch gradle task other>projectDependencyGraph
 - find .png file in build\reports\dependency-graph
+
+### Project sources includes Ben Manes' Gradle Versions Plugin to check for dependencies available updates
+To use it: launch gradle task help>dependencyUpdates
