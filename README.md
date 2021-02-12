@@ -31,7 +31,7 @@ project objectives include:
 - Lottie Animations
 - Proguard or R8
 
-### Project sources includes Jake Wharton's ProjectDependencyGraph
+### Project sources includes Jake Wharton's ProjectDependencyGraph to vizualize dependencies between modules
 To use it:
 - install Graphviz
 - add install path to PATH windows var
