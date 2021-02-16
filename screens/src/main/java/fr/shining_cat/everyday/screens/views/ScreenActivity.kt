@@ -3,12 +3,12 @@ package fr.shining_cat.everyday.screens.views
 import android.content.res.Resources
 import android.os.Bundle
 import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.ui.views.AbstractActivity
 import fr.shining_cat.everyday.screens.R
+import fr.shining_cat.everyday.screens.databinding.ActivityScreenBinding
 import org.koin.android.ext.android.get
 
 class ScreenActivity : AbstractActivity() {
@@ -19,12 +19,11 @@ class ScreenActivity : AbstractActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_screen)
+        val screenActivityBinding = ActivityScreenBinding.inflate(layoutInflater)
+        setContentView(screenActivityBinding.root)
         logger.d(LOG_TAG, "onCreate")
-        val host: NavHostFragment = supportFragmentManager
-            .findFragmentById(R.id.screens_nav_host_fragment) as NavHostFragment? ?: return
-        val navController = host.navController
-        setupBottomNavMenu(navController)
+        val navController = findNavController(R.id.screens_nav_host_fragment)
+        setupBottomNavigation(screenActivityBinding, navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             val dest: String = try {
                 resources.getResourceName(destination.id)
@@ -33,12 +32,14 @@ class ScreenActivity : AbstractActivity() {
             }
             logger.d(LOG_TAG, "Navigated to $dest")
         }
-        hideLoadingView()
+        hideLoadingView(screenActivityBinding.loadingLayout.loadingView)
 
     }
 
-    private fun setupBottomNavMenu(navController: NavController) {
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
-        bottomNav?.setupWithNavController(navController)
+    private fun setupBottomNavigation(
+        screenActivityBinding: ActivityScreenBinding,
+        navController: NavController
+    ) {
+        screenActivityBinding.bottomNavView.setupWithNavController(navController)
     }
 }

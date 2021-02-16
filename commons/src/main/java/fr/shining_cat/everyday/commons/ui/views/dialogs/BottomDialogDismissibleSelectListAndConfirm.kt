@@ -4,17 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.R
+import fr.shining_cat.everyday.commons.databinding.DialogBottomSelectListAndConfirmBinding
 import org.koin.android.ext.android.get
 
 class BottomDialogDismissibleSelectListAndConfirm : BottomSheetDialogFragment() {
@@ -59,23 +56,25 @@ class BottomDialogDismissibleSelectListAndConfirm : BottomSheetDialogFragment() 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.dialog_bottom_select_list_and_confirm, container, false)
+    ): View {
+        val uiBindings = DialogBottomSelectListAndConfirmBinding.inflate(layoutInflater)
+        initUi(uiBindings)
+        return uiBindings.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private fun initUi(uiBindings: DialogBottomSelectListAndConfirmBinding) {
         val title = arguments?.getString(TITLE_ARG, "") ?: ""
-        val titleField = view.findViewById<TextView>(R.id.dialog_bottom_title)
+        val titleField = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomTitle
         titleField.text = title
         //
-        val dismissButton = view.findViewById<ImageView>(R.id.dialog_bottom_dismiss_button)
+        val dismissButton =
+            uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
         dismissButton.setOnClickListener {
             bottomDialogDismissibleSelectListAndConfirmListenerListener?.onDismissed()
             dismiss()
         }
         //
-        val selectListRecycler = view.findViewById<RecyclerView>(R.id.dialog_bottom_recycler)
+        val selectListRecycler = uiBindings.dialogBottomRecycler
         val selectListAdapter = SelectListAdapter(logger)
         val optionsLabels = arguments?.getStringArrayList(OPTIONS_ARG)?.toList() ?: listOf()
         val initialSelectedIndex = arguments?.getInt(INITIAL_SELECTED_INDEX_ARG) ?: -1
@@ -89,7 +88,7 @@ class BottomDialogDismissibleSelectListAndConfirm : BottomSheetDialogFragment() 
         selectListRecycler.layoutManager = layoutManager
         //
         val confirmButtonLabel = arguments?.getString(CONFIRM_BUTTON_LABEL_ARG, "") ?: ""
-        val confirmButton = view.findViewById<Button>(R.id.dialog_bottom_confirm_button)
+        val confirmButton = uiBindings.dialogBottomConfirmButton
         confirmButton.text = confirmButtonLabel
         confirmButton.setOnClickListener { transmitChosenOption(selectListAdapter.selectedPosition) }
         //preventing disturbing dialog size-changes when scrolling list by setting peek height to expanded (full) height

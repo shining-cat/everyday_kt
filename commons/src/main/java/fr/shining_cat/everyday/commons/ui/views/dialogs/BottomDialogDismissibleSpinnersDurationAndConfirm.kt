@@ -6,12 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.NumberPicker
-import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import fr.shining_cat.everyday.commons.R
+import fr.shining_cat.everyday.commons.databinding.DialogBottomSpinnersDurationAndConfirmBinding
 import java.util.concurrent.TimeUnit
 
 class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragment() {
@@ -67,21 +64,19 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(
-            R.layout.dialog_bottom_spinners_duration_and_confirm,
-            container,
-            false
-        )
+    ): View {
+        val uiBindings = DialogBottomSpinnersDurationAndConfirmBinding.inflate(layoutInflater)
+        initUi(uiBindings)
+        return uiBindings.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private fun initUi(uiBindings: DialogBottomSpinnersDurationAndConfirmBinding) {
         val title = arguments?.getString(TITLE_ARG, "") ?: ""
-        val titleField = view.findViewById<TextView>(R.id.dialog_bottom_title)
+        val titleField = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomTitle
         titleField.text = title
         //
-        val dismissButton = view.findViewById<ImageView>(R.id.dialog_bottom_dismiss_button)
+        val dismissButton =
+            uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
         dismissButton.setOnClickListener {
             bottomDialogDismissibleSpinnerSecondsAndConfirmListener?.onDismissed()
             dismiss()
@@ -91,10 +86,16 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
         val showMinutesPicker = arguments?.getBoolean(SHOW_MINUTES_ARG) ?: false
         val showSecondsPicker = arguments?.getBoolean(SHOW_SECONDS_ARG) ?: false
         val initialLengthMs = arguments?.getLong(INITIAL_LENGTH_ARG) ?: 0L
-        setPickers(view, showHoursPicker, showMinutesPicker, showSecondsPicker, initialLengthMs)
+        setPickers(
+            uiBindings,
+            showHoursPicker,
+            showMinutesPicker,
+            showSecondsPicker,
+            initialLengthMs
+        )
         //
         val explanation = arguments?.getString(EXPLANATION_ARG, "") ?: ""
-        val explanationTv = view.findViewById<TextView>(R.id.dialog_bottom_instruction)
+        val explanationTv = uiBindings.dialogBottomInstruction
         if (explanation.isNotBlank()) {
             explanationTv.text = explanation
         } else {
@@ -102,7 +103,7 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
         }
         //
         val confirmButtonLabel = arguments?.getString(CONFIRM_BUTTON_LABEL_ARG, "") ?: ""
-        val confirmButton = view.findViewById<Button>(R.id.dialog_bottom_confirm_button)
+        val confirmButton = uiBindings.dialogBottomConfirmButton
         confirmButton.text = confirmButtonLabel
         confirmButton.setOnClickListener { transmitInputLength() }
     }
@@ -122,7 +123,7 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
     }
 
     private fun setPickers(
-        view: View,
+        uiBindings: DialogBottomSpinnersDurationAndConfirmBinding,
         showHoursPicker: Boolean,
         showMinutesPicker: Boolean,
         showSecondsPicker: Boolean,
@@ -130,7 +131,7 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
     ) {
         val twoDigitsFormatter = NumberPicker.Formatter { i -> String.format("%02d", i) }
         //
-        hoursPicker = view.findViewById(R.id.dialog_bottom_duration_hours_picker)
+        hoursPicker = uiBindings.dialogBottomDurationHoursPicker
         if (showHoursPicker) {
             hoursPicker.maxValue = 23
             hoursPicker.minValue = 0
@@ -138,10 +139,10 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
             hoursPicker.wrapSelectorWheel = false
         } else {
             hoursPicker.visibility = GONE
-            view.findViewById<TextView>(R.id.dialog_bottom_duration_hours_unit).visibility = GONE
+            uiBindings.dialogBottomDurationHoursUnit.visibility = GONE
         }
         //
-        minutesPicker = view.findViewById(R.id.dialog_bottom_duration_minutes_picker)
+        minutesPicker = uiBindings.dialogBottomDurationMinutesPicker
         if (showMinutesPicker) {
             minutesPicker.maxValue = 59
             minutesPicker.minValue = 0
@@ -149,10 +150,10 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
             minutesPicker.wrapSelectorWheel = false
         } else {
             minutesPicker.visibility = GONE
-            view.findViewById<TextView>(R.id.dialog_bottom_duration_minutes_unit).visibility = GONE
+            uiBindings.dialogBottomDurationMinutesUnit.visibility = GONE
         }
         //
-        secondsPicker = view.findViewById(R.id.dialog_bottom_duration_seconds_picker)
+        secondsPicker = uiBindings.dialogBottomDurationSecondsPicker
         if (showSecondsPicker) {
             secondsPicker.maxValue = 59
             secondsPicker.minValue = 0
@@ -160,7 +161,7 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
             secondsPicker.wrapSelectorWheel = false
         } else {
             hoursPicker.visibility = GONE
-            view.findViewById<TextView>(R.id.dialog_bottom_duration_seconds_unit).visibility = GONE
+            uiBindings.dialogBottomDurationSecondsUnit.visibility = GONE
         }
         //convert initial time as ms to h, m, and s
         val initialLengthHours = TimeUnit.MILLISECONDS.toHours(initialLengthMs)

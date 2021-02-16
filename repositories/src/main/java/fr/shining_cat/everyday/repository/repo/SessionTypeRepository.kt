@@ -21,63 +21,96 @@ class SessionTypeRepositoryImpl(
     val sessionTypeConverter: SessionTypeConverter
 ) : SessionTypeRepository {
 
+    private fun genericReadError(exception: java.lang.Exception) = Output.Error(
+        Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
+        Constants.ERROR_MESSAGE_READ_FAILED,
+        exception
+    )
+
     override suspend fun insert(sessionTypes: List<SessionType>): Output<Array<Long>> {
-        val inserted = withContext(Dispatchers.IO) {
-            sessionTypeDao.insert(
-                sessionTypeConverter.convertModelsToEntities(sessionTypes)
-            )
-        }
-        return if (inserted.size == sessionTypes.size) {
-            Output.Success(inserted)
-        } else {
+        return try {
+            val inserted = withContext(Dispatchers.IO) {
+                sessionTypeDao.insert(
+                    sessionTypeConverter.convertModelsToEntities(sessionTypes)
+                )
+            }
+            if (inserted.size == sessionTypes.size) {
+                Output.Success(inserted)
+            } else {
+                Output.Error(
+                    Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
+                    Constants.ERROR_MESSAGE_INSERT_FAILED,
+                    Exception(Constants.ERROR_MESSAGE_INSERT_FAILED)
+                )
+            }
+        } catch (exception: Exception) {
             Output.Error(
                 Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                 Constants.ERROR_MESSAGE_INSERT_FAILED,
-                Exception(Constants.ERROR_MESSAGE_INSERT_FAILED)
+                exception
             )
         }
     }
 
     override suspend fun update(sessionType: SessionType): Output<Int> {
-        val updated = withContext(Dispatchers.IO) {
-            sessionTypeDao.update(
-                sessionTypeConverter.convertModelToEntity(sessionType)
-            )
-        }
-        return if (updated == 1) {
-            Output.Success(updated)
-        } else {
+        return try {
+            val updated = withContext(Dispatchers.IO) {
+                sessionTypeDao.update(
+                    sessionTypeConverter.convertModelToEntity(sessionType)
+                )
+            }
+            if (updated == 1) {
+                Output.Success(updated)
+            } else {
+                Output.Error(
+                    Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
+                    Constants.ERROR_MESSAGE_UPDATE_FAILED,
+                    Exception(Constants.ERROR_MESSAGE_UPDATE_FAILED)
+                )
+            }
+        } catch (exception: Exception) {
             Output.Error(
                 Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                 Constants.ERROR_MESSAGE_UPDATE_FAILED,
-                Exception(Constants.ERROR_MESSAGE_UPDATE_FAILED)
+                exception
             )
-
         }
     }
 
     override suspend fun delete(sessionType: SessionType): Output<Int> {
-        val deleted = withContext(Dispatchers.IO) {
-            sessionTypeDao.delete(
-                sessionTypeConverter.convertModelToEntity(sessionType)
-            )
-        }
-        return if (deleted == 1) {
-            Output.Success(deleted)
-        } else {
+        return try {
+            val deleted = withContext(Dispatchers.IO) {
+                sessionTypeDao.delete(
+                    sessionTypeConverter.convertModelToEntity(sessionType)
+                )
+            }
+            if (deleted == 1) {
+                Output.Success(deleted)
+            } else {
+                Output.Error(
+                    Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
+                    Constants.ERROR_MESSAGE_DELETE_FAILED,
+                    Exception(Constants.ERROR_MESSAGE_DELETE_FAILED)
+                )
+            }
+        } catch (exception: Exception) {
             Output.Error(
                 Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                 Constants.ERROR_MESSAGE_DELETE_FAILED,
-                Exception(Constants.ERROR_MESSAGE_DELETE_FAILED)
+                exception
             )
         }
     }
 
     override suspend fun getAllSessionTypesLastEditTimeDesc(): Output<List<SessionType>> {
-        val sessionTypeEntities = withContext(Dispatchers.IO) {
-            sessionTypeDao.getAllSessionTypesLastEditTimeDesc()
+        return try {
+            val sessionTypeEntities = withContext(Dispatchers.IO) {
+                sessionTypeDao.getAllSessionTypesLastEditTimeDesc()
+            }
+            handleQueryResult(sessionTypeEntities)
+        } catch (exception: Exception) {
+            genericReadError(exception)
         }
-        return handleQueryResult(sessionTypeEntities)
     }
 
     private suspend fun handleQueryResult(sessionTypeEntities: List<SessionTypeEntity>): Output<List<SessionType>> {

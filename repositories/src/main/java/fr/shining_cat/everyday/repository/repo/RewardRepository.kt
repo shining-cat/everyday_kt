@@ -3,6 +3,7 @@ package fr.shining_cat.everyday.repository.repo
 import fr.shining_cat.everyday.commons.Constants
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_CODE_DATABASE_OPERATION_FAILED
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_COUNT_FAILED
+import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_DELETE_FAILED
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_INSERT_FAILED
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_NO_RESULT
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_READ_FAILED
@@ -38,24 +39,19 @@ class RewardRepositoryImpl(
     private val rewardConverter: RewardConverter
 ) : RewardRepository {
 
-    val genericReadError = Output.Error(
+    private fun genericReadError(exception: Exception) = Output.Error(
         ERROR_CODE_DATABASE_OPERATION_FAILED,
         ERROR_MESSAGE_READ_FAILED,
-        Exception(ERROR_MESSAGE_READ_FAILED)
+        exception
     )
 
-    val genericCountError = Output.Error(
+    private fun genericCountError(exception: Exception) = Output.Error(
         ERROR_CODE_DATABASE_OPERATION_FAILED,
         ERROR_MESSAGE_COUNT_FAILED,
-        Exception(ERROR_MESSAGE_COUNT_FAILED)
+        exception
     )
 
     override suspend fun insert(rewards: List<Reward>): Output<Array<Long>> {
-        val errorReturn = Output.Error(
-            ERROR_CODE_DATABASE_OPERATION_FAILED,
-            ERROR_MESSAGE_INSERT_FAILED,
-            Exception(ERROR_MESSAGE_INSERT_FAILED)
-        )
         return try {
             val inserted = withContext(Dispatchers.IO) {
                 rewardDao.insert(
@@ -65,19 +61,22 @@ class RewardRepositoryImpl(
             if (inserted.size == rewards.size) {
                 Output.Success(inserted)
             } else {
-                errorReturn
+                Output.Error(
+                    ERROR_CODE_DATABASE_OPERATION_FAILED,
+                    ERROR_MESSAGE_INSERT_FAILED,
+                    Exception(ERROR_MESSAGE_INSERT_FAILED)
+                )
             }
         } catch (exception: Exception) {
-            errorReturn
+            Output.Error(
+                ERROR_CODE_DATABASE_OPERATION_FAILED,
+                ERROR_MESSAGE_INSERT_FAILED,
+                exception
+            )
         }
     }
 
     override suspend fun update(rewards: List<Reward>): Output<Int> {
-        val errorReturn = Output.Error(
-            ERROR_CODE_DATABASE_OPERATION_FAILED,
-            ERROR_MESSAGE_UPDATE_FAILED,
-            Exception(ERROR_MESSAGE_UPDATE_FAILED)
-        )
         return try {
             val updated = withContext(Dispatchers.IO) {
                 rewardDao.update(
@@ -87,31 +86,38 @@ class RewardRepositoryImpl(
             if (updated == rewards.size) {
                 Output.Success(updated)
             } else {
-                errorReturn
+                Output.Error(
+                    ERROR_CODE_DATABASE_OPERATION_FAILED,
+                    ERROR_MESSAGE_UPDATE_FAILED,
+                    Exception(ERROR_MESSAGE_UPDATE_FAILED)
+                )
             }
         } catch (exception: Exception) {
-            errorReturn
+            Output.Error(
+                ERROR_CODE_DATABASE_OPERATION_FAILED,
+                ERROR_MESSAGE_UPDATE_FAILED,
+                exception
+            )
         }
     }
 
     override suspend fun deleteAllRewards(): Output<Int> {
-        val errorReturn = Output.Error(
-            ERROR_CODE_DATABASE_OPERATION_FAILED,
-            ERROR_MESSAGE_UPDATE_FAILED,
-            Exception(ERROR_MESSAGE_UPDATE_FAILED)
-        )
         return try {
             val deleted = withContext(Dispatchers.IO) { rewardDao.deleteAllRewards() }
             Output.Success(deleted)
         } catch (exception: Exception) {
-            errorReturn
+            Output.Error(
+                ERROR_CODE_DATABASE_OPERATION_FAILED,
+                ERROR_MESSAGE_DELETE_FAILED,
+                Exception(ERROR_MESSAGE_DELETE_FAILED)
+            )
         }
     }
 
     override suspend fun getReward(rewardId: Long): Output<Reward> {
         return try {
             val rewardEntity = withContext(Dispatchers.IO) { rewardDao.getReward(rewardId) }
-            return if (rewardEntity == null) {
+            if (rewardEntity == null) {
                 Output.Error(
                     Constants.ERROR_CODE_NO_RESULT,
                     ERROR_MESSAGE_NO_RESULT,
@@ -125,7 +131,7 @@ class RewardRepositoryImpl(
                 )
             }
         } catch (exception: Exception) {
-            genericReadError
+            genericReadError(exception)
         }
     }
 
@@ -138,7 +144,7 @@ class RewardRepositoryImpl(
             }
             handleQueryResult(rewardEntities)
         } catch (exception: Exception) {
-            genericReadError
+            genericReadError(exception)
         }
     }
 
@@ -149,7 +155,7 @@ class RewardRepositoryImpl(
             }
             handleQueryResult(rewardEntities)
         } catch (exception: Exception) {
-            genericReadError
+            genericReadError(exception)
         }
     }
 
@@ -160,7 +166,7 @@ class RewardRepositoryImpl(
             }
             handleQueryResult(rewardEntities)
         } catch (exception: Exception) {
-            genericReadError
+            genericReadError(exception)
         }
     }
 
@@ -171,7 +177,7 @@ class RewardRepositoryImpl(
             }
             handleQueryResult(rewardEntities)
         } catch (exception: Exception) {
-            genericReadError
+            genericReadError(exception)
         }
     }
 
@@ -183,7 +189,7 @@ class RewardRepositoryImpl(
             }
             handleQueryResult(rewardEntities)
         } catch (exception: Exception) {
-            genericReadError
+            genericReadError(exception)
         }
     }
 
@@ -195,7 +201,7 @@ class RewardRepositoryImpl(
             }
             handleQueryResult(rewardEntities)
         } catch (exception: Exception) {
-            genericReadError
+            genericReadError(exception)
         }
     }
 
@@ -207,7 +213,7 @@ class RewardRepositoryImpl(
             }
             handleQueryResult(rewardEntities)
         } catch (exception: Exception) {
-            genericReadError
+            genericReadError(exception)
         }
     }
 
@@ -219,7 +225,7 @@ class RewardRepositoryImpl(
             }
             handleQueryResult(rewardEntities)
         } catch (exception: Exception) {
-            genericReadError
+            genericReadError(exception)
         }
     }
 
@@ -231,7 +237,7 @@ class RewardRepositoryImpl(
             }
             Output.Success(count)
         } catch (exception: Exception) {
-            genericCountError
+            genericCountError(exception)
         }
     }
 
@@ -242,7 +248,7 @@ class RewardRepositoryImpl(
             }
             Output.Success(count)
         } catch (exception: Exception) {
-            genericCountError
+            genericCountError(exception)
         }
     }
 
@@ -253,7 +259,7 @@ class RewardRepositoryImpl(
             }
             Output.Success(count)
         } catch (exception: Exception) {
-            genericCountError
+            genericCountError(exception)
         }
     }
 

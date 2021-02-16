@@ -10,6 +10,7 @@ import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.navigation.Actions
 import fr.shining_cat.everyday.navigation.Destination
 import fr.shining_cat.everyday.screens.R
+import fr.shining_cat.everyday.screens.databinding.HomeFragmentBinding
 import fr.shining_cat.everyday.screens.views.ScreenActivity
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -26,23 +27,23 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.statistics_fragment, container, false)
+        val homeFragmentBinding = HomeFragmentBinding.inflate(layoutInflater)
         logger.d(LOG_TAG, "onCreateView")
         //
-        setupToolbar(root)
+        setupToolbar(homeFragmentBinding)
         //
-        val textView: TextView = root.findViewById(R.id.fake_fragment_text)
+        val textView: TextView = homeFragmentBinding.fakeFragmentText
         homeViewModel.initReadyLiveData.observe(viewLifecycleOwner, Observer {
             textView.text = "This is ${LOG_TAG}\n $it loaded!"
         })
         homeViewModel.initViewModel()
-        return root
+        return homeFragmentBinding.root
     }
 
 
-    private fun setupToolbar(root: View) {
+    private fun setupToolbar(homeFragmentBinding: HomeFragmentBinding) {
         logger.d(LOG_TAG, "setupToolbar")
-        val toolbar: Toolbar = root.findViewById(R.id.toolbar)
+        val toolbar: Toolbar = homeFragmentBinding.toolbar
         (activity as ScreenActivity).setSupportActionBar(toolbar)
         setHasOptionsMenu(true)
     }

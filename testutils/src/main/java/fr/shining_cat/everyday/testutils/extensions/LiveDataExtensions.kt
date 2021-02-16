@@ -2,22 +2,53 @@ package fr.shining_cat.everyday.testutils.extensions
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import java.util.concurrent.CountDownLatch
-import java.util.concurrent.TimeUnit
-
 
 /**
- * This function blocks the thread, waits for the value to be passed to observer and then returns it
+ * Represents a list of capture values from a LiveData.
  */
-@Throws(InterruptedException::class)
-fun <T> LiveData<T>.getValueBlocking(): T? {
-    var value: T? = null
-    val latch = CountDownLatch(1)
-    val innerObserver = Observer<T> {
-        value = it
-        latch.countDown()
+class LiveDataValueCapture<T> {
+
+    val lock = Any()
+
+    private val _values = mutableListOf<T?>()
+    val values: List<T?>
+        get() = synchronized(lock) {
+            _values.toList() // copy to avoid returning reference to mutable list
+        }
+
+    fun addValue(value: T?) = synchronized(lock) {
+        _values += value
     }
-    observeForever(innerObserver)
-    latch.await(2, TimeUnit.SECONDS)
+}
+
+/**
+ * Extension function to capture all values that are emitted to a LiveData<T> during the execution of
+ * `captureBlock`.
+ *
+ * @param captureBlock a lambda that will
+ */
+inline fun <T> LiveData<T>.captureValues(block: LiveDataValueCapture<T>.() -> Unit) {
+    val capture = LiveDataValueCapture<T>()
+    val observer = Observer<T> {
+        capture.addValue(it)
+    }
+    observeForever(observer)
+    try {
+        capture.block()
+    } finally {
+        removeObserver(observer)
+    }
+}
+
+/**
+ * Get the current value from a LiveData without needing to register an observer.
+ */
+fun <T> LiveData<T>.getValueForTest(): T? {
+    var value: T? = null
+    var observer = Observer<T> {
+        value = it
+    }
+    observeForever(observer)
+    removeObserver(observer)
     return value
 }

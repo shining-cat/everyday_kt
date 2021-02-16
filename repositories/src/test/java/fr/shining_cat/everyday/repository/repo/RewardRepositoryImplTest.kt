@@ -59,14 +59,14 @@ class RewardRepositoryImplTest {
             mockRewardEntity,
             mockRewardEntity
         )
-        coEvery { mockRewardDao.insert(any()) } returns arrayOf(1L,2L,3L)
+        coEvery { mockRewardDao.insert(any()) } returns arrayOf(1L, 2L, 3L)
         val output = runBlocking {
             rewardRepo.insert(listOf(mockReward, mockReward, mockReward))
         }
         coVerify { mockRewardConverter.convertModelsToEntities(any()) }
         coVerify { mockRewardDao.insert(any()) }
         assertTrue(output is Output.Success)
-        assertEquals(arrayOf(1L,2L,3L), (output as Output.Success).result)
+        assertEquals(3, (output as Output.Success).result.size)
     }
 
     @Test
@@ -93,7 +93,8 @@ class RewardRepositoryImplTest {
             rewardRepo.deleteAllRewards()
         }
         coVerify { mockRewardDao.deleteAllRewards() }
-        assertEquals(7, output)
+        assertTrue(output is Output.Success)
+        assertEquals(7, (output as Output.Success).result)
     }
 
     ////////////////
@@ -236,40 +237,45 @@ class RewardRepositoryImplTest {
     @Test
     fun allRewardsCount() {
         coEvery { mockRewardDao.getNumberOfRows() } returns 13
-        val count = runBlocking {
+        val output = runBlocking {
             rewardRepo.countAllRewards()
         }
         coVerify { mockRewardDao.getNumberOfRows() }
-        assertEquals(13, count)
+        assertTrue(output is Output.Success)
+        assertEquals(13, (output as Output.Success).result)
     }
 
     @Test
     fun activeNotEscapedRewardsForLevel() {
         coEvery { mockRewardDao.getNumberOfActiveNotEscapedRewardsForLevel(any()) } returns 1
         coEvery { mockRewardDao.getNumberOfActiveNotEscapedRewardsForLevel(4) } returns 7
-        val count4 = runBlocking {
+        val output4 = runBlocking {
             rewardRepo.countActiveNotEscapedRewardsForLevel(4)
         }
-        val count5 = runBlocking {
+        val output5 = runBlocking {
             rewardRepo.countActiveNotEscapedRewardsForLevel(5)
         }
         coVerify { mockRewardDao.getNumberOfActiveNotEscapedRewardsForLevel(any()) }
-        assertEquals(7, count4)
-        assertEquals(1, count5)
+        assertTrue(output4 is Output.Success)
+        assertEquals(7, (output4 as Output.Success).result)
+        assertTrue(output5 is Output.Success)
+        assertEquals(1, (output5 as Output.Success).result)
     }
 
     @Test
     fun escapedRewardsForLevel() {
         coEvery { mockRewardDao.getNumberOfEscapedRewardsForLevel(any()) } returns 1
         coEvery { mockRewardDao.getNumberOfEscapedRewardsForLevel(3) } returns 9
-        val count3 = runBlocking {
+        val output3 = runBlocking {
             rewardRepo.countEscapedRewardsForLevel(3)
         }
-        val count5 = runBlocking {
+        val output5 = runBlocking {
             rewardRepo.countEscapedRewardsForLevel(5)
         }
-        coVerify (exactly = 2){ mockRewardDao.getNumberOfEscapedRewardsForLevel(any()) }
-        assertEquals(9, count3)
-        assertEquals(1, count5)
+        coVerify(exactly = 2) { mockRewardDao.getNumberOfEscapedRewardsForLevel(any()) }
+        assertTrue(output3 is Output.Success)
+        assertEquals(9, (output3 as Output.Success).result)
+        assertTrue(output5 is Output.Success)
+        assertEquals(1, (output5 as Output.Success).result)
     }
 }

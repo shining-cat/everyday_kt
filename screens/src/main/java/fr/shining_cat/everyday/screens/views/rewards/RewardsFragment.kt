@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.screens.R
+import fr.shining_cat.everyday.screens.databinding.RewardsFragmentBinding
 import fr.shining_cat.everyday.screens.views.ScreenActivity
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -24,21 +25,21 @@ class RewardsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.statistics_fragment, container, false)
+        val rewardsFragmentBinding = RewardsFragmentBinding.inflate(layoutInflater)
         //
-        setupToolbar(root)
+        setupToolbar(rewardsFragmentBinding)
         //
-        val textView: TextView = root.findViewById(R.id.fake_fragment_text)
+        val textView: TextView = rewardsFragmentBinding.fakeFragmentText
         rewardsViewModel.initReadyLiveData.observe(viewLifecycleOwner, Observer {
             textView.text = "This is ${LOG_TAG}\n $it loaded!"
         })
         rewardsViewModel.initViewModel()
-        return root
+        return rewardsFragmentBinding.root
     }
 
-    private fun setupToolbar(root: View) {
+    private fun setupToolbar(rewardsFragmentBinding: RewardsFragmentBinding) {
         logger.d(LOG_TAG, "setupToolbar")
-        val toolbar: Toolbar = root.findViewById(R.id.toolbar)
+        val toolbar: Toolbar = rewardsFragmentBinding.toolbar
         (activity as ScreenActivity).setSupportActionBar(toolbar)
         setHasOptionsMenu(true)
     }

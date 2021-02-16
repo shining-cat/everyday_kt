@@ -66,7 +66,7 @@ abstract class RewardDao {
     @Query("SELECT * from $REWARD_TABLE WHERE $LEVEL == :level AND ($ACTIVE_STATE == 0 OR $ESCAPED_STATE == 1)")
     abstract suspend fun getAllRewardsOfSpecificLevelNotActiveOrEscaped(level: Int): List<RewardEntity>
 
-////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////
     //COUNTS :
     //ALL ENTRIES (this is used to determine if possible rewards have been generated already or not)
     @Query("SELECT COUNT($REWARD_ID) FROM $REWARD_TABLE")

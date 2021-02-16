@@ -1,11 +1,10 @@
 package fr.shining_cat.everyday.views
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import fr.shining_cat.everyday.R
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.ui.views.AbstractActivity
+import fr.shining_cat.everyday.databinding.ActivitySplashscreenBinding
 import fr.shining_cat.everyday.navigation.Actions
 import fr.shining_cat.everyday.navigation.Destination
 import fr.shining_cat.everyday.viewmodels.SplashViewModel
@@ -21,9 +20,10 @@ class SplashScreenActivity : AbstractActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splashscreen)
+        val activitySplashscreenBinding = ActivitySplashscreenBinding.inflate(layoutInflater)
+        setContentView(activitySplashscreenBinding.root)
         logger.d(LOG_TAG, "onCreate")
-        showLoadingView()
+        showLoadingView(activitySplashscreenBinding.loadingLayout.loadingView)
         splashViewModel.initReadyLiveData.observe(this, Observer {
             logger.d(LOG_TAG, "initReadyLiveData: $it")
             if (it) {

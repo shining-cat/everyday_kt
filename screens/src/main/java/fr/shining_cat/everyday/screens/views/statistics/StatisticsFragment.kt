@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.screens.R
+import fr.shining_cat.everyday.screens.databinding.StatisticsFragmentBinding
 import fr.shining_cat.everyday.screens.views.ScreenActivity
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -24,21 +25,21 @@ class StatisticsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.statistics_fragment, container, false)
+        val statisticsFragmentBinding = StatisticsFragmentBinding.inflate(layoutInflater)
         //
-        setupToolbar(root)
+        setupToolbar(statisticsFragmentBinding)
         //
-        val textView: TextView = root.findViewById(R.id.fake_fragment_text)
+        val textView: TextView = statisticsFragmentBinding.fakeFragmentText
         statisticsViewModelViewModel.initReadyLiveData.observe(viewLifecycleOwner, Observer {
             textView.text = "This is ${LOG_TAG}\n $it loaded!"
         })
         statisticsViewModelViewModel.initViewModel()
-        return root
+        return statisticsFragmentBinding.root
     }
 
-    private fun setupToolbar(root: View) {
+    private fun setupToolbar(statisticsFragmentBinding: StatisticsFragmentBinding) {
         logger.d(LOG_TAG, "setupToolbar")
-        val toolbar: Toolbar = root.findViewById(R.id.toolbar)
+        val toolbar: Toolbar = statisticsFragmentBinding.toolbar
         (activity as ScreenActivity).setSupportActionBar(toolbar)
         setHasOptionsMenu(true)
     }
