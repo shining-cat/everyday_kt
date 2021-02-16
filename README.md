@@ -1,3 +1,4 @@
+
 # everyday_kt
 This application aims at helping the user to attain consistency in a daily practice.
 Primarily designed for meditation, it can actually be used for any regular practice, such as arts, sport and so on.
@@ -16,25 +17,79 @@ the whole log can also be exported (and reimported) as .csv, for backup purposes
 The user can also review the rewards acquired, and sort them on level, date of acquisition, and their lost/not lost status.
 Creatures can be shared and customized, setting for a name and different colors for different body parts.
  
-### Architecture
+## Architecture
 project objectives include:
-- Kotlin
-- Modular architecture
-- MVVM
-- Tests
-- Coroutines
-- Room + DAO + Repositories with Converters + Usecases + Models
-- WorkManager component
-- Navigation component
-- MotionLayout
-- Lottie Animations
 
-### Project sources includes Jake Wharton's ProjectDependencyGraph to vizualize dependencies between modules
+ - Kotlin
+ - Modular architecture
+ - MVVM
+ - Tests
+ - Coroutines
+ - Room + DAO + Repositories with Converters + Usecases + Models
+ - WorkManager component
+ - Navigation component
+ - MotionLayout
+ - Lottie Animations
+
+## Gradle plugins included
+### Jake Wharton's ProjectDependencyGraph to vizualize dependencies between modules
 To use it:
 - install Graphviz on your computer
 - add install path to PATH windows var
 - launch gradle task other>projectDependencyGraph
 - find .png file in build\reports\dependency-graph
 
-### Project sources includes Ben Manes' Gradle Versions Plugin to check for dependencies available updates
+### Ben Manes' Gradle Versions Plugin to check for dependencies available updates
 To use it: launch gradle task help>dependencyUpdates
+
+## "Roadmap" for Everyday:
+
+- fix bug on vectorDrawable color => android:fillColor="?attr/colorOnPrimary" works on all others vectors, but crashes on this one
+- check arch still conforms to updated standards
+- fix and update tests to conform to updated standards
+- check if possible to set github actions up, have some kind of simple CI/CD running maybe?
+- build launch icon from rewards assets
+- find info on building optional feature: rewards mechanism and statistics will only be added as a feature later, in order to be able to build a working version faster
+
+### first deployed version will include:
+
+ - settings
+ - import/export data
+ - create, edit and delete sessions presets
+ - launching session from preset
+ - mood recording
+ - session run with simple countdown and animation (pulse) based on audio-file duration or preset length. Play audio if selected
+ - recording session (with audio metadata when adequate)
+ - displaying sessions recorded as list (no calendar view, no statistics) + detail view per session
+ - about page + text
+
+**=> this will then be referred to as the basic version of the app: EVERYDAY LITE.
+this version will continue to exist and should be updated and deployed alongside the full version when it is ready**
+
+### Features planned for the full version of the app which will be the one called EVERYDAY, random order for now:
+
+ - manual session recording and editting
+ - reorder sessions preset
+ - display recorded sessions in a calendar view
+ - rewards basic mechanism (acquisition of one reward per session the reward's level depends on the session length, display as mini-cards in dedicated screen)
+ - rewards complete mechanism: gamification: increment number of rewards for longer streaks, lose rewards for streak breaking
+ - rewards customization display reward selected in big card and display date, level, optional name, etc. allow name and colors customization
+ - statistics module
+
+### Future features ideas, random order:
+
+ - achievments badges? (1 week, 1 month etc)
+ - gamification upgrade: user can choose to exchange rewards (not escaped) for a better one (ex: éxlevel1 for 1xlevel2 etc)
+ - different session countdown animations (lava-lamp, screen filling, etc)
+ - user can choose to have an irregular sound played during a session in addition to a regular interval or no sound
+ - security lock on app start, with fingerprint/pin code + setting to activate/deactivate it (see Nextcloud Password android app for reference)
+ - add "type" attribute for sessions, associated with [label, color, description]:
+	 - the type is shown on the session short view (list view and calendar view) as a color sticker, and on the session detailed view as a label
+	 -  also on the preset button
+	 - Clicking on this label displays the type description in a bottom dialog
+	 - Users can attribute a type to any session (in the “start session” dialog)
+	 - screen to admin sessions types, accessible from “Settings”
+	 - shortcut to the “admin sessions types” screen from the “attribute a type to a session” one
+	 - add a filter for session type to the list view filters
+	 - integrate this feature to statistics view
+		
