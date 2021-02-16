@@ -1,5 +1,6 @@
 package fr.shining_cat.everyday.settings.views
 
+import android.content.Context
 import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
@@ -82,7 +83,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     /////////////////
     private fun setupNotificationsPreferences() {
-        val prefContext = preferenceManager.context
+        val prefContext: Context = preferenceManager.context
         val notificationActivatedPreference = SwitchPreferenceCompat(prefContext)
         notificationActivatedPreference.key = SharedPrefsHelperSettings.NOTIFICATION_ACTIVATED
         notificationActivatedPreference.title =

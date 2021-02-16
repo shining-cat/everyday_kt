@@ -15,7 +15,9 @@ android {
             minifyEnabled true
         }
     }
-
+    buildFeatures {
+        viewBinding true
+    }
     sourceSets {
         androidTest {
 
@@ -37,13 +39,11 @@ android {
 }
 
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'jacoco'
 
 dependencies {
     implementation KotlinLibraries.kotlinJdk7
-    implementation AndroidLibraries.liveData
     implementation AndroidLibraries.coreRunTime //this is added to prevent a sub-dependency conflict between google-services and the rest
 
     // Koin
@@ -51,8 +51,9 @@ dependencies {
     implementation Libraries.koin_viewmodel
 
     // Lifecycle
+    implementation AndroidLibraries.lifecycle_commons_java8
     implementation AndroidLibraries.lifecycle_viewmodel
-    implementation AndroidLibraries.lifecycle_extensions
+    implementation AndroidLibraries.lifecycle_livedata
 
     androidTestImplementation TestLibraries.junit
     androidTestImplementation TestLibraries.androidTestRunner

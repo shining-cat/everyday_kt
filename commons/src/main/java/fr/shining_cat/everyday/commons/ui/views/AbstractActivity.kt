@@ -7,8 +7,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import fr.shining_cat.everyday.commons.Logger
-import fr.shining_cat.everyday.commons.R
-import fr.shining_cat.everyday.commons.extensions.bind
 import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelper
 import org.koin.android.ext.android.get
 
@@ -18,8 +16,6 @@ abstract class AbstractActivity : AppCompatActivity() {
 
     private val logger: Logger = get()
     private val sharedPrefsHelper: SharedPrefsHelper = get()
-
-    private val loadingView: View by bind(R.id.loading_view)
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,15 +31,14 @@ abstract class AbstractActivity : AppCompatActivity() {
     }
 
 ///////////////////////////////////
-    // LOADING VIEW
-    ///////////////////////////////////
+// LOADING VIEW
+///////////////////////////////////
 
-    fun showLoadingView() {
+    fun showLoadingView(loadingView: View) {
         loadingView.visibility = View.VISIBLE
-        loadingView.setOnClickListener { hideLoadingView() }
     }
 
-    fun hideLoadingView() {
+    fun hideLoadingView(loadingView: View) {
         loadingView.visibility = View.GONE
     }
 }

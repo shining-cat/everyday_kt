@@ -59,7 +59,7 @@ class RewardRepositoryImplTest {
             mockRewardEntity,
             mockRewardEntity
         )
-        coEvery { mockRewardDao.insert(any()) } returns arrayOf(1L,2L,3L)
+        coEvery { mockRewardDao.insert(any()) } returns arrayOf(1L, 2L, 3L)
         val output = runBlocking {
             rewardRepo.insert(listOf(mockReward, mockReward, mockReward))
         }
@@ -272,7 +272,7 @@ class RewardRepositoryImplTest {
         val output5 = runBlocking {
             rewardRepo.countEscapedRewardsForLevel(5)
         }
-        coVerify (exactly = 2){ mockRewardDao.getNumberOfEscapedRewardsForLevel(any()) }
+        coVerify(exactly = 2) { mockRewardDao.getNumberOfEscapedRewardsForLevel(any()) }
         assertTrue(output3 is Output.Success)
         assertEquals(9, (output3 as Output.Success).result)
         assertTrue(output5 is Output.Success)

@@ -6,7 +6,7 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceViewHolder
 
 class PreferenceCategoryLongSummary(
-    context: Context?
+    context: Context
 ) : PreferenceCategory(context) {
 
     override fun onBindViewHolder(holder: PreferenceViewHolder?) {

@@ -1,12 +1,11 @@
 package fr.shining_cat.everyday.commons.ui.views.dialogs
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import fr.shining_cat.everyday.commons.Logger
-import fr.shining_cat.everyday.commons.R
-import kotlinx.android.synthetic.main.dialog_bottom_select_list_item.view.*
+import fr.shining_cat.everyday.commons.databinding.DialogBottomSelectListDividerBinding
+import fr.shining_cat.everyday.commons.databinding.DialogBottomSelectListItemBinding
 import kotlin.properties.Delegates
 
 class SelectListAdapter(
@@ -15,8 +14,7 @@ class SelectListAdapter(
 
     private val LOG_TAG = SelectListAdapter::class.java.name
 
-    private var selectListAdapterListener: SelectListAdapterListener? =
-        null
+    private var selectListAdapterListener: SelectListAdapterListener? = null
 
     interface SelectListAdapterListener {
         fun onOptionSelected(selectedPosition: Int)
@@ -60,38 +58,24 @@ class SelectListAdapter(
 
     private fun createNormalItemViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return SelectListNormalItemViewHolder(
-            layoutInflater.inflate(
-                R.layout.dialog_bottom_select_list_item,
-                parent,
-                false
-            ),
-            logger
-        )
+        val bindingNormalItemView = DialogBottomSelectListItemBinding.inflate(layoutInflater)
+        return SelectListNormalItemViewHolder(bindingNormalItemView, logger)
     }
 
     private fun createDividerViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return SelectListDividerViewHolder(
-            layoutInflater.inflate(
-                R.layout.dialog_bottom_select_list_divider,
-                parent,
-                false
-            ),
-            logger
-        )
+        val bindingDivider = DialogBottomSelectListDividerBinding.inflate(layoutInflater)
+        return SelectListDividerViewHolder(bindingDivider, logger)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (position in optionsLabels.indices) {
-            if (holder.itemViewType == ItemsTypes.NORMAL_ITEM.value) bindNormalItemViewHolder(
-                holder as SelectListNormalItemViewHolder,
-                position
-            )
+            if (holder.itemViewType == ItemsTypes.NORMAL_ITEM.value) {
+                bindNormalItemViewHolder(holder as SelectListNormalItemViewHolder, position)
+            }
             //no binding necessary for divider
         }
     }
-
 
     private fun bindNormalItemViewHolder(
         selectListNormalItemViewHolder: SelectListNormalItemViewHolder,
@@ -113,29 +97,28 @@ class SelectListAdapter(
 
 }
 
-
 enum class ItemsTypes(val value: Int) {
     NORMAL_ITEM(0),
     DIVIDER(1)
 }
 
 class SelectListNormalItemViewHolder(
-    itemView: View,
+    private val dialogBottomSelectListItemBinding: DialogBottomSelectListItemBinding,
     val logger: Logger
-) : RecyclerView.ViewHolder(itemView) {
+) : RecyclerView.ViewHolder(dialogBottomSelectListItemBinding.root) {
 
     private val LOG_TAG = SelectListNormalItemViewHolder::class.java.name
 
     fun bindView(label: String, selected: Boolean) {
-        itemView.select_list_item_label.text = label
-        itemView.select_list_item_radio_btn.isChecked = selected
+        dialogBottomSelectListItemBinding.selectListItemLabel.text = label
+        dialogBottomSelectListItemBinding.selectListItemRadioBtn.isChecked = selected
     }
 }
 
 class SelectListDividerViewHolder(
-    itemView: View,
+    dialogBottomSelectListDividerBinding: DialogBottomSelectListDividerBinding,
     val logger: Logger
-) : RecyclerView.ViewHolder(itemView) {
+) : RecyclerView.ViewHolder(dialogBottomSelectListDividerBinding.root) {
 
     private val LOG_TAG = SelectListDividerViewHolder::class.java.name
 

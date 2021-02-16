@@ -4,17 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import fr.shining_cat.everyday.commons.R
+import fr.shining_cat.everyday.commons.databinding.DialogBottomBigButtonBinding
 
 class BottomDialogDismissibleBigButton : BottomSheetDialogFragment() {
 
     private val TITLE_ARG = "title_argument"
     private val BIG_BUTTON_LABEL_ARG = "big_button_label_argument"
-    private var bottomDialogDismissibleBigButtonListener: BottomDialogDismissibleBigButtonListener? =
+    private var listener: BottomDialogDismissibleBigButtonListener? =
         null
 
     interface BottomDialogDismissibleBigButtonListener {
@@ -23,7 +20,7 @@ class BottomDialogDismissibleBigButton : BottomSheetDialogFragment() {
     }
 
     fun setBottomDialogDismissibleBigButtonListener(listener: BottomDialogDismissibleBigButtonListener) {
-        this.bottomDialogDismissibleBigButtonListener = listener
+        this.listener = listener
     }
 
     companion object {
@@ -41,26 +38,28 @@ class BottomDialogDismissibleBigButton : BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.dialog_bottom_big_button, container, false)
+    ): View {
+        val uiBindings = DialogBottomBigButtonBinding.inflate(layoutInflater)
+        initUi(uiBindings)
+        return uiBindings.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private fun initUi(uiBindings: DialogBottomBigButtonBinding) {
         val title = arguments?.getString(TITLE_ARG, "") ?: ""
-        val titleField = view.findViewById<TextView>(R.id.dialog_bottom_title)
+        val titleField = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomTitle
         titleField.text = title
         //
-        val dismissButton = view.findViewById<ImageView>(R.id.dialog_bottom_dismiss_button)
+        val dismissButton =
+            uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
         dismissButton.setOnClickListener {
-            bottomDialogDismissibleBigButtonListener?.onDismissed()
+            listener?.onDismissed()
             dismiss()
         }
         //
         val bigButtonLabel = arguments?.getString(BIG_BUTTON_LABEL_ARG, "") ?: ""
-        val bigButton = view.findViewById<Button>(R.id.dialog_bottom_big_button)
+        val bigButton = uiBindings.dialogBottomBigButton
         bigButton.text = bigButtonLabel
-        bigButton.setOnClickListener { bottomDialogDismissibleBigButtonListener?.onBigButtonClicked() }
+        bigButton.setOnClickListener { listener?.onBigButtonClicked() }
     }
 
 }

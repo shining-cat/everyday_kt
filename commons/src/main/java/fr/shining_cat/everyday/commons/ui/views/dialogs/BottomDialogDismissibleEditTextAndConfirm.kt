@@ -4,19 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import fr.shining_cat.everyday.commons.R
+import fr.shining_cat.everyday.commons.databinding.DialogBottomEditTextAndConfirmBinding
 
 class BottomDialogDismissibleEditTextAndConfirm : BottomSheetDialogFragment() {
 
     private val TITLE_ARG = "title_argument"
     private val HINT_ARG = "hint_argument"
     private val CONFIRM_BUTTON_LABEL_ARG = "confirm_button_label_argument"
-    private var bottomDialogDismissibleEditTextAndConfirmListenerListener: BottomDialogDismissibleEditTextAndConfirmListener? =
+    private var listener: BottomDialogDismissibleEditTextAndConfirmListener? =
         null
 
     interface BottomDialogDismissibleEditTextAndConfirmListener {
@@ -25,7 +22,7 @@ class BottomDialogDismissibleEditTextAndConfirm : BottomSheetDialogFragment() {
     }
 
     fun setBottomDialogDismissibleMessageAndConfirmListener(listener: BottomDialogDismissibleEditTextAndConfirmListener) {
-        this.bottomDialogDismissibleEditTextAndConfirmListenerListener = listener
+        this.listener = listener
     }
 
     companion object {
@@ -48,35 +45,37 @@ class BottomDialogDismissibleEditTextAndConfirm : BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.dialog_bottom_edit_text_and_confirm, container, false)
+    ): View {
+        val uiBindings = DialogBottomEditTextAndConfirmBinding.inflate(layoutInflater)
+        initUi(uiBindings)
+        return uiBindings.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private fun initUi(uiBindings: DialogBottomEditTextAndConfirmBinding) {
         val title = arguments?.getString(TITLE_ARG, "") ?: ""
-        val titleField = view.findViewById<TextView>(R.id.dialog_bottom_title)
+        val titleField = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomTitle
         titleField.text = title
         //
-        val dismissButton = view.findViewById<ImageView>(R.id.dialog_bottom_dismiss_button)
+        val dismissButton =
+            uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
         dismissButton.setOnClickListener {
-            bottomDialogDismissibleEditTextAndConfirmListenerListener?.onDismissed()
+            listener?.onDismissed()
             dismiss()
         }
         //
         val editTextHint = arguments?.getString(HINT_ARG, "") ?: ""
-        val editText = view.findViewById<EditText>(R.id.dialog_bottom_edit_text)
+        val editText = uiBindings.dialogBottomEditText
         editText.setText(editTextHint)
         //
         val confirmButtonLabel = arguments?.getString(CONFIRM_BUTTON_LABEL_ARG, "") ?: ""
-        val confirmButton = view.findViewById<Button>(R.id.dialog_bottom_confirm_button)
+        val confirmButton = uiBindings.dialogBottomConfirmButton
         confirmButton.text = confirmButtonLabel
         confirmButton.setOnClickListener { transmitInputText(editText) }
     }
 
     private fun transmitInputText(editText: EditText) {
         val inputText = editText.text.toString()
-        bottomDialogDismissibleEditTextAndConfirmListenerListener?.onValidateInputText(inputText)
+        listener?.onValidateInputText(inputText)
         dismiss()
     }
 

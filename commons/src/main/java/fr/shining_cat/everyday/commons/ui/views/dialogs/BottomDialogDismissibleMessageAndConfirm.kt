@@ -4,11 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import fr.shining_cat.everyday.commons.R
+import fr.shining_cat.everyday.commons.databinding.DialogBottomMessageAndConfirmBinding
 
 class BottomDialogDismissibleMessageAndConfirm : BottomSheetDialogFragment() {
 
@@ -47,30 +44,33 @@ class BottomDialogDismissibleMessageAndConfirm : BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.dialog_bottom_message_and_confirm, container, false)
+    ): View {
+        val uiBindings = DialogBottomMessageAndConfirmBinding.inflate(layoutInflater)
+        initUi(uiBindings)
+        return uiBindings.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private fun initUi(uiBindings: DialogBottomMessageAndConfirmBinding) {
         val title = arguments?.getString(TITLE_ARG, "") ?: ""
-        val titleField = view.findViewById<TextView>(R.id.dialog_bottom_title)
+        val titleField = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomTitle
         titleField.text = title
         //
-        val dismissButton = view.findViewById<ImageView>(R.id.dialog_bottom_dismiss_button)
+        val dismissButton =
+            uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
         dismissButton.setOnClickListener {
             bottomDialogDismissibleMessageAndConfirmListenerListener?.onDismissed()
             dismiss()
         }
         //
         val message = arguments?.getString(MESSAGE_ARG, "") ?: ""
-        val messageField = view.findViewById<TextView>(R.id.dialog_bottom_message)
+        val messageField = uiBindings.dialogBottomMessage
         messageField.text = message
         //
         val confirmButtonLabel = arguments?.getString(CONFIRM_BUTTON_LABEL_ARG, "") ?: ""
-        val confirmButton = view.findViewById<Button>(R.id.dialog_bottom_confirm_button)
+        val confirmButton = uiBindings.dialogBottomConfirmButton
         confirmButton.text = confirmButtonLabel
         confirmButton.setOnClickListener { bottomDialogDismissibleMessageAndConfirmListenerListener?.onConfirmButtonClicked() }
     }
+
 
 }

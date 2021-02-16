@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.ui.views.AbstractActivity
 import fr.shining_cat.everyday.settings.R
+import fr.shining_cat.everyday.settings.databinding.ActivitySettingsBinding
 import org.koin.android.ext.android.get
 
 class SettingsActivity : AbstractActivity() {
@@ -15,10 +16,11 @@ class SettingsActivity : AbstractActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+        val settingsActivityBinding = ActivitySettingsBinding.inflate(layoutInflater)
+        setContentView(settingsActivityBinding.root)
         logger.d(LOG_TAG, "onCreate")
-        setToolBar()
-        hideLoadingView()
+        setToolBar(settingsActivityBinding)
+        hideLoadingView(settingsActivityBinding.loadingLayout.loadingView)
         loadPreferencesFragment()
     }
 
@@ -29,8 +31,8 @@ class SettingsActivity : AbstractActivity() {
             .commit()
     }
 
-    private fun setToolBar() {
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
+    private fun setToolBar(settingsActivityBinding: ActivitySettingsBinding) {
+        val toolbar: Toolbar = settingsActivityBinding.toolbar
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)

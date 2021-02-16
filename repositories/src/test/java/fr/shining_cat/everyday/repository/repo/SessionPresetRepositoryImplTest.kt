@@ -9,7 +9,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
-import junit.framework.Assert
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Before
@@ -45,10 +44,18 @@ class SessionPresetRepositoryImplTest {
 
     @Test
     fun insert() {
-        coEvery {mockSessionPresetConverter.convertModelsToEntities(any()) } returns listOf(mockSessionPresetEntity)
+        coEvery { mockSessionPresetConverter.convertModelsToEntities(any()) } returns listOf(
+            mockSessionPresetEntity
+        )
         coEvery { mockSessionPresetDao.insert(any()) } returns arrayOf(1, 2, 3)
         val output = runBlocking {
-            sessionPresetRepo.insert(listOf(mockSessionPreset, mockSessionPreset, mockSessionPreset))
+            sessionPresetRepo.insert(
+                listOf(
+                    mockSessionPreset,
+                    mockSessionPreset,
+                    mockSessionPreset
+                )
+            )
         }
         coVerify { mockSessionPresetConverter.convertModelsToEntities(any()) }
         coVerify { mockSessionPresetDao.insert(any()) }
@@ -58,7 +65,7 @@ class SessionPresetRepositoryImplTest {
 
     @Test
     fun update() {
-        coEvery {mockSessionPresetConverter.convertModelToEntity(any()) } returns mockSessionPresetEntity
+        coEvery { mockSessionPresetConverter.convertModelToEntity(any()) } returns mockSessionPresetEntity
         coEvery { mockSessionPresetDao.update(any()) } returns 1
         val output = runBlocking {
             sessionPresetRepo.update(mockSessionPreset)
@@ -71,7 +78,7 @@ class SessionPresetRepositoryImplTest {
 
     @Test
     fun deleteSession() {
-        coEvery {mockSessionPresetConverter.convertModelToEntity(any()) } returns mockSessionPresetEntity
+        coEvery { mockSessionPresetConverter.convertModelToEntity(any()) } returns mockSessionPresetEntity
         coEvery { mockSessionPresetDao.delete(any()) } returns 1
         val output = runBlocking {
             sessionPresetRepo.delete(mockSessionPreset)
@@ -84,7 +91,9 @@ class SessionPresetRepositoryImplTest {
 
     @Test
     fun getAllSessionsStartTimeAsc() {
-        coEvery {mockSessionPresetConverter.convertEntitiesToModels(any()) } returns listOf(mockSessionPreset)
+        coEvery { mockSessionPresetConverter.convertEntitiesToModels(any()) } returns listOf(
+            mockSessionPreset
+        )
         coEvery { mockSessionPresetDao.getAllSessionPresetsLastEditTimeDesc() } returns listOf(
             mockSessionPresetEntity
         )

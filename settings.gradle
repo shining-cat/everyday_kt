@@ -11,3 +11,5 @@ include ':models'
 //features
 include ':screens'
 include ':settings'
+//
+rootProject.name = "Everyday Kotlin!"
