@@ -8,7 +8,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        debug{
+        debug {
             testCoverageEnabled true
         }
         release {
@@ -44,7 +44,8 @@ apply plugin: 'jacoco'
 
 dependencies {
     implementation KotlinLibraries.kotlinJdk7
-    implementation AndroidLibraries.coreRunTime //this is added to prevent a sub-dependency conflict between google-services and the rest
+    implementation AndroidLibraries.coreRunTime
+    //this is added to prevent a sub-dependency conflict between google-services and the rest
 
     // Koin
     implementation Libraries.koin
