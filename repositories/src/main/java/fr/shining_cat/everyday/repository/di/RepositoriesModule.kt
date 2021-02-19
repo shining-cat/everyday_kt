@@ -1,8 +1,8 @@
 package fr.shining_cat.everyday.repository.di
 
-import fr.shining_cat.everyday.repository.converter.RewardConverter
-import fr.shining_cat.everyday.repository.converter.SessionPresetConverter
-import fr.shining_cat.everyday.repository.converter.SessionRecordConverter
+import fr.shining_cat.everyday.repository.converters.RewardConverter
+import fr.shining_cat.everyday.repository.converters.SessionPresetConverter
+import fr.shining_cat.everyday.repository.converters.SessionRecordConverter
 import fr.shining_cat.everyday.repository.repo.*
 import org.koin.dsl.module
 

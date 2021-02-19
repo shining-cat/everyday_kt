@@ -1,4 +1,4 @@
-package fr.shining_cat.everyday.commons
+package fr.shining_cat.everyday.commons.viewmodels
 
 import kotlinx.coroutines.CoroutineDispatcher
 

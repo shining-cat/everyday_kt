@@ -5,7 +5,7 @@
     android:height="48dp">
     <path
         android:pathData="M20.7 11.2V12.2H22.2V11.2C22.2 10.3 22.8 9.6 23.7 9.6H34.2C35 9.6 35.7 10.3 35.7 11.2V26.9C35.7 27.7 35 28.4 34.2 28.4H33.1V30H34.2C35.9 30 37.2 28.6 37.2 26.9V11.2C37.2 9.4 35.9 8 34.2 8H23.7C22 8 20.7 9.4 20.7 11.2Z"
-        android:fillColor="?attr/colorOnPrimary" />
+        android:fillColor="?attr/colorOnPrimary"/>
     <path
         android:pathData="M15.8 16.2V17.2H17.3V16.2C17.3 15.3 18 14.6 18.8 14.6H29.4C30.2 14.6 30.9 15.3 30.9 16.2V31.8C30.9 32.7 30.2 33.4 29.4 33.4H28.2V35H29.4C31 35 32.4 33.6 32.4 31.8V16.2C32.4 14.4 31 13 29.4 13H18.8C17.2 13 15.8 14.4 15.8 16.2Z"
         android:fillColor="?attr/colorOnPrimary" />

@@ -12,7 +12,7 @@ import fr.shining_cat.everyday.locale.dao.RewardDao
 import fr.shining_cat.everyday.locale.entities.RewardEntity
 import fr.shining_cat.everyday.models.reward.Reward
 import fr.shining_cat.everyday.repository.Output
-import fr.shining_cat.everyday.repository.converter.RewardConverter
+import fr.shining_cat.everyday.repository.converters.RewardConverter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

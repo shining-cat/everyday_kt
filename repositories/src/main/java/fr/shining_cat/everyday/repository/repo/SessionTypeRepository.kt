@@ -5,7 +5,7 @@ import fr.shining_cat.everyday.locale.dao.SessionTypeDao
 import fr.shining_cat.everyday.locale.entities.SessionTypeEntity
 import fr.shining_cat.everyday.models.SessionType
 import fr.shining_cat.everyday.repository.Output
-import fr.shining_cat.everyday.repository.converter.SessionTypeConverter
+import fr.shining_cat.everyday.repository.converters.SessionTypeConverter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

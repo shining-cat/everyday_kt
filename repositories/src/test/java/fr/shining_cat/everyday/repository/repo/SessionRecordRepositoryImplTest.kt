@@ -3,7 +3,7 @@ package fr.shining_cat.everyday.repository.repo
 import fr.shining_cat.everyday.locale.dao.SessionRecordDao
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntity
 import fr.shining_cat.everyday.models.sessionrecord.SessionRecord
-import fr.shining_cat.everyday.repository.converter.SessionRecordConverter
+import fr.shining_cat.everyday.repository.converters.SessionRecordConverter
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify

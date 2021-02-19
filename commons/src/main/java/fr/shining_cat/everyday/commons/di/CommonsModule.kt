@@ -1,7 +1,7 @@
 package fr.shining_cat.everyday.commons.di
 
 import android.content.Context
-import fr.shining_cat.everyday.commons.AppDispatchers
+import fr.shining_cat.everyday.commons.viewmodels.AppDispatchers
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelper
 import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelperSettings

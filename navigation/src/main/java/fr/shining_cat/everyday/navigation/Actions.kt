@@ -8,9 +8,9 @@ object Actions {
 
     fun openDestination(context: Context, destination: Destination): Intent {
         return when (destination) {
-            is Destination.HomeDestination -> intentForHomeCreation(context)
-            is Destination.SessionDestination -> intentForSessionCreation(context)
-            is Destination.SettingsDestination -> intentForSettingsCreation(context)
+            is Destination.HomeDestination -> intentForHome(context)
+            is Destination.SessionDestination -> intentForSession(context)
+            is Destination.SettingsDestination -> intentForSettings(context)
 
         }
     }
@@ -19,13 +19,13 @@ object Actions {
         Intent(action).setPackage(context.packageName)
 
 
-    private fun intentForHomeCreation(context: Context) =
+    private fun intentForHome(context: Context) =
         internalIntent(context, "fr.shining_cat.everyday.screens.views.ScreenActivity")
 
-    private fun intentForSessionCreation(context: Context) =
+    private fun intentForSession(context: Context) =
         internalIntent(context, "fr.shining_cat.everyday.session.view.SessionActivity")
 
-    private fun intentForSettingsCreation(context: Context) =
+    private fun intentForSettings(context: Context) =
         internalIntent(context, "fr.shining_cat.everyday.settings.views.SettingsActivity")
 
 
