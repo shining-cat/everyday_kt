@@ -1,4 +1,4 @@
-package fr.shining_cat.everyday.repository.converter
+package fr.shining_cat.everyday.repository.converters
 
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.locale.entities.RewardEntity

@@ -8,7 +8,7 @@ class Constants {
         const val ERROR_CODE_NO_RESULT = -101
         const val ERROR_CODE_DATABASE_OPERATION_FAILED = -102
 
-        //error messages
+        //error messages, these are internal resources, they will never be shown to the user
         const val ERROR_MESSAGE_NO_RESULT = "fetching from database did not return any result"
         const val ERROR_MESSAGE_UPDATE_FAILED = "Error while updating in database"
         const val ERROR_MESSAGE_READ_FAILED = "Error while reading in database"

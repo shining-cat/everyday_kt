@@ -5,7 +5,7 @@ import fr.shining_cat.everyday.locale.dao.SessionPresetDao
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntity
 import fr.shining_cat.everyday.models.SessionPreset
 import fr.shining_cat.everyday.repository.Output
-import fr.shining_cat.everyday.repository.converter.SessionPresetConverter
+import fr.shining_cat.everyday.repository.converters.SessionPresetConverter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -26,7 +26,6 @@ class SessionPresetRepositoryImpl(
         Constants.ERROR_MESSAGE_READ_FAILED,
         exception
     )
-
 
     override suspend fun insert(sessionPresets: List<SessionPreset>): Output<Array<Long>> {
         return try {

@@ -4,7 +4,7 @@ import fr.shining_cat.everyday.locale.dao.SessionPresetDao
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntity
 import fr.shining_cat.everyday.models.SessionPreset
 import fr.shining_cat.everyday.repository.Output
-import fr.shining_cat.everyday.repository.converter.SessionPresetConverter
+import fr.shining_cat.everyday.repository.converters.SessionPresetConverter
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify

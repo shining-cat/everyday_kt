@@ -2,7 +2,7 @@ package fr.shining_cat.everyday.screens.views.sessions
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import fr.shining_cat.everyday.commons.AppDispatchers
+import fr.shining_cat.everyday.commons.viewmodels.AppDispatchers
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.viewmodels.AbstractViewModels
 import kotlinx.coroutines.launch

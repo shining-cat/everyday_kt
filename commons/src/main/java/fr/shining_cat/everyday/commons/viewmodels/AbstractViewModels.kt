@@ -1,7 +1,6 @@
 package fr.shining_cat.everyday.commons.viewmodels
 
 import androidx.lifecycle.ViewModel
-import fr.shining_cat.everyday.commons.AppDispatchers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
