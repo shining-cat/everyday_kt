@@ -75,7 +75,7 @@ this version will continue to exist and should be updated and deployed alongside
  - gamification upgrade: user can choose to exchange rewards (not escaped) for a better one (ex: éxlevel1 for 1xlevel2 etc)
  - different session countdown animations (lava-lamp, screen filling, etc)
  - user can choose to have an irregular sound played during a session in addition to a regular interval or no sound
- - security lock on app start, with fingerprint/pin code + setting to activate/deactivate it (see Nextcloud Password android app for reference)
+ - security lock on app start, with fingerprint/pin code + setting to activate/deactivate it (see Nextcloud Password android app for reference) see: https://proandroiddev.com/biometrics-in-android-50424de8d0e
  - add "type" attribute for sessions, associated with [label, color, description]:
 	 - the type is shown on the session short view (list view and calendar view) as a color sticker, and on the session detailed view as a label
 	 -  also on the preset button
