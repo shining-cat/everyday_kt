@@ -34,6 +34,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 interface RewardRepository {
+
     suspend fun insert(rewards: List<Reward>): Output<Array<Long>>
     suspend fun update(rewards: List<Reward>): Output<Int>
     suspend fun deleteAllRewards(): Output<Int>

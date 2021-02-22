@@ -20,6 +20,7 @@ package fr.shining_cat.everyday.models.reward
 // TODO : we need 6 versions of FLOWER and MOUTH + 7 versions of LEGS, ARMS, and EYES (6 normal and 1 "off" version : legs or arms folded, eyes closed), the "off" version of HORNS is simply empty
 //parts always "active" : flower, mouth
 enum class Level(val key: Int) {
+
     LEVEL_1(0), // 0 to 5mn    : flower = X | mouth = X | legs = 0 | arms = 0 | eyes = 0 | horns = 0  => 36 combinations
     LEVEL_2(1), // 5 to 15mn   : flower = X | mouth = X | legs = X | arms = 0 | eyes = 0 | horns = 0  => 216 combinations
     LEVEL_3(2), // 15 to 30mn  : flower = X | mouth = X | legs = X | arms = X | eyes = 0 | horns = 0  => 1296 combinations
@@ -28,6 +29,7 @@ enum class Level(val key: Int) {
     //total combinations => 55980
 
     companion object {
+
         fun fromKey(key: Int?): Level {
             return when (key) {
                 0 -> LEVEL_1

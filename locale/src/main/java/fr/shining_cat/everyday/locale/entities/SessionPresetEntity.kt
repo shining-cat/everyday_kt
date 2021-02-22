@@ -61,10 +61,12 @@ data class SessionPresetEntity(
 )
 
 object SessionPresetTable {
+
     const val SESSION_PRESET_TABLE_NAME = "sessions_presets"
 }
 
 object SessionPresetEntityColumnNames {
+
     const val SESSION_PRESET_ID = "sessionPresetId"
     const val START_COUNTDOWN_LENGTH = "startCountdownLength"
     const val DURATION = "duration"

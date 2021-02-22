@@ -23,6 +23,7 @@ enum class RealDurationVsPlanned(val key: Int) {
     REAL_LONGER(1);
 
     companion object {
+
         fun fromKey(key: Int): RealDurationVsPlanned {
             return when {
                 key < 0 -> REAL_SHORTER

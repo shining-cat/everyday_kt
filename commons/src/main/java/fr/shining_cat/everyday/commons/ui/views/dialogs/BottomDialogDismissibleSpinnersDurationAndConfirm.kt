@@ -46,6 +46,7 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
         null
 
     interface BottomDialogDismissibleSpinnerSecondsAndConfirmListener {
+
         fun onDismissed()
         fun onConfirmButtonClicked(lengthMs: Long)
     }
@@ -55,6 +56,7 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
     }
 
     companion object {
+
         fun newInstance(
             title: String,
             showHours: Boolean,

@@ -81,6 +81,7 @@ data class RewardEntity(
 
 
 object RewardEntityConstants {
+
     const val NO_ACQUISITION_DATE: Long = 0
     const val NO_ESCAPING_DATE: Long = 0
     const val NO_NAME = ""
@@ -88,10 +89,12 @@ object RewardEntityConstants {
 }
 
 object RewardTable {
+
     const val REWARD_TABLE = "rewards_table"
 }
 
 object RewardEntityColumnNames {
+
     const val REWARD_ID = "id"
     const val FLOWER = "flower"
     const val MOUTH = "mouth"

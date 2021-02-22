@@ -32,6 +32,7 @@ class BottomDialogDismissibleBigButton : BottomSheetDialogFragment() {
         null
 
     interface BottomDialogDismissibleBigButtonListener {
+
         fun onDismissed()
         fun onBigButtonClicked()
     }
@@ -41,6 +42,7 @@ class BottomDialogDismissibleBigButton : BottomSheetDialogFragment() {
     }
 
     companion object {
+
         fun newInstance(title: String, bigButtonLabel: String): BottomDialogDismissibleBigButton =
             BottomDialogDismissibleBigButton()
                 .apply {

@@ -81,10 +81,12 @@ data class SessionRecordEntity(
 )
 
 object SessionRecordTable {
+
     const val SESSION_RECORD_TABLE = "session_record_table"
 }
 
 object SessionRecordEntityColumnNames {
+
     const val SESSION_RECORD_ID = "sessionRecordId"
     const val START_TIME_OF_RECORD = "startTimeOfRecord"
     const val START_BODY_VALUE = "startBodyValue"

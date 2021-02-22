@@ -27,6 +27,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 interface SessionPresetRepository {
+
     suspend fun insert(sessionPresets: List<SessionPreset>): Output<Array<Long>>
     suspend fun update(sessionPreset: SessionPreset): Output<Int>
     suspend fun delete(sessionPreset: SessionPreset): Output<Int>

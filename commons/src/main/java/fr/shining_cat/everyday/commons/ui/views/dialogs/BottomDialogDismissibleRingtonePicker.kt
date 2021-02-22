@@ -57,6 +57,7 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
     }
 
     interface BottomDialogDismissibleRingtonePickerListener {
+
         fun onDismissed()
         fun onValidateRingtoneSelected(selectedRingtoneUri: String, selectedRingtoneName: String)
     }
@@ -66,6 +67,7 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
     }
 
     companion object {
+
         fun newInstance(
             title: String,
             initialSelectionUri: String,

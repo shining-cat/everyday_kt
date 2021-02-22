@@ -44,6 +44,7 @@ class BottomDialogDismissibleSelectListAndConfirm : BottomSheetDialogFragment() 
         null
 
     interface BottomDialogDismissibleSelectListAndConfirmListener {
+
         fun onDismissed()
         fun onValidateSelection(optionSelectedIndex: Int)
     }
@@ -53,6 +54,7 @@ class BottomDialogDismissibleSelectListAndConfirm : BottomSheetDialogFragment() 
     }
 
     companion object {
+
         fun newInstance(
             title: String,
             optionsLabels: List<String>,

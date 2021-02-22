@@ -27,6 +27,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 interface SessionRecordRepository {
+
     suspend fun insert(sessionRecords: List<SessionRecord>): Output<Array<Long>>
     suspend fun update(sessionRecord: SessionRecord): Output<Int>
     suspend fun delete(sessionRecord: SessionRecord): Output<Int>

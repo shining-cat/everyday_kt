@@ -33,6 +33,7 @@ class BottomDialogDismissibleMessageAndConfirm : BottomSheetDialogFragment() {
         null
 
     interface BottomDialogDismissibleMessageAndConfirmListener {
+
         fun onDismissed()
         fun onConfirmButtonClicked()
     }
@@ -42,6 +43,7 @@ class BottomDialogDismissibleMessageAndConfirm : BottomSheetDialogFragment() {
     }
 
     companion object {
+
         fun newInstance(
             title: String,
             message: String,

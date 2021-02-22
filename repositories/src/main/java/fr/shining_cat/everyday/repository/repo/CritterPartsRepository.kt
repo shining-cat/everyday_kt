@@ -20,6 +20,7 @@ package fr.shining_cat.everyday.repository.repo
 import fr.shining_cat.everyday.commons.ui.resourcesholders.critter.CritterPartResourcesHolder
 
 interface CritterPartsRepository {
+
     suspend fun getArmsResourcesHolder(): CritterPartResourcesHolder
     suspend fun getEyesResourcesHolder(): CritterPartResourcesHolder
     suspend fun getFlowerResourcesHolder(): CritterPartResourcesHolder

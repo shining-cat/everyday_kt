@@ -25,6 +25,7 @@ data class Mood(
     val feelingsValue: MoodValue,
     val globalValue: MoodValue
 ) {
+
     override fun toString() = "MOOD : timeStamp = " + timeOfRecord +
             "\n\tBody = " + bodyValue +
             "\n\tThoughts = " + thoughtsValue +
@@ -40,6 +41,7 @@ enum class MoodValue(val key: Int) {
     BEST(2);
 
     companion object {
+
         fun fromKey(key: Int?): MoodValue {
             return when (key) {
                 -2 -> WORST

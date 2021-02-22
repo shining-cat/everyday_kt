@@ -43,10 +43,12 @@ data class SessionTypeEntity(
 )
 
 object SessionTypeTable {
+
     const val SESSION_TYPE_TABLE_NAME = "sessions_types"
 }
 
 object SessionTypeEntityColumnNames {
+
     const val SESSION_TYPE_ID = "sessionTypeId"
     const val NAME = "name"
     const val DESCRIPTION = "duration"

@@ -19,9 +19,9 @@ package fr.shining_cat.everyday.screens.views.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import fr.shining_cat.everyday.commons.viewmodels.AppDispatchers
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.viewmodels.AbstractViewModels
+import fr.shining_cat.everyday.commons.viewmodels.AppDispatchers
 import kotlinx.coroutines.launch
 
 class HomeViewModel(

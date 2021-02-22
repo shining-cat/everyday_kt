@@ -52,6 +52,7 @@ data class Reward(
 
 
 object RewardConstants {
+
     const val NO_ACQUISITION_DATE: Long = 0
     const val NO_ESCAPING_DATE: Long = 0
     const val NO_NAME = ""
@@ -60,6 +61,7 @@ object RewardConstants {
 
 //TODO: this should move to the Domain module when it is created:
 object RewardThresholds {
+
     //length of session for each duration level => this determines the Reward level
     const val REWARD_DURATION_LEVEL_1 = 0
     const val REWARD_DURATION_LEVEL_2 = 300000 //5mn
@@ -77,6 +79,7 @@ object RewardThresholds {
 
 //TODO: this should move to the Domain module when it is created:
 object RewardChances {
+
     //composition of a session reward as an array of probability of getting additional rewards (of the same level) (chance for 1, chance for a second, chance for a third, chance for a fourth)
     //so a user can earn up to 4 rewards for one session
     //this is based on the REWARD_STREAK_LEVEL

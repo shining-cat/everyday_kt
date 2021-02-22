@@ -35,6 +35,7 @@ class BottomDialogDismissibleTimePicker : BottomSheetDialogFragment() {
         null
 
     interface BottomDialogDismissibleTimePickerListener {
+
         fun onDismissed()
         fun onConfirmButtonClicked(hour: Int, minutes: Int)
     }
@@ -44,6 +45,7 @@ class BottomDialogDismissibleTimePicker : BottomSheetDialogFragment() {
     }
 
     companion object {
+
         fun newInstance(
             title: String,
             confirmButtonLabel: String,

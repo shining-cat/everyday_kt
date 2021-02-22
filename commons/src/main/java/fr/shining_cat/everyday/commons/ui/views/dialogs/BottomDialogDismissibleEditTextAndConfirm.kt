@@ -34,6 +34,7 @@ class BottomDialogDismissibleEditTextAndConfirm : BottomSheetDialogFragment() {
         null
 
     interface BottomDialogDismissibleEditTextAndConfirmListener {
+
         fun onDismissed()
         fun onValidateInputText(inputText: String)
     }
@@ -43,6 +44,7 @@ class BottomDialogDismissibleEditTextAndConfirm : BottomSheetDialogFragment() {
     }
 
     companion object {
+
         fun newInstance(
             title: String,
             editTextHint: String,

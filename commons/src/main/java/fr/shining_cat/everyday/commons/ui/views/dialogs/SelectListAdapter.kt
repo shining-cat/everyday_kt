@@ -34,6 +34,7 @@ class SelectListAdapter(
     private var selectListAdapterListener: SelectListAdapterListener? = null
 
     interface SelectListAdapterListener {
+
         fun onOptionSelected(selectedPosition: Int)
     }
 

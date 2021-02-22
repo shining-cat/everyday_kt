@@ -51,6 +51,7 @@ abstract class EveryDayRoomDatabase : RoomDatabase() {
     abstract fun sessionTypeDao(): SessionTypeDao
 
     companion object {
+
         var TEST_MODE = false
         val DATABASE_NAME = "everyday_database.db"
 

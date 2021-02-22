@@ -21,6 +21,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
 
 object SharedPrefsHelperSettings {
+
     const val NAME = "everyday.prefs"
 
     const val KEEP_SCREEN_ON = "sessions.keep.screen.on"
