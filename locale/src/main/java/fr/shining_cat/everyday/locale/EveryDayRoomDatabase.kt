@@ -18,11 +18,9 @@
 package fr.shining_cat.everyday.locale
 
 import android.content.Context
-
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-
 import fr.shining_cat.everyday.locale.dao.RewardDao
 import fr.shining_cat.everyday.locale.dao.SessionPresetDao
 import fr.shining_cat.everyday.locale.dao.SessionRecordDao
@@ -55,7 +53,7 @@ abstract class EveryDayRoomDatabase : RoomDatabase() {
         var TEST_MODE = false
         val DATABASE_NAME = "everyday_database.db"
 
-        //singleton to prevent having multiple instances of the database opened at the same time :
+        // singleton to prevent having multiple instances of the database opened at the same time :
         @Volatile
         private var INSTANCE: EveryDayRoomDatabase? = null
 
@@ -82,7 +80,7 @@ abstract class EveryDayRoomDatabase : RoomDatabase() {
                             EveryDayRoomDatabase::class.java,
                             DATABASE_NAME
                         )
-                            //TODO: handle migration:
+                            // TODO: handle migration:
                             // Wipes and rebuilds instead of migrating if no Migration object.
                             // Migration is not part of this lesson. You can learn more about
                             // migration with Room in this blog post:
@@ -103,5 +101,4 @@ abstract class EveryDayRoomDatabase : RoomDatabase() {
             INSTANCE = null
         }
     }
-
 }

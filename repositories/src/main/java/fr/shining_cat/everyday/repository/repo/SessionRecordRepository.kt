@@ -142,7 +142,7 @@ class SessionRecordRepositoryImpl(
         }
     }
 
-    //GET SESSIONS
+    // GET SESSIONS
     override suspend fun getAllSessionsStartTimeAsc(): Output<List<SessionRecord>> {
         return try {
             val sessionRecordEntities = withContext(Dispatchers.IO) {
@@ -187,7 +187,7 @@ class SessionRecordRepositoryImpl(
         }
     }
 
-    //Sessions WITH audio file guideMp3
+    // Sessions WITH audio file guideMp3
     override suspend fun getAllSessionsWithMp3(): Output<List<SessionRecord>> {
         return try {
             val sessionRecordEntities = withContext(Dispatchers.IO) {
@@ -199,7 +199,7 @@ class SessionRecordRepositoryImpl(
         }
     }
 
-    //Sessions WITHOUT audio file guideMp3
+    // Sessions WITHOUT audio file guideMp3
     override suspend fun getAllSessionsWithoutMp3(): Output<List<SessionRecord>> {
         return try {
             val sessionRecordEntities = withContext(Dispatchers.IO) {
@@ -211,7 +211,7 @@ class SessionRecordRepositoryImpl(
         }
     }
 
-    //SEARCH on guideMp3 and notes
+    // SEARCH on guideMp3 and notes
     override suspend fun getSessionsSearch(searchRequest: String): Output<List<SessionRecord>> {
         return try {
             val sessionRecordEntities = withContext(Dispatchers.IO) {
@@ -223,7 +223,7 @@ class SessionRecordRepositoryImpl(
         }
     }
 
-    //LIST of all sessions as unobservable request, only for export
+    // LIST of all sessions as unobservable request, only for export
     override suspend fun asyncGetAllSessionsStartTimeAsc(): Output<List<SessionRecord>> {
         return try {
             val sessionRecordEntities = withContext(Dispatchers.IO) {
@@ -235,7 +235,7 @@ class SessionRecordRepositoryImpl(
         }
     }
 
-    //last session start timestamp
+    // last session start timestamp
     override suspend fun getMostRecentSessionRecordDate(): Output<Long> {
         return try {
             val date = withContext(Dispatchers.IO) {
@@ -271,5 +271,4 @@ class SessionRecordRepositoryImpl(
             )
         }
     }
-
 }

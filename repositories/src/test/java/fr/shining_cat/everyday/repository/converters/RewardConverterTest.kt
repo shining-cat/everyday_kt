@@ -28,7 +28,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
-import java.util.*
+import java.util.GregorianCalendar
 
 class RewardConverterTest {
 
@@ -36,7 +36,6 @@ class RewardConverterTest {
     private lateinit var mockLogger: Logger
 
     private lateinit var rewardConverter: RewardConverter
-
 
     @Before
     fun setUp() {
@@ -99,7 +98,7 @@ class RewardConverterTest {
         armsColor = "#0000FF00"
     )
 
-    //////////////////////////////////
+    // ////////////////////////////////
     @Test
     fun convertModelToEntity() {
         val convertedModel = runBlocking {
@@ -108,7 +107,6 @@ class RewardConverterTest {
         assertEquals(rewardEntity, convertedModel)
     }
 
-
     @Test
     fun convertEntitytoModel() {
         val convertedEntity = runBlocking {
@@ -116,5 +114,4 @@ class RewardConverterTest {
         }
         assertEquals(reward, convertedEntity)
     }
-
 }

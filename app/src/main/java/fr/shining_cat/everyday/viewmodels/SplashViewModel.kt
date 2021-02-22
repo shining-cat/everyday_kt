@@ -46,12 +46,11 @@ class SplashViewModel(
             val delayDeferred = ioScope.async {
                 delay(Constants.SPLASH_MIN_DURATION_MILLIS)
             }
-            //TODO: load user settings from SharedPrefs and apply, then pursue
+            // TODO: load user settings from SharedPrefs and apply, then pursue
 
             delayDeferred.await()
             logger.d(LOG_TAG, "loadConfInit:delayDeferred:DONE WAITING")
             _initReadyLiveData.value = true
         }
     }
-
 }

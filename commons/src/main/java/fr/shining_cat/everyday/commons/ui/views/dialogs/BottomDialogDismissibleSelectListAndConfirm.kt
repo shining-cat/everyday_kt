@@ -73,7 +73,8 @@ class BottomDialogDismissibleSelectListAndConfirm : BottomSheetDialogFragment() 
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val uiBindings = DialogBottomSelectListAndConfirmBinding.inflate(layoutInflater)
@@ -110,7 +111,7 @@ class BottomDialogDismissibleSelectListAndConfirm : BottomSheetDialogFragment() 
         val confirmButton = uiBindings.dialogBottomConfirmButton
         confirmButton.text = confirmButtonLabel
         confirmButton.setOnClickListener { transmitChosenOption(selectListAdapter.selectedPosition) }
-        //preventing disturbing dialog size-changes when scrolling list by setting peek height to expanded (full) height
+        // preventing disturbing dialog size-changes when scrolling list by setting peek height to expanded (full) height
         this.dialog?.setOnShowListener { dialog ->
             val d = dialog as BottomSheetDialog
             val bottomSheet = d.findViewById<View>(R.id.design_bottom_sheet) as FrameLayout

@@ -51,11 +51,11 @@ class BottomDialogDismissibleBigButton : BottomSheetDialogFragment() {
                         putString(BIG_BUTTON_LABEL_ARG, bigButtonLabel)
                     }
                 }
-
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val uiBindings = DialogBottomBigButtonBinding.inflate(layoutInflater)
@@ -80,5 +80,4 @@ class BottomDialogDismissibleBigButton : BottomSheetDialogFragment() {
         bigButton.text = bigButtonLabel
         bigButton.setOnClickListener { listener?.onBigButtonClicked() }
     }
-
 }

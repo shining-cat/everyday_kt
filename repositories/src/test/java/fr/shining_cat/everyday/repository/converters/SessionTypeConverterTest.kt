@@ -35,7 +35,6 @@ class SessionTypeConverterTest {
 
     private lateinit var sessionTypeConverter: SessionTypeConverter
 
-
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
@@ -59,7 +58,7 @@ class SessionTypeConverterTest {
         lastEditTime = 234L
     )
 
-    //////////////////////////////////
+    // ////////////////////////////////
     @Test
     fun convertModelToEntity() {
         val convertedModel = runBlocking {
@@ -67,7 +66,6 @@ class SessionTypeConverterTest {
         }
         assertEquals(sessionTypeEntity, convertedModel)
     }
-
 
     @Test
     fun convertEntitytoModel() {

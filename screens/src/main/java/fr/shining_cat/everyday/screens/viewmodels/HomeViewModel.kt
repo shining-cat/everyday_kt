@@ -40,5 +40,4 @@ class HomeViewModel(
             _initReadyLiveData.value = LOG_TAG
         }
     }
-
 }

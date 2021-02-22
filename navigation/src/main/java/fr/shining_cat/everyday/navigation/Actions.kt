@@ -20,7 +20,6 @@ package fr.shining_cat.everyday.navigation
 import android.content.Context
 import android.content.Intent
 
-
 object Actions {
 
     fun openDestination(context: Context, destination: Destination): Intent {
@@ -28,7 +27,6 @@ object Actions {
             is Destination.HomeDestination -> intentForHome(context)
             is Destination.SessionDestination -> intentForSession(context)
             is Destination.SettingsDestination -> intentForSettings(context)
-
         }
     }
 
@@ -43,6 +41,4 @@ object Actions {
 
     private fun intentForSettings(context: Context) =
         internalIntent(context, "fr.shining_cat.everyday.settings.views.SettingsActivity")
-
-
 }

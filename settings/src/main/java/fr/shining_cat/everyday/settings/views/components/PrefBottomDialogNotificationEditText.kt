@@ -61,7 +61,7 @@ class PrefBottomDialogNotificationEditText(
             object :
                 BottomDialogDismissibleEditTextAndConfirm.BottomDialogDismissibleEditTextAndConfirmListener {
                 override fun onDismissed() {
-                    //nothing to do here
+                    // nothing to do here
                 }
 
                 override fun onValidateInputText(inputText: String) {

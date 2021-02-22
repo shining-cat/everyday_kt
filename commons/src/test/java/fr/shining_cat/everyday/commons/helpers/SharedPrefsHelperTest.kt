@@ -61,7 +61,6 @@ class SharedPrefsHelperTest {
             )
         } returns mockSharedPreferencesEditor
         coEvery { mockSharedPreferencesEditor.apply() } returns Unit
-
     }
 
     @Test
@@ -279,5 +278,4 @@ class SharedPrefsHelperTest {
             )
         }
     }
-
 }

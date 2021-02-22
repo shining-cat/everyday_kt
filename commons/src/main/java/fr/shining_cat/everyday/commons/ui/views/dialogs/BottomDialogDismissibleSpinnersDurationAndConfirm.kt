@@ -81,7 +81,8 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val uiBindings = DialogBottomSpinnersDurationAndConfirmBinding.inflate(layoutInflater)
@@ -182,19 +183,22 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
             hoursPicker.visibility = GONE
             uiBindings.dialogBottomDurationSecondsUnit.visibility = GONE
         }
-        //convert initial time as ms to h, m, and s
+        // convert initial time as ms to h, m, and s
         val initialLengthHours = TimeUnit.MILLISECONDS.toHours(initialLengthMs)
         val initialLengthMinutes = TimeUnit.MILLISECONDS.toMinutes(initialLengthMs)
         val initialLengthSeconds = TimeUnit.MILLISECONDS.toSeconds(initialLengthMs)
         val fullHours = initialLengthHours.toInt()
-        val fullMinutes = (initialLengthMinutes -
+        val fullMinutes = (
+            initialLengthMinutes -
                 TimeUnit.HOURS.toMinutes(fullHours.toLong())
-                ).toInt()
-        val fullSeconds = (initialLengthSeconds - (
+            ).toInt()
+        val fullSeconds = (
+            initialLengthSeconds - (
                 TimeUnit.HOURS.toSeconds(fullHours.toLong()) +
-                        TimeUnit.MINUTES.toSeconds(fullMinutes.toLong())
-                )).toInt()
-        //apply to pickers
+                    TimeUnit.MINUTES.toSeconds(fullMinutes.toLong())
+                )
+            ).toInt()
+        // apply to pickers
         hoursPicker.value = fullHours
         minutesPicker.value = fullMinutes
         secondsPicker.value = fullSeconds

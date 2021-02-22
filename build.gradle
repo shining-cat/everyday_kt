@@ -24,14 +24,10 @@ buildscript {
     dependencies {
         classpath AndroidLibraries.gradle
         classpath KotlinLibraries.kotlinGradlePlugin
-        //gradle plugin to manage dependencies updates: see gradle tasks help > dependencyUpdates
         classpath Libraries.gradleVersionsPlugin
-        classpath "org.jacoco:org.jacoco.core:0.8.6"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+        classpath Libraries.jacocoPlugin
     }
 }
-
-apply plugin: "com.github.ben-manes.versions"
 
 allprojects {
     repositories {
@@ -39,8 +35,5 @@ allprojects {
         jcenter()
         mavenCentral()
     }
-}
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
 }

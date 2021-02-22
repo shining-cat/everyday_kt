@@ -43,7 +43,7 @@ class EverydayApplication : Application() {
 
             androidContext(this@EverydayApplication)
 
-            //TODO: remember to add every new module here once it has its own Module declaration listing its dependencies
+            // TODO: remember to add every new module here once it has its own Module declaration listing its dependencies
             modules(
                 listOf(
                     appModule,
@@ -64,5 +64,4 @@ class EverydayApplication : Application() {
             Stetho.initializeWithDefaults(this)
         }
     }
-
 }

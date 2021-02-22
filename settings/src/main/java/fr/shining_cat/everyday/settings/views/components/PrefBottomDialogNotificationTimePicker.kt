@@ -59,7 +59,7 @@ class PrefBottomDialogNotificationTimePicker(
             object :
                 BottomDialogDismissibleTimePicker.BottomDialogDismissibleTimePickerListener {
                 override fun onDismissed() {
-                    //nothing to do here
+                    // nothing to do here
                 }
 
                 override fun onConfirmButtonClicked(hour: Int, minutes: Int) {

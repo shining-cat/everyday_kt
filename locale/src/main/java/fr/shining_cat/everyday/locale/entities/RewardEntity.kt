@@ -79,7 +79,6 @@ data class RewardEntity(
     var armsColor: String = DEFAULT_REWARD_COLOR
 )
 
-
 object RewardEntityConstants {
 
     const val NO_ACQUISITION_DATE: Long = 0L

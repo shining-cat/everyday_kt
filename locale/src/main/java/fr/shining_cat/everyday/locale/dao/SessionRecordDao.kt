@@ -17,7 +17,12 @@
 
 package fr.shining_cat.everyday.locale.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntity
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.MP3_GUIDE
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.NOTES
@@ -25,7 +30,6 @@ import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.SE
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.SESSION_RECORD_ID
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.START_TIME_OF_RECORD
 import fr.shining_cat.everyday.locale.entities.SessionRecordTable.SESSION_RECORD_TABLE
-
 
 @Dao
 abstract class SessionRecordDao {
@@ -45,7 +49,7 @@ abstract class SessionRecordDao {
     @Query("SELECT * from $SESSION_RECORD_TABLE WHERE $SESSION_RECORD_ID =:sessionId")
     abstract suspend fun getSession(sessionId: Long): SessionRecordEntity?
 
-    //ROOM does not allow parameters for the ORDER BY clause to prevent injection
+    // ROOM does not allow parameters for the ORDER BY clause to prevent injection
     @Query("SELECT * from $SESSION_RECORD_TABLE ORDER BY $START_TIME_OF_RECORD ASC")
     abstract suspend fun getAllSessionsStartTimeAsc(): List<SessionRecordEntity>
 
@@ -58,27 +62,27 @@ abstract class SessionRecordDao {
     @Query("SELECT * from $SESSION_RECORD_TABLE ORDER BY $SESSION_REAL_DURATION DESC")
     abstract suspend fun getAllSessionsDurationDesc(): List<SessionRecordEntity>
 
-    //Sessions WITH audio file guideMp3
+    // Sessions WITH audio file guideMp3
     @Query("SELECT * from $SESSION_RECORD_TABLE WHERE $MP3_GUIDE != '' ORDER BY $START_TIME_OF_RECORD DESC")
     abstract suspend fun getAllSessionsWithMp3(): List<SessionRecordEntity>
 
-    //Sessions WITHOUT audio file guideMp3
+    // Sessions WITHOUT audio file guideMp3
     @Query("SELECT * from $SESSION_RECORD_TABLE WHERE $MP3_GUIDE = '' ORDER BY $START_TIME_OF_RECORD DESC")
     abstract suspend fun getAllSessionsWithoutMp3(): List<SessionRecordEntity>
 
-    //SEARCH on guideMp3 and notes - concatenating params with '%' in SQL
+    // SEARCH on guideMp3 and notes - concatenating params with '%' in SQL
     @Query("SELECT * from $SESSION_RECORD_TABLE WHERE $MP3_GUIDE LIKE '%' || :searchRequest || '%' OR $NOTES LIKE '%' || :searchRequest || '%' ORDER BY $START_TIME_OF_RECORD DESC")
     abstract suspend fun getSessionsSearch(searchRequest: String): List<SessionRecordEntity>
 
-    //LIST of all sessions as unobservable request, only for export
+    // LIST of all sessions as unobservable request, only for export
     @Query("SELECT * from $SESSION_RECORD_TABLE ORDER BY $START_TIME_OF_RECORD ASC")
     abstract suspend fun asyncGetAllSessionsStartTimeAsc(): List<SessionRecordEntity>
 
-    //last session start timestamp
+    // last session start timestamp
     @Query("SELECT max($START_TIME_OF_RECORD) from $SESSION_RECORD_TABLE")
     abstract suspend fun getMostRecentSessionRecordDate(): Long?
 
-    //Count
+    // Count
     @Query("SELECT COUNT($SESSION_RECORD_ID) FROM $SESSION_RECORD_TABLE")
     abstract suspend fun getNumberOfRows(): Int
 }

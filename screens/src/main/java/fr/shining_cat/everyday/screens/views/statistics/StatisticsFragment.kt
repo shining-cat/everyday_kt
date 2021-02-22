@@ -18,7 +18,11 @@
 package fr.shining_cat.everyday.screens.views.statistics
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -48,9 +52,12 @@ class StatisticsFragment : Fragment() {
         setupToolbar(statisticsFragmentBinding)
         //
         val textView: TextView = statisticsFragmentBinding.fakeFragmentText
-        statisticsViewModelViewModel.initReadyLiveData.observe(viewLifecycleOwner, Observer {
-            textView.text = "This is ${LOG_TAG}\n $it loaded!"
-        })
+        statisticsViewModelViewModel.initReadyLiveData.observe(
+            viewLifecycleOwner,
+            Observer {
+                textView.text = "This is ${LOG_TAG}\n $it loaded!"
+            }
+        )
         statisticsViewModelViewModel.initViewModel()
         return statisticsFragmentBinding.root
     }

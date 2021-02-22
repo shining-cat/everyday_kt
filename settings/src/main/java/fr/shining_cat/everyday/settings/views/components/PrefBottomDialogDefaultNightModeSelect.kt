@@ -73,7 +73,7 @@ class PrefBottomDialogDefaultNightModeSelect(
             object :
                 BottomDialogDismissibleSelectListAndConfirm.BottomDialogDismissibleSelectListAndConfirmListener {
                 override fun onDismissed() {
-                    //nothing to do here
+                    // nothing to do here
                 }
 
                 override fun onValidateSelection(optionSelectedIndex: Int) {

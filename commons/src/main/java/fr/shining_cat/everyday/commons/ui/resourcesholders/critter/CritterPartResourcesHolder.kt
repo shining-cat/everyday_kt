@@ -35,13 +35,13 @@ sealed class CritterPartResourcesHolder {
         override fun getResourceIdForKey(key: Int): Int = ArmsDrawable.fromKey(key)
 
         private enum class ArmsDrawable(val key: Int, val resourceId: Int) {
-            ARMS_PART_OFF(0, -1),//R.drawable.arms_off),
-            ARMS_PART_1(1, -1),//R.drawable.arms_1),
-            ARMS_PART_2(2, -1),//R.drawable.arms_2),
-            ARMS_PART_3(3, -1),//R.drawable.arms_3),
-            ARMS_PART_4(4, -1),//R.drawable.arms_4),
-            ARMS_PART_5(5, -1),//R.drawable.arms_5),
-            ARMS_PART_6(6, -1);//R.drawable.arms_6);
+            ARMS_PART_OFF(0, -1), // R.drawable.arms_off),
+            ARMS_PART_1(1, -1), // R.drawable.arms_1),
+            ARMS_PART_2(2, -1), // R.drawable.arms_2),
+            ARMS_PART_3(3, -1), // R.drawable.arms_3),
+            ARMS_PART_4(4, -1), // R.drawable.arms_4),
+            ARMS_PART_5(5, -1), // R.drawable.arms_5),
+            ARMS_PART_6(6, -1); // R.drawable.arms_6);
 
             companion object {
 
@@ -69,13 +69,13 @@ sealed class CritterPartResourcesHolder {
         override fun getResourceIdForKey(key: Int): Int = EyesDrawable.fromKey(key)
 
         private enum class EyesDrawable(val key: Int, val resourceId: Int) {
-            EYES_PART_OFF(0, -1),//R.drawable.eyes_off),
-            EYES_PART_1(1, -1),//R.drawable.eyes_1),
-            EYES_PART_2(2, -1),//R.drawable.eyes_2),
-            EYES_PART_3(3, -1),//R.drawable.eyes_3),
-            EYES_PART_4(4, -1),//R.drawable.eyes_4),
-            EYES_PART_5(5, -1),//R.drawable.eyes_5),
-            EYES_PART_6(6, -1);//R.drawable.eyes_6);
+            EYES_PART_OFF(0, -1), // R.drawable.eyes_off),
+            EYES_PART_1(1, -1), // R.drawable.eyes_1),
+            EYES_PART_2(2, -1), // R.drawable.eyes_2),
+            EYES_PART_3(3, -1), // R.drawable.eyes_3),
+            EYES_PART_4(4, -1), // R.drawable.eyes_4),
+            EYES_PART_5(5, -1), // R.drawable.eyes_5),
+            EYES_PART_6(6, -1); // R.drawable.eyes_6);
 
             companion object {
 
@@ -102,15 +102,15 @@ sealed class CritterPartResourcesHolder {
 
         override fun getResourceIdForKey(key: Int): Int = FlowerDrawable.fromKey(key)
 
-        //There is no "OFF" part for Flower
+        // There is no "OFF" part for Flower
         private enum class FlowerDrawable(val key: Int, val resourceId: Int) {
 
-            FLOWER_PART_1(1, -1),//R.drawable.flower_1),
-            FLOWER_PART_2(2, -1),//R.drawable.flower_2),
-            FLOWER_PART_3(3, -1),//R.drawable.flower_3),
-            FLOWER_PART_4(4, -1),//R.drawable.flower_4),
-            FLOWER_PART_5(5, -1),//R.drawable.flower_5),
-            FLOWER_PART_6(6, -1);//R.drawable.flower_6);
+            FLOWER_PART_1(1, -1), // R.drawable.flower_1),
+            FLOWER_PART_2(2, -1), // R.drawable.flower_2),
+            FLOWER_PART_3(3, -1), // R.drawable.flower_3),
+            FLOWER_PART_4(4, -1), // R.drawable.flower_4),
+            FLOWER_PART_5(5, -1), // R.drawable.flower_5),
+            FLOWER_PART_6(6, -1); // R.drawable.flower_6);
 
             companion object {
 
@@ -123,7 +123,6 @@ sealed class CritterPartResourcesHolder {
                     FLOWER_PART_6.key -> FLOWER_PART_6.resourceId
                     else -> FLOWER_PART_1.resourceId
                 }
-
             }
         }
     }
@@ -137,15 +136,14 @@ sealed class CritterPartResourcesHolder {
 
         override fun getResourceIdForKey(key: Int): Int = HornsDrawable.fromKey(key)
 
-
         private enum class HornsDrawable(val key: Int, val resourceId: Int) {
-            HORNS_PART_OFF(0, -1),//R.drawable.horns_off),
-            HORNS_PART_1(1, -1),//R.drawable.horns_1),
-            HORNS_PART_2(2, -1),//R.drawable.horns_2),
-            HORNS_PART_3(3, -1),//R.drawable.horns_3),
-            HORNS_PART_4(4, -1),//R.drawable.horns_4),
-            HORNS_PART_5(5, -1),//R.drawable.horns_5),
-            HORNS_PART_6(6, -1);//R.drawable.horns_6);
+            HORNS_PART_OFF(0, -1), // R.drawable.horns_off),
+            HORNS_PART_1(1, -1), // R.drawable.horns_1),
+            HORNS_PART_2(2, -1), // R.drawable.horns_2),
+            HORNS_PART_3(3, -1), // R.drawable.horns_3),
+            HORNS_PART_4(4, -1), // R.drawable.horns_4),
+            HORNS_PART_5(5, -1), // R.drawable.horns_5),
+            HORNS_PART_6(6, -1); // R.drawable.horns_6);
 
             companion object {
 
@@ -159,7 +157,6 @@ sealed class CritterPartResourcesHolder {
                     HORNS_PART_6.key -> HORNS_PART_6.resourceId
                     else -> HORNS_PART_OFF.resourceId
                 }
-
             }
         }
     }
@@ -174,13 +171,13 @@ sealed class CritterPartResourcesHolder {
         override fun getResourceIdForKey(key: Int): Int = LegsDrawable.fromKey(key)
 
         private enum class LegsDrawable(val key: Int, val resourceId: Int) {
-            LEGS_PART_OFF(0, -1),//R.drawable.legs_off),
-            LEGS_PART_1(1, -1),//R.drawable.legs_1),
-            LEGS_PART_2(2, -1),//R.drawable.legs_2),
-            LEGS_PART_3(3, -1),//R.drawable.legs_3),
-            LEGS_PART_4(4, -1),//R.drawable.legs_4),
-            LEGS_PART_5(5, -1),//R.drawable.legs_5),
-            LEGS_PART_6(6, -1);//R.drawable.legs_6);
+            LEGS_PART_OFF(0, -1), // R.drawable.legs_off),
+            LEGS_PART_1(1, -1), // R.drawable.legs_1),
+            LEGS_PART_2(2, -1), // R.drawable.legs_2),
+            LEGS_PART_3(3, -1), // R.drawable.legs_3),
+            LEGS_PART_4(4, -1), // R.drawable.legs_4),
+            LEGS_PART_5(5, -1), // R.drawable.legs_5),
+            LEGS_PART_6(6, -1); // R.drawable.legs_6);
 
             companion object {
 
@@ -194,7 +191,6 @@ sealed class CritterPartResourcesHolder {
                     LEGS_PART_6.key -> LEGS_PART_6.resourceId
                     else -> LEGS_PART_OFF.resourceId
                 }
-
             }
         }
     }
@@ -208,15 +204,15 @@ sealed class CritterPartResourcesHolder {
 
         override fun getResourceIdForKey(key: Int): Int = MouthDrawable.fromKey(key)
 
-        //There is no "OFF" part for mouth
+        // There is no "OFF" part for mouth
         private enum class MouthDrawable(val key: Int, val resourceId: Int) {
 
-            MOUTH_PART_1(1, -1),//R.drawable.mouth_1),
-            MOUTH_PART_2(2, -1),//R.drawable.mouth_2),
-            MOUTH_PART_3(3, -1),//R.drawable.mouth_3),
-            MOUTH_PART_4(4, -1),//R.drawable.mouth_4),
-            MOUTH_PART_5(5, -1),//R.drawable.mouth_5),
-            MOUTH_PART_6(6, -1);//R.drawable.mouth_6);
+            MOUTH_PART_1(1, -1), // R.drawable.mouth_1),
+            MOUTH_PART_2(2, -1), // R.drawable.mouth_2),
+            MOUTH_PART_3(3, -1), // R.drawable.mouth_3),
+            MOUTH_PART_4(4, -1), // R.drawable.mouth_4),
+            MOUTH_PART_5(5, -1), // R.drawable.mouth_5),
+            MOUTH_PART_6(6, -1); // R.drawable.mouth_6);
 
             companion object {
 
@@ -229,7 +225,6 @@ sealed class CritterPartResourcesHolder {
                     MOUTH_PART_6.key -> MOUTH_PART_6.resourceId
                     else -> MOUTH_PART_1.resourceId
                 }
-
             }
         }
     }

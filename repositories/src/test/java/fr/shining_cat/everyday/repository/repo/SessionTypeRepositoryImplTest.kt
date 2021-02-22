@@ -70,7 +70,6 @@ class SessionTypeRepositoryImplTest {
         coEvery { mockSessionTypeDao.getAllSessionTypesLastEditTimeDesc() } returns listOf(
             mockSessionTypeEntity
         )
-
     }
 
     @Test

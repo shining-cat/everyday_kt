@@ -153,7 +153,7 @@ class RewardRepositoryImpl(
         }
     }
 
-    //rewards active
+    // rewards active
 
     override suspend fun rewardsActiveAcquisitionDateAsc(): Output<List<Reward>> {
         return try {
@@ -199,7 +199,7 @@ class RewardRepositoryImpl(
         }
     }
 
-    //ACTIVE and NOT-LOST rewards :
+    // ACTIVE and NOT-LOST rewards :
     override suspend fun rewardsNotEscapedAcquisitionDateDesc(): Output<List<Reward>> {
         return try {
             val rewardEntities = withContext(Dispatchers.IO) {
@@ -211,7 +211,7 @@ class RewardRepositoryImpl(
         }
     }
 
-    //ACTIVE and LOST rewards :
+    // ACTIVE and LOST rewards :
     override suspend fun rewardsEscapedAcquisitionDateDesc(): Output<List<Reward>> {
         return try {
             val rewardEntities = withContext(Dispatchers.IO) {
@@ -223,7 +223,7 @@ class RewardRepositoryImpl(
         }
     }
 
-    //NON-ACTIVE rewards for specific LEVEL:
+    // NON-ACTIVE rewards for specific LEVEL:
     override suspend fun rewardsOfSPecificLevelNotActive(level: Int): Output<List<Reward>> {
         return try {
             val rewardEntities = withContext(Dispatchers.IO) {
@@ -235,7 +235,7 @@ class RewardRepositoryImpl(
         }
     }
 
-    //NON-ACTIVE or ACTIVE-and-ESCAPED rewards for specific LEVEL:
+    // NON-ACTIVE or ACTIVE-and-ESCAPED rewards for specific LEVEL:
     override suspend fun rewardsOfSPecificLevelNotActiveOrEscaped(level: Int): Output<List<Reward>> {
         return try {
             val rewardEntities = withContext(Dispatchers.IO) {
@@ -247,7 +247,7 @@ class RewardRepositoryImpl(
         }
     }
 
-    //COUNTS :
+    // COUNTS :
     override suspend fun countAllRewards(): Output<Int> {
         return try {
             val count = withContext(Dispatchers.IO) {

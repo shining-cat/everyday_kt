@@ -47,20 +47,19 @@ class PrefBottomDialogEraseAllData(
             bigButtonLabel = context.getString(R.string.generic_string_DELETE)
         )
         eraseAllDataBottomSheetDialog.setBottomDialogDismissibleBigButtonListener(object :
-            BottomDialogDismissibleBigButton.BottomDialogDismissibleBigButtonListener {
-            override fun onDismissed() {
-                //nothing to do here
-            }
+                BottomDialogDismissibleBigButton.BottomDialogDismissibleBigButtonListener {
+                override fun onDismissed() {
+                    // nothing to do here
+                }
 
-            override fun onBigButtonClicked() {
-                //TODO: call Erase all data Usecase
-                logger.e(
-                    LOG_TAG,
-                    "openEraseAllDataDialog::onBigButtonClicked::TODO: implement second confirmation in mid-screen \"popup\" Dialog, then call Erase all data Usecase"
-                )
-            }
-
-        })
+                override fun onBigButtonClicked() {
+                    // TODO: call Erase all data Usecase
+                    logger.e(
+                        LOG_TAG,
+                        "openEraseAllDataDialog::onBigButtonClicked::TODO: implement second confirmation in mid-screen \"popup\" Dialog, then call Erase all data Usecase"
+                    )
+                }
+            })
         eraseAllDataBottomSheetDialog.show(fragmentManager, "openEraseAllDataDialog")
     }
 }

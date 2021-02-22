@@ -24,5 +24,4 @@ sealed class Destination {
     class SettingsDestination : Destination()
 
     class SessionDestination : Destination()
-
 }

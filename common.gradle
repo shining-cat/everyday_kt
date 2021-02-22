@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2021. Shining-cat - Shiva Bernhard
+ * This file is part of Everyday.
+ *
+ *     Everyday is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, version 3 of the License.
+ *
+ *     Everyday is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with Everyday.  If not, see <https://www.gnu.org/licenses/>.
+ */
 android {
     compileSdkVersion Versions.compileSdk
     defaultConfig {
@@ -41,6 +57,9 @@ android {
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'jacoco'
+apply plugin: "com.github.ben-manes.versions"
+apply from: "$project.rootDir/jacoco.gradle"
+apply from: "$project.rootDir/ktlint.gradle"
 
 dependencies {
     implementation KotlinLibraries.kotlinJdk7
@@ -70,55 +89,3 @@ dependencies {
     androidTestImplementation AndroidTestLibraries.core_testing
 }
 
-jacoco {
-    toolVersion = Versions.jacoco
-}
-
-tasks.withType(Test) {
-    jacoco.includeNoLocationClasses = true
-}
-
-/*
- * Copyright (c) 2021. Shining-cat - Shiva Bernhard
- * This file is part of Everyday.
- *
- *     Everyday is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, version 3 of the License.
- *
- *     Everyday is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU General Public License for more details.
- *
- *     You should have received a copy of the GNU General Public License
- *     along with Everyday.  If not, see <https://www.gnu.org/licenses/>.
- */
-
-//task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
-    group = 'Everyday'
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
-    def fileFilter = [
-            '**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*', '**/*$[0-9].*'
-    ]
-    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
-    def mainSrc = "$project.projectDir/src/main/java"
-
-    sourceDirectories.from = files([mainSrc])
-    classDirectories.from = files([debugTree])
-    executionData.from = fileTree(dir: project.buildDir, includes: [
-            'jacoco/testDebugUnitTest.exec', 'outputs/code_coverage/debugAndroidTest/connected/**/*.ec'
-    ])
-}
-
-// This task launches the tests and copies the reports to /reports/ directory
-task everydayReport(type: Copy, dependsOn: 'jacocoTestReport') {
-    group = 'Everyday'
-    from "$buildDir/reports/"
-    into "../reports/$project.name"
-}

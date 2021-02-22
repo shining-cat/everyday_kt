@@ -34,5 +34,4 @@ abstract class AbstractViewModels(protected val appDispatchers: AppDispatchers) 
         mainScope.cancel()
         ioScope.cancel()
     }
-
 }

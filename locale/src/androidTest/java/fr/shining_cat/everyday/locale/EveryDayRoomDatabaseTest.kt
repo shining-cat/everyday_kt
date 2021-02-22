@@ -24,11 +24,11 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 
-//@RunWith(AndroidJUnit4ClassRunner::class)
+// @RunWith(AndroidJUnit4ClassRunner::class)
 class EveryDayRoomDatabaseTest {
 
     //        TODO("For now we don't need tests on the database instance")
-//set the testing environment to use Main thread instead of background one
+// set the testing environment to use Main thread instead of background one
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -36,8 +36,8 @@ class EveryDayRoomDatabaseTest {
 
     @Before
     fun setupTable() {
-        //We can't use inMemory Databases to test createFromAsset (see https://developer.android.com/training/data-storage/room/prepopulate)
-        //so We will use a real DB here, and we need to flush it afterward
+        // We can't use inMemory Databases to test createFromAsset (see https://developer.android.com/training/data-storage/room/prepopulate)
+        // so We will use a real DB here, and we need to flush it afterward
         context = ApplicationProvider.getApplicationContext<Context>()
     }
 
