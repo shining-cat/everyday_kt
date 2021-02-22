@@ -49,7 +49,7 @@ class SelectListAdapter(
         }
 
     // This keeps track of the currently selected position
-    var selectedPosition by Delegates.observable(-1) { property, oldPos, newPos ->
+    var selectedPosition by Delegates.observable(-1) { _, oldPos, newPos ->
         if (newPos in optionsLabels.indices) {
             logger.d(LOG_TAG, "selectedPosition updated to $newPos, old position was $oldPos")
             notifyItemChanged(oldPos)
@@ -136,11 +136,4 @@ class SelectListNormalItemViewHolder(
 class SelectListDividerViewHolder(
     dialogBottomSelectListDividerBinding: DialogBottomSelectListDividerBinding,
     val logger: Logger
-) : RecyclerView.ViewHolder(dialogBottomSelectListDividerBinding.root) {
-
-    private val LOG_TAG = SelectListDividerViewHolder::class.java.name
-
-    fun bindView(label: String, selected: Boolean) {
-        //nothing to do for divider
-    }
-}
+) : RecyclerView.ViewHolder(dialogBottomSelectListDividerBinding.root)

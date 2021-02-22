@@ -26,10 +26,10 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 

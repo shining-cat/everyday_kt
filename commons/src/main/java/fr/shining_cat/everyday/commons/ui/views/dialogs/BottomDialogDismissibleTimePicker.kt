@@ -92,8 +92,10 @@ class BottomDialogDismissibleTimePicker : BottomSheetDialogFragment() {
             timePicker.hour = hour
             timePicker.minute = minutes
         } else {
-            timePicker.currentHour = hour
+            @Suppress("DEPRECATION")
             timePicker.currentMinute = minutes
+            @Suppress("DEPRECATION")
+            timePicker.currentHour = hour
         }
         //
         val confirmButtonLabel = arguments?.getString(CONFIRM_BUTTON_LABEL_ARG, "") ?: ""
@@ -103,6 +105,7 @@ class BottomDialogDismissibleTimePicker : BottomSheetDialogFragment() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 transmitSelectedTime(timePicker.hour, timePicker.minute)
             } else {
+                @Suppress("DEPRECATION")
                 transmitSelectedTime(timePicker.currentHour, timePicker.currentMinute)
             }
         }
