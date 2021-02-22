@@ -17,10 +17,10 @@
 
 package fr.shining_cat.everyday.screens.di
 
-import fr.shining_cat.everyday.screens.views.home.HomeViewModel
-import fr.shining_cat.everyday.screens.views.rewards.RewardsViewModel
-import fr.shining_cat.everyday.screens.views.sessions.SessionsViewModel
-import fr.shining_cat.everyday.screens.views.statistics.StatisticsViewModel
+import fr.shining_cat.everyday.screens.viewmodels.HomeViewModel
+import fr.shining_cat.everyday.screens.viewmodels.RewardsViewModel
+import fr.shining_cat.everyday.screens.viewmodels.SessionsViewModel
+import fr.shining_cat.everyday.screens.viewmodels.StatisticsViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

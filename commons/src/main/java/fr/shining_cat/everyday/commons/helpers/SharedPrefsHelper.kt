@@ -25,7 +25,7 @@ object SharedPrefsHelperSettings {
 
     const val KEEP_SCREEN_ON = "sessions.keep.screen.on"
     const val DO_NOT_DISTURB = "sessions.do.not.disturb"
-    const val PLANE_MODE_REMINDER = "sessions.plane.mode.reminder"
+    const val AEROPLANE_MODE_REMINDER = "sessions.aeroplane.mode.reminder"
     const val NOTIFICATION_ACTIVATED = "notification.activated"
     const val NOTIFICATION_TIME = "notification.time"
     const val NOTIFICATION_TEXT = "notification.text"
@@ -57,7 +57,7 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
 
     fun getPlaneModeReminder(): Boolean {
         return sharedPreferences.getBoolean(
-            SharedPrefsHelperSettings.PLANE_MODE_REMINDER,
+            SharedPrefsHelperSettings.AEROPLANE_MODE_REMINDER,
             false
         )
     }
