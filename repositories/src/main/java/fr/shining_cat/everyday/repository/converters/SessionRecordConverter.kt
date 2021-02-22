@@ -65,10 +65,10 @@ class SessionRecordConverter(
     }
 
     suspend fun convertEntitiesToModels(sessionRecordEntities: List<SessionRecordEntity>): List<SessionRecord> {
-        return sessionRecordEntities.map { sessionEntity -> convertEntitytoModel(sessionEntity) }
+        return sessionRecordEntities.map { sessionEntity -> convertEntityToModel(sessionEntity) }
     }
 
-    suspend fun convertEntitytoModel(sessionRecordEntity: SessionRecordEntity): SessionRecord {
+    suspend fun convertEntityToModel(sessionRecordEntity: SessionRecordEntity): SessionRecord {
         val startMoodRecord = Mood(
             timeOfRecord = sessionRecordEntity.startTimeOfRecord,
             bodyValue = MoodValue.fromKey(

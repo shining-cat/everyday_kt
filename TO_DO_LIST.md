@@ -5,8 +5,7 @@
 - [x] chek and update, then insert copyright license mention
 - [ ] fix and update tests to conform to updated standards
   - [x] locale module
-  - [ ] models module
-  - [ ] repositories module
+  - [x] repositories module
   - [ ] navigation module -> write tests on Actions
   - [ ] commons module -> write tests on SharedPrefsHelper
 - [ ] maybe improve tests auto-run + reporting with jacoco, see: https://prokash-sarkar.medium.com/multi-module-multi-flavored-test-coverage-with-jacoco-in-android-bc4fb4d135a3
