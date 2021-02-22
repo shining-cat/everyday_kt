@@ -10,3 +10,7 @@ dependencyUpdates {
         isNonStable(it.candidate.version)
     }
 }
+
+task everydayDependencyUpdates(type: Copy, dependsOn: 'dependencyUpdates') {
+    group = 'Everyday'
+}
