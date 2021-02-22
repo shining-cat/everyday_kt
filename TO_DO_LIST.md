@@ -6,8 +6,7 @@
 - [ ] fix and update tests to conform to updated standards
   - [x] locale module
   - [x] repositories module
-  - [ ] navigation module -> write tests on Actions
-  - [ ] commons module -> write tests on SharedPrefsHelper
+  - [x] commons module -> write tests on SharedPrefsHelper
 - [ ] maybe improve tests auto-run + reporting with jacoco, see: https://prokash-sarkar.medium.com/multi-module-multi-flavored-test-coverage-with-jacoco-in-android-bc4fb4d135a3
 - [ ] find info on building optional feature: rewards mechanism and statistics will only be added as a feature later, in order to be able to build a working version faster => we may have to split the screens module up to dissociate "bonus" features from "core" features, question is where to put the associated models, dto, repos, if not in the corresponding modules?
 - [ ] check if possible to set github actions up, have some kind of simple CI/CD running maybe? (see: https://medium.com/google-developer-experts/github-actions-for-android-developers-6b54c8a32f55)
