@@ -1019,7 +1019,7 @@ class RewardDaoTest {
     }
 
     @Test
-    fun testGetAllRewardsOfSPecificLevelNotActive() {
+    fun testGetAllRewardsOfSpecificLevelNotActive() {
 
         val rewardsToInsertList = mutableListOf<RewardEntity>()
         rewardsToInsertList.addAll(generateRewards(5, 1, 3, active = false, escaped = false))
