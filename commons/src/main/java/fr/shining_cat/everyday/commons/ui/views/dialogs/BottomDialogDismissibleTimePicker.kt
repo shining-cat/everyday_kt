@@ -64,7 +64,8 @@ class BottomDialogDismissibleTimePicker : BottomSheetDialogFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val uiBindings = DialogBottomTimePickerAndConfirmBinding.inflate(layoutInflater)
@@ -115,5 +116,4 @@ class BottomDialogDismissibleTimePicker : BottomSheetDialogFragment() {
         bottomDialogDismissibleTimePickerListener?.onConfirmButtonClicked(hour, minutes)
         dismiss()
     }
-
 }

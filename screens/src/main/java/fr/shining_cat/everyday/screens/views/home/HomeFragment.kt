@@ -18,7 +18,12 @@
 package fr.shining_cat.everyday.screens.views.home
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -51,13 +56,15 @@ class HomeFragment : Fragment() {
         setupToolbar(homeFragmentBinding)
         //
         val textView: TextView = homeFragmentBinding.fakeFragmentText
-        homeViewModel.initReadyLiveData.observe(viewLifecycleOwner, Observer {
-            textView.text = "This is ${LOG_TAG}\n $it loaded!"
-        })
+        homeViewModel.initReadyLiveData.observe(
+            viewLifecycleOwner,
+            Observer {
+                textView.text = "This is ${LOG_TAG}\n $it loaded!"
+            }
+        )
         homeViewModel.initViewModel()
         return homeFragmentBinding.root
     }
-
 
     private fun setupToolbar(homeFragmentBinding: HomeFragmentBinding) {
         logger.d(LOG_TAG, "setupToolbar")
@@ -75,12 +82,14 @@ class HomeFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.actionbar_settings -> {
-                startActivity(context?.let {
-                    Actions.openDestination(
-                        it,
-                        Destination.SettingsDestination()
-                    )
-                })
+                startActivity(
+                    context?.let {
+                        Actions.openDestination(
+                            it,
+                            Destination.SettingsDestination()
+                        )
+                    }
+                )
                 return true
             }
             R.id.actionbar_about -> {
@@ -93,6 +102,6 @@ class HomeFragment : Fragment() {
 
     private fun showAboutDialog() {
         logger.d(LOG_TAG, "todo: showAboutDialog")
-        //TODO("not implemented")
+        // TODO("not implemented")
     }
 }

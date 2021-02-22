@@ -87,11 +87,11 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
                         putStringArray(RINGTONES_TITLES_ARG, ringtonesDisplayNames)
                     }
                 }
-
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val uiBindings = DialogBottomRingtonePickerAndConfirmBinding.inflate(layoutInflater)
@@ -131,11 +131,11 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
         selectListRecycler.layoutManager = layoutManager
         //
         selectListAdapter.setSelectListAdapterListener(object :
-            SelectListAdapter.SelectListAdapterListener {
-            override fun onOptionSelected(selectedPosition: Int) {
-                playSelectedRingtone(completeRingtonesUris[selectedPosition])
-            }
-        })
+                SelectListAdapter.SelectListAdapterListener {
+                override fun onOptionSelected(selectedPosition: Int) {
+                    playSelectedRingtone(completeRingtonesUris[selectedPosition])
+                }
+            })
         //
         val confirmButtonLabel = arguments?.getString(CONFIRM_BUTTON_LABEL_ARG, "") ?: ""
         val confirmButton = uiBindings.dialogBottomConfirmButton
@@ -143,7 +143,7 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
         confirmButton.setOnClickListener {
             transmitSelectedRingtone(completeRingtonesList[selectListAdapter.selectedPosition])
         }
-        //preventing disturbing dialog size-changes when scrolling list by setting peek height to expanded (full) height
+        // preventing disturbing dialog size-changes when scrolling list by setting peek height to expanded (full) height
         this.dialog?.setOnShowListener { dialog ->
             val d = dialog as BottomSheetDialog
             val bottomSheet = d.findViewById<View>(R.id.design_bottom_sheet) as FrameLayout
@@ -169,9 +169,9 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
         //
         val ringtonesAssetsNames = arguments?.getStringArray(RINGTONES_ASSETS_ARG) ?: emptyArray()
         val ringtonesDisplayNames = arguments?.getStringArray(RINGTONES_TITLES_ARG) ?: emptyArray()
-        val ringtonesAssetsList = if (ringtonesAssetsNames.isNotEmpty()
-            && ringtonesDisplayNames.isNotEmpty()
-            && ringtonesAssetsNames.size == ringtonesDisplayNames.size
+        val ringtonesAssetsList = if (ringtonesAssetsNames.isNotEmpty() &&
+            ringtonesDisplayNames.isNotEmpty() &&
+            ringtonesAssetsNames.size == ringtonesDisplayNames.size
         ) {
             getAssetsRingtones(ringtonesAssetsNames, ringtonesDisplayNames)
         } else {
@@ -189,7 +189,6 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
 
     private fun getSilentRingtone(): List<Pair<String, Uri>> =
         listOf(Pair(getString(R.string.silence), Uri.parse("")), selectListDividerItem)
-
 
     private val selectListDividerItem = Pair("", Uri.parse(""))
 
@@ -243,5 +242,4 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
         )
         dismiss()
     }
-
 }

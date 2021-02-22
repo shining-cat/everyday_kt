@@ -23,15 +23,18 @@ import fr.shining_cat.everyday.locale.EveryDayRoomDatabase
 import fr.shining_cat.everyday.locale.entities.RewardEntity
 import kotlinx.coroutines.runBlocking
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.util.*
+import java.util.GregorianCalendar
 
 class RewardDaoTest {
 
-    //set the testing environment to use Main thread instead of background one
+    // set the testing environment to use Main thread instead of background one
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -46,9 +49,9 @@ class RewardDaoTest {
         emptyTableAndCheck()
     }
 
-    /////////////////////////////
+    // ///////////////////////////
     //  UTILS
-    /////////////////////////////
+    // ///////////////////////////
     private fun emptyTableAndCheck() {
         runBlocking {
             rewardDao.deleteAllRewards()
@@ -142,9 +145,9 @@ class RewardDaoTest {
         return returnList
     }
 
-    /////////////////////////////
+    // ///////////////////////////
     //  INSERTS
-    /////////////////////////////
+    // ///////////////////////////
     @Test
     fun testInsertReward() {
         insertAndCheckRewardEntities()
@@ -155,7 +158,7 @@ class RewardDaoTest {
     fun testInsertWithConflict() {
         insertAndCheckRewardEntities()
         assertTableSize(20)
-        //insert same entities again to cause conflict
+        // insert same entities again to cause conflict
         insertAndCheckRewardEntities()
         assertTableSize(20)
     }
@@ -169,9 +172,9 @@ class RewardDaoTest {
         assertEquals(20, insertedIds.size)
     }
 
-    ///////////////////////////////////
-    //DELETES
-    ///////////////////////////////////
+    // /////////////////////////////////
+    // DELETES
+    // /////////////////////////////////
 
     @Test
     fun testDeleteRewardFromEmptyTable() {
@@ -226,15 +229,14 @@ class RewardDaoTest {
         assertEquals(1, countDeleted)
         //
         assertTableSize(49)
-
     }
 
     @Test
     fun testDeleteMultiRewardOnEmptyTable() {
-        //create the test-subject list of items
+        // create the test-subject list of items
         val rewardsToDeleteList = generateRewards(17)
         assertTableSize(0)
-        //delete test-subject list of items
+        // delete test-subject list of items
         val numberOfDeletedRows = runBlocking {
             rewardDao.delete(rewardsToDeleteList)
         }
@@ -244,9 +246,9 @@ class RewardDaoTest {
 
     @Test
     fun testDeleteMultiReward() {
-        //insert the test-subject list of items
+        // insert the test-subject list of items
         val rewardsInserted = generateRewards(17)
-        //insert and collect the ids
+        // insert and collect the ids
         val insertedIds = runBlocking {
             rewardDao.insert(rewardsInserted)
         }
@@ -254,7 +256,7 @@ class RewardDaoTest {
         assertEquals(17, insertedIds.size)
         val rewardsToDelete = rewardsInserted.subList(0, 10)
 
-        //delete test-subject list of items
+        // delete test-subject list of items
         val numberOfDeletedRows = runBlocking {
             rewardDao.delete(rewardsToDelete)
         }
@@ -285,9 +287,9 @@ class RewardDaoTest {
         assertTableSize(0)
     }
 
-    ///////////////////////////////////
-    //GETS
-    ///////////////////////////////////
+    // /////////////////////////////////
+    // GETS
+    // /////////////////////////////////
 
     @Test
     fun testGetRewardOnEmptyTable() {
@@ -381,9 +383,9 @@ class RewardDaoTest {
         }
     }
 
-    ///////////////////////////////////
-    //UPDATES
-    ///////////////////////////////////
+    // /////////////////////////////////
+    // UPDATES
+    // /////////////////////////////////
 
     @Test
     fun testUpdateOneRewardOnEmptyTable() {
@@ -496,7 +498,6 @@ class RewardDaoTest {
             assertEquals("#FFFFFFFF", rewardEntityUpdated.armsColor)
         }
         //
-
     }
 
     @Test
@@ -669,12 +670,11 @@ class RewardDaoTest {
             assertEquals("armsColor updated 3", rewardEntityUpdated3.armsColor)
         }
         //
-
     }
 
-    ///////////////////////////////////
-    //GETS ORDERED AND FILTERED
-    ///////////////////////////////////
+    // /////////////////////////////////
+    // GETS ORDERED AND FILTERED
+    // /////////////////////////////////
     @Test
     fun testGetAllRewardsActiveAcquisitionDateAscOnEmptyTable() {
         runBlocking {
@@ -688,7 +688,7 @@ class RewardDaoTest {
             1980,
             8,
             21
-        ).timeInMillis - 1000L //subtracted 1000 so we can test strict inequality
+        ).timeInMillis - 1000L // subtracted 1000 so we can test strict inequality
         val rewardsToInsertList = listOf(
             generateReward(active = true, yearAcquired = 1987, monthAcquired = 2, dayAcquired = 9),
             generateReward(
@@ -726,7 +726,6 @@ class RewardDaoTest {
                 assertEquals(date, rewardEntitySorted[i].acquisitionDate)
             }
         }
-
     }
 
     @Test
@@ -742,7 +741,7 @@ class RewardDaoTest {
             1987,
             2,
             9
-        ).timeInMillis + 1000L //added 1000 so we can test strict inequality
+        ).timeInMillis + 1000L // added 1000 so we can test strict inequality
         val rewardsToInsertList = listOf(
             generateReward(active = true, yearAcquired = 1987, monthAcquired = 2, dayAcquired = 9),
             generateReward(
@@ -875,7 +874,7 @@ class RewardDaoTest {
             1987,
             2,
             9
-        ).timeInMillis + 1000L //added 1000 so we can test strict inequality
+        ).timeInMillis + 1000L // added 1000 so we can test strict inequality
         val rewardsToInsertList = listOf(
             generateReward(escaped = true, yearAcquired = 1987, monthAcquired = 2, dayAcquired = 9),
             generateReward(
@@ -1066,7 +1065,6 @@ class RewardDaoTest {
             assertEquals(0, rewardEntitySorted5.size)
         }
         //
-
     }
 
     @Test
@@ -1127,12 +1125,11 @@ class RewardDaoTest {
             assertEquals(0, rewardEntitySorted5.size)
         }
         //
-
     }
 
-    ///////////////////////////////////
-    //COUNTS
-    ///////////////////////////////////
+    // /////////////////////////////////
+    // COUNTS
+    // /////////////////////////////////
     @Test
     fun testCountRewardsOnEmptyTable() {
         runBlocking {
@@ -1150,7 +1147,6 @@ class RewardDaoTest {
         }
         assertEquals(125, totalRewards)
         assertTableSize(125)
-
     }
 
     @Test
@@ -1190,7 +1186,6 @@ class RewardDaoTest {
             rewardDao.getNumberOfActiveNotEscapedRewardsForLevel(5)
         }
         assertEquals(9, numberLevel5)
-
     }
 
     @Test
@@ -1228,7 +1223,5 @@ class RewardDaoTest {
             rewardDao.getNumberOfEscapedRewardsForLevel(5)
         }
         assertEquals(13, numberLevel5)
-
     }
-
 }

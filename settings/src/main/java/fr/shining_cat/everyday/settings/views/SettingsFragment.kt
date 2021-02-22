@@ -27,7 +27,11 @@ import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelper
 import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelperSettings
 import fr.shining_cat.everyday.settings.R
-import fr.shining_cat.everyday.settings.views.components.*
+import fr.shining_cat.everyday.settings.views.components.PrefBottomDialogBuilder
+import fr.shining_cat.everyday.settings.views.components.PrefBottomDialogNotificationEditText
+import fr.shining_cat.everyday.settings.views.components.PrefBottomDialogNotificationSoundSelect
+import fr.shining_cat.everyday.settings.views.components.PrefBottomDialogNotificationTimePicker
+import fr.shining_cat.everyday.settings.views.components.PreferenceCategoryLongSummary
 import org.koin.android.ext.android.get
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -42,7 +46,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private lateinit var notificationTimePref: PrefBottomDialogNotificationTimePicker
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        //Set the name of the SharedPreferences file to be ours instead of default
+        // Set the name of the SharedPreferences file to be ours instead of default
         preferenceManager.sharedPreferencesName = SharedPrefsHelperSettings.NAME
         //
         val prefContext = preferenceManager.context
@@ -71,7 +75,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         keepScreenOnPreference.setDefaultValue(false)
         keepScreenOnPreference.isIconSpaceReserved = false
         //
-        //TODO:will need permission to alter do not disturb mode
+        // TODO:will need permission to alter do not disturb mode
         val doNotDisturbPreference = SwitchPreferenceCompat(prefContext)
         doNotDisturbPreference.key = SharedPrefsHelperSettings.DO_NOT_DISTURB
         doNotDisturbPreference.title = getString(R.string.doNotDisturbPreference_title)
@@ -98,7 +102,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         sessionsCategory.addPreference(planeModePreference)
     }
 
-    /////////////////
+    // ///////////////
     private fun setupNotificationsPreferences() {
         val prefContext: Context = preferenceManager.context
         val notificationActivatedPreference = SwitchPreferenceCompat(prefContext)
@@ -145,7 +149,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         notificationSoundPref.isVisible = notificationActivated
     }
 
-    /////////////////
+    // ///////////////
 
     private fun setupCustomisationPreferences() {
         val prefContext = preferenceManager.context
@@ -154,7 +158,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             prefBottomDialogBuilder.buildPrefBottomDialogDefaultNightModeSelect()
         defaultNightModePreference.onPreferenceChangeListener =
             Preference.OnPreferenceChangeListener { _, _ ->
-                //force refresh of parent activity to apply theme choice
+                // force refresh of parent activity to apply theme choice
                 activity?.recreate()
                 true
             }
@@ -197,7 +201,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         customisationCategory.addPreference(statisticsActivationPreference)
     }
 
-    /////////////////
+    // ///////////////
     private fun setupDataManagementPreferences() {
         val prefContext = preferenceManager.context
         //
@@ -215,5 +219,4 @@ class SettingsFragment : PreferenceFragmentCompat() {
         dataManagementCategory.addPreference(exportSessionsPreference)
         dataManagementCategory.addPreference(eraseDataPreference)
     }
-
 }

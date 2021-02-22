@@ -17,7 +17,12 @@
 
 package fr.shining_cat.everyday.locale.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
 import fr.shining_cat.everyday.locale.entities.RewardEntity
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.ACTIVE_STATE
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.DATE_ACQUISITION
@@ -42,58 +47,58 @@ abstract class RewardDao {
     @Query("DELETE FROM $REWARD_TABLE")
     abstract suspend fun deleteAllRewards(): Int
 
-    //ROOM does not allow parameters for the ORDER BY clause to prevent injection so we need a proxy for each WHERE clause used
+    // ROOM does not allow parameters for the ORDER BY clause to prevent injection so we need a proxy for each WHERE clause used
 
-////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////
 
     @Query("SELECT * from $REWARD_TABLE WHERE $REWARD_ID =:rewardId")
     abstract suspend fun getReward(rewardId: Long): RewardEntity?
 
-    //all "active" rewards, ie all rewards that have at one point been obtained, regardless if they have been lost or not
-    //sort on acquisitionDate ASC
+    // all "active" rewards, ie all rewards that have at one point been obtained, regardless if they have been lost or not
+    // sort on acquisitionDate ASC
     @Query("SELECT * from $REWARD_TABLE WHERE $ACTIVE_STATE == 1 ORDER BY $DATE_ACQUISITION ASC")
     abstract suspend fun getAllRewardsActiveAcquisitionDateAsc(): List<RewardEntity>
 
-    //sort on acquisitionDate DESC
+    // sort on acquisitionDate DESC
     @Query("SELECT * from $REWARD_TABLE WHERE $ACTIVE_STATE == 1 ORDER BY $DATE_ACQUISITION DESC")
     abstract suspend fun getAllRewardsActiveAcquisitionDateDesc(): List<RewardEntity>
 
-    //sort on level ASC
+    // sort on level ASC
     @Query("SELECT * from $REWARD_TABLE WHERE $ACTIVE_STATE == 1 ORDER BY $LEVEL ASC")
     abstract suspend fun getAllRewardsActiveLevelAsc(): List<RewardEntity>
 
-    //sort on level DESC
+    // sort on level DESC
     @Query("SELECT * from $REWARD_TABLE WHERE $ACTIVE_STATE == 1 ORDER BY $LEVEL DESC")
     abstract suspend fun getAllRewardsActiveLevelDesc(): List<RewardEntity>
 
-    ////////////////////////////////////////////////////////////////
-    //ACTIVE and NOT LOST rewards :
+    // //////////////////////////////////////////////////////////////
+    // ACTIVE and NOT LOST rewards :
     @Query("SELECT * from $REWARD_TABLE WHERE $ACTIVE_STATE == 1 AND $ESCAPED_STATE == 0 ORDER BY $DATE_ACQUISITION DESC")
     abstract suspend fun getAllRewardsNotEscapedAcquisitionDatDesc(): List<RewardEntity>
 
-    //ACTIVE and LOST rewards :
+    // ACTIVE and LOST rewards :
     @Query("SELECT * from $REWARD_TABLE WHERE $ACTIVE_STATE == 1 AND $ESCAPED_STATE == 1 ORDER BY $DATE_ESCAPING DESC")
     abstract suspend fun getAllRewardsEscapedAcquisitionDateDesc(): List<RewardEntity>
 
-    //NON ACTIVE rewards for specific LEVEL:
+    // NON ACTIVE rewards for specific LEVEL:
     @Query("SELECT * from $REWARD_TABLE WHERE $LEVEL == :level AND $ACTIVE_STATE == 0")
     abstract suspend fun getAllRewardsOfSpecificLevelNotActive(level: Int): List<RewardEntity>
 
-    //NON ACTIVE or ACTIVE and ESCAPED rewards for specific LEVEL:
+    // NON ACTIVE or ACTIVE and ESCAPED rewards for specific LEVEL:
     @Query("SELECT * from $REWARD_TABLE WHERE $LEVEL == :level AND ($ACTIVE_STATE == 0 OR $ESCAPED_STATE == 1)")
     abstract suspend fun getAllRewardsOfSpecificLevelNotActiveOrEscaped(level: Int): List<RewardEntity>
 
-    ////////////////////////////////////////////////////////////////
-    //COUNTS :
-    //ALL ENTRIES (this is used to determine if possible rewards have been generated already or not)
+    // //////////////////////////////////////////////////////////////
+    // COUNTS :
+    // ALL ENTRIES (this is used to determine if possible rewards have been generated already or not)
     @Query("SELECT COUNT($REWARD_ID) FROM $REWARD_TABLE")
     abstract suspend fun getNumberOfRows(): Int
 
-    //ACTIVE and NOT LOST rewards for level
+    // ACTIVE and NOT LOST rewards for level
     @Query("SELECT COUNT($REWARD_ID) FROM $REWARD_TABLE WHERE $LEVEL == :level AND $ACTIVE_STATE == 1 AND $ESCAPED_STATE == 0")
     abstract suspend fun getNumberOfActiveNotEscapedRewardsForLevel(level: Int): Int
 
-    //ACTIVE and LOST rewards for level
+    // ACTIVE and LOST rewards for level
     @Query("SELECT COUNT($REWARD_ID) FROM $REWARD_TABLE WHERE $LEVEL == :level AND $ACTIVE_STATE == 1 AND $ESCAPED_STATE == 1")
     abstract suspend fun getNumberOfEscapedRewardsForLevel(level: Int): Int
 }

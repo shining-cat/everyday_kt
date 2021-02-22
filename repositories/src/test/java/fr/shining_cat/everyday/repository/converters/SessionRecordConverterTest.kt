@@ -26,11 +26,14 @@ import fr.shining_cat.everyday.models.sessionrecord.SessionRecord
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
+import org.junit.Assert.assertArrayEquals
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.GregorianCalendar
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 class SessionRecordConverterTest {
@@ -65,7 +68,7 @@ class SessionRecordConverterTest {
 
     @Test
     fun convertModelToStringArray() {
-        //0 is for NOT SET so export it as such
+        // 0 is for NOT SET so export it as such
         val startMoodRecord = sessionRecord.startMood
         val startBodyValue = startMoodRecord.bodyValue.name
         val startThoughtsValue = startMoodRecord.thoughtsValue.name

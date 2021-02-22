@@ -17,7 +17,7 @@
 
 package fr.shining_cat.everyday.commons.ui.resourcesholders.critter
 
-//TODO: seems that CritterHelper will no longer be needed
+// TODO: seems that CritterHelper will no longer be needed
 class CritterHelper(
     private val flowerResourcesHolder: CritterPartResourcesHolder.FlowerResourcesHolder,
     private val mouthResourcesHolder: CritterPartResourcesHolder.MouthResourcesHolder,
@@ -26,7 +26,7 @@ class CritterHelper(
     private val eyesResourcesHolder: CritterPartResourcesHolder.EyesResourcesHolder,
     private val hornsResourcesHolder: CritterPartResourcesHolder.HornsResourcesHolder
 ) {
-    //TODO: probably not needed anymore: the random selection will be done on a Reward object
+    // TODO: probably not needed anymore: the random selection will be done on a Reward object
 //    fun getRandomCritterCode(level: Level): String {
 //        val randomParts = when (level) {
 //            Level.LEVEL_5 -> arrayOf(
@@ -92,7 +92,7 @@ class CritterHelper(
 //        return critterCode
 //    }
 
-    //TODO: check if really needed
+    // TODO: check if really needed
 //    fun getAllPossibleCritterCodesCount() = (getNumberOfCritterPossible(Level.LEVEL_1)
 //            + getNumberOfCritterPossible(Level.LEVEL_2)
 //            + getNumberOfCritterPossible(Level.LEVEL_3)
@@ -111,11 +111,11 @@ class CritterHelper(
 //        }
 //    }
 
-    //TODO: this mechanism will be part of a usecase
+    // TODO: this mechanism will be part of a usecase
 //    fun getAllPossibleCritterCodes(): ImmutableSet<String> {
 //        val allPossibleCritterCodes: MutableSet<String> = HashSet()
 //        for (i in 1..hornsResourcesHolder.partsCount) { // do not include horn = 0
-////////////////// ALL PARTS EXCLUDE index 0 => REWARD_LEVEL_5
+// //////////////// ALL PARTS EXCLUDE index 0 => REWARD_LEVEL_5
 //            if (i != 0) {
 //                for (j in 1..eyesResourcesHolder.partsCount) { // do not include eye = 0
 //                    for (k in 0..mouthResourcesHolder.partsCount) {// mouth has no "off" level
@@ -142,7 +142,7 @@ class CritterHelper(
 //                }
 //            } else {
 //                for (j in 0..eyesResourcesHolder.partsCount) {
-////////////////// HORN_PART is HORNS_PART_OFF, ALL OTHER PARTS EXCLUDE index 0 => REWARD_LEVEL_4
+// //////////////// HORN_PART is HORNS_PART_OFF, ALL OTHER PARTS EXCLUDE index 0 => REWARD_LEVEL_4
 //                    if (j != 0) {
 //                        for (k in 0..mouthResourcesHolder.partsCount) {// mouth has no "off" level
 //                            for (l in 1..armsResourcesHolder.partsCount) {// do not include arms = 0
@@ -168,7 +168,7 @@ class CritterHelper(
 //                    } else {
 //                        for (k in 0..mouthResourcesHolder.partsCount) {// mouth has no "off" level
 //                            for (l in 0..armsResourcesHolder.partsCount) {
-////////////////// HORN_PART is HORNS_PART_OFF, EYES_PARTS is EYES_PART_OFF, ALL OTHER PARTS EXCLUDE index 0 => REWARD_LEVEL_3
+// //////////////// HORN_PART is HORNS_PART_OFF, EYES_PARTS is EYES_PART_OFF, ALL OTHER PARTS EXCLUDE index 0 => REWARD_LEVEL_3
 //                                if (l != 0) {
 //                                    for (m in 1..legsResourcesHolder.partsCount) {// do not include legs = 0
 //                                        for (n in 0..flowerResourcesHolder.partsCount) {// flower has no "off" level
@@ -189,7 +189,7 @@ class CritterHelper(
 //                                    }
 //                                } else {
 //                                    for (m in 0..legsResourcesHolder.partsCount) {
-////////////////// HORN_PART is HORNS_PART_OFF, EYES_PARTS is EYES_PART_OFF, ARMS_PARTS is ARMS_PART_OFF, ALL OTHER PARTS EXCLUDE index 0 => REWARD_LEVEL_2
+// //////////////// HORN_PART is HORNS_PART_OFF, EYES_PARTS is EYES_PART_OFF, ARMS_PARTS is ARMS_PART_OFF, ALL OTHER PARTS EXCLUDE index 0 => REWARD_LEVEL_2
 //                                        if (m != 0) {//REWARD_LEVEL_2
 //                                            for (n in 0..flowerResourcesHolder.partsCount) {// flower has no "off" level
 //                                                val parts = arrayOf(
@@ -207,7 +207,7 @@ class CritterHelper(
 //                                                )
 //                                            }
 //                                        } else {//REWARD_LEVEL_1
-////////////////// HORN_PART is HORNS_PART_OFF, EYES_PARTS is EYES_PART_OFF, ARMS_PARTS is ARMS_PART_OFF, LEGS_PARTS is LEGS_PART_OFF=> REWARD_LEVEL_1
+// //////////////// HORN_PART is HORNS_PART_OFF, EYES_PARTS is EYES_PART_OFF, ARMS_PARTS is ARMS_PART_OFF, LEGS_PARTS is LEGS_PART_OFF=> REWARD_LEVEL_1
 //                                            for (n in 0..flowerResourcesHolder.partsCount) {// flower has no "off" level
 //                                                val parts = arrayOf(
 //                                                    n.toString(),
@@ -235,7 +235,7 @@ class CritterHelper(
 //        return ImmutableSet.copyOf(allPossibleCritterCodes)
 //    }
 
-    //TODO: this should not be needed anymore: Reward holds the level as Level
+    // TODO: this should not be needed anymore: Reward holds the level as Level
 //    fun getLevel(critterCode: String): Level {
 //        val splitCritterCode = critterCode.split(CODE_SEPARATOR)
 //        return when {
@@ -246,7 +246,4 @@ class CritterHelper(
 //            else -> Level.LEVEL_1
 //        }
 //    }
-
-
 }
-

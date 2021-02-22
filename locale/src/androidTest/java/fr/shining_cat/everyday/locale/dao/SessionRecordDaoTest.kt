@@ -23,15 +23,17 @@ import fr.shining_cat.everyday.locale.EveryDayRoomDatabase
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntity
 import kotlinx.coroutines.runBlocking
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.util.*
+import java.util.GregorianCalendar
 
 class SessionRecordDaoTest {
 
-    //set the testing environment to use Main thread instead of background one
+    // set the testing environment to use Main thread instead of background one
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -51,9 +53,9 @@ class SessionRecordDaoTest {
         EveryDayRoomDatabase.closeAndDestroy()
     }
 
-    /////////////////////////////
+    // ///////////////////////////
     //  UTILS
-    /////////////////////////////
+    // ///////////////////////////
     private fun emptyTableAndCheck() {
         runBlocking {
             sessionRecordDao.deleteAllSessions()
@@ -67,7 +69,6 @@ class SessionRecordDaoTest {
         }
         assertEquals(expectedCount, count)
     }
-
 
     private fun generateSessions(numberOfSessions: Int = 1): List<SessionRecordEntity> {
         val returnList = mutableListOf<SessionRecordEntity>()
@@ -189,9 +190,9 @@ class SessionRecordDaoTest {
         }
     }
 
-    /////////////////////////////
+    // ///////////////////////////
     //  INSERTS
-    /////////////////////////////
+    // ///////////////////////////
     @Test
     fun insertOne() {
         val sessionRecordEntityTestID = runBlocking {
@@ -216,9 +217,9 @@ class SessionRecordDaoTest {
         checkTotalCountIs(20)
     }
 
-    /////////////////////////////
+    // ///////////////////////////
     //  DELETES
-    /////////////////////////////
+    // ///////////////////////////
     @Test
     fun deleteSessionFromEmptyTable() {
         val sessionRecordEntityToDelete = generateSessionRecordEntity(desiredId = 25)
@@ -292,9 +293,9 @@ class SessionRecordDaoTest {
         assertEquals(73, numberOfDeletedRows)
         checkTotalCountIs(0)
     }
-    /////////////////////////////
+    // ///////////////////////////
     //  GETS
-    /////////////////////////////
+    // ///////////////////////////
 
     @Test
     fun getSessionOnEmptyTableTest() {
@@ -399,9 +400,9 @@ class SessionRecordDaoTest {
         }
     }
 
-    /////////////////////////////
+    // ///////////////////////////
     //  UPDATES
-    /////////////////////////////
+    // ///////////////////////////
     @Test
     fun updateNonExistentSession() {
         val sessionRecordEntityToUpdate = generateSessionRecordEntity(desiredId = 25)
@@ -514,9 +515,9 @@ class SessionRecordDaoTest {
             assertEquals("updateSession guideMp3 UPDATED", sessionRecordEntityExtracted.guideMp3)
         }
     }
-    ///////////////////////////////////
-    //GETS ORDERED AND FILTERED
-    ///////////////////////////////////
+    // /////////////////////////////////
+    // GETS ORDERED AND FILTERED
+    // /////////////////////////////////
 
     @Test
     fun getAllSessionsStartTimeAscOnEmptyTable() {
@@ -526,7 +527,6 @@ class SessionRecordDaoTest {
         }
         assertNotNull(sessionRecordEntitiesSorted)
         assertEquals(0, sessionRecordEntitiesSorted.size)
-
     }
 
     @Test
@@ -554,7 +554,6 @@ class SessionRecordDaoTest {
             date = sessionRecordEntitiesSorted[i].startTimeOfRecord
             assertEquals(date, sessionRecordEntitiesSorted[i].startTimeOfRecord)
         }
-
     }
 
     @Test
@@ -565,7 +564,6 @@ class SessionRecordDaoTest {
         }
         assertNotNull(sessionRecordEntitiesSorted)
         assertEquals(0, sessionRecordEntitiesSorted.size)
-
     }
 
     @Test
@@ -595,8 +593,6 @@ class SessionRecordDaoTest {
             date = sessionRecordEntitiesSorted[i].startTimeOfRecord
             assertEquals(date, sessionRecordEntitiesSorted[i].startTimeOfRecord)
         }
-
-
     }
 
     @Test
@@ -636,7 +632,6 @@ class SessionRecordDaoTest {
             duration = sessionRecordEntitiesSorted[i].realDuration
             assertEquals(duration, sessionRecordEntitiesSorted[i].realDuration)
         }
-
     }
 
     @Test
@@ -648,7 +643,6 @@ class SessionRecordDaoTest {
         assertNotNull(sessionRecordEntitiesSorted)
 
         assertEquals(0, sessionRecordEntitiesSorted.size)
-
     }
 
     @Test
@@ -678,7 +672,6 @@ class SessionRecordDaoTest {
             duration = sessionRecordEntitiesSorted[i].realDuration
             assertEquals(duration, sessionRecordEntitiesSorted[i].realDuration)
         }
-
     }
 
     @Test
@@ -690,7 +683,6 @@ class SessionRecordDaoTest {
         assertNotNull(sessionRecordEntitiesSorted)
 
         assertEquals(0, sessionRecordEntitiesSorted.size)
-
     }
 
     @Test
@@ -717,7 +709,6 @@ class SessionRecordDaoTest {
         for (i in sessionRecordEntitiesSorted.indices) {
             assert(sessionRecordEntitiesSorted[i].guideMp3 != "")
         }
-
     }
 
     @Test
@@ -729,7 +720,6 @@ class SessionRecordDaoTest {
         assertNotNull(sessionRecordEntitiesSorted)
 
         assertEquals(0, sessionRecordEntitiesSorted.size)
-
     }
 
     @Test
@@ -756,7 +746,6 @@ class SessionRecordDaoTest {
         for (i in sessionRecordEntitiesSorted.indices) {
             assert(sessionRecordEntitiesSorted[i].guideMp3 == "")
         }
-
     }
 
     @Test
@@ -769,8 +758,6 @@ class SessionRecordDaoTest {
         assertNotNull(sessionRecordEntitiesSorted)
 
         assertEquals(0, sessionRecordEntitiesSorted.size)
-
-
     }
 
     @Test
@@ -803,7 +790,6 @@ class SessionRecordDaoTest {
                     "test 1"
                 )
             )
-
         }
 //
         sessionRecordEntitiesSorted = runBlocking {
@@ -867,7 +853,6 @@ class SessionRecordDaoTest {
         }
         assertNotNull(sessionRecordEntitiesExtracted)
         assertEquals(0, sessionRecordEntitiesExtracted.size)
-
     }
 
     @Test

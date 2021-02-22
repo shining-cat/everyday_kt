@@ -64,7 +64,6 @@ class RewardConverter(
         return rewardEntities.map { convertEntitytoModel(it) }
     }
 
-
     suspend fun convertEntitytoModel(rewardEntity: RewardEntity): Reward {
         val rewardModel = Reward(
             id = rewardEntity.id,

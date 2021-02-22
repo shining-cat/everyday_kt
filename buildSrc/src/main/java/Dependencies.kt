@@ -26,11 +26,12 @@ object Versions {
     const val minSdk = 21
     const val targetSdk = 28
     const val kotlin = "1.4.30"
+    const val benManesVersionsPlugin = "0.36.0"
     const val jacoco = "0.8.6"
     const val room = "2.2.6"
     const val lifecycle = "2.3.0"
     const val navigation = "2.3.3"
-    const val spotless = "5.10.2"
+    const val ktlint = "0.40.0"
 }
 
 object Releases {
@@ -56,7 +57,9 @@ object Modules {
 object Libraries {
 
     //gradle plugin to manage dependencies updates: see gradle tasks help>dependencyUpdates
-    const val gradleVersionsPlugin = "com.github.ben-manes:gradle-versions-plugin:0.36.0"
+    const val gradleVersionsPlugin = "com.github.ben-manes:gradle-versions-plugin:${Versions.benManesVersionsPlugin}"
+
+    const val jacocoPlugin = "org.jacoco:org.jacoco.core:${Versions.jacoco}"
 
     //koin
     const val koin = "org.koin:koin-android:2.0.1"

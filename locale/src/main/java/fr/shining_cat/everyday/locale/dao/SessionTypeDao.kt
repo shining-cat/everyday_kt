@@ -17,7 +17,12 @@
 
 package fr.shining_cat.everyday.locale.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
 import fr.shining_cat.everyday.locale.entities.SessionTypeEntity
 import fr.shining_cat.everyday.locale.entities.SessionTypeEntityColumnNames.LAST_EDIT_DATE
 import fr.shining_cat.everyday.locale.entities.SessionTypeEntityColumnNames.SESSION_TYPE_ID
@@ -43,5 +48,4 @@ abstract class SessionTypeDao {
 
     @Query("SELECT COUNT($SESSION_TYPE_ID) FROM $SESSION_TYPE_TABLE_NAME")
     abstract suspend fun getNumberOfRows(): Int
-
 }

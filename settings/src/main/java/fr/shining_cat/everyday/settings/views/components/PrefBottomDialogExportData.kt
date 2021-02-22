@@ -52,17 +52,16 @@ class PrefBottomDialogExportData(
             object :
                 BottomDialogDismissibleMessageAndConfirm.BottomDialogDismissibleMessageAndConfirmListener {
                 override fun onDismissed() {
-                    //nothing to do here
+                    // nothing to do here
                 }
 
                 override fun onConfirmButtonClicked() {
-                    //TODO: call export sessions UseCase
+                    // TODO: call export sessions UseCase
                     logger.e(
                         LOG_TAG,
                         "openExportSessionsDialog::onConfirmButtonClicked::TODO: call export sessions Usecase"
                     )
                 }
-
             })
         setExportDataBottomSheetDialog.show(fragmentManager, "openExportSessionsDialog")
     }

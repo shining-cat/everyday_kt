@@ -17,7 +17,6 @@
 
 package fr.shining_cat.everyday.models.sessionrecord
 
-
 data class SessionRecord(
     var id: Long = 0L,
     //

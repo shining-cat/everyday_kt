@@ -91,7 +91,7 @@ class SelectListAdapter(
             if (holder.itemViewType == ItemsTypes.NORMAL_ITEM.value) {
                 bindNormalItemViewHolder(holder as SelectListNormalItemViewHolder, position)
             }
-            //no binding necessary for divider
+            // no binding necessary for divider
         }
     }
 
@@ -110,9 +110,7 @@ class SelectListAdapter(
         }
     }
 
-
     override fun getItemCount(): Int = optionsLabels.size
-
 }
 
 enum class ItemsTypes(val value: Int) {

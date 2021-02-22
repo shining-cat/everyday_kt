@@ -40,5 +40,4 @@ class SessionsViewModel(
             _initReadyLiveData.value = LOG_TAG
         }
     }
-
 }

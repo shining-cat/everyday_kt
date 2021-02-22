@@ -29,7 +29,7 @@ interface CritterPartsRepository {
     suspend fun getMouthResourcesHolder(): CritterPartResourcesHolder
 }
 
-//returns from this repo are based on hard-coded objects, they will not be encapsulated inside Output objects because there is no failure possible retrieving them
+// returns from this repo are based on hard-coded objects, they will not be encapsulated inside Output objects because there is no failure possible retrieving them
 class CritterPartsRepositoryImpl : CritterPartsRepository {
 
     var armsHolder: CritterPartResourcesHolder? = null

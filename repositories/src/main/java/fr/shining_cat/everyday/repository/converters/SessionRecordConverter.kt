@@ -24,9 +24,8 @@ import fr.shining_cat.everyday.models.sessionrecord.MoodValue
 import fr.shining_cat.everyday.models.sessionrecord.RealDurationVsPlanned
 import fr.shining_cat.everyday.models.sessionrecord.SessionRecord
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 import java.util.concurrent.TimeUnit
-
 
 class SessionRecordConverter(
     private val logger: Logger
@@ -115,10 +114,10 @@ class SessionRecordConverter(
         )
     }
 
-    //this is used for the csv export
+    // this is used for the csv export
     suspend fun convertModelToStringArray(sessionRecord: SessionRecord): Array<String> {
         val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-        //0 is for NOT SET so export it as such
+        // 0 is for NOT SET so export it as such
         val startMoodRecord = sessionRecord.startMood
         val startBodyValue = startMoodRecord.bodyValue.name
         val startThoughtsValue = startMoodRecord.thoughtsValue.name

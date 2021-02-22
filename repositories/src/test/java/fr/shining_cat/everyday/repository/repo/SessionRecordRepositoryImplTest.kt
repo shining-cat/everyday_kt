@@ -165,7 +165,6 @@ class SessionRecordRepositoryImplTest {
         coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
     }
 
-
     @Test
     fun `try name`() {
         runBlocking {

@@ -40,5 +40,4 @@ class StatisticsViewModel(
             _initReadyLiveData.value = LOG_TAG
         }
     }
-
 }

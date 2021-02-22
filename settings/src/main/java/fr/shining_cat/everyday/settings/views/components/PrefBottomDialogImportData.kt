@@ -52,17 +52,16 @@ class PrefBottomDialogImportData(
             object :
                 BottomDialogDismissibleMessageAndConfirm.BottomDialogDismissibleMessageAndConfirmListener {
                 override fun onDismissed() {
-                    //nothing to do here
+                    // nothing to do here
                 }
 
                 override fun onConfirmButtonClicked() {
-                    //TODO: call import sessions UseCase
+                    // TODO: call import sessions UseCase
                     logger.e(
                         LOG_TAG,
                         "openImportSessionsDialog::onConfirmButtonClicked::TODO: call import sessions Usecase"
                     )
                 }
-
             })
         setImportDataBottomSheetDialog.show(fragmentManager, "openImportSessionsDialog")
     }

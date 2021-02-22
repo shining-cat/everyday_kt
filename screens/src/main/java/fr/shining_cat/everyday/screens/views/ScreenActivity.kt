@@ -50,7 +50,6 @@ class ScreenActivity : AbstractActivity() {
             logger.d(LOG_TAG, "Navigated to $dest")
         }
         hideLoadingView(screenActivityBinding.loadingLayout.loadingView)
-
     }
 
     private fun setupBottomNavigation(

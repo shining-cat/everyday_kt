@@ -68,7 +68,7 @@ class RewardRepositoryImplTest {
             )
     }
 
-    ///////////////////////////////
+    // /////////////////////////////
     @Test
     fun insert() {
         coEvery { mockRewardConverter.convertModelsToEntities(any()) } returns listOf(
@@ -114,8 +114,8 @@ class RewardRepositoryImplTest {
         assertEquals(7, (output as Output.Success).result)
     }
 
-    ////////////////
-    //GETTERS
+    // //////////////
+    // GETTERS
     @Test
     fun getSpecificReward() {
         coEvery { mockRewardDao.getReward(8L) } returns mockRewardEntity
@@ -249,8 +249,8 @@ class RewardRepositoryImplTest {
         assertEquals(listOf(mockReward), (output as Output.Success).result)
     }
 
-    ////////////////
-    //COUNTS
+    // //////////////
+    // COUNTS
     @Test
     fun allRewardsCount() {
         coEvery { mockRewardDao.getNumberOfRows() } returns 13

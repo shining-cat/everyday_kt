@@ -35,19 +35,24 @@ class SplashScreenActivity : AbstractActivity() {
     private val splashViewModel: SplashViewModel by viewModel()
     private val logger: Logger = get()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun
+    onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val activitySplashscreenBinding = ActivitySplashscreenBinding.inflate(layoutInflater)
         setContentView(activitySplashscreenBinding.root)
         logger.d(LOG_TAG, "onCreate")
+
         showLoadingView(activitySplashscreenBinding.loadingLayout.loadingView)
-        splashViewModel.initReadyLiveData.observe(this, Observer {
-            logger.d(LOG_TAG, "initReadyLiveData: $it")
-            if (it) {
-                startActivity(Actions.openDestination(this, Destination.HomeDestination()))
-                finish()
+        splashViewModel.initReadyLiveData.observe(
+            this,
+            Observer {
+                logger.d(LOG_TAG, "initReadyLiveData: $it")
+                if (it) {
+                    startActivity(Actions.openDestination(this, Destination.HomeDestination()))
+                    finish()
+                }
             }
-        })
+        )
         splashViewModel.loadConfInit()
     }
 }

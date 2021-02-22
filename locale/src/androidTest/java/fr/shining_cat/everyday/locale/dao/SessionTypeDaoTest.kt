@@ -22,13 +22,17 @@ import androidx.test.platform.app.InstrumentationRegistry
 import fr.shining_cat.everyday.locale.EveryDayRoomDatabase
 import fr.shining_cat.everyday.locale.entities.SessionTypeEntity
 import kotlinx.coroutines.runBlocking
-import org.junit.*
+import org.junit.After
+import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 
 class SessionTypeDaoTest {
 
-    //set the testing environment to use Main thread instead of background one
+    // set the testing environment to use Main thread instead of background one
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -43,9 +47,9 @@ class SessionTypeDaoTest {
         emptyTableAndCheck()
     }
 
-    /////////////////////////////
+    // ///////////////////////////
     //  UTILS
-    /////////////////////////////
+    // ///////////////////////////
     private fun emptyTableAndCheck() {
         runBlocking {
             sessionTypeDao.deleteAllSessionTypes()
@@ -109,9 +113,9 @@ class SessionTypeDaoTest {
         return returnList
     }
 
-    /////////////////////////////
+    // ///////////////////////////
     //  INSERTS
-    /////////////////////////////
+    // ///////////////////////////
     @Test
     fun testInsertSessionType() {
         insertAndCheckSessionTypeEntities()
@@ -122,7 +126,7 @@ class SessionTypeDaoTest {
     fun testInsertWithConflict() {
         insertAndCheckSessionTypeEntities()
         assertTableSize(20)
-        //insert same entities again to cause conflict
+        // insert same entities again to cause conflict
         insertAndCheckSessionTypeEntities()
         assertTableSize(20)
     }
@@ -136,9 +140,9 @@ class SessionTypeDaoTest {
         assertEquals(20, insertedIds.size)
     }
 
-    ///////////////////////////////////
-    //DELETES
-    ///////////////////////////////////
+    // /////////////////////////////////
+    // DELETES
+    // /////////////////////////////////
 
     @Test
     fun testDeleteSessionTypeFromEmptyTable() {
@@ -193,7 +197,6 @@ class SessionTypeDaoTest {
         assertEquals(1, countDeleted)
         //
         assertTableSize(49)
-
     }
 
     @Test
@@ -219,9 +222,9 @@ class SessionTypeDaoTest {
         assertTableSize(0)
     }
 
-    ///////////////////////////////////
-    //GETS
-    ///////////////////////////////////
+    // /////////////////////////////////
+    // GETS
+    // /////////////////////////////////
 
     @Test
     fun testGetSessionTypesOnEmptyTable() {
@@ -257,9 +260,9 @@ class SessionTypeDaoTest {
         }
     }
 
-    ///////////////////////////////////
-    //UPDATES
-    ///////////////////////////////////
+    // /////////////////////////////////
+    // UPDATES
+    // /////////////////////////////////
 
     @Test
     fun testUpdateOneSessionTypeOnEmptyTable() {

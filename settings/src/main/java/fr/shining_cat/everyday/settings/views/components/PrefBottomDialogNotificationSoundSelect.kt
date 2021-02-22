@@ -63,7 +63,7 @@ class PrefBottomDialogNotificationSoundSelect(
             object :
                 BottomDialogDismissibleRingtonePicker.BottomDialogDismissibleRingtonePickerListener {
                 override fun onDismissed() {
-                    //nothing to do here
+                    // nothing to do here
                 }
 
                 override fun onValidateRingtoneSelected(

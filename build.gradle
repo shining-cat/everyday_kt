@@ -24,16 +24,10 @@ buildscript {
     dependencies {
         classpath AndroidLibraries.gradle
         classpath KotlinLibraries.kotlinGradlePlugin
-        //gradle plugin to manage dependencies updates: see gradle tasks help > dependencyUpdates
         classpath Libraries.gradleVersionsPlugin
-        classpath "org.jacoco:org.jacoco.core:${Versions.jacoco}"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
-        classpath "com.diffplug.spotless:spotless-plugin-gradle:${Versions.spotless}"
+        classpath Libraries.jacocoPlugin
     }
 }
-
-apply plugin: "com.github.ben-manes.versions"
-apply plugin: "com.diffplug.spotless"
 
 allprojects {
     repositories {
@@ -41,25 +35,5 @@ allprojects {
         jcenter()
         mavenCentral()
     }
-}
 
-spotless {
-    kotlin {
-        // by default the target is every '.kt' and '.kts` file in the java sourcesets
-        target '*.kt'
-        ktfmt()    // has its own section below
-        ktlint()   // has its own section below
-        diktat()   // has its own section below
-        prettier() // has its own section below
-        licenseHeader '/* (C)$YEAR */' // or licenseHeaderFile
-    }
-    kotlinGradle {
-        target '*.gradle.kts' // default target for kotlinGradle
-        ktlint() // or ktfmt() or prettier()
-    }
 }
-
-//
-//task clean(type: Delete) {
-//    delete rootProject.buildDir
-//}

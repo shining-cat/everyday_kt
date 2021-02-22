@@ -22,13 +22,17 @@ import androidx.test.platform.app.InstrumentationRegistry
 import fr.shining_cat.everyday.locale.EveryDayRoomDatabase
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntity
 import kotlinx.coroutines.runBlocking
-import org.junit.*
+import org.junit.After
+import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 
 class SessionPresetDaoTest {
 
-    //set the testing environment to use Main thread instead of background one
+    // set the testing environment to use Main thread instead of background one
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -43,9 +47,9 @@ class SessionPresetDaoTest {
         emptyTableAndCheck()
     }
 
-    /////////////////////////////
+    // ///////////////////////////
     //  UTILS
-    /////////////////////////////
+    // ///////////////////////////
     private fun emptyTableAndCheck() {
         runBlocking {
             sessionPresetDao.deleteAllSessionPresets()
@@ -130,9 +134,9 @@ class SessionPresetDaoTest {
         return returnList
     }
 
-    /////////////////////////////
+    // ///////////////////////////
     //  INSERTS
-    /////////////////////////////
+    // ///////////////////////////
     @Test
     fun testInsertSessionPreset() {
         insertAndCheckSessionPresetEntities()
@@ -143,7 +147,7 @@ class SessionPresetDaoTest {
     fun testInsertWithConflict() {
         insertAndCheckSessionPresetEntities()
         assertTableSize(20)
-        //insert same entities again to cause conflict
+        // insert same entities again to cause conflict
         insertAndCheckSessionPresetEntities()
         assertTableSize(20)
     }
@@ -157,9 +161,9 @@ class SessionPresetDaoTest {
         assertEquals(20, insertedIds.size)
     }
 
-    ///////////////////////////////////
-    //DELETES
-    ///////////////////////////////////
+    // /////////////////////////////////
+    // DELETES
+    // /////////////////////////////////
 
     @Test
     fun testDeleteSessionPresetFromEmptyTable() {
@@ -214,7 +218,6 @@ class SessionPresetDaoTest {
         assertEquals(1, countDeleted)
         //
         assertTableSize(49)
-
     }
 
     @Test
@@ -240,9 +243,9 @@ class SessionPresetDaoTest {
         assertTableSize(0)
     }
 
-    ///////////////////////////////////
-    //GETS
-    ///////////////////////////////////
+    // /////////////////////////////////
+    // GETS
+    // /////////////////////////////////
 
     @Test
     fun testGetSessionPresetsOnEmptyTable() {
@@ -278,9 +281,9 @@ class SessionPresetDaoTest {
         }
     }
 
-    ///////////////////////////////////
-    //UPDATES
-    ///////////////////////////////////
+    // /////////////////////////////////
+    // UPDATES
+    // /////////////////////////////////
 
     @Test
     fun testUpdateOneSessionPresetOnEmptyTable() {

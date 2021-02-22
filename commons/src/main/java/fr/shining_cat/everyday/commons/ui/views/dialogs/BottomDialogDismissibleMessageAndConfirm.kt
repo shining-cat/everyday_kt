@@ -57,11 +57,11 @@ class BottomDialogDismissibleMessageAndConfirm : BottomSheetDialogFragment() {
                         putString(CONFIRM_BUTTON_LABEL_ARG, confirmButtonLabel)
                     }
                 }
-
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val uiBindings = DialogBottomMessageAndConfirmBinding.inflate(layoutInflater)
@@ -90,6 +90,4 @@ class BottomDialogDismissibleMessageAndConfirm : BottomSheetDialogFragment() {
         confirmButton.text = confirmButtonLabel
         confirmButton.setOnClickListener { bottomDialogDismissibleMessageAndConfirmListenerListener?.onConfirmButtonClicked() }
     }
-
-
 }

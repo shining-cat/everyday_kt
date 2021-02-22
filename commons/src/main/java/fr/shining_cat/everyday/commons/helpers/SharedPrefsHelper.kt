@@ -37,12 +37,11 @@ object SharedPrefsHelperSettings {
     const val DEFAULT_NIGHT_MODE = "customization.default.night.mode"
     const val REWARDS_ACTIVATED = "customization.rewards.activated"
     const val STATISTICS_ACTIVATED = "customization.stats.activated"
-
 }
 
 class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
 
-    //only getters for these settings as they are handled by native jetpack preferences
+    // only getters for these settings as they are handled by native jetpack preferences
     fun getKeepScreenOn(): Boolean {
         return sharedPreferences.getBoolean(
             SharedPrefsHelperSettings.KEEP_SCREEN_ON,
@@ -92,7 +91,7 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
         )
     }
 
-    //needed to customize these settings UI, so needed custom setters too
+    // needed to customize these settings UI, so needed custom setters too
     fun getNotificationTime(): String {
         return sharedPreferences.getString(
             SharedPrefsHelperSettings.NOTIFICATION_TIME,
@@ -110,7 +109,7 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
             SharedPrefsHelperSettings.NOTIFICATION_TEXT,
             ""
         )
-            ?: ""//TODO: check if empty on app init, and if it is, set to R.string.preference_notification_text to handle translation
+            ?: "" // TODO: check if empty on app init, and if it is, set to R.string.preference_notification_text to handle translation
     }
 
     fun setNotificationText(notificationText: String) {
@@ -121,9 +120,9 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
     fun getNotificationSoundUri(): String {
         return sharedPreferences.getString(
             SharedPrefsHelperSettings.NOTIFICATION_SOUND_URI,
-            "" //"" means Silent
+            "" // "" means Silent
         ) ?: ""
-    }//TODO: check if empty on app init, and if it is, set to RingtoneManager.getDefaultUri(mRingtoneType)
+    } // TODO: check if empty on app init, and if it is, set to RingtoneManager.getDefaultUri(mRingtoneType)
 
     fun setNotificationSoundUri(selectedRingtoneUri: String) {
         sharedPreferences.edit()
@@ -136,7 +135,7 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
             SharedPrefsHelperSettings.NOTIFICATION_SOUND_TITLE,
             ""
         ) ?: ""
-    }//TODO: check if empty on app init, and if it is, set to set to R.string.silence to handle translation
+    } // TODO: check if empty on app init, and if it is, set to set to R.string.silence to handle translation
 
     fun setNotificationSoundTitle(selectedRingtoneTitle: String) {
         sharedPreferences.edit()
