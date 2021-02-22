@@ -30,6 +30,7 @@ object Versions {
     const val room = "2.2.6"
     const val lifecycle = "2.3.0"
     const val navigation = "2.3.3"
+    const val spotless = "5.10.2"
 }
 
 object Releases {
