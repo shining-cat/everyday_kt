@@ -46,7 +46,6 @@ class RewardDaoTest {
         emptyTableAndCheck()
     }
 
-
     /////////////////////////////
     //  UTILS
     /////////////////////////////
@@ -685,7 +684,11 @@ class RewardDaoTest {
 
     @Test
     fun testGetAllRewardsActiveAcquisitionDateAsc() {
-        val oldestRewardDate = GregorianCalendar(1980, 8, 21).timeInMillis - 1000L //subtracted 1000 so we can test strict inequality
+        val oldestRewardDate = GregorianCalendar(
+            1980,
+            8,
+            21
+        ).timeInMillis - 1000L //subtracted 1000 so we can test strict inequality
         val rewardsToInsertList = listOf(
             generateReward(active = true, yearAcquired = 1987, monthAcquired = 2, dayAcquired = 9),
             generateReward(
@@ -735,7 +738,11 @@ class RewardDaoTest {
 
     @Test
     fun testGetAllRewardsActiveAcquisitionDateDesc() {
-        val mostRecentRewardDate = GregorianCalendar(1987, 2, 9).timeInMillis + 1000L //added 1000 so we can test strict inequality
+        val mostRecentRewardDate = GregorianCalendar(
+            1987,
+            2,
+            9
+        ).timeInMillis + 1000L //added 1000 so we can test strict inequality
         val rewardsToInsertList = listOf(
             generateReward(active = true, yearAcquired = 1987, monthAcquired = 2, dayAcquired = 9),
             generateReward(
@@ -864,7 +871,11 @@ class RewardDaoTest {
 
     @Test
     fun testGetAllRewardsNotEscapedAcquisitionDatDesc() {
-        val mostRecentRewardDate = GregorianCalendar(1987, 2, 9).timeInMillis+ 1000L //added 1000 so we can test strict inequality
+        val mostRecentRewardDate = GregorianCalendar(
+            1987,
+            2,
+            9
+        ).timeInMillis + 1000L //added 1000 so we can test strict inequality
         val rewardsToInsertList = listOf(
             generateReward(escaped = true, yearAcquired = 1987, monthAcquired = 2, dayAcquired = 9),
             generateReward(

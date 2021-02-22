@@ -4,7 +4,7 @@
 - [x] check arch still conforms to updated standards
 - [x] chek and update, then insert copyright license mention
 - [ ] fix and update tests to conform to updated standards
-  - [ ] locale module
+  - [x] locale module
   - [ ] models module
   - [ ] repositories module
   - [ ] navigation module -> write tests on Actions

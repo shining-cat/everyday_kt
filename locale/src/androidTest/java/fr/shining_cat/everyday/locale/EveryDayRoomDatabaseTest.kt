@@ -27,10 +27,10 @@ import org.junit.Rule
 //@RunWith(AndroidJUnit4ClassRunner::class)
 class EveryDayRoomDatabaseTest {
 
-//        TODO("For now we don't need tests on the database instance")
+    //        TODO("For now we don't need tests on the database instance")
 //set the testing environment to use Main thread instead of background one
-@get:Rule
-val instantTaskExecutorRule = InstantTaskExecutorRule()
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var context: Context
 
@@ -40,6 +40,7 @@ val instantTaskExecutorRule = InstantTaskExecutorRule()
         //so We will use a real DB here, and we need to flush it afterward
         context = ApplicationProvider.getApplicationContext<Context>()
     }
+
     @After
     fun deleteDatabase() {
         context.deleteDatabase(EveryDayRoomDatabase.DATABASE_NAME)
