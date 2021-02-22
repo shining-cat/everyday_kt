@@ -26,11 +26,12 @@ import fr.shining_cat.everyday.models.sessionrecord.SessionRecord
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
+import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class SessionRecordConverterTest {
 
@@ -57,9 +58,48 @@ class SessionRecordConverterTest {
     @Test
     fun convertEntitytoModel() {
         val entityTranslated = runBlocking {
-            sessionRecordConverter.convertEntitytoModel(sessionRecordEntity)
+            sessionRecordConverter.convertEntityToModel(sessionRecordEntity)
         }
         assertEquals(entityTranslated, sessionRecord)
+    }
+
+    @Test
+    fun convertModelToStringArray() {
+        //0 is for NOT SET so export it as such
+        val startMoodRecord = sessionRecord.startMood
+        val startBodyValue = startMoodRecord.bodyValue.name
+        val startThoughtsValue = startMoodRecord.thoughtsValue.name
+        val startFeelingsValue = startMoodRecord.feelingsValue.name
+        val startGlobalValue = startMoodRecord.globalValue.name
+        //
+        val endMoodRecord = sessionRecord.endMood
+        val endBodyValue = endMoodRecord.bodyValue.name
+        val endThoughtsValue = endMoodRecord.thoughtsValue.name
+        val endFeelingsValue = endMoodRecord.feelingsValue.name
+        val endGlobalValue = endMoodRecord.globalValue.name
+        //
+        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+        val controlArray = arrayOf(
+            sdf.format(startMoodRecord.timeOfRecord),
+            sdf.format(endMoodRecord.timeOfRecord),
+            (TimeUnit.MILLISECONDS.toMinutes(sessionRecord.realDuration)).toString() + "mn",
+            sessionRecord.notes,
+            startBodyValue,
+            startThoughtsValue,
+            startFeelingsValue,
+            startGlobalValue,
+            endBodyValue,
+            endThoughtsValue,
+            endFeelingsValue,
+            endGlobalValue,
+            sessionRecord.pausesCount.toString(),
+            sessionRecord.realDurationVsPlanned.name,
+            sessionRecord.guideMp3
+        )
+        val resultArray = runBlocking {
+            sessionRecordConverter.convertModelToStringArray(sessionRecord)
+        }
+        assertArrayEquals(controlArray, resultArray)
     }
 
     val sessionRecord =

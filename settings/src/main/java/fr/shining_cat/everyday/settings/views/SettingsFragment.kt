@@ -82,7 +82,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         doNotDisturbPreference.isIconSpaceReserved = false
         //
         val planeModePreference = SwitchPreferenceCompat(prefContext)
-        planeModePreference.key = SharedPrefsHelperSettings.PLANE_MODE_REMINDER
+        planeModePreference.key = SharedPrefsHelperSettings.AEROPLANE_MODE_REMINDER
         planeModePreference.title = getString(R.string.planeModePreference_title)
         planeModePreference.summaryOff = getString(R.string.planeModePreference_switch_off_text)
         planeModePreference.summaryOn = getString(R.string.planeModePreference_switch_on_text)

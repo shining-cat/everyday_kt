@@ -35,7 +35,6 @@ object Actions {
     private fun internalIntent(context: Context, action: String) =
         Intent(action).setPackage(context.packageName)
 
-
     private fun intentForHome(context: Context) =
         internalIntent(context, "fr.shining_cat.everyday.screens.views.ScreenActivity")
 

@@ -20,7 +20,7 @@ object ApplicationId {
 }
 
 object Versions {
-    const val compileSdk = 29
+    const val compileSdk = 30
     const val minSdk = 21
     const val targetSdk = 28
     const val kotlin = "1.4.30"
@@ -106,15 +106,16 @@ object AndroidLibraries {
 }
 
 object TestLibraries {
-    // ANDROID TEST
-    const val androidTestRunner = "androidx.test:runner:1.4.0-alpha04"
-    const val archCoreTest = "androidx.arch.core:core-testing:2.1.0"
-
-    // COROUTINE
-    const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.1"
-
-    // UNIT TESTS
-    const val junit = "androidx.test.ext:junit:1.1.3-alpha04"
     const val mockk = "io.mockk:mockk:1.10.5"
+    const val junit = "junit:junit:4.12"
+    const val coroutines_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.3"
+    const val robolectric = "org.robolectric:robolectric:4.2.1"
+}
 
+object AndroidTestLibraries {
+    const val core_testing = "androidx.arch.core:core-testing:2.0.0"
+    const val espresso = "androidx.test.espresso:espresso-core:3.2.0"
+    const val junit = "androidx.test.ext:junit:1.1.3-alpha04"
+    const val room_testing = "androidx.room:room-testing:2.2.1"
+    const val runner = "androidx.test:runner:1.4.0-alpha04"
 }

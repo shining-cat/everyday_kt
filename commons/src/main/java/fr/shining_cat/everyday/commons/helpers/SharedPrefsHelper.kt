@@ -25,7 +25,7 @@ object SharedPrefsHelperSettings {
 
     const val KEEP_SCREEN_ON = "sessions.keep.screen.on"
     const val DO_NOT_DISTURB = "sessions.do.not.disturb"
-    const val PLANE_MODE_REMINDER = "sessions.plane.mode.reminder"
+    const val AEROPLANE_MODE_REMINDER = "sessions.aeroplane.mode.reminder"
     const val NOTIFICATION_ACTIVATED = "notification.activated"
     const val NOTIFICATION_TIME = "notification.time"
     const val NOTIFICATION_TEXT = "notification.text"
@@ -41,6 +41,7 @@ object SharedPrefsHelperSettings {
 
 class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
 
+    //only getters for these settings as they are handled by native jetpack preferences
     fun getKeepScreenOn(): Boolean {
         return sharedPreferences.getBoolean(
             SharedPrefsHelperSettings.KEEP_SCREEN_ON,
@@ -57,7 +58,7 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
 
     fun getPlaneModeReminder(): Boolean {
         return sharedPreferences.getBoolean(
-            SharedPrefsHelperSettings.PLANE_MODE_REMINDER,
+            SharedPrefsHelperSettings.AEROPLANE_MODE_REMINDER,
             false
         )
     }
@@ -69,16 +70,38 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
         )
     }
 
-    fun setNotificationTime(notificationTime: String) {
-        sharedPreferences.edit()
-            .putString(SharedPrefsHelperSettings.NOTIFICATION_TIME, notificationTime).apply()
+    fun getInfiniteSession(): Boolean {
+        return sharedPreferences.getBoolean(
+            SharedPrefsHelperSettings.INFINITE_SESSION,
+            false
+        )
     }
 
+    fun getRewardsActivated(): Boolean {
+        return sharedPreferences.getBoolean(
+            SharedPrefsHelperSettings.REWARDS_ACTIVATED,
+            true
+        )
+    }
+
+    fun getStatisticsActivated(): Boolean {
+        return sharedPreferences.getBoolean(
+            SharedPrefsHelperSettings.STATISTICS_ACTIVATED,
+            true
+        )
+    }
+
+    //needed to customize these settings UI, so needed custom setters too
     fun getNotificationTime(): String {
         return sharedPreferences.getString(
             SharedPrefsHelperSettings.NOTIFICATION_TIME,
             "12:00"
         ) ?: "12:00"
+    }
+
+    fun setNotificationTime(notificationTime: String) {
+        sharedPreferences.edit()
+            .putString(SharedPrefsHelperSettings.NOTIFICATION_TIME, notificationTime).apply()
     }
 
     fun getNotificationText(): String {
@@ -120,23 +143,16 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
             .apply()
     }
 
-    fun getInfiniteSession(): Boolean {
-        return sharedPreferences.getBoolean(
-            SharedPrefsHelperSettings.INFINITE_SESSION,
-            false
+    fun getCountDownLength(): Long {
+        return sharedPreferences.getLong(
+            SharedPrefsHelperSettings.COUNTDOWN_LENGTH,
+            5000L
         )
     }
 
     fun setCountDownLength(length: Long) {
         sharedPreferences.edit()
             .putLong(SharedPrefsHelperSettings.COUNTDOWN_LENGTH, length).apply()
-    }
-
-    fun getCountDownLength(): Long {
-        return sharedPreferences.getLong(
-            SharedPrefsHelperSettings.COUNTDOWN_LENGTH,
-            5000L
-        )
     }
 
     fun getDefaultNightMode(): Int {
@@ -149,19 +165,5 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
     fun setDefaultNightMode(defaultNightMode: Int) {
         sharedPreferences.edit()
             .putInt(SharedPrefsHelperSettings.DEFAULT_NIGHT_MODE, defaultNightMode).apply()
-    }
-
-    fun getRewardsActivated(): Boolean {
-        return sharedPreferences.getBoolean(
-            SharedPrefsHelperSettings.REWARDS_ACTIVATED,
-            true
-        )
-    }
-
-    fun getStatisticsActivated(): Boolean {
-        return sharedPreferences.getBoolean(
-            SharedPrefsHelperSettings.STATISTICS_ACTIVATED,
-            true
-        )
     }
 }

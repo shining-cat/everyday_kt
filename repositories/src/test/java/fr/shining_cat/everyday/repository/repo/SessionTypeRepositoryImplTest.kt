@@ -56,6 +56,14 @@ class SessionTypeRepositoryImplTest {
             mockSessionTypeDao,
             mockSessionTypeConverter
         )
+        coEvery { mockSessionTypeConverter.convertModelsToEntities(any()) } returns listOf(
+            mockSessionTypeEntity
+        )
+        coEvery { mockSessionTypeConverter.convertModelToEntity(any()) } returns mockSessionTypeEntity
+        coEvery { mockSessionTypeConverter.convertEntitiesToModels(any()) } returns listOf(
+            mockSessionType
+        )
+        coEvery { mockSessionTypeConverter.convertEntitytoModel(any()) } returns mockSessionType
         coEvery { mockSessionTypeDao.insert(any()) } returns arrayOf(1, 2, 3)
         coEvery { mockSessionTypeDao.update(any()) } returns 3
         coEvery { mockSessionTypeDao.delete(any()) } returns 3

@@ -81,8 +81,8 @@ data class RewardEntity(
 
 
 object RewardEntityConstants {
-    const val NO_ACQUISITION_DATE: Long = 0
-    const val NO_ESCAPING_DATE: Long = 0
+    const val NO_ACQUISITION_DATE: Long = 0L
+    const val NO_ESCAPING_DATE: Long = 0L
     const val NO_NAME = ""
     const val DEFAULT_REWARD_COLOR = "#00000000"
 }

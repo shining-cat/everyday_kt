@@ -18,7 +18,6 @@
 package fr.shining_cat.everyday.locale.dao
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import fr.shining_cat.everyday.locale.EveryDayRoomDatabase
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntity
@@ -26,9 +25,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.*
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
-import org.junit.runner.RunWith
 
-@RunWith(AndroidJUnit4::class)
 class SessionPresetDaoTest {
 
     //set the testing environment to use Main thread instead of background one
@@ -69,7 +66,7 @@ class SessionPresetDaoTest {
     }
 
     private fun generateSessionPreset(
-        desiredId: Long = -1,
+        desiredId: Long = -1L,
         desiredDuration: Long = 123L,
         desiredStartAndEndSoundUri: String = "start end sound",
         desiredIntermediateIntervalLength: Long = 456L,
