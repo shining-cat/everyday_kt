@@ -60,6 +60,7 @@ apply plugin: 'jacoco'
 apply plugin: "com.github.ben-manes.versions"
 apply from: "$project.rootDir/jacoco.gradle"
 apply from: "$project.rootDir/ktlint.gradle"
+apply from: "$project.rootDir/ben_manes_versions_plugin.gradle"
 
 dependencies {
     implementation KotlinLibraries.kotlinJdk7
