@@ -18,7 +18,6 @@
 package fr.shining_cat.everyday.locale.dao
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import fr.shining_cat.everyday.locale.EveryDayRoomDatabase
 import fr.shining_cat.everyday.locale.entities.RewardEntity
@@ -28,10 +27,8 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import java.util.*
 
-@RunWith(AndroidJUnit4::class)
 class RewardDaoTest {
 
     //set the testing environment to use Main thread instead of background one
@@ -48,7 +45,6 @@ class RewardDaoTest {
         rewardDao = EveryDayRoomDatabase.getInstance(appContext).rewardDao()
         emptyTableAndCheck()
     }
-
 
     /////////////////////////////
     //  UTILS
@@ -82,7 +78,7 @@ class RewardDaoTest {
         desiredLevel: Int = 1,
         active: Boolean = true,
         escaped: Boolean = false,
-        desiredId: Long = -1,
+        desiredId: Long = -1L,
         yearAcquired: Int = 2000,
         monthAcquired: Int = 5,
         dayAcquired: Int = 13,
@@ -688,6 +684,11 @@ class RewardDaoTest {
 
     @Test
     fun testGetAllRewardsActiveAcquisitionDateAsc() {
+        val oldestRewardDate = GregorianCalendar(
+            1980,
+            8,
+            21
+        ).timeInMillis - 1000L //subtracted 1000 so we can test strict inequality
         val rewardsToInsertList = listOf(
             generateReward(active = true, yearAcquired = 1987, monthAcquired = 2, dayAcquired = 9),
             generateReward(
@@ -717,10 +718,10 @@ class RewardDaoTest {
         assertNotNull(rewardEntitySorted)
         if (rewardEntitySorted != null) {
             assertEquals(4, rewardEntitySorted.size)
-            var date = 0L
+            var date = oldestRewardDate
             for (i in rewardEntitySorted.indices) {
                 assertEquals(true, rewardEntitySorted[i].isActive)
-                assert(rewardEntitySorted[i].acquisitionDate >= date)
+                assert(rewardEntitySorted[i].acquisitionDate > date)
                 date = rewardEntitySorted[i].acquisitionDate
                 assertEquals(date, rewardEntitySorted[i].acquisitionDate)
             }
@@ -737,7 +738,11 @@ class RewardDaoTest {
 
     @Test
     fun testGetAllRewardsActiveAcquisitionDateDesc() {
-
+        val mostRecentRewardDate = GregorianCalendar(
+            1987,
+            2,
+            9
+        ).timeInMillis + 1000L //added 1000 so we can test strict inequality
         val rewardsToInsertList = listOf(
             generateReward(active = true, yearAcquired = 1987, monthAcquired = 2, dayAcquired = 9),
             generateReward(
@@ -767,16 +772,14 @@ class RewardDaoTest {
         assertNotNull(rewardEntitySorted)
         if (rewardEntitySorted != null) {
             assertEquals(4, rewardEntitySorted.size)
-            assertEquals(true, rewardEntitySorted[3].isActive)
-            var date = rewardEntitySorted[3].acquisitionDate
-            for (i in 2 downTo 0) {
+            var date = mostRecentRewardDate
+            for (i in rewardEntitySorted.indices) {
                 assertEquals(true, rewardEntitySorted[i].isActive)
-                assert(rewardEntitySorted[i].acquisitionDate <= date)
+                assert(rewardEntitySorted[i].acquisitionDate < date)
                 date = rewardEntitySorted[i].acquisitionDate
                 assertEquals(date, rewardEntitySorted[i].acquisitionDate)
             }
         }
-
     }
 
     @Test
@@ -812,12 +815,10 @@ class RewardDaoTest {
             var level = 0
             for (i in rewardEntitySorted.indices) {
                 assertEquals(true, rewardEntitySorted[i].isActive)
-                assert(rewardEntitySorted[i].level <= level)
+                assert(rewardEntitySorted[i].level >= level)
                 level = rewardEntitySorted[i].level
             }
         }
-        //
-
     }
 
     @Test
@@ -851,16 +852,14 @@ class RewardDaoTest {
         if (rewardEntitySorted != null) {
             assertEquals(171, rewardEntitySorted.size)
             assertEquals(true, rewardEntitySorted[rewardEntitySorted.size - 1].isActive)
-            var level = rewardEntitySorted[rewardEntitySorted.size - 1].level
-            for (i in (rewardEntitySorted.size - 1) downTo 0) {
+            var level = 5
+            for (i in rewardEntitySorted.indices) {
                 assertEquals(true, rewardEntitySorted[i].isActive)
                 assert(rewardEntitySorted[i].level <= level)
                 level = rewardEntitySorted[i].level
                 assertEquals(level, rewardEntitySorted[i].level)
             }
         }
-        //
-
     }
 
     @Test
@@ -872,7 +871,11 @@ class RewardDaoTest {
 
     @Test
     fun testGetAllRewardsNotEscapedAcquisitionDatDesc() {
-
+        val mostRecentRewardDate = GregorianCalendar(
+            1987,
+            2,
+            9
+        ).timeInMillis + 1000L //added 1000 so we can test strict inequality
         val rewardsToInsertList = listOf(
             generateReward(escaped = true, yearAcquired = 1987, monthAcquired = 2, dayAcquired = 9),
             generateReward(
@@ -924,8 +927,8 @@ class RewardDaoTest {
             assertEquals(3, rewardEntitySorted.size)
             assertEquals(true, rewardEntitySorted[2].isActive)
             assertEquals(false, rewardEntitySorted[2].isEscaped)
-            var date = rewardEntitySorted[2].acquisitionDate
-            for (i in 1 downTo 0) {
+            var date = mostRecentRewardDate
+            for (i in rewardEntitySorted.indices) {
                 assertEquals(true, rewardEntitySorted[i].isActive)
                 assertEquals(false, rewardEntitySorted[i].isEscaped)
                 assert(rewardEntitySorted[i].acquisitionDate < date)
@@ -933,8 +936,6 @@ class RewardDaoTest {
                 assertEquals(date, rewardEntitySorted[i].acquisitionDate)
             }
         }
-        //
-
     }
 
     @Test
@@ -946,7 +947,7 @@ class RewardDaoTest {
 
     @Test
     fun testGetAllRewardsEscapedAcquisitionDateDesc() {
-
+        val mostRecentRewardDate = GregorianCalendar(1987, 9, 2).timeInMillis
         val rewardsToInsertList = listOf(
             generateReward(escaped = true, yearAcquired = 1987, monthAcquired = 2, dayAcquired = 9),
             generateReward(
@@ -998,17 +999,15 @@ class RewardDaoTest {
             assertEquals(4, rewardEntitySorted.size)
             assertEquals(true, rewardEntitySorted[rewardEntitySorted.size - 1].isActive)
             assertEquals(true, rewardEntitySorted[rewardEntitySorted.size - 1].isEscaped)
-            var date = rewardEntitySorted[rewardEntitySorted.size - 1].acquisitionDate
-            for (i in (rewardEntitySorted.size - 1) downTo 0) {
+            var date = mostRecentRewardDate
+            for (i in rewardEntitySorted.indices) {
                 assertEquals(true, rewardEntitySorted[i].isActive)
                 assertEquals(true, rewardEntitySorted[i].isEscaped)
-                assert(rewardEntitySorted[i].acquisitionDate < date)
+                assert(rewardEntitySorted[i].acquisitionDate <= date)
                 date = rewardEntitySorted[i].acquisitionDate
                 assertEquals(date, rewardEntitySorted[i].acquisitionDate)
             }
         }
-        //
-
     }
 
     @Test
@@ -1019,7 +1018,7 @@ class RewardDaoTest {
     }
 
     @Test
-    fun testGetAllRewardsOfSPecificLevelNotActive() {
+    fun testGetAllRewardsOfSpecificLevelNotActive() {
 
         val rewardsToInsertList = mutableListOf<RewardEntity>()
         rewardsToInsertList.addAll(generateRewards(5, 1, 3, active = false, escaped = false))
@@ -1078,7 +1077,7 @@ class RewardDaoTest {
     }
 
     @Test
-    fun testGetAllRewardsOfSPecificLevelNotActiveOrEscaped() {
+    fun testGetAllRewardsOfSpecificLevelNotActiveOrEscaped() {
 
         val rewardsToInsertList = mutableListOf<RewardEntity>()
         rewardsToInsertList.addAll(generateRewards(5, 1, 3, active = false, escaped = false))

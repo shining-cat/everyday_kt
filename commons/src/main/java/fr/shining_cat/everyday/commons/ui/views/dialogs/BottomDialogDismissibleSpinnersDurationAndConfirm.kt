@@ -64,7 +64,7 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
             showSeconds: Boolean,
             explanationMessage: String,
             confirmButtonLabel: String,
-            initialLengthMs: Long = 0
+            initialLengthMs: Long = 0L
         ): BottomDialogDismissibleSpinnersDurationAndConfirm =
             BottomDialogDismissibleSpinnersDurationAndConfirm()
                 .apply {

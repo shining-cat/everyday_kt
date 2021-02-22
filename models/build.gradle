@@ -21,13 +21,5 @@ apply from: '../common.gradle'
 dependencies {
     implementation project(Modules.commons)
 
-    implementation AndroidLibraries.roomCompiler
-    implementation AndroidLibraries.roomRunTime
-    implementation AndroidLibraries.roomKtx
-
-    annotationProcessor AndroidLibraries.roomCompiler
-    kapt AndroidLibraries.roomCompiler
-
-    testImplementation project(Modules.testutils)
 
 }

@@ -26,6 +26,7 @@ import androidx.lifecycle.Observer
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.screens.R
 import fr.shining_cat.everyday.screens.databinding.StatisticsFragmentBinding
+import fr.shining_cat.everyday.screens.viewmodels.StatisticsViewModel
 import fr.shining_cat.everyday.screens.views.ScreenActivity
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel

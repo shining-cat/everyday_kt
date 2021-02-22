@@ -57,6 +57,14 @@ class SessionRecordRepositoryImplTest {
                 mockSessionRecordDao,
                 mockSessionRecordConverter
             )
+        coEvery { mockSessionRecordConverter.convertModelsToEntities(any()) } returns listOf(
+            mockSessionRecordEntity
+        )
+        coEvery { mockSessionRecordConverter.convertModelToEntity(any()) } returns mockSessionRecordEntity
+        coEvery { mockSessionRecordConverter.convertEntitiesToModels(any()) } returns listOf(
+            mockSessionRecord
+        )
+        coEvery { mockSessionRecordConverter.convertEntityToModel(any()) } returns mockSessionRecord
         coEvery { mockSessionRecordDao.insert(any()) } returns arrayOf(1, 2, 3)
         coEvery { mockSessionRecordDao.update(any()) } returns 3
         coEvery { mockSessionRecordDao.delete(any()) } returns 3
@@ -92,7 +100,7 @@ class SessionRecordRepositoryImplTest {
             sessionRecordRepo.insert(listOf(mockSessionRecord))
         }
         coVerify { mockSessionRecordConverter.convertModelsToEntities(any()) }
-        coVerify { mockSessionRecordDao.insert(any()) }
+        coVerify { mockSessionRecordDao.insert(listOf(mockSessionRecordEntity)) }
     }
 
     @Test
@@ -101,7 +109,7 @@ class SessionRecordRepositoryImplTest {
             sessionRecordRepo.update(mockSessionRecord)
         }
         coVerify { mockSessionRecordConverter.convertModelToEntity(any()) }
-        coVerify { mockSessionRecordDao.update(any()) }
+        coVerify { mockSessionRecordDao.update(mockSessionRecordEntity) }
     }
 
     @Test
@@ -110,7 +118,7 @@ class SessionRecordRepositoryImplTest {
             sessionRecordRepo.delete(mockSessionRecord)
         }
         coVerify { mockSessionRecordConverter.convertModelToEntity(any()) }
-        coVerify { mockSessionRecordDao.delete(any()) }
+        coVerify { mockSessionRecordDao.delete(mockSessionRecordEntity) }
     }
 
     @Test
@@ -126,8 +134,8 @@ class SessionRecordRepositoryImplTest {
         runBlocking {
             sessionRecordRepo.getAllSessionsStartTimeAsc()
         }
-        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
         coVerify { mockSessionRecordDao.getAllSessionsStartTimeAsc() }
+        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
     }
 
     @Test
@@ -135,8 +143,8 @@ class SessionRecordRepositoryImplTest {
         runBlocking {
             sessionRecordRepo.getAllSessionsStartTimeDesc()
         }
-        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
         coVerify { mockSessionRecordDao.getAllSessionsStartTimeDesc() }
+        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
     }
 
     @Test
@@ -144,8 +152,8 @@ class SessionRecordRepositoryImplTest {
         runBlocking {
             sessionRecordRepo.getAllSessionsDurationAsc()
         }
-        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
         coVerify { mockSessionRecordDao.getAllSessionsDurationAsc() }
+        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
     }
 
     @Test
@@ -153,8 +161,8 @@ class SessionRecordRepositoryImplTest {
         runBlocking {
             sessionRecordRepo.getAllSessionsDurationDesc()
         }
-        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
         coVerify { mockSessionRecordDao.getAllSessionsDurationDesc() }
+        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
     }
 
 
@@ -163,8 +171,8 @@ class SessionRecordRepositoryImplTest {
         runBlocking {
             sessionRecordRepo.getAllSessionsWithMp3()
         }
-        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
         coVerify { mockSessionRecordDao.getAllSessionsWithMp3() }
+        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
     }
 
     @Test
@@ -172,8 +180,8 @@ class SessionRecordRepositoryImplTest {
         runBlocking {
             sessionRecordRepo.getAllSessionsWithMp3()
         }
-        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
         coVerify { mockSessionRecordDao.getAllSessionsWithMp3() }
+        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
     }
 
     @Test
@@ -181,8 +189,8 @@ class SessionRecordRepositoryImplTest {
         runBlocking {
             sessionRecordRepo.getAllSessionsWithoutMp3()
         }
-        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
         coVerify { mockSessionRecordDao.getAllSessionsWithoutMp3() }
+        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
     }
 
     @Test
@@ -190,8 +198,8 @@ class SessionRecordRepositoryImplTest {
         runBlocking {
             sessionRecordRepo.getSessionsSearch("search request")
         }
-        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
         coVerify { mockSessionRecordDao.getSessionsSearch(any()) }
+        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
     }
 
     @Test
@@ -199,8 +207,8 @@ class SessionRecordRepositoryImplTest {
         runBlocking {
             sessionRecordRepo.asyncGetAllSessionsStartTimeAsc()
         }
-        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
         coVerify { mockSessionRecordDao.asyncGetAllSessionsStartTimeAsc() }
+        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
     }
 
     @Test

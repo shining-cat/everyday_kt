@@ -28,11 +28,5 @@ dependencies {
 
     //commons should have no dependencies to any other module, but every other module might have to it
 
-
-    testImplementation TestLibraries.mockk
-    androidTestImplementation TestLibraries.archCoreTest
-
-    //not needed, but not adding these gets the IDE put Warnings on these packages, although code will compile and tests will run
-    androidTestImplementation TestLibraries.mockk
 }
 

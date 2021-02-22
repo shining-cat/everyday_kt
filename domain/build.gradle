@@ -24,9 +24,4 @@ dependencies {
     implementation project(Modules.commons)
     implementation project(Modules.repositories)
 
-    testImplementation project(Modules.testutils)
-
-    androidTestImplementation project(Modules.testutils)
-    androidTestImplementation TestLibraries.archCoreTest
-
 }

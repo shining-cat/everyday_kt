@@ -56,9 +56,18 @@ dependencies {
     implementation AndroidLibraries.lifecycle_viewmodel
     implementation AndroidLibraries.lifecycle_livedata
 
-    androidTestImplementation TestLibraries.junit
-    androidTestImplementation TestLibraries.androidTestRunner
+    // Unit Tests
     testImplementation TestLibraries.junit
+    testImplementation AndroidTestLibraries.core_testing
+    testImplementation TestLibraries.coroutines_test
+    testImplementation TestLibraries.mockk
+    testImplementation TestLibraries.robolectric
+
+    // Instrumented Tests
+    androidTestImplementation AndroidTestLibraries.runner
+    androidTestImplementation AndroidTestLibraries.junit
+    androidTestImplementation AndroidTestLibraries.espresso
+    androidTestImplementation AndroidTestLibraries.core_testing
 }
 
 jacoco {

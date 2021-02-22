@@ -31,9 +31,5 @@ dependencies {
     implementation project(Modules.commons)
     implementation project(Modules.interModulesNavigation)
 
-    testImplementation project(Modules.testutils)
-
-    androidTestImplementation project(Modules.testutils)
-    androidTestImplementation TestLibraries.archCoreTest
 
 }

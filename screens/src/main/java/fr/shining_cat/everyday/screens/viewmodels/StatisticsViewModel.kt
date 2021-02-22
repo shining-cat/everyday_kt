@@ -15,7 +15,7 @@
  *     along with Everyday.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package fr.shining_cat.everyday.screens.views.rewards
+package fr.shining_cat.everyday.screens.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -24,12 +24,12 @@ import fr.shining_cat.everyday.commons.viewmodels.AbstractViewModels
 import fr.shining_cat.everyday.commons.viewmodels.AppDispatchers
 import kotlinx.coroutines.launch
 
-class RewardsViewModel(
+class StatisticsViewModel(
     appDispatchers: AppDispatchers,
     private val logger: Logger
 ) : AbstractViewModels(appDispatchers) {
 
-    private val LOG_TAG = RewardsViewModel::class.java.simpleName
+    private val LOG_TAG = StatisticsViewModel::class.java.simpleName
 
     private val _initReadyLiveData = MutableLiveData<String>()
     val initReadyLiveData: LiveData<String> = _initReadyLiveData
@@ -40,4 +40,5 @@ class RewardsViewModel(
             _initReadyLiveData.value = LOG_TAG
         }
     }
+
 }

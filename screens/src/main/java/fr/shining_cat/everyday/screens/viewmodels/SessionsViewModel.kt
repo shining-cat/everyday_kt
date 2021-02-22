@@ -15,7 +15,7 @@
  *     along with Everyday.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package fr.shining_cat.everyday.screens.views.sessions
+package fr.shining_cat.everyday.screens.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
