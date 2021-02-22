@@ -28,7 +28,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.runner.RunWith
 
-@RunWith(AndroidJUnit4::class)
 class SessionPresetDaoTest {
 
     //set the testing environment to use Main thread instead of background one
@@ -69,7 +68,7 @@ class SessionPresetDaoTest {
     }
 
     private fun generateSessionPreset(
-        desiredId: Long = -1,
+        desiredId: Long = -1L,
         desiredDuration: Long = 123L,
         desiredStartAndEndSoundUri: String = "start end sound",
         desiredIntermediateIntervalLength: Long = 456L,

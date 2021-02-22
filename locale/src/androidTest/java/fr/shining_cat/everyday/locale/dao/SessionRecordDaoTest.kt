@@ -31,7 +31,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.*
 
-@RunWith(AndroidJUnit4::class)
 class SessionRecordDaoTest {
 
     //set the testing environment to use Main thread instead of background one
@@ -112,7 +111,7 @@ class SessionRecordDaoTest {
         endFeelingsValue: Int = -1,
         endGlobalValue: Int = -2,
         notes: String = "generateSessionRecordEntity default notes",
-        realDuration: Long = 1590000,
+        realDuration: Long = 1590000L,
         pausesCount: Int = 7,
         realDurationVsPlanned: Int = 0,
         guideMp3: String = "generateSessionRecordEntity default guideMp3",
