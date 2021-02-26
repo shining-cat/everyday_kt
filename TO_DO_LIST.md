@@ -7,7 +7,7 @@
   - [x] locale module
   - [x] repositories module
   - [x] commons module -> write tests on SharedPrefsHelper
-- [ ] find some way to automate code formatting in a customizable way (ie set else to new line etc.)
+- [ ] find some way to automate code formatting in a customizable way (ie set else to new line etc.) ktlint looks good, but does not follow rules set in editorconfig, need to write custom Ruleset
 - [ ] home activity is launched twice at startup -> debug
 - [ ] find info on building optional feature: rewards mechanism and statistics will only be added as a feature later, in order to be able to build a working version faster => we may have to split the screens module up to dissociate "bonus" features from "core" features, question is where to put the associated models, dto, repos, if not in the corresponding modules?
 - [ ] check if possible to set github actions up, have some kind of simple CI/CD running maybe? (see: https://medium.com/google-developer-experts/github-actions-for-android-developers-6b54c8a32f55)
