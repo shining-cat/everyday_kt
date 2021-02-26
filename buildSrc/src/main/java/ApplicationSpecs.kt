@@ -14,13 +14,30 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Everyday.  If not, see <https://www.gnu.org/licenses/>.
  */
+object ApplicationSpecs {
 
-package fr.shining_cat.everyday.di
+    const val id = "fr.shining_cat.everyday"
+    const val compileSdk = 30
+    const val minSdk = 21
+    const val targetSdk = 28
+}
 
-import fr.shining_cat.everyday.viewmodels.SplashViewModel
-import org.koin.android.viewmodel.dsl.viewModel
-import org.koin.dsl.module
+object Releases {
 
-val appModule = module {
-    viewModel { SplashViewModel(get(), get()) }
+    const val versionCode = 1
+    const val versionName = "1.0"
+}
+
+object Modules {
+
+    const val app = ":app"
+    const val locale = ":locale"
+    const val models = ":models"
+    const val repositories = ":repositories"
+    const val commons = ":commons"
+    const val interModulesNavigation = ":navigation"
+    const val screens = ":screens"
+    const val domain = ":domain"
+    const val settings = ":settings"
+    const val testutils = ":testutils"
 }

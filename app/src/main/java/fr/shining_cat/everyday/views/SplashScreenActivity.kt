@@ -35,13 +35,11 @@ class SplashScreenActivity : AbstractActivity() {
     private val splashViewModel: SplashViewModel by viewModel()
     private val logger: Logger = get()
 
-    override fun
-    onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val activitySplashscreenBinding = ActivitySplashscreenBinding.inflate(layoutInflater)
         setContentView(activitySplashscreenBinding.root)
         logger.d(LOG_TAG, "onCreate")
-
         showLoadingView(activitySplashscreenBinding.loadingLayout.loadingView)
         splashViewModel.initReadyLiveData.observe(
             this,
@@ -50,9 +48,29 @@ class SplashScreenActivity : AbstractActivity() {
                 if (it) {
                     startActivity(Actions.openDestination(this, Destination.HomeDestination()))
                     finish()
+                } else {
+                    logger.d(LOG_TAG, "tralala sdfklj zef lkjzef1zeF ZEN F FKSDJFIFSDLKJF    FGJSDFGLKJ  sdmkljfdsfj  ks flksdj esd kf zelf  selkf  sdf  sd fnsdf jksd f hzesjkfh ezjkfhsd  kjhsefl  hzesf  kse jh dfkjgh erkj  gergh ekjg  erjkghesrl ")
                 }
             }
         )
+        try {
+            logger.d(LOG_TAG, "tralala sdfklj zef lkjzef1zeF ZEN Ff  selkf  sdf")
+            if (splashViewModel != null) { logger.d(LOG_TAG, "not nul!") } else { logger.d(LOG_TAG, "null!") }
+        } catch (e: Exception) { logger.d(LOG_TAG, "exception!") }
         splashViewModel.loadConfInit()
     }
 }
+/*
+        splashViewModel.initReadyLiveData.observe(this,Observer {logger.d(LOG_TAG, "initReadyLiveData: $it")
+                if (it) {
+                    startActivity(Actions.openDestination(this, Destination.HomeDestination()))
+                    finish()
+                } else {
+                    logger.d(LOG_TAG, "tralala sdfklj zef lkjzef1zeF ZEN F FKSDJFIFSDLKJF    FGJSDFGLKJ  sdmkljfdsfj  ks flksdj esd kf zelf  selkf  sdf  sd fnsdf jksd f hzesjkfh ezjkfhsd  kjhsefl  hzesf  kse jh dfkjgh erkj  gergh ekjg  erjkghesrl ") }
+            }
+        )
+        try {
+            logger.d(LOG_TAG, "tralala sdfklj zef lkjzef1zeF ZEN Ff  selkf  sdf")
+            if(splashViewModel != null){logger.d(LOG_TAG, "not nul!")}else{logger.d(LOG_TAG, "null!")}
+        }catch (e:Exception){logger.d(LOG_TAG, "exception!")}
+ */

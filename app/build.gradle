@@ -20,7 +20,7 @@ apply from: "$project.rootDir/common.gradle"
 
 android {
     defaultConfig {
-        applicationId ApplicationId.id
+        applicationId ApplicationSpecs.id
         vectorDrawables.useSupportLibrary = true
     }
 }

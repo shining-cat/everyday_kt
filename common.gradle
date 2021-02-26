@@ -15,10 +15,10 @@
  *     along with Everyday.  If not, see <https://www.gnu.org/licenses/>.
  */
 android {
-    compileSdkVersion Versions.compileSdk
+    compileSdkVersion ApplicationSpecs.compileSdk
     defaultConfig {
-        minSdkVersion Versions.minSdk
-        targetSdkVersion Versions.targetSdk
+        minSdkVersion ApplicationSpecs.minSdk
+        targetSdkVersion ApplicationSpecs.targetSdk
         versionCode Releases.versionCode
         versionName Releases.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -59,9 +59,9 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'jacoco'
 apply plugin: "com.github.ben-manes.versions"
 apply from: 'https://raw.githubusercontent.com/JakeWharton/SdkSearch/master/gradle/projectDependencyGraph.gradle'
-apply from: "$project.rootDir/jacoco.gradle"
-apply from: "$project.rootDir/ktlint.gradle"
-apply from: "$project.rootDir/ben_manes_versions_plugin.gradle"
+apply from: "$project.rootDir/conf_plugin_jacoco.gradle"
+apply from: "$project.rootDir/conf_plugin_ktlint.gradle"
+apply from: "$project.rootDir/conf_plugin_ben_manes_versions.gradle"
 
 dependencies {
     implementation KotlinLibraries.kotlinJdk7
