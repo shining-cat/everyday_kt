@@ -9,7 +9,7 @@ dependencies {
     // ktlint will pick them up
 }
 
-task ktlint(type: JavaExec, group: "everyday") {
+task everyDayKtlintCheck(type: JavaExec, group: "everyday") {
     description = "Check Kotlin code style."
     classpath = configurations.ktlint
     main = "com.pinterest.ktlint.Main"
@@ -20,9 +20,9 @@ task ktlint(type: JavaExec, group: "everyday") {
     // "--baseline=ktlint-baseline.xml"
     // see https://github.com/pinterest/ktlint#usage for more
 }
-check.dependsOn ktlint
+check.dependsOn everyDayKtlintCheck
 
-task ktlintFormat(type: JavaExec, group: "everyday") {
+task everyDayKtlintFormat(type: JavaExec, group: "everyday") {
     description = "Fix Kotlin code style deviations."
     classpath = configurations.ktlint
     main = "com.pinterest.ktlint.Main"

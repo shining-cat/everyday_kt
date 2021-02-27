@@ -29,7 +29,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
 }
 
 // This task launches the tests and copies the reports to /reports/ directory
-task everydayReport(type: Copy, dependsOn: 'jacocoTestReport') {
+task everydayJacocoReport(type: Copy, dependsOn: 'jacocoTestReport') {
     group = 'Everyday'
     from "$buildDir/reports/"
     into "../reports/$project.name"

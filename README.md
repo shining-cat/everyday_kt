@@ -40,7 +40,7 @@ To use it:
 - find .png file in build\reports\dependency-graph
 
 ### Ben Manes' Gradle Versions Plugin to check for dependencies available updates
-To use it: launch gradle task help>dependencyUpdates
+To use it: launch gradle task everyday>everydayDependencyUpdates
 
 ## "Roadmap" for Everyday:
 

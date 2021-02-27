@@ -14,15 +14,30 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Everyday.  If not, see <https://www.gnu.org/licenses/>.
  */
+object ApplicationSpecs {
 
-apply plugin: 'com.android.library'
-apply from: "$project.rootDir/common.gradle"
+    const val id = "fr.shining_cat.everyday"
+    const val compileSdk = 30
+    const val minSdk = 21
+    const val targetSdk = 28
+}
 
-dependencies {
-    implementation project(Modules.models)
-    implementation project(Modules.locale)
-    implementation project(Modules.commons)
+object Releases {
 
-    testImplementation project(Modules.testutils)
+    const val versionCode = 1
+    const val versionName = "1.0"
+}
 
+object Modules {
+
+    const val app = ":app"
+    const val locale = ":locale"
+    const val models = ":models"
+    const val repositories = ":repositories"
+    const val commons = ":commons"
+    const val interModulesNavigation = ":navigation"
+    const val screens = ":screens"
+    const val domain = ":domain"
+    const val settings = ":settings"
+    const val testutils = ":testutils"
 }
