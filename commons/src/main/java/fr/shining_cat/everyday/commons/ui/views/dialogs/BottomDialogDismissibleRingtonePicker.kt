@@ -43,11 +43,10 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
     private val TITLE_ARG = "title_argument"
     private val INITIAL_SELECTION_URI_ARG = "initial_selection_uri_argument"
     private val SILENCE_ARG = "silence_argument"
-    private val RINGTONES_ASSETS_ARG = "ringtones_assets_argument"
-    private val RINGTONES_TITLES_ARG = "ringtones_titles_argument"
+    private val RINGTONES_ASSETS_ARG = "ringTones_assets_argument"
+    private val RINGTONES_TITLES_ARG = "ringTones_titles_argument"
     private val CONFIRM_BUTTON_LABEL_ARG = "confirm_button_label_argument"
-    private var bottomDialogDismissibleRingtonePickerListener: BottomDialogDismissibleRingtonePickerListener? =
-        null
+    private var listener: BottomDialogDismissibleRingtonePickerListener? = null
 
     private var playingRingtone: Ringtone? = null
 
@@ -59,11 +58,16 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
     interface BottomDialogDismissibleRingtonePickerListener {
 
         fun onDismissed()
-        fun onValidateRingtoneSelected(selectedRingtoneUri: String, selectedRingtoneName: String)
+        fun onValidateRingtoneSelected(
+            selectedRingtoneUri: String,
+            selectedRingtoneName: String
+        )
     }
 
-    fun setBottomDialogDismissibleRingtonePickerListener(listener: BottomDialogDismissibleRingtonePickerListener) {
-        this.bottomDialogDismissibleRingtonePickerListener = listener
+    fun setBottomDialogDismissibleRingtonePickerListener(
+        listener: BottomDialogDismissibleRingtonePickerListener
+    ) {
+        this.listener = listener
     }
 
     companion object {
@@ -73,20 +77,36 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
             initialSelectionUri: String,
             confirmButtonLabel: String,
             showSilenceChoice: Boolean = false,
-            ringtonesAssetsNames: Array<String> = emptyArray(),
-            ringtonesDisplayNames: Array<String> = emptyArray()
-        ): BottomDialogDismissibleRingtonePicker =
-            BottomDialogDismissibleRingtonePicker()
-                .apply {
-                    arguments = Bundle().apply {
-                        putString(TITLE_ARG, title)
-                        putString(INITIAL_SELECTION_URI_ARG, initialSelectionUri)
-                        putString(CONFIRM_BUTTON_LABEL_ARG, confirmButtonLabel)
-                        putBoolean(SILENCE_ARG, showSilenceChoice)
-                        putStringArray(RINGTONES_ASSETS_ARG, ringtonesAssetsNames)
-                        putStringArray(RINGTONES_TITLES_ARG, ringtonesDisplayNames)
-                    }
-                }
+            ringTonesAssetsNames: Array<String> = emptyArray(),
+            ringTonesDisplayNames: Array<String> = emptyArray()
+        ): BottomDialogDismissibleRingtonePicker = BottomDialogDismissibleRingtonePicker().apply {
+            arguments = Bundle().apply {
+                putString(
+                    TITLE_ARG,
+                    title
+                )
+                putString(
+                    INITIAL_SELECTION_URI_ARG,
+                    initialSelectionUri
+                )
+                putString(
+                    CONFIRM_BUTTON_LABEL_ARG,
+                    confirmButtonLabel
+                )
+                putBoolean(
+                    SILENCE_ARG,
+                    showSilenceChoice
+                )
+                putStringArray(
+                    RINGTONES_ASSETS_ARG,
+                    ringTonesAssetsNames
+                )
+                putStringArray(
+                    RINGTONES_TITLES_ARG,
+                    ringTonesDisplayNames
+                )
+            }
+        }
     }
 
     override fun onCreateView(
@@ -100,25 +120,31 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
     }
 
     private fun initUi(uiBindings: DialogBottomRingtonePickerAndConfirmBinding) {
-        val title = arguments?.getString(TITLE_ARG, "") ?: ""
+        val title = arguments?.getString(
+            TITLE_ARG,
+            ""
+        ) ?: ""
         val titleField = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomTitle
         titleField.text = title
         //
         val dismissButton =
             uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
         dismissButton.setOnClickListener {
-            bottomDialogDismissibleRingtonePickerListener?.onDismissed()
+            listener?.onDismissed()
             dismiss()
         }
         //
-        val completeRingtonesList = buildCompleteRingtonesMap()
-        val completeRingtonesLabels = completeRingtonesList.map { it.first }
-        val completeRingtonesUris = completeRingtonesList.map { it.second }
-        val initialSelectionUriString = arguments?.getString(INITIAL_SELECTION_URI_ARG, "") ?: ""
+        val completeRingTonesList = buildCompleteRingTonesMap()
+        val completeRingTonesLabels = completeRingTonesList.map { it.first }
+        val completeRingTonesUris = completeRingTonesList.map { it.second }
+        val initialSelectionUriString = arguments?.getString(
+            INITIAL_SELECTION_URI_ARG,
+            ""
+        ) ?: ""
         val selectListAdapter = SelectListAdapter(logger)
-        selectListAdapter.optionsLabels = completeRingtonesLabels
+        selectListAdapter.optionsLabels = completeRingTonesLabels
         selectListAdapter.forceInitialSelectedOption(
-            completeRingtonesUris.indexOf(
+            completeRingTonesUris.indexOf(
                 Uri.parse(
                     initialSelectionUriString
                 )
@@ -133,15 +159,18 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
         selectListAdapter.setSelectListAdapterListener(object :
                 SelectListAdapter.SelectListAdapterListener {
                 override fun onOptionSelected(selectedPosition: Int) {
-                    playSelectedRingtone(completeRingtonesUris[selectedPosition])
+                    playSelectedRingtone(completeRingTonesUris[selectedPosition])
                 }
             })
         //
-        val confirmButtonLabel = arguments?.getString(CONFIRM_BUTTON_LABEL_ARG, "") ?: ""
+        val confirmButtonLabel = arguments?.getString(
+            CONFIRM_BUTTON_LABEL_ARG,
+            ""
+        ) ?: ""
         val confirmButton = uiBindings.dialogBottomConfirmButton
         confirmButton.text = confirmButtonLabel
         confirmButton.setOnClickListener {
-            transmitSelectedRingtone(completeRingtonesList[selectListAdapter.selectedPosition])
+            transmitSelectedRingtone(completeRingTonesList[selectListAdapter.selectedPosition])
         }
         // preventing disturbing dialog size-changes when scrolling list by setting peek height to expanded (full) height
         this.dialog?.setOnShowListener { dialog ->
@@ -155,69 +184,90 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
     private fun playSelectedRingtone(ringtoneToPlayUri: Uri) {
         playingRingtone?.stop()
         if (ringtoneToPlayUri.toString().isNotBlank()) {
-            playingRingtone = RingtoneManager.getRingtone(context, ringtoneToPlayUri)
+            playingRingtone = RingtoneManager.getRingtone(
+                context,
+                ringtoneToPlayUri
+            )
             playingRingtone?.play()
         }
     }
 
-    private fun buildCompleteRingtonesMap(): List<Pair<String, Uri>> {
+    private fun buildCompleteRingTonesMap(): List<Pair<String, Uri>> {
         val silenceList = if (arguments?.getBoolean(SILENCE_ARG) == true) {
             getSilentRingtone()
         } else {
             listOf()
         }
         //
-        val ringtonesAssetsNames = arguments?.getStringArray(RINGTONES_ASSETS_ARG) ?: emptyArray()
-        val ringtonesDisplayNames = arguments?.getStringArray(RINGTONES_TITLES_ARG) ?: emptyArray()
-        val ringtonesAssetsList = if (ringtonesAssetsNames.isNotEmpty() &&
-            ringtonesDisplayNames.isNotEmpty() &&
-            ringtonesAssetsNames.size == ringtonesDisplayNames.size
-        ) {
-            getAssetsRingtones(ringtonesAssetsNames, ringtonesDisplayNames)
+        val ringTonesAssetsNames = arguments?.getStringArray(RINGTONES_ASSETS_ARG) ?: emptyArray()
+        val ringTonesDisplayNames = arguments?.getStringArray(RINGTONES_TITLES_ARG) ?: emptyArray()
+        val ringTonesAssetsList = if (ringTonesAssetsNames.size == ringTonesDisplayNames.size) {
+            getAssetsRingTones(
+                ringTonesAssetsNames,
+                ringTonesDisplayNames
+            )
         } else {
+            logger.e(
+                LOG_TAG,
+                "buildCompleteRingTonesMap:: incompatible sources sizes"
+            )
             listOf()
         }
         //
-        val deviceRingtonesList = getDeviceRingtones()
+        val deviceRingTonesList = getDeviceRingTones()
         //
         val list: MutableList<Pair<String, Uri>> = mutableListOf()
         list.addAll(silenceList)
-        list.addAll(ringtonesAssetsList)
-        list.addAll(deviceRingtonesList)
+        list.addAll(ringTonesAssetsList)
+        list.addAll(deviceRingTonesList)
         return list
     }
 
-    private fun getSilentRingtone(): List<Pair<String, Uri>> =
-        listOf(Pair(getString(R.string.silence), Uri.parse("")), selectListDividerItem)
+    private fun getSilentRingtone(): List<Pair<String, Uri>> = listOf(
+        Pair(
+            getString(R.string.silence),
+            Uri.parse("")
+        ),
+        selectListDividerItem
+    )
 
-    private val selectListDividerItem = Pair("", Uri.parse(""))
+    private val selectListDividerItem = Pair(
+        "",
+        Uri.parse("")
+    )
 
-    private fun getDeviceRingtones(): List<Pair<String, Uri>> {
+    private fun getDeviceRingTones(): List<Pair<String, Uri>> {
         val ringtoneManager = RingtoneManager(context)
         ringtoneManager.setType(RingtoneManager.TYPE_NOTIFICATION)
         val cursor = ringtoneManager.cursor
         val list: MutableList<Pair<String, Uri>> = mutableListOf()
         while (cursor.moveToNext()) {
-            val notificationTitle =
-                cursor.getString(RingtoneManager.TITLE_COLUMN_INDEX)
-            val notificationUri =
-                ringtoneManager.getRingtoneUri(cursor.position)
-            list.add(Pair(notificationTitle, notificationUri))
+            val notificationTitle = cursor.getString(RingtoneManager.TITLE_COLUMN_INDEX)
+            val notificationUri = ringtoneManager.getRingtoneUri(cursor.position)
+            list.add(
+                Pair(
+                    notificationTitle,
+                    notificationUri
+                )
+            )
         }
         return list
     }
 
-    private fun getAssetsRingtones(
-        ringtonesAssetsNames: Array<String>,
-        ringtonesDisplayNames: Array<String>
+    private fun getAssetsRingTones(
+        ringTonesAssetsNames: Array<String>,
+        ringTonesDisplayNames: Array<String>
     ): List<Pair<String, Uri>> {
         val list: MutableList<Pair<String, Uri>> = mutableListOf()
-        for ((index, ringtoneAssetName) in ringtonesAssetsNames.withIndex()) {
+        for ((index, ringtoneAssetName) in ringTonesAssetsNames.withIndex()) {
             context?.let {
                 list.add(
                     Pair(
-                        ringtonesDisplayNames[index],
-                        uriFromRaw(it, ringtoneAssetName)
+                        ringTonesDisplayNames[index],
+                        uriFromRaw(
+                            it,
+                            ringtoneAssetName
+                        )
                     )
                 )
             }
@@ -226,8 +276,15 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
         return list
     }
 
-    private fun uriFromRaw(context: Context, assetName: String): Uri {
-        val resId = context.resources?.getIdentifier(assetName, "raw", context.packageName) ?: -1
+    private fun uriFromRaw(
+        context: Context,
+        assetName: String
+    ): Uri {
+        val resId = context.resources?.getIdentifier(
+            assetName,
+            "raw",
+            context.packageName
+        ) ?: -1
         return if (resId != -1) {
             Uri.parse("android.resource://" + context.packageName + "/" + resId)
         } else {
@@ -236,7 +293,7 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
     }
 
     private fun transmitSelectedRingtone(selectedRingtone: Pair<String, Uri>) {
-        bottomDialogDismissibleRingtonePickerListener?.onValidateRingtoneSelected(
+        listener?.onValidateRingtoneSelected(
             selectedRingtoneUri = selectedRingtone.second.toString(),
             selectedRingtoneName = selectedRingtone.first
         )

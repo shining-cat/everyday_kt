@@ -66,7 +66,6 @@ apply from: "$project.rootDir/conf_plugin_ben_manes_versions.gradle"
 dependencies {
     implementation KotlinLibraries.kotlinJdk7
     implementation AndroidLibraries.coreRunTime
-    //this is added to prevent a sub-dependency conflict between google-services and the rest
 
     // Koin
     implementation Libraries.koin

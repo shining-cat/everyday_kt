@@ -16,7 +16,20 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
     }
 
     def fileFilter = [
-            '**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*', '**/*$[0-9].*'
+            // data binding
+            'android/databinding/**/*.class',
+            '**/android/databinding/*Binding.class',
+            '**/android/databinding/*',
+            '**/androidx/databinding/*',
+            //
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            '**/*Test*.*',
+            'android/**/*.*',
+            '**/*$[0-9].*',
+            '**/di/**'
     ]
     def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
     def mainSrc = "$project.projectDir/src/main/java"

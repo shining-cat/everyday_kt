@@ -54,7 +54,7 @@ object KotlinLibraries {
 
 object AndroidLibraries {
 
-    const val gradle = "com.android.tools.build:gradle:4.1.2"
+    const val gradle = "com.android.tools.build:gradle:4.0.2"//keep at 4.0.2, because 4.1.2 breaks jacoco tests reports task
 
     //
     const val core_ktx = "androidx.core:core-ktx:1.3.2"
