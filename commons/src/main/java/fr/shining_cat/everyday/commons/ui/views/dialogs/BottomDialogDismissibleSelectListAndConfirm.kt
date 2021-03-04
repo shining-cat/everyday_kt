@@ -40,8 +40,7 @@ class BottomDialogDismissibleSelectListAndConfirm : BottomSheetDialogFragment() 
     private val OPTIONS_ARG = "options_argument"
     private val CONFIRM_BUTTON_LABEL_ARG = "confirm_button_label_argument"
     private val INITIAL_SELECTED_INDEX_ARG = "initial_selected_index_argument"
-    private var bottomDialogDismissibleSelectListAndConfirmListenerListener: BottomDialogDismissibleSelectListAndConfirmListener? =
-        null
+    private var listener: BottomDialogDismissibleSelectListAndConfirmListener? = null
 
     interface BottomDialogDismissibleSelectListAndConfirmListener {
 
@@ -49,8 +48,10 @@ class BottomDialogDismissibleSelectListAndConfirm : BottomSheetDialogFragment() 
         fun onValidateSelection(optionSelectedIndex: Int)
     }
 
-    fun setBottomDialogDismissibleSelectListAndConfirmListener(listener: BottomDialogDismissibleSelectListAndConfirmListener) {
-        this.bottomDialogDismissibleSelectListAndConfirmListenerListener = listener
+    fun setBottomDialogDismissibleSelectListAndConfirmListener(
+        listener: BottomDialogDismissibleSelectListAndConfirmListener
+    ) {
+        this.listener = listener
     }
 
     companion object {
@@ -61,15 +62,26 @@ class BottomDialogDismissibleSelectListAndConfirm : BottomSheetDialogFragment() 
             confirmButtonLabel: String,
             initialSelectedIndex: Int = -1
         ): BottomDialogDismissibleSelectListAndConfirm =
-            BottomDialogDismissibleSelectListAndConfirm()
-                .apply {
-                    arguments = Bundle().apply {
-                        putString(TITLE_ARG, title)
-                        putStringArrayList(OPTIONS_ARG, ArrayList(optionsLabels))
-                        putString(CONFIRM_BUTTON_LABEL_ARG, confirmButtonLabel)
-                        putInt(INITIAL_SELECTED_INDEX_ARG, initialSelectedIndex)
-                    }
+            BottomDialogDismissibleSelectListAndConfirm().apply {
+                arguments = Bundle().apply {
+                    putString(
+                        TITLE_ARG,
+                        title
+                    )
+                    putStringArrayList(
+                        OPTIONS_ARG,
+                        ArrayList(optionsLabels)
+                    )
+                    putString(
+                        CONFIRM_BUTTON_LABEL_ARG,
+                        confirmButtonLabel
+                    )
+                    putInt(
+                        INITIAL_SELECTED_INDEX_ARG,
+                        initialSelectedIndex
+                    )
                 }
+            }
     }
 
     override fun onCreateView(
@@ -83,14 +95,17 @@ class BottomDialogDismissibleSelectListAndConfirm : BottomSheetDialogFragment() 
     }
 
     private fun initUi(uiBindings: DialogBottomSelectListAndConfirmBinding) {
-        val title = arguments?.getString(TITLE_ARG, "") ?: ""
+        val title = arguments?.getString(
+            TITLE_ARG,
+            ""
+        ) ?: ""
         val titleField = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomTitle
         titleField.text = title
         //
         val dismissButton =
             uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
         dismissButton.setOnClickListener {
-            bottomDialogDismissibleSelectListAndConfirmListenerListener?.onDismissed()
+            listener?.onDismissed()
             dismiss()
         }
         //
@@ -107,11 +122,17 @@ class BottomDialogDismissibleSelectListAndConfirm : BottomSheetDialogFragment() 
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         selectListRecycler.layoutManager = layoutManager
         //
-        val confirmButtonLabel = arguments?.getString(CONFIRM_BUTTON_LABEL_ARG, "") ?: ""
+        val confirmButtonLabel = arguments?.getString(
+            CONFIRM_BUTTON_LABEL_ARG,
+            ""
+        ) ?: ""
         val confirmButton = uiBindings.dialogBottomConfirmButton
         confirmButton.text = confirmButtonLabel
-        confirmButton.setOnClickListener { transmitChosenOption(selectListAdapter.selectedPosition) }
-        // preventing disturbing dialog size-changes when scrolling list by setting peek height to expanded (full) height
+        confirmButton.setOnClickListener {
+            transmitChosenOption(selectListAdapter.selectedPosition)
+        }
+        // prevent disturbing dialog size-changes when scrolling list
+        // by setting peek height to expanded (full) height
         this.dialog?.setOnShowListener { dialog ->
             val d = dialog as BottomSheetDialog
             val bottomSheet = d.findViewById<View>(R.id.design_bottom_sheet) as FrameLayout
@@ -121,7 +142,7 @@ class BottomDialogDismissibleSelectListAndConfirm : BottomSheetDialogFragment() 
     }
 
     private fun transmitChosenOption(optionSelectedIndex: Int) {
-        bottomDialogDismissibleSelectListAndConfirmListenerListener?.onValidateSelection(
+        listener?.onValidateSelection(
             optionSelectedIndex
         )
         dismiss()

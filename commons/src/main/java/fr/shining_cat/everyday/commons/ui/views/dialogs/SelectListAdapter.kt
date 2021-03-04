@@ -51,7 +51,10 @@ class SelectListAdapter(
     // This keeps track of the currently selected position
     var selectedPosition by Delegates.observable(-1) { _, oldPos, newPos ->
         if (newPos in optionsLabels.indices) {
-            logger.d(LOG_TAG, "selectedPosition updated to $newPos, old position was $oldPos")
+            logger.d(
+                LOG_TAG,
+                "selectedPosition updated to $newPos, old position was $oldPos"
+            )
             notifyItemChanged(oldPos)
             notifyItemChanged(newPos)
         }
@@ -68,7 +71,10 @@ class SelectListAdapter(
         else ItemsTypes.DIVIDER.value
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ) = when (viewType) {
         ItemsTypes.NORMAL_ITEM.value -> createNormalItemViewHolder(parent)
         ItemsTypes.DIVIDER.value -> createDividerViewHolder(parent)
         else -> throw IllegalArgumentException()
@@ -77,19 +83,31 @@ class SelectListAdapter(
     private fun createNormalItemViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val bindingNormalItemView = DialogBottomSelectListItemBinding.inflate(layoutInflater)
-        return SelectListNormalItemViewHolder(bindingNormalItemView, logger)
+        return SelectListNormalItemViewHolder(
+            bindingNormalItemView,
+            logger
+        )
     }
 
     private fun createDividerViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val bindingDivider = DialogBottomSelectListDividerBinding.inflate(layoutInflater)
-        return SelectListDividerViewHolder(bindingDivider, logger)
+        return SelectListDividerViewHolder(
+            bindingDivider,
+            logger
+        )
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int
+    ) {
         if (position in optionsLabels.indices) {
             if (holder.itemViewType == ItemsTypes.NORMAL_ITEM.value) {
-                bindNormalItemViewHolder(holder as SelectListNormalItemViewHolder, position)
+                bindNormalItemViewHolder(
+                    holder as SelectListNormalItemViewHolder,
+                    position
+                )
             }
             // no binding necessary for divider
         }
@@ -104,7 +122,10 @@ class SelectListAdapter(
             position == selectedPosition
         )
         selectListNormalItemViewHolder.itemView.setOnClickListener {
-            logger.d(LOG_TAG, "click on select item: position = $position")
+            logger.d(
+                LOG_TAG,
+                "click on select item: position = $position"
+            )
             selectedPosition = position
             selectListAdapterListener?.onOptionSelected(selectedPosition)
         }
@@ -114,8 +135,7 @@ class SelectListAdapter(
 }
 
 enum class ItemsTypes(val value: Int) {
-    NORMAL_ITEM(0),
-    DIVIDER(1)
+    NORMAL_ITEM(0), DIVIDER(1)
 }
 
 class SelectListNormalItemViewHolder(
@@ -125,7 +145,10 @@ class SelectListNormalItemViewHolder(
 
     private val LOG_TAG = SelectListNormalItemViewHolder::class.java.name
 
-    fun bindView(label: String, selected: Boolean) {
+    fun bindView(
+        label: String,
+        selected: Boolean
+    ) {
         dialogBottomSelectListItemBinding.selectListItemLabel.text = label
         dialogBottomSelectListItemBinding.selectListItemRadioBtn.isChecked = selected
     }
