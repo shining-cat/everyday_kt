@@ -46,7 +46,7 @@ interface SessionRecordRepository {
 class SessionRecordRepositoryImpl(
     private val sessionRecordDao: SessionRecordDao,
     private val sessionRecordConverter: SessionRecordConverter
-) : SessionRecordRepository {
+): SessionRecordRepository {
 
     private fun genericReadError(exception: java.lang.Exception) = Output.Error(
         Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
@@ -63,14 +63,16 @@ class SessionRecordRepositoryImpl(
             }
             if (inserted.size == sessionRecords.size) {
                 Output.Success(inserted)
-            } else {
+            }
+            else {
                 Output.Error(
                     Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                     Constants.ERROR_MESSAGE_INSERT_FAILED,
                     Exception(Constants.ERROR_MESSAGE_INSERT_FAILED)
                 )
             }
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             Output.Error(
                 Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                 Constants.ERROR_MESSAGE_INSERT_FAILED,
@@ -88,14 +90,16 @@ class SessionRecordRepositoryImpl(
             }
             if (updated == 1) {
                 Output.Success(updated)
-            } else {
+            }
+            else {
                 Output.Error(
                     Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                     Constants.ERROR_MESSAGE_UPDATE_FAILED,
                     Exception(Constants.ERROR_MESSAGE_UPDATE_FAILED)
                 )
             }
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             Output.Error(
                 Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                 Constants.ERROR_MESSAGE_UPDATE_FAILED,
@@ -113,14 +117,16 @@ class SessionRecordRepositoryImpl(
             }
             if (deleted == 1) {
                 Output.Success(deleted)
-            } else {
+            }
+            else {
                 Output.Error(
                     Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                     Constants.ERROR_MESSAGE_DELETE_FAILED,
                     Exception(Constants.ERROR_MESSAGE_DELETE_FAILED)
                 )
             }
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             Output.Error(
                 Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                 Constants.ERROR_MESSAGE_DELETE_FAILED,
@@ -131,9 +137,10 @@ class SessionRecordRepositoryImpl(
 
     override suspend fun deleteAllSessions(): Output<Int> {
         return try {
-            val deleted = withContext(Dispatchers.IO) { sessionRecordDao.deleteAllSessions() }
+            val deleted = withContext(Dispatchers.IO) {sessionRecordDao.deleteAllSessions()}
             Output.Success(deleted)
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             Output.Error(
                 Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                 Constants.ERROR_MESSAGE_DELETE_FAILED,
@@ -149,7 +156,8 @@ class SessionRecordRepositoryImpl(
                 sessionRecordDao.getAllSessionsStartTimeAsc()
             }
             handleQueryResult(sessionRecordEntities)
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             genericReadError(exception)
         }
     }
@@ -160,7 +168,8 @@ class SessionRecordRepositoryImpl(
                 sessionRecordDao.getAllSessionsStartTimeDesc()
             }
             handleQueryResult(sessionRecordEntities)
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             genericReadError(exception)
         }
     }
@@ -171,7 +180,8 @@ class SessionRecordRepositoryImpl(
                 sessionRecordDao.getAllSessionsDurationAsc()
             }
             handleQueryResult(sessionRecordEntities)
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             genericReadError(exception)
         }
     }
@@ -182,7 +192,8 @@ class SessionRecordRepositoryImpl(
                 sessionRecordDao.getAllSessionsDurationDesc()
             }
             handleQueryResult(sessionRecordEntities)
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             genericReadError(exception)
         }
     }
@@ -194,7 +205,8 @@ class SessionRecordRepositoryImpl(
                 sessionRecordDao.getAllSessionsWithMp3()
             }
             handleQueryResult(sessionRecordEntities)
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             genericReadError(exception)
         }
     }
@@ -206,7 +218,8 @@ class SessionRecordRepositoryImpl(
                 sessionRecordDao.getAllSessionsWithoutMp3()
             }
             handleQueryResult(sessionRecordEntities)
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             genericReadError(exception)
         }
     }
@@ -218,7 +231,8 @@ class SessionRecordRepositoryImpl(
                 sessionRecordDao.getSessionsSearch(searchRequest)
             }
             handleQueryResult(sessionRecordEntities)
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             genericReadError(exception)
         }
     }
@@ -230,7 +244,8 @@ class SessionRecordRepositoryImpl(
                 sessionRecordDao.asyncGetAllSessionsStartTimeAsc()
             }
             handleQueryResult(sessionRecordEntities)
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             genericReadError(exception)
         }
     }
@@ -243,14 +258,16 @@ class SessionRecordRepositoryImpl(
             }
             if (date != null) {
                 Output.Success(date)
-            } else {
+            }
+            else {
                 Output.Error(
                     Constants.ERROR_CODE_NO_RESULT,
                     Constants.ERROR_MESSAGE_NO_RESULT,
                     NullPointerException(Constants.ERROR_MESSAGE_NO_RESULT)
                 )
             }
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             genericReadError(exception)
         }
     }
@@ -263,12 +280,11 @@ class SessionRecordRepositoryImpl(
                 Constants.ERROR_MESSAGE_NO_RESULT,
                 NullPointerException(Constants.ERROR_MESSAGE_NO_RESULT)
             )
-        } else {
-            Output.Success(
-                withContext(Dispatchers.Default) {
-                    sessionRecordConverter.convertEntitiesToModels(sessionRecordEntities)
-                }
-            )
+        }
+        else {
+            Output.Success(withContext(Dispatchers.Default) {
+                sessionRecordConverter.convertEntitiesToModels(sessionRecordEntities)
+            })
         }
     }
 }

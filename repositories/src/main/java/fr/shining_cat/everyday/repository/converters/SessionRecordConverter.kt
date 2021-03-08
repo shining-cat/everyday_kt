@@ -24,7 +24,7 @@ import fr.shining_cat.everyday.models.sessionrecord.MoodValue
 import fr.shining_cat.everyday.models.sessionrecord.RealDurationVsPlanned
 import fr.shining_cat.everyday.models.sessionrecord.SessionRecord
 import java.text.SimpleDateFormat
-import java.util.Locale
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class SessionRecordConverter(
@@ -32,7 +32,7 @@ class SessionRecordConverter(
 ) {
 
     suspend fun convertModelsToEntities(sessionRecords: List<SessionRecord>): List<SessionRecordEntity> {
-        return sessionRecords.map { sessionRecord -> convertModelToEntity(sessionRecord) }
+        return sessionRecords.map {sessionRecord -> convertModelToEntity(sessionRecord)}
     }
 
     suspend fun convertModelToEntity(sessionRecord: SessionRecord): SessionRecordEntity {
@@ -64,7 +64,7 @@ class SessionRecordConverter(
     }
 
     suspend fun convertEntitiesToModels(sessionRecordEntities: List<SessionRecordEntity>): List<SessionRecord> {
-        return sessionRecordEntities.map { sessionEntity -> convertEntityToModel(sessionEntity) }
+        return sessionRecordEntities.map {sessionEntity -> convertEntityToModel(sessionEntity)}
     }
 
     suspend fun convertEntityToModel(sessionRecordEntity: SessionRecordEntity): SessionRecord {
@@ -98,8 +98,7 @@ class SessionRecordConverter(
                 sessionRecordEntity.endGlobalValue
             )
         )
-        val realDurationVsPlanned =
-            RealDurationVsPlanned.fromKey(sessionRecordEntity.realDurationVsPlanned)
+        val realDurationVsPlanned = RealDurationVsPlanned.fromKey(sessionRecordEntity.realDurationVsPlanned)
 
         return SessionRecord(
             id = sessionRecordEntity.id,
@@ -116,7 +115,10 @@ class SessionRecordConverter(
 
     // this is used for the csv export
     suspend fun convertModelToStringArray(sessionRecord: SessionRecord): Array<String> {
-        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+        val sdf = SimpleDateFormat(
+            "dd/MM/yyyy HH:mm",
+            Locale.getDefault()
+        )
         // 0 is for NOT SET so export it as such
         val startMoodRecord = sessionRecord.startMood
         val startBodyValue = startMoodRecord.bodyValue.name

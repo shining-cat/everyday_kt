@@ -25,7 +25,7 @@ import fr.shining_cat.everyday.settings.R
 import fr.shining_cat.everyday.settings.databinding.ActivitySettingsBinding
 import org.koin.android.ext.android.get
 
-class SettingsActivity : AbstractActivity() {
+class SettingsActivity: AbstractActivity() {
 
     private val LOG_TAG = SettingsActivity::class.java.simpleName
 
@@ -35,17 +35,20 @@ class SettingsActivity : AbstractActivity() {
         super.onCreate(savedInstanceState)
         val settingsActivityBinding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(settingsActivityBinding.root)
-        logger.d(LOG_TAG, "onCreate")
+        logger.d(
+            LOG_TAG,
+            "onCreate"
+        )
         setToolBar(settingsActivityBinding)
         hideLoadingView(settingsActivityBinding.loadingLayout.loadingView)
         loadPreferencesFragment()
     }
 
     private fun loadPreferencesFragment() {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.settings_fragment_container, SettingsFragment())
-            .commit()
+        supportFragmentManager.beginTransaction().replace(
+            R.id.settings_fragment_container,
+            SettingsFragment()
+        ).commit()
     }
 
     private fun setToolBar(settingsActivityBinding: ActivitySettingsBinding) {

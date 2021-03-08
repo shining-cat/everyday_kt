@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 class SessionsViewModel(
     appDispatchers: AppDispatchers,
     private val logger: Logger
-) : AbstractViewModels(appDispatchers) {
+): AbstractViewModels(appDispatchers) {
 
     private val LOG_TAG = SessionsViewModel::class.java.simpleName
 
@@ -35,7 +35,10 @@ class SessionsViewModel(
     val initReadyLiveData: LiveData<String> = _initReadyLiveData
 
     fun initViewModel() {
-        logger.d(LOG_TAG, "initViewModel")
+        logger.d(
+            LOG_TAG,
+            "initViewModel"
+        )
         mainScope.launch {
             _initReadyLiveData.value = LOG_TAG
         }

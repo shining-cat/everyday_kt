@@ -27,8 +27,8 @@ import org.koin.dsl.module
 
 val commonsModule = module {
 
-    single { Logger() }
-    single { SharedPrefsHelper(get()) }
+    single {Logger()}
+    single {SharedPrefsHelper(get())}
     single {
         (get() as Context).getSharedPreferences(
             SharedPrefsHelperSettings.NAME,

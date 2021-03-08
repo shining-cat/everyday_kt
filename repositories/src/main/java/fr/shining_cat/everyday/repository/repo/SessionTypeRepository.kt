@@ -37,7 +37,7 @@ interface SessionTypeRepository {
 class SessionTypeRepositoryImpl(
     val sessionTypeDao: SessionTypeDao,
     val sessionTypeConverter: SessionTypeConverter
-) : SessionTypeRepository {
+): SessionTypeRepository {
 
     private fun genericReadError(exception: java.lang.Exception) = Output.Error(
         Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
@@ -54,14 +54,16 @@ class SessionTypeRepositoryImpl(
             }
             if (inserted.size == sessionTypes.size) {
                 Output.Success(inserted)
-            } else {
+            }
+            else {
                 Output.Error(
                     Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                     Constants.ERROR_MESSAGE_INSERT_FAILED,
                     Exception(Constants.ERROR_MESSAGE_INSERT_FAILED)
                 )
             }
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             Output.Error(
                 Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                 Constants.ERROR_MESSAGE_INSERT_FAILED,
@@ -79,14 +81,16 @@ class SessionTypeRepositoryImpl(
             }
             if (updated == 1) {
                 Output.Success(updated)
-            } else {
+            }
+            else {
                 Output.Error(
                     Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                     Constants.ERROR_MESSAGE_UPDATE_FAILED,
                     Exception(Constants.ERROR_MESSAGE_UPDATE_FAILED)
                 )
             }
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             Output.Error(
                 Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                 Constants.ERROR_MESSAGE_UPDATE_FAILED,
@@ -104,14 +108,16 @@ class SessionTypeRepositoryImpl(
             }
             if (deleted == 1) {
                 Output.Success(deleted)
-            } else {
+            }
+            else {
                 Output.Error(
                     Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                     Constants.ERROR_MESSAGE_DELETE_FAILED,
                     Exception(Constants.ERROR_MESSAGE_DELETE_FAILED)
                 )
             }
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             Output.Error(
                 Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                 Constants.ERROR_MESSAGE_DELETE_FAILED,
@@ -126,7 +132,8 @@ class SessionTypeRepositoryImpl(
                 sessionTypeDao.getAllSessionTypesLastEditTimeDesc()
             }
             handleQueryResult(sessionTypeEntities)
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             genericReadError(exception)
         }
     }
@@ -138,12 +145,11 @@ class SessionTypeRepositoryImpl(
                 Constants.ERROR_MESSAGE_NO_RESULT,
                 NullPointerException(Constants.ERROR_MESSAGE_NO_RESULT)
             )
-        } else {
-            Output.Success(
-                withContext(Dispatchers.Default) {
-                    sessionTypeConverter.convertEntitiesToModels(sessionTypeEntities)
-                }
-            )
+        }
+        else {
+            Output.Success(withContext(Dispatchers.Default) {
+                sessionTypeConverter.convertEntitiesToModels(sessionTypeEntities)
+            })
         }
     }
 }

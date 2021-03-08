@@ -27,9 +27,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertTrue
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
@@ -63,10 +61,14 @@ class SessionPresetRepositoryImplTest {
 
     @Test
     fun insert() {
-        coEvery { mockSessionPresetConverter.convertModelsToEntities(any()) } returns listOf(
+        coEvery {mockSessionPresetConverter.convertModelsToEntities(any())} returns listOf(
             mockSessionPresetEntity
         )
-        coEvery { mockSessionPresetDao.insert(any()) } returns arrayOf(1, 2, 3)
+        coEvery {mockSessionPresetDao.insert(any())} returns arrayOf(
+            1,
+            2,
+            3
+        )
         val output = runBlocking {
             sessionPresetRepo.insert(
                 listOf(
@@ -76,52 +78,64 @@ class SessionPresetRepositoryImplTest {
                 )
             )
         }
-        coVerify { mockSessionPresetConverter.convertModelsToEntities(any()) }
-        coVerify { mockSessionPresetDao.insert(any()) }
+        coVerify {mockSessionPresetConverter.convertModelsToEntities(any())}
+        coVerify {mockSessionPresetDao.insert(any())}
         assertTrue(output is Output.Success)
-        assertEquals(3, (output as Output.Success).result.size)
+        assertEquals(
+            3,
+            (output as Output.Success).result.size
+        )
     }
 
     @Test
     fun update() {
-        coEvery { mockSessionPresetConverter.convertModelToEntity(any()) } returns mockSessionPresetEntity
-        coEvery { mockSessionPresetDao.update(any()) } returns 1
+        coEvery {mockSessionPresetConverter.convertModelToEntity(any())} returns mockSessionPresetEntity
+        coEvery {mockSessionPresetDao.update(any())} returns 1
         val output = runBlocking {
             sessionPresetRepo.update(mockSessionPreset)
         }
-        coVerify { mockSessionPresetConverter.convertModelToEntity(any()) }
-        coVerify { mockSessionPresetDao.update(any()) }
+        coVerify {mockSessionPresetConverter.convertModelToEntity(any())}
+        coVerify {mockSessionPresetDao.update(any())}
         assertTrue(output is Output.Success)
-        assertEquals(1, (output as Output.Success).result)
+        assertEquals(
+            1,
+            (output as Output.Success).result
+        )
     }
 
     @Test
     fun deleteSession() {
-        coEvery { mockSessionPresetConverter.convertModelToEntity(any()) } returns mockSessionPresetEntity
-        coEvery { mockSessionPresetDao.delete(any()) } returns 1
+        coEvery {mockSessionPresetConverter.convertModelToEntity(any())} returns mockSessionPresetEntity
+        coEvery {mockSessionPresetDao.delete(any())} returns 1
         val output = runBlocking {
             sessionPresetRepo.delete(mockSessionPreset)
         }
-        coVerify { mockSessionPresetConverter.convertModelToEntity(any()) }
-        coVerify { mockSessionPresetDao.delete(any()) }
+        coVerify {mockSessionPresetConverter.convertModelToEntity(any())}
+        coVerify {mockSessionPresetDao.delete(any())}
         assertTrue(output is Output.Success)
-        assertEquals(1, (output as Output.Success).result)
+        assertEquals(
+            1,
+            (output as Output.Success).result
+        )
     }
 
     @Test
     fun getAllSessionsStartTimeAsc() {
-        coEvery { mockSessionPresetConverter.convertEntitiesToModels(any()) } returns listOf(
+        coEvery {mockSessionPresetConverter.convertEntitiesToModels(any())} returns listOf(
             mockSessionPreset
         )
-        coEvery { mockSessionPresetDao.getAllSessionPresetsLastEditTimeDesc() } returns listOf(
+        coEvery {mockSessionPresetDao.getAllSessionPresetsLastEditTimeDesc()} returns listOf(
             mockSessionPresetEntity
         )
         val output = runBlocking {
             sessionPresetRepo.getAllSessionPresetsLastEditTimeDesc()
         }
-        coVerify { mockSessionPresetConverter.convertEntitiesToModels(any()) }
-        coVerify { mockSessionPresetDao.getAllSessionPresetsLastEditTimeDesc() }
+        coVerify {mockSessionPresetConverter.convertEntitiesToModels(any())}
+        coVerify {mockSessionPresetDao.getAllSessionPresetsLastEditTimeDesc()}
         assertTrue(output is Output.Success)
-        assertEquals(listOf(mockSessionPreset), (output as Output.Success).result)
+        assertEquals(
+            listOf(mockSessionPreset),
+            (output as Output.Success).result
+        )
     }
 }

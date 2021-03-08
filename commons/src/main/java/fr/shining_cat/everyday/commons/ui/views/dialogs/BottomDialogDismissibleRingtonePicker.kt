@@ -35,7 +35,7 @@ import fr.shining_cat.everyday.commons.R
 import fr.shining_cat.everyday.commons.databinding.DialogBottomRingtonePickerAndConfirmBinding
 import org.koin.android.ext.android.get
 
-class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
+class BottomDialogDismissibleRingtonePicker: BottomSheetDialogFragment() {
 
     private val LOG_TAG = BottomDialogDismissibleRingtonePicker::class.java.name
     private val logger: Logger = get()
@@ -127,16 +127,15 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
         val titleField = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomTitle
         titleField.text = title
         //
-        val dismissButton =
-            uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
+        val dismissButton = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
         dismissButton.setOnClickListener {
             listener?.onDismissed()
             dismiss()
         }
         //
         val completeRingTonesList = buildCompleteRingTonesMap()
-        val completeRingTonesLabels = completeRingTonesList.map { it.first }
-        val completeRingTonesUris = completeRingTonesList.map { it.second }
+        val completeRingTonesLabels = completeRingTonesList.map {it.first}
+        val completeRingTonesUris = completeRingTonesList.map {it.second}
         val initialSelectionUriString = arguments?.getString(
             INITIAL_SELECTION_URI_ARG,
             ""
@@ -156,12 +155,11 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         selectListRecycler.layoutManager = layoutManager
         //
-        selectListAdapter.setSelectListAdapterListener(object :
-                SelectListAdapter.SelectListAdapterListener {
-                override fun onOptionSelected(selectedPosition: Int) {
-                    playSelectedRingtone(completeRingTonesUris[selectedPosition])
-                }
-            })
+        selectListAdapter.setSelectListAdapterListener(object: SelectListAdapter.SelectListAdapterListener {
+            override fun onOptionSelected(selectedPosition: Int) {
+                playSelectedRingtone(completeRingTonesUris[selectedPosition])
+            }
+        })
         //
         val confirmButtonLabel = arguments?.getString(
             CONFIRM_BUTTON_LABEL_ARG,
@@ -173,7 +171,7 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
             transmitSelectedRingtone(completeRingTonesList[selectListAdapter.selectedPosition])
         }
         // preventing disturbing dialog size-changes when scrolling list by setting peek height to expanded (full) height
-        this.dialog?.setOnShowListener { dialog ->
+        this.dialog?.setOnShowListener {dialog ->
             val d = dialog as BottomSheetDialog
             val bottomSheet = d.findViewById<View>(R.id.design_bottom_sheet) as FrameLayout
             val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
@@ -195,7 +193,8 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
     private fun buildCompleteRingTonesMap(): List<Pair<String, Uri>> {
         val silenceList = if (arguments?.getBoolean(SILENCE_ARG) == true) {
             getSilentRingtone()
-        } else {
+        }
+        else {
             listOf()
         }
         //
@@ -206,7 +205,8 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
                 ringTonesAssetsNames,
                 ringTonesDisplayNames
             )
-        } else {
+        }
+        else {
             logger.e(
                 LOG_TAG,
                 "buildCompleteRingTonesMap:: incompatible sources sizes"
@@ -287,7 +287,8 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
         ) ?: -1
         return if (resId != -1) {
             Uri.parse("android.resource://" + context.packageName + "/" + resId)
-        } else {
+        }
+        else {
             Uri.parse("")
         }
     }

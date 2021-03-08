@@ -29,7 +29,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import fr.shining_cat.everyday.commons.databinding.DialogBottomSpinnersDurationAndConfirmBinding
 import java.util.concurrent.TimeUnit
 
-class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragment() {
+class BottomDialogDismissibleSpinnersDurationAndConfirm: BottomSheetDialogFragment() {
 
     private val TITLE_ARG = "title_argument"
     private val SHOW_HOURS_ARG = "show_hours_argument"
@@ -67,39 +67,38 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
             explanationMessage: String,
             confirmButtonLabel: String,
             initialLengthMs: Long = 0L
-        ): BottomDialogDismissibleSpinnersDurationAndConfirm =
-            BottomDialogDismissibleSpinnersDurationAndConfirm().apply {
-                arguments = Bundle().apply {
-                    putString(
-                        TITLE_ARG,
-                        title
-                    )
-                    putBoolean(
-                        SHOW_HOURS_ARG,
-                        showHours
-                    )
-                    putBoolean(
-                        SHOW_MINUTES_ARG,
-                        showMinutes
-                    )
-                    putBoolean(
-                        SHOW_SECONDS_ARG,
-                        showSeconds
-                    )
-                    putString(
-                        EXPLANATION_ARG,
-                        explanationMessage
-                    )
-                    putString(
-                        CONFIRM_BUTTON_LABEL_ARG,
-                        confirmButtonLabel
-                    )
-                    putLong(
-                        INITIAL_LENGTH_ARG,
-                        initialLengthMs
-                    )
-                }
+        ): BottomDialogDismissibleSpinnersDurationAndConfirm = BottomDialogDismissibleSpinnersDurationAndConfirm().apply {
+            arguments = Bundle().apply {
+                putString(
+                    TITLE_ARG,
+                    title
+                )
+                putBoolean(
+                    SHOW_HOURS_ARG,
+                    showHours
+                )
+                putBoolean(
+                    SHOW_MINUTES_ARG,
+                    showMinutes
+                )
+                putBoolean(
+                    SHOW_SECONDS_ARG,
+                    showSeconds
+                )
+                putString(
+                    EXPLANATION_ARG,
+                    explanationMessage
+                )
+                putString(
+                    CONFIRM_BUTTON_LABEL_ARG,
+                    confirmButtonLabel
+                )
+                putLong(
+                    INITIAL_LENGTH_ARG,
+                    initialLengthMs
+                )
             }
+        }
     }
 
     override fun onCreateView(
@@ -120,8 +119,7 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
         val titleField = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomTitle
         titleField.text = title
         //
-        val dismissButton =
-            uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
+        val dismissButton = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
         dismissButton.setOnClickListener {
             listener?.onDismissed()
             dismiss()
@@ -146,7 +144,8 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
         val explanationTv = uiBindings.dialogBottomInstruction
         if (explanation.isNotBlank()) {
             explanationTv.text = explanation
-        } else {
+        }
+        else {
             explanationTv.visibility = GONE
         }
         //
@@ -156,7 +155,7 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
         ) ?: ""
         val confirmButton = uiBindings.dialogBottomConfirmButton
         confirmButton.text = confirmButtonLabel
-        confirmButton.setOnClickListener { transmitInputLength() }
+        confirmButton.setOnClickListener {transmitInputLength()}
     }
 
     private fun collectLengthSelected(): Long {
@@ -203,8 +202,7 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
         val initialLengthMinutes = TimeUnit.MILLISECONDS.toMinutes(initialLengthMs)
         val initialLengthSeconds = TimeUnit.MILLISECONDS.toSeconds(initialLengthMs)
         val fullMinutes = (initialLengthMinutes - TimeUnit.HOURS.toMinutes(initialLengthHours))
-        val fullSeconds =
-            (initialLengthSeconds - (TimeUnit.HOURS.toSeconds(initialLengthHours) + TimeUnit.MINUTES.toSeconds(fullMinutes)))
+        val fullSeconds = (initialLengthSeconds - (TimeUnit.HOURS.toSeconds(initialLengthHours) + TimeUnit.MINUTES.toSeconds(fullMinutes)))
         // apply to pickers
         hoursPicker.value = initialLengthHours.toInt()
         minutesPicker.value = fullMinutes.toInt()
@@ -221,7 +219,7 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
         showIt: Boolean,
         maxValue: Int = 0
     ) {
-        val twoDigitsFormatter = NumberPicker.Formatter { i ->
+        val twoDigitsFormatter = NumberPicker.Formatter {i ->
             String.format(
                 "%02d",
                 i
@@ -232,7 +230,8 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
             picker.minValue = 0
             picker.setFormatter(twoDigitsFormatter)
             picker.wrapSelectorWheel = false
-        } else {
+        }
+        else {
             picker.visibility = GONE
             units.visibility = GONE
         }

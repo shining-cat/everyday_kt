@@ -30,7 +30,7 @@ class PrefBottomDialogNotificationEditText(
     private val sharedPrefsHelper: SharedPrefsHelper,
     private val fragmentManager: FragmentManager,
     private val logger: Logger
-) : Preference(context) {
+): Preference(context) {
 
     private val LOG_TAG = PrefBottomDialogNotificationEditText::class.java.name
 
@@ -51,24 +51,22 @@ class PrefBottomDialogNotificationEditText(
     }
 
     private fun openDialog() {
-        val notificationTextInputBottomSheetDialog =
-            BottomDialogDismissibleEditTextAndConfirm.newInstance(
-                context.getString(R.string.notificationsPreferences_notification_text_title),
-                getNotificationTextDisplay(),
-                context.getString(R.string.generic_string_OK)
-            )
-        notificationTextInputBottomSheetDialog.setBottomDialogDismissibleMessageAndConfirmListener(
-            object :
-                BottomDialogDismissibleEditTextAndConfirm.BottomDialogDismissibleEditTextAndConfirmListener {
-                override fun onDismissed() {
-                    // nothing to do here
-                }
+        val notificationTextInputBottomSheetDialog = BottomDialogDismissibleEditTextAndConfirm.newInstance(
+            context.getString(R.string.notificationsPreferences_notification_text_title),
+            getNotificationTextDisplay(),
+            context.getString(R.string.generic_string_OK)
+        )
+        notificationTextInputBottomSheetDialog.setBottomDialogDismissibleMessageAndConfirmListener(object:
+            BottomDialogDismissibleEditTextAndConfirm.BottomDialogDismissibleEditTextAndConfirmListener {
+            override fun onDismissed() {
+                // nothing to do here
+            }
 
-                override fun onValidateInputText(inputText: String) {
-                    sharedPrefsHelper.setNotificationText(inputText)
-                    summary = inputText
-                }
-            })
+            override fun onValidateInputText(inputText: String) {
+                sharedPrefsHelper.setNotificationText(inputText)
+                summary = inputText
+            }
+        })
         notificationTextInputBottomSheetDialog.show(
             fragmentManager,
             "openNotificationTextInputDialog"

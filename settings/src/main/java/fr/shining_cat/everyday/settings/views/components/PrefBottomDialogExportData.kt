@@ -28,7 +28,7 @@ class PrefBottomDialogExportData(
     context: Context,
     private val fragmentManager: FragmentManager,
     private val logger: Logger
-) : Preference(context) {
+): Preference(context) {
 
     private val LOG_TAG = PrefBottomDialogExportData::class.java.name
 
@@ -42,27 +42,28 @@ class PrefBottomDialogExportData(
     }
 
     private fun openDialog() {
-        val setExportDataBottomSheetDialog =
-            BottomDialogDismissibleMessageAndConfirm.newInstance(
-                title = context.getString(R.string.exportSessionsPreference_dialog_title),
-                message = context.getString(R.string.exportSessionsPreference_dialog_message),
-                confirmButtonLabel = context.getString(R.string.exportSessionsPreference_dialog_confirm_button)
-            )
-        setExportDataBottomSheetDialog.setBottomDialogDismissibleMessageAndConfirmListener(
-            object :
-                BottomDialogDismissibleMessageAndConfirm.BottomDialogDismissibleMessageAndConfirmListener {
-                override fun onDismissed() {
-                    // nothing to do here
-                }
+        val setExportDataBottomSheetDialog = BottomDialogDismissibleMessageAndConfirm.newInstance(
+            title = context.getString(R.string.exportSessionsPreference_dialog_title),
+            message = context.getString(R.string.exportSessionsPreference_dialog_message),
+            confirmButtonLabel = context.getString(R.string.exportSessionsPreference_dialog_confirm_button)
+        )
+        setExportDataBottomSheetDialog.setBottomDialogDismissibleMessageAndConfirmListener(object:
+            BottomDialogDismissibleMessageAndConfirm.BottomDialogDismissibleMessageAndConfirmListener {
+            override fun onDismissed() {
+                // nothing to do here
+            }
 
-                override fun onConfirmButtonClicked() {
-                    // TODO: call export sessions UseCase
-                    logger.e(
-                        LOG_TAG,
-                        "openExportSessionsDialog::onConfirmButtonClicked::TODO: call export sessions Usecase"
-                    )
-                }
-            })
-        setExportDataBottomSheetDialog.show(fragmentManager, "openExportSessionsDialog")
+            override fun onConfirmButtonClicked() {
+                // TODO: call export sessions UseCase
+                logger.e(
+                    LOG_TAG,
+                    "openExportSessionsDialog::onConfirmButtonClicked::TODO: call export sessions Usecase"
+                )
+            }
+        })
+        setExportDataBottomSheetDialog.show(
+            fragmentManager,
+            "openExportSessionsDialog"
+        )
     }
 }

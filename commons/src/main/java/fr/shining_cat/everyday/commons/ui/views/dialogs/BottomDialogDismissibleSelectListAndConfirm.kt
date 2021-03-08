@@ -31,7 +31,7 @@ import fr.shining_cat.everyday.commons.R
 import fr.shining_cat.everyday.commons.databinding.DialogBottomSelectListAndConfirmBinding
 import org.koin.android.ext.android.get
 
-class BottomDialogDismissibleSelectListAndConfirm : BottomSheetDialogFragment() {
+class BottomDialogDismissibleSelectListAndConfirm: BottomSheetDialogFragment() {
 
     private val LOG_TAG = BottomDialogDismissibleSelectListAndConfirm::class.java.name
     private val logger: Logger = get()
@@ -61,27 +61,26 @@ class BottomDialogDismissibleSelectListAndConfirm : BottomSheetDialogFragment() 
             optionsLabels: List<String>,
             confirmButtonLabel: String,
             initialSelectedIndex: Int = -1
-        ): BottomDialogDismissibleSelectListAndConfirm =
-            BottomDialogDismissibleSelectListAndConfirm().apply {
-                arguments = Bundle().apply {
-                    putString(
-                        TITLE_ARG,
-                        title
-                    )
-                    putStringArrayList(
-                        OPTIONS_ARG,
-                        ArrayList(optionsLabels)
-                    )
-                    putString(
-                        CONFIRM_BUTTON_LABEL_ARG,
-                        confirmButtonLabel
-                    )
-                    putInt(
-                        INITIAL_SELECTED_INDEX_ARG,
-                        initialSelectedIndex
-                    )
-                }
+        ): BottomDialogDismissibleSelectListAndConfirm = BottomDialogDismissibleSelectListAndConfirm().apply {
+            arguments = Bundle().apply {
+                putString(
+                    TITLE_ARG,
+                    title
+                )
+                putStringArrayList(
+                    OPTIONS_ARG,
+                    ArrayList(optionsLabels)
+                )
+                putString(
+                    CONFIRM_BUTTON_LABEL_ARG,
+                    confirmButtonLabel
+                )
+                putInt(
+                    INITIAL_SELECTED_INDEX_ARG,
+                    initialSelectedIndex
+                )
             }
+        }
     }
 
     override fun onCreateView(
@@ -102,8 +101,7 @@ class BottomDialogDismissibleSelectListAndConfirm : BottomSheetDialogFragment() 
         val titleField = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomTitle
         titleField.text = title
         //
-        val dismissButton =
-            uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
+        val dismissButton = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
         dismissButton.setOnClickListener {
             listener?.onDismissed()
             dismiss()
@@ -133,7 +131,7 @@ class BottomDialogDismissibleSelectListAndConfirm : BottomSheetDialogFragment() 
         }
         // prevent disturbing dialog size-changes when scrolling list
         // by setting peek height to expanded (full) height
-        this.dialog?.setOnShowListener { dialog ->
+        this.dialog?.setOnShowListener {dialog ->
             val d = dialog as BottomSheetDialog
             val bottomSheet = d.findViewById<View>(R.id.design_bottom_sheet) as FrameLayout
             val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)

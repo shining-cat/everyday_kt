@@ -35,7 +35,7 @@ import fr.shining_cat.everyday.locale.entities.SessionTypeEntity
     version = 1,
     exportSchema = false
 )
-abstract class EveryDayRoomDatabase : RoomDatabase() {
+abstract class EveryDayRoomDatabase: RoomDatabase() {
 
     /**
      * Connects the database to the DAOs.
@@ -71,10 +71,9 @@ abstract class EveryDayRoomDatabase : RoomDatabase() {
                         instance = Room.inMemoryDatabaseBuilder(
                             context,
                             EveryDayRoomDatabase::class.java
-                        )
-                            .fallbackToDestructiveMigration()
-                            .build()
-                    } else {
+                        ).fallbackToDestructiveMigration().build()
+                    }
+                    else {
                         instance = Room.databaseBuilder(
                             context,
                             EveryDayRoomDatabase::class.java,
@@ -85,8 +84,7 @@ abstract class EveryDayRoomDatabase : RoomDatabase() {
                             // Migration is not part of this lesson. You can learn more about
                             // migration with Room in this blog post:
                             // https://medium.com/androiddevelopers/understanding-migrations-with-room-f01e04b07929
-                            .fallbackToDestructiveMigration()
-                            .build()
+                            .fallbackToDestructiveMigration().build()
                     }
                     // Assign INSTANCE to the newly created database.
                     INSTANCE = instance

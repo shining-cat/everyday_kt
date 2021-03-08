@@ -28,7 +28,7 @@ import fr.shining_cat.everyday.screens.R
 import fr.shining_cat.everyday.screens.databinding.ActivityScreenBinding
 import org.koin.android.ext.android.get
 
-class ScreenActivity : AbstractActivity() {
+class ScreenActivity: AbstractActivity() {
 
     private val LOG_TAG = ScreenActivity::class.java.simpleName
 
@@ -38,16 +38,26 @@ class ScreenActivity : AbstractActivity() {
         super.onCreate(savedInstanceState)
         val screenActivityBinding = ActivityScreenBinding.inflate(layoutInflater)
         setContentView(screenActivityBinding.root)
-        logger.d(LOG_TAG, "onCreate")
+        logger.d(
+            LOG_TAG,
+            "onCreate"
+        )
         val navController = findNavController(R.id.screens_nav_host_fragment)
-        setupBottomNavigation(screenActivityBinding, navController)
-        navController.addOnDestinationChangedListener { _, destination, _ ->
+        setupBottomNavigation(
+            screenActivityBinding,
+            navController
+        )
+        navController.addOnDestinationChangedListener {_, destination, _ ->
             val dest: String = try {
                 resources.getResourceName(destination.id)
-            } catch (e: Resources.NotFoundException) {
+            }
+            catch (e: Resources.NotFoundException) {
                 Integer.toString(destination.id)
             }
-            logger.d(LOG_TAG, "Navigated to $dest")
+            logger.d(
+                LOG_TAG,
+                "Navigated to $dest"
+            )
         }
         hideLoadingView(screenActivityBinding.loadingLayout.loadingView)
     }

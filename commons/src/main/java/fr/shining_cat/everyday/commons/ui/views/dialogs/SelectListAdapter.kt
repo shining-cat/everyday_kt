@@ -27,7 +27,7 @@ import kotlin.properties.Delegates
 
 class SelectListAdapter(
     private val logger: Logger
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val LOG_TAG = SelectListAdapter::class.java.name
 
@@ -49,7 +49,7 @@ class SelectListAdapter(
         }
 
     // This keeps track of the currently selected position
-    var selectedPosition by Delegates.observable(-1) { _, oldPos, newPos ->
+    var selectedPosition by Delegates.observable(-1) {_, oldPos, newPos ->
         if (newPos in optionsLabels.indices) {
             logger.d(
                 LOG_TAG,
@@ -134,14 +134,13 @@ class SelectListAdapter(
     override fun getItemCount(): Int = optionsLabels.size
 }
 
-enum class ItemsTypes(val value: Int) {
-    NORMAL_ITEM(0), DIVIDER(1)
+enum class ItemsTypes(val value: Int) { NORMAL_ITEM(0), DIVIDER(1)
 }
 
 class SelectListNormalItemViewHolder(
     private val dialogBottomSelectListItemBinding: DialogBottomSelectListItemBinding,
     val logger: Logger
-) : RecyclerView.ViewHolder(dialogBottomSelectListItemBinding.root) {
+): RecyclerView.ViewHolder(dialogBottomSelectListItemBinding.root) {
 
     private val LOG_TAG = SelectListNormalItemViewHolder::class.java.name
 
@@ -157,4 +156,4 @@ class SelectListNormalItemViewHolder(
 class SelectListDividerViewHolder(
     dialogBottomSelectListDividerBinding: DialogBottomSelectListDividerBinding,
     val logger: Logger
-) : RecyclerView.ViewHolder(dialogBottomSelectListDividerBinding.root)
+): RecyclerView.ViewHolder(dialogBottomSelectListDividerBinding.root)

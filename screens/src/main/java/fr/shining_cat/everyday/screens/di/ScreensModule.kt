@@ -26,8 +26,28 @@ import org.koin.dsl.module
 
 val screensModule = module {
     // View models
-    viewModel { HomeViewModel(get(), get()) }
-    viewModel { StatisticsViewModel(get(), get()) }
-    viewModel { SessionsViewModel(get(), get()) }
-    viewModel { RewardsViewModel(get(), get()) }
+    viewModel {
+        HomeViewModel(
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        StatisticsViewModel(
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        SessionsViewModel(
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        RewardsViewModel(
+            get(),
+            get()
+        )
+    }
 }

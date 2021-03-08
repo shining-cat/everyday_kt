@@ -17,12 +17,7 @@
 
 package fr.shining_cat.everyday.locale.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import fr.shining_cat.everyday.locale.entities.RewardEntity
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.ACTIVE_STATE
 import fr.shining_cat.everyday.locale.entities.RewardEntityColumnNames.DATE_ACQUISITION

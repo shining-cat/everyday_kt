@@ -24,7 +24,7 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import fr.shining_cat.everyday.commons.databinding.DialogBottomBigButtonBinding
 
-class BottomDialogDismissibleBigButton : BottomSheetDialogFragment() {
+class BottomDialogDismissibleBigButton: BottomSheetDialogFragment() {
 
     private val TITLE_ARG = "title_argument"
     private val BIG_BUTTON_LABEL_ARG = "big_button_label_argument"
@@ -79,8 +79,7 @@ class BottomDialogDismissibleBigButton : BottomSheetDialogFragment() {
         val titleField = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomTitle
         titleField.text = title
         //
-        val dismissButton =
-            uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
+        val dismissButton = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
         dismissButton.setOnClickListener {
             listener?.onDismissed()
             dismiss()
@@ -92,6 +91,6 @@ class BottomDialogDismissibleBigButton : BottomSheetDialogFragment() {
         ) ?: ""
         val bigButton = uiBindings.dialogBottomBigButton
         bigButton.text = bigButtonLabel
-        bigButton.setOnClickListener { listener?.onBigButtonClicked() }
+        bigButton.setOnClickListener {listener?.onBigButtonClicked()}
     }
 }

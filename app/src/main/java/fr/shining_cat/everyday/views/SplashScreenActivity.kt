@@ -28,7 +28,7 @@ import fr.shining_cat.everyday.viewmodels.SplashViewModel
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class SplashScreenActivity : AbstractActivity() {
+class SplashScreenActivity: AbstractActivity() {
 
     private val LOG_TAG = SplashScreenActivity::class.java.simpleName
 
@@ -44,16 +44,14 @@ class SplashScreenActivity : AbstractActivity() {
             "onCreate"
         )
         showLoadingView(activitySplashscreenBinding.loadingLayout.loadingView)
-        splashViewModel.initReadyLiveData.observe(
-            this,
+        splashViewModel.initReadyLiveData.observe(this,
             Observer {
                 logger.d(
                     LOG_TAG,
                     "initReadyLiveData: $it"
                 )
                 redirect(it)
-            }
-        )
+            })
         splashViewModel.loadConfInit()
     }
 

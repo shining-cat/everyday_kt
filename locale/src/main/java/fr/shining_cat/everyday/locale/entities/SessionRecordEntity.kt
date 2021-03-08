@@ -41,43 +41,26 @@ import fr.shining_cat.everyday.locale.entities.SessionRecordTable.SESSION_RECORD
 
 @Entity(tableName = SESSION_RECORD_TABLE)
 data class SessionRecordEntity(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = SESSION_RECORD_ID)
-    var id: Long = 0L,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = SESSION_RECORD_ID) var id: Long = 0L,
     //
-    @ColumnInfo(name = START_TIME_OF_RECORD)
-    var startTimeOfRecord: Long,
-    @ColumnInfo(name = START_BODY_VALUE)
-    var startBodyValue: Int,
-    @ColumnInfo(name = START_THOUGHTS_VALUE)
-    var startThoughtsValue: Int,
-    @ColumnInfo(name = START_FEELINGS_VALUE)
-    var startFeelingsValue: Int,
-    @ColumnInfo(name = START_GLOBAL_VALUE)
-    var startGlobalValue: Int,
+    @ColumnInfo(name = START_TIME_OF_RECORD) var startTimeOfRecord: Long,
+    @ColumnInfo(name = START_BODY_VALUE) var startBodyValue: Int,
+    @ColumnInfo(name = START_THOUGHTS_VALUE) var startThoughtsValue: Int,
+    @ColumnInfo(name = START_FEELINGS_VALUE) var startFeelingsValue: Int,
+    @ColumnInfo(name = START_GLOBAL_VALUE) var startGlobalValue: Int,
     //
-    @ColumnInfo(name = END_TIME_OF_RECORD)
-    var endTimeOfRecord: Long,
-    @ColumnInfo(name = END_BODY_VALUE)
-    var endBodyValue: Int,
-    @ColumnInfo(name = END_THOUGHTS_VALUE)
-    var endThoughtsValue: Int,
-    @ColumnInfo(name = END_FEELINGS_VALUE)
-    var endFeelingsValue: Int,
-    @ColumnInfo(name = END_GLOBAL_VALUE)
-    var endGlobalValue: Int,
+    @ColumnInfo(name = END_TIME_OF_RECORD) var endTimeOfRecord: Long,
+    @ColumnInfo(name = END_BODY_VALUE) var endBodyValue: Int,
+    @ColumnInfo(name = END_THOUGHTS_VALUE) var endThoughtsValue: Int,
+    @ColumnInfo(name = END_FEELINGS_VALUE) var endFeelingsValue: Int,
+    @ColumnInfo(name = END_GLOBAL_VALUE) var endGlobalValue: Int,
     //
-    @ColumnInfo(name = NOTES)
-    var notes: String,
-    @ColumnInfo(name = SESSION_REAL_DURATION)
-    var realDuration: Long,
-    @ColumnInfo(name = PAUSES_COUNT)
-    var pausesCount: Int,
-    @ColumnInfo(name = REAL_DURATION_VS_PLANNED)
-    var realDurationVsPlanned: Int, // <0 if real < planned; =0 if real = planned; >0 if real > planned  (obtained via Long.compare(real, planned)
-    @ColumnInfo(name = MP3_GUIDE)
-    var guideMp3: String,
-    @ColumnInfo(name = TYPE)
-    var sessionTypeId: Long
+    @ColumnInfo(name = NOTES) var notes: String,
+    @ColumnInfo(name = SESSION_REAL_DURATION) var realDuration: Long,
+    @ColumnInfo(name = PAUSES_COUNT) var pausesCount: Int,
+    @ColumnInfo(name = REAL_DURATION_VS_PLANNED) var realDurationVsPlanned: Int, // <0 if real < planned; =0 if real = planned; >0 if real > planned  (obtained via Long.compare(real, planned)
+    @ColumnInfo(name = MP3_GUIDE) var guideMp3: String,
+    @ColumnInfo(name = TYPE) var sessionTypeId: Long
 )
 
 object SessionRecordTable {

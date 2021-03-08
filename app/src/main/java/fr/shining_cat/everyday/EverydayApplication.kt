@@ -30,7 +30,7 @@ import fr.shining_cat.everyday.settings.di.settingsModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
-class EverydayApplication : Application() {
+class EverydayApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()

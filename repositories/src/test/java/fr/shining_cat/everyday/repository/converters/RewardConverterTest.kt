@@ -28,7 +28,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
-import java.util.GregorianCalendar
+import java.util.*
 
 class RewardConverterTest {
 
@@ -104,7 +104,10 @@ class RewardConverterTest {
         val convertedModel = runBlocking {
             rewardConverter.convertModelToEntity(reward)
         }
-        assertEquals(rewardEntity, convertedModel)
+        assertEquals(
+            rewardEntity,
+            convertedModel
+        )
     }
 
     @Test
@@ -112,6 +115,9 @@ class RewardConverterTest {
         val convertedEntity = runBlocking {
             rewardConverter.convertEntitytoModel(rewardEntity)
         }
-        assertEquals(reward, convertedEntity)
+        assertEquals(
+            reward,
+            convertedEntity
+        )
     }
 }

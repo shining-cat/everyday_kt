@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 class RewardsViewModel(
     appDispatchers: AppDispatchers,
     private val logger: Logger
-) : AbstractViewModels(appDispatchers) {
+): AbstractViewModels(appDispatchers) {
 
     private val LOG_TAG = RewardsViewModel::class.java.simpleName
 
@@ -35,7 +35,10 @@ class RewardsViewModel(
     val initReadyLiveData: LiveData<String> = _initReadyLiveData
 
     fun initViewModel() {
-        logger.d(LOG_TAG, "initViewModel")
+        logger.d(
+            LOG_TAG,
+            "initViewModel"
+        )
         mainScope.launch {
             _initReadyLiveData.value = LOG_TAG
         }

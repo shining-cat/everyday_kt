@@ -26,7 +26,7 @@ class SessionPresetConverter(
 ) {
 
     suspend fun convertModelsToEntities(sessionPresets: List<SessionPreset>): List<SessionPresetEntity> {
-        return sessionPresets.map { sessionPreset -> convertModelToEntity(sessionPreset) }
+        return sessionPresets.map {sessionPreset -> convertModelToEntity(sessionPreset)}
     }
 
     suspend fun convertModelToEntity(sessionPreset: SessionPreset): SessionPresetEntity {
@@ -46,7 +46,7 @@ class SessionPresetConverter(
     }
 
     suspend fun convertEntitiesToModels(sessionPresetEntities: List<SessionPresetEntity>): List<SessionPreset> {
-        return sessionPresetEntities.map { sessionEntity -> convertEntitytoModel(sessionEntity) }
+        return sessionPresetEntities.map {sessionEntity -> convertEntitytoModel(sessionEntity)}
     }
 
     suspend fun convertEntitytoModel(sessionPresetEntity: SessionPresetEntity): SessionPreset {

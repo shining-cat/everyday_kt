@@ -81,9 +81,34 @@ object RewardChances {
     // composition of a session reward as an array of probability of getting additional rewards (of the same level) (chance for 1, chance for a second, chance for a third, chance for a fourth)
     // so a user can earn up to 4 rewards for one session
     // this is based on the REWARD_STREAK_LEVEL
-    val REWARD_CHANCE_LEVEL_1 = arrayOf(100, 0, 0, 0)
-    val REWARD_CHANCE_LEVEL_2 = arrayOf(100, 20, 0, 0)
-    val REWARD_CHANCE_LEVEL_3 = arrayOf(100, 30, 10, 0)
-    val REWARD_CHANCE_LEVEL_4 = arrayOf(100, 40, 15, 5)
-    val REWARD_CHANCE_LEVEL_5 = arrayOf(100, 50, 20, 10)
+    val REWARD_CHANCE_LEVEL_1 = arrayOf(
+        100,
+        0,
+        0,
+        0
+    )
+    val REWARD_CHANCE_LEVEL_2 = arrayOf(
+        100,
+        20,
+        0,
+        0
+    )
+    val REWARD_CHANCE_LEVEL_3 = arrayOf(
+        100,
+        30,
+        10,
+        0
+    )
+    val REWARD_CHANCE_LEVEL_4 = arrayOf(
+        100,
+        40,
+        15,
+        5
+    )
+    val REWARD_CHANCE_LEVEL_5 = arrayOf(
+        100,
+        50,
+        20,
+        10
+    )
 }

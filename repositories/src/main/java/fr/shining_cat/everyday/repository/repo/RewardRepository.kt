@@ -55,7 +55,7 @@ interface RewardRepository {
 class RewardRepositoryImpl(
     private val rewardDao: RewardDao,
     private val rewardConverter: RewardConverter
-) : RewardRepository {
+): RewardRepository {
 
     private fun genericReadError(exception: Exception) = Output.Error(
         ERROR_CODE_DATABASE_OPERATION_FAILED,
@@ -78,14 +78,16 @@ class RewardRepositoryImpl(
             }
             if (inserted.size == rewards.size) {
                 Output.Success(inserted)
-            } else {
+            }
+            else {
                 Output.Error(
                     ERROR_CODE_DATABASE_OPERATION_FAILED,
                     ERROR_MESSAGE_INSERT_FAILED,
                     Exception(ERROR_MESSAGE_INSERT_FAILED)
                 )
             }
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             Output.Error(
                 ERROR_CODE_DATABASE_OPERATION_FAILED,
                 ERROR_MESSAGE_INSERT_FAILED,
@@ -103,14 +105,16 @@ class RewardRepositoryImpl(
             }
             if (updated == rewards.size) {
                 Output.Success(updated)
-            } else {
+            }
+            else {
                 Output.Error(
                     ERROR_CODE_DATABASE_OPERATION_FAILED,
                     ERROR_MESSAGE_UPDATE_FAILED,
                     Exception(ERROR_MESSAGE_UPDATE_FAILED)
                 )
             }
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             Output.Error(
                 ERROR_CODE_DATABASE_OPERATION_FAILED,
                 ERROR_MESSAGE_UPDATE_FAILED,
@@ -121,9 +125,10 @@ class RewardRepositoryImpl(
 
     override suspend fun deleteAllRewards(): Output<Int> {
         return try {
-            val deleted = withContext(Dispatchers.IO) { rewardDao.deleteAllRewards() }
+            val deleted = withContext(Dispatchers.IO) {rewardDao.deleteAllRewards()}
             Output.Success(deleted)
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             Output.Error(
                 ERROR_CODE_DATABASE_OPERATION_FAILED,
                 ERROR_MESSAGE_DELETE_FAILED,
@@ -134,21 +139,21 @@ class RewardRepositoryImpl(
 
     override suspend fun getReward(rewardId: Long): Output<Reward> {
         return try {
-            val rewardEntity = withContext(Dispatchers.IO) { rewardDao.getReward(rewardId) }
+            val rewardEntity = withContext(Dispatchers.IO) {rewardDao.getReward(rewardId)}
             if (rewardEntity == null) {
                 Output.Error(
                     Constants.ERROR_CODE_NO_RESULT,
                     ERROR_MESSAGE_NO_RESULT,
                     NullPointerException(ERROR_MESSAGE_NO_RESULT)
                 )
-            } else {
-                Output.Success(
-                    withContext(Dispatchers.Default) {
-                        rewardConverter.convertEntitytoModel(rewardEntity)
-                    }
-                )
             }
-        } catch (exception: Exception) {
+            else {
+                Output.Success(withContext(Dispatchers.Default) {
+                    rewardConverter.convertEntitytoModel(rewardEntity)
+                })
+            }
+        }
+        catch (exception: Exception) {
             genericReadError(exception)
         }
     }
@@ -161,7 +166,8 @@ class RewardRepositoryImpl(
                 rewardDao.getAllRewardsActiveAcquisitionDateAsc()
             }
             handleQueryResult(rewardEntities)
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             genericReadError(exception)
         }
     }
@@ -172,7 +178,8 @@ class RewardRepositoryImpl(
                 rewardDao.getAllRewardsActiveAcquisitionDateDesc()
             }
             handleQueryResult(rewardEntities)
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             genericReadError(exception)
         }
     }
@@ -183,7 +190,8 @@ class RewardRepositoryImpl(
                 rewardDao.getAllRewardsActiveLevelAsc()
             }
             handleQueryResult(rewardEntities)
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             genericReadError(exception)
         }
     }
@@ -194,7 +202,8 @@ class RewardRepositoryImpl(
                 rewardDao.getAllRewardsActiveLevelDesc()
             }
             handleQueryResult(rewardEntities)
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             genericReadError(exception)
         }
     }
@@ -206,7 +215,8 @@ class RewardRepositoryImpl(
                 rewardDao.getAllRewardsNotEscapedAcquisitionDatDesc()
             }
             handleQueryResult(rewardEntities)
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             genericReadError(exception)
         }
     }
@@ -218,7 +228,8 @@ class RewardRepositoryImpl(
                 rewardDao.getAllRewardsEscapedAcquisitionDateDesc()
             }
             handleQueryResult(rewardEntities)
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             genericReadError(exception)
         }
     }
@@ -230,7 +241,8 @@ class RewardRepositoryImpl(
                 rewardDao.getAllRewardsOfSpecificLevelNotActive(level)
             }
             handleQueryResult(rewardEntities)
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             genericReadError(exception)
         }
     }
@@ -242,7 +254,8 @@ class RewardRepositoryImpl(
                 rewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(level)
             }
             handleQueryResult(rewardEntities)
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             genericReadError(exception)
         }
     }
@@ -254,7 +267,8 @@ class RewardRepositoryImpl(
                 rewardDao.getNumberOfRows()
             }
             Output.Success(count)
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             genericCountError(exception)
         }
     }
@@ -265,7 +279,8 @@ class RewardRepositoryImpl(
                 rewardDao.getNumberOfActiveNotEscapedRewardsForLevel(level)
             }
             Output.Success(count)
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             genericCountError(exception)
         }
     }
@@ -276,7 +291,8 @@ class RewardRepositoryImpl(
                 rewardDao.getNumberOfEscapedRewardsForLevel(level)
             }
             Output.Success(count)
-        } catch (exception: Exception) {
+        }
+        catch (exception: Exception) {
             genericCountError(exception)
         }
     }
@@ -289,12 +305,11 @@ class RewardRepositoryImpl(
                 ERROR_MESSAGE_NO_RESULT,
                 NullPointerException(ERROR_MESSAGE_NO_RESULT)
             )
-        } else {
-            Output.Success(
-                withContext(Dispatchers.Default) {
-                    rewardConverter.convertEntitiesToModels(rewardEntities)
-                }
-            )
+        }
+        else {
+            Output.Success(withContext(Dispatchers.Default) {
+                rewardConverter.convertEntitiesToModels(rewardEntities)
+            })
         }
     }
 }

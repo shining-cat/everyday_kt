@@ -56,18 +56,22 @@ class SessionTypeRepositoryImplTest {
             mockSessionTypeDao,
             mockSessionTypeConverter
         )
-        coEvery { mockSessionTypeConverter.convertModelsToEntities(any()) } returns listOf(
+        coEvery {mockSessionTypeConverter.convertModelsToEntities(any())} returns listOf(
             mockSessionTypeEntity
         )
-        coEvery { mockSessionTypeConverter.convertModelToEntity(any()) } returns mockSessionTypeEntity
-        coEvery { mockSessionTypeConverter.convertEntitiesToModels(any()) } returns listOf(
+        coEvery {mockSessionTypeConverter.convertModelToEntity(any())} returns mockSessionTypeEntity
+        coEvery {mockSessionTypeConverter.convertEntitiesToModels(any())} returns listOf(
             mockSessionType
         )
-        coEvery { mockSessionTypeConverter.convertEntitytoModel(any()) } returns mockSessionType
-        coEvery { mockSessionTypeDao.insert(any()) } returns arrayOf(1, 2, 3)
-        coEvery { mockSessionTypeDao.update(any()) } returns 3
-        coEvery { mockSessionTypeDao.delete(any()) } returns 3
-        coEvery { mockSessionTypeDao.getAllSessionTypesLastEditTimeDesc() } returns listOf(
+        coEvery {mockSessionTypeConverter.convertEntitytoModel(any())} returns mockSessionType
+        coEvery {mockSessionTypeDao.insert(any())} returns arrayOf(
+            1,
+            2,
+            3
+        )
+        coEvery {mockSessionTypeDao.update(any())} returns 3
+        coEvery {mockSessionTypeDao.delete(any())} returns 3
+        coEvery {mockSessionTypeDao.getAllSessionTypesLastEditTimeDesc()} returns listOf(
             mockSessionTypeEntity
         )
     }
@@ -77,8 +81,8 @@ class SessionTypeRepositoryImplTest {
         runBlocking {
             sessionTypeRepo.insert(listOf(mockSessionType))
         }
-        coVerify { mockSessionTypeConverter.convertModelsToEntities(any()) }
-        coVerify { mockSessionTypeDao.insert(any()) }
+        coVerify {mockSessionTypeConverter.convertModelsToEntities(any())}
+        coVerify {mockSessionTypeDao.insert(any())}
     }
 
     @Test
@@ -86,8 +90,8 @@ class SessionTypeRepositoryImplTest {
         runBlocking {
             sessionTypeRepo.update(mockSessionType)
         }
-        coVerify { mockSessionTypeConverter.convertModelToEntity(any()) }
-        coVerify { mockSessionTypeDao.update(any()) }
+        coVerify {mockSessionTypeConverter.convertModelToEntity(any())}
+        coVerify {mockSessionTypeDao.update(any())}
     }
 
     @Test
@@ -95,8 +99,8 @@ class SessionTypeRepositoryImplTest {
         runBlocking {
             sessionTypeRepo.delete(mockSessionType)
         }
-        coVerify { mockSessionTypeConverter.convertModelToEntity(any()) }
-        coVerify { mockSessionTypeDao.delete(any()) }
+        coVerify {mockSessionTypeConverter.convertModelToEntity(any())}
+        coVerify {mockSessionTypeDao.delete(any())}
     }
 
     @Test
@@ -104,7 +108,7 @@ class SessionTypeRepositoryImplTest {
         runBlocking {
             sessionTypeRepo.getAllSessionTypesLastEditTimeDesc()
         }
-        coVerify { mockSessionTypeConverter.convertEntitiesToModels(any()) }
-        coVerify { mockSessionTypeDao.getAllSessionTypesLastEditTimeDesc() }
+        coVerify {mockSessionTypeConverter.convertEntitiesToModels(any())}
+        coVerify {mockSessionTypeDao.getAllSessionTypesLastEditTimeDesc()}
     }
 }
