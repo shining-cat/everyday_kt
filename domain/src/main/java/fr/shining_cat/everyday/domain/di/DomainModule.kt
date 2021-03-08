@@ -17,6 +17,12 @@
 
 package fr.shining_cat.everyday.domain.di
 
+import fr.shining_cat.everyday.domain.InitDefaultPrefsValues
 import org.koin.dsl.module
 
-val domainModule = module {}
+val domainModule = module {
+
+    factory {
+        InitDefaultPrefsValues(get(), get())
+    }
+}

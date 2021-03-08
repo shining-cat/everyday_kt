@@ -20,6 +20,7 @@
 
 - [ ] Usecases:
   - [ ] initUseCase (splahViewModel) : load user prefs or set defaults in if first launch
+  - [ ] fix bug: no selected ringtone in dialog
   - [ ] loadSessionsPresetsUseCase (homeViewModel)
   - [ ] loadOneSessionPresetUseCase (homeViewModel)
   - [ ] addSessionPresetUseCase (homeViewModel)

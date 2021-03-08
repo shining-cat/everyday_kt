@@ -134,12 +134,15 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
         }
         //
         val completeRingTonesList = buildCompleteRingTonesMap()
-        val completeRingTonesLabels = completeRingTonesList.map { it.first }
-        val completeRingTonesUris = completeRingTonesList.map { it.second }
+        val completeRingTonesLabels: List<String> = completeRingTonesList.map { it.first }
+        val completeRingTonesUris: List<Uri> = completeRingTonesList.map { it.second }
         val initialSelectionUriString = arguments?.getString(
             INITIAL_SELECTION_URI_ARG,
             ""
         ) ?: ""
+        if (initialSelectionUriString.isBlank()) {
+            logger.e(LOG_TAG, "initUi::initial selection is empty, this should never happen!")
+        }
         val selectListAdapter = SelectListAdapter(logger)
         selectListAdapter.optionsLabels = completeRingTonesLabels
         selectListAdapter.forceInitialSelectedOption(

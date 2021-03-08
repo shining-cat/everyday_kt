@@ -56,24 +56,25 @@ class PrefBottomDialogNotificationSoundSelect(
             ringTonesAssetsNames = ringtonesAssets,
             ringTonesDisplayNames = ringtonesTitles
         )
-        notificationSoundSelectDialogBottomSheetDialog.setBottomDialogDismissibleRingtonePickerListener(object :
-                BottomDialogDismissibleRingtonePicker.BottomDialogDismissibleRingtonePickerListener {
-                override fun onDismissed() {
-                    // nothing to do here
-                }
-
-                override fun onValidateRingtoneSelected(
-                    selectedRingtoneUri: String,
-                    selectedRingtoneName: String
-                ) {
-                    sharedPrefsHelper.setNotificationSoundUri(selectedRingtoneUri)
-                    sharedPrefsHelper.setNotificationSoundTitle(selectedRingtoneName)
-                    summary = selectedRingtoneName
-                }
-            })
+        notificationSoundSelectDialogBottomSheetDialog.setBottomDialogDismissibleRingtonePickerListener(listener)
         notificationSoundSelectDialogBottomSheetDialog.show(
             fragmentManager,
             "openNotificationSoundSelectDialog"
         )
+    }
+
+    private val listener = object : BottomDialogDismissibleRingtonePicker.BottomDialogDismissibleRingtonePickerListener {
+        override fun onDismissed() {
+            // nothing to do here
+        }
+
+        override fun onValidateRingtoneSelected(
+            selectedRingtoneUri: String,
+            selectedRingtoneName: String
+        ) {
+            sharedPrefsHelper.setNotificationSoundUri(selectedRingtoneUri)
+            sharedPrefsHelper.setNotificationSoundTitle(selectedRingtoneName)
+            summary = selectedRingtoneName
+        }
     }
 }

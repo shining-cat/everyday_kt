@@ -35,4 +35,7 @@
     <string name="generic_string_CONTINUE">Continue</string>
     <string name="generic_string_PASS">Skip</string>
     <string name="confirm_suppress">Confirm suppression</string>
+
+    <string name="notificationsPreferences_notification_text_default_text">It\'s time to practice!</string>
+
 </resources>

@@ -103,7 +103,7 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
         return sharedPreferences.getString(
             SharedPrefsHelperSettings.NOTIFICATION_TEXT,
             ""
-        ) ?: "" // TODO: check if empty on app init, and if it is, set to R.string.preference_notification_text to handle translation
+        ) ?: ""
     }
 
     fun setNotificationText(notificationText: String) {
@@ -118,7 +118,7 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
             SharedPrefsHelperSettings.NOTIFICATION_SOUND_URI,
             "" // "" means Silent
         ) ?: ""
-    } // TODO: check if empty on app init, and if it is, set to RingtoneManager.getDefaultUri(mRingtoneType)
+    }
 
     fun setNotificationSoundUri(selectedRingtoneUri: String) {
         sharedPreferences.edit().putString(
@@ -132,7 +132,7 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
             SharedPrefsHelperSettings.NOTIFICATION_SOUND_TITLE,
             ""
         ) ?: ""
-    } // TODO: check if empty on app init, and if it is, set to set to default ringtone title see getNotificationSoundUri
+    }
 
     fun setNotificationSoundTitle(selectedRingtoneTitle: String) {
         sharedPreferences.edit().putString(

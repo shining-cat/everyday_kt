@@ -32,7 +32,6 @@
     <string name="notificationsPreferences_summary">Get a notification if no session has been recorded when the set time has come</string>
     <string name="notificationsPreferences_notification_activated_title">Activate reminder</string>
     <string name="notificationsPreferences_notification_text_title">Notification text</string>
-    <string name="notificationsPreferences_notification_text_default_text">It\'s time to practice!</string>
     <!---->
     <string name="customisationPreferencesCategory_title">Customisation</string>
     <string name="defaultNightModePreference_title">Appearance</string>

@@ -17,12 +17,15 @@
 
 package fr.shining_cat.everyday.viewmodels
 
+import android.content.Context
+import android.media.RingtoneManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import fr.shining_cat.everyday.commons.Constants
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.viewmodels.AbstractViewModels
 import fr.shining_cat.everyday.commons.viewmodels.AppDispatchers
+import fr.shining_cat.everyday.domain.InitDefaultPrefsValues
 import fr.shining_cat.everyday.navigation.Destination
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -30,15 +33,16 @@ import kotlinx.coroutines.launch
 
 class SplashViewModel(
     appDispatchers: AppDispatchers,
+    private val initDefaultPrefsValues: InitDefaultPrefsValues,
     private val logger: Logger
 ) : AbstractViewModels(appDispatchers) {
 
     private val LOG_TAG = SplashViewModel::class.java.simpleName
 
-    private val _initReadyLiveData = MutableLiveData<Destination>()
-    val initReadyLiveData: LiveData<Destination> = _initReadyLiveData
+    private val _initLiveData = MutableLiveData<Destination>()
+    val initLiveData: LiveData<Destination> = _initLiveData
 
-    fun loadConfInit() {
+    fun loadConfInit(context: Context) {
         logger.d(
             LOG_TAG,
             "loadConfInit"
@@ -53,7 +57,10 @@ class SplashViewModel(
             val delayDeferred = ioScope.async {
                 delay(Constants.SPLASH_MIN_DURATION_MILLIS)
             }
-            // TODO: load user settings from SharedPrefs and apply, then pursue
+            ioScope.async {
+                val deviceDefaultRingtoneUri = RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_NOTIFICATION)
+                initDefaultPrefsValues.execute(context, deviceDefaultRingtoneUri)
+            }
 
             delayDeferred.await()
             logger.d(
@@ -61,7 +68,7 @@ class SplashViewModel(
                 "loadConfInit:delayDeferred:DONE WAITING"
             )
             // TODO: returning only HomeDestination for now, this is where we will plug deeplinks
-            _initReadyLiveData.value = Destination.HomeDestination()
+            _initLiveData.value = Destination.HomeDestination()
         }
     }
 }

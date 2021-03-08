@@ -44,17 +44,17 @@ class SplashScreenActivity : AbstractActivity() {
             "onCreate"
         )
         showLoadingView(activitySplashscreenBinding.loadingLayout.loadingView)
-        splashViewModel.initReadyLiveData.observe(
+        splashViewModel.initLiveData.observe(
             this,
             Observer {
                 logger.d(
                     LOG_TAG,
-                    "initReadyLiveData: $it"
+                    "initLiveData: $it"
                 )
                 redirect(it)
             }
         )
-        splashViewModel.loadConfInit()
+        splashViewModel.loadConfInit(this)
     }
 
     private fun redirect(destination: Destination) {
