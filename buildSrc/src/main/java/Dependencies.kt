@@ -25,6 +25,7 @@ object Versions {
     const val lifecycle = "2.3.0"
     const val navigation = "2.3.3"
     const val ktlint = "0.40.0"
+    const val detekt = "1.1.1"
 }
 
 object Libraries {
@@ -33,6 +34,8 @@ object Libraries {
     const val gradleVersionsPlugin = "com.github.ben-manes:gradle-versions-plugin:${Versions.benManesVersionsPlugin}"
 
     const val jacocoPlugin = "org.jacoco:org.jacoco.core:${Versions.jacoco}"
+
+    const val detektPlugin = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${Versions.detekt}"
 
     //koin
     const val koin = "org.koin:koin-android:${Versions.koin}"

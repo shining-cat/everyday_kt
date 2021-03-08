@@ -1,0 +1,5 @@
+detekt {
+    toolVersion = "1.16.0-RC3"
+    config = files("$project.rootDir/config/detekt/detekt.yml")
+    buildUponDefaultConfig = true
+}
