@@ -10,8 +10,9 @@
 - [x] fix Jacoco error log at each app launch
 - [x] home activity is launched twice at startup
 - [x] find a cleaner way to handle duration in BottomDialogDismissibleSpinnersDurationAndConfirm
-- [ ] add custom rules to ktlint to put else, catch, finally on new line, see Detekt plugin?
-- [ ] find some way to automate code formatting in a customizable way (ie set else to new line etc.) ktlint looks good, but does not follow rules set in editorconfig, need to write custom Ruleset
+- [x] implement detekt plugin
+- [ ] add custom rules to detekt to put else, catch, finally on new line => this seems quite heavy work, we may skip this, but the pb is that ktlint rules contradict our own
+- [ ] decide how to handle remaining errors reported by detekt (too many functions in SharedPrefsHelper is ok, too many parameters in method, etc.)
 - [ ] find info on building optional feature: rewards mechanism and statistics will only be added as a feature later, in order to be able to build a working version faster => we may have to split the screens module up to dissociate "bonus" features from "core" features, question is where to put the associated models, dto, repos, if not in the corresponding modules?
 - [ ] check if possible to set github actions up, have some kind of simple CI/CD running maybe? (see: https://medium.com/google-developer-experts/github-actions-for-android-developers-6b54c8a32f55)
 - [ ] build launch icon from rewards assets, insert as vector adaptative icon (see https://medium.com/androiddevelopers/vectordrawable-adaptive-icons-3fed3d3205b5)
