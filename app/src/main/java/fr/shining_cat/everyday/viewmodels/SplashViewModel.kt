@@ -23,6 +23,7 @@ import fr.shining_cat.everyday.commons.Constants
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.viewmodels.AbstractViewModels
 import fr.shining_cat.everyday.commons.viewmodels.AppDispatchers
+import fr.shining_cat.everyday.navigation.Destination
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -34,23 +35,33 @@ class SplashViewModel(
 
     private val LOG_TAG = SplashViewModel::class.java.simpleName
 
-    private val _initReadyLiveData = MutableLiveData(false)
-    val initReadyLiveData: LiveData<Boolean> = _initReadyLiveData
+    private val _initReadyLiveData = MutableLiveData<Destination>()
+    val initReadyLiveData: LiveData<Destination> = _initReadyLiveData
 
     fun loadConfInit() {
-        logger.d(LOG_TAG, "loadConfInit")
+        logger.d(
+            LOG_TAG,
+            "loadConfInit"
+        )
         mainScope.launch {
             // Add a minimum delay for the splash screen duration to
             // avoid a brutal transition
-            logger.d(LOG_TAG, "loadConfInit:delayDeferred...")
+            logger.d(
+                LOG_TAG,
+                "loadConfInit:delayDeferred..."
+            )
             val delayDeferred = ioScope.async {
                 delay(Constants.SPLASH_MIN_DURATION_MILLIS)
             }
             // TODO: load user settings from SharedPrefs and apply, then pursue
 
             delayDeferred.await()
-            logger.d(LOG_TAG, "loadConfInit:delayDeferred:DONE WAITING")
-            _initReadyLiveData.value = true
+            logger.d(
+                LOG_TAG,
+                "loadConfInit:delayDeferred:DONE WAITING"
+            )
+            // TODO: returning only HomeDestination for now, this is where we will plug deeplinks
+            _initReadyLiveData.value = Destination.HomeDestination()
         }
     }
 }

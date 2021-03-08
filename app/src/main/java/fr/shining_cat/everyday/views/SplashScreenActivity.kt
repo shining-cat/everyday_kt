@@ -51,49 +51,31 @@ class SplashScreenActivity : AbstractActivity() {
                     LOG_TAG,
                     "initReadyLiveData: $it"
                 )
-                if (it) {
-                    startActivity(
-                        Actions.openDestination(
-                            this,
-                            Destination.HomeDestination()
-                        )
-                    )
-                    finish()
-                }
+                redirect(it)
             }
         )
-        try {
-            if (splashViewModel != null) {
-                logger.d(
-                    LOG_TAG,
-                    "not nul!"
-                )
-            } else {
-                logger.d(
-                    LOG_TAG,
-                    "null!"
-                )
-            }
-        } catch (e: Exception) {
-            logger.d(
-                LOG_TAG,
-                "exception!"
-            )
-        }
         splashViewModel.loadConfInit()
     }
-}
-/*
-        splashViewModel.initReadyLiveData.observe(this,Observer {logger.d(LOG_TAG, "initReadyLiveData: $it")
-                if (it) {
-                    startActivity(Actions.openDestination(this, Destination.HomeDestination()))
-                    finish()
-                } else {
-                    logger.d(LOG_TAG, "tralala sdfklj zef lkjzef1zeF ZEN F FKSDJFIFSDLKJF    FGJSDFGLKJ  sdmkljfdsfj  ks flksdj esd kf zelf  selkf  sdf  sd fnsdf jksd f hzesjkfh ezjkfhsd  kjhsefl  hzesf  kse jh dfkjgh erkj  gergh ekjg  erjkghesrl ") }
-            }
+
+    private fun redirect(destination: Destination) {
+        logger.d(
+            LOG_TAG,
+            "After init :: destination = ${destination::class.java.name}"
         )
-        try {
-            logger.d(LOG_TAG, "tralala sdfklj zef lkjzef1zeF ZEN Ff  selkf  sdf")
-            if(splashViewModel != null){logger.d(LOG_TAG, "not nul!")}else{logger.d(LOG_TAG, "null!")}
-        }catch (e:Exception){logger.d(LOG_TAG, "exception!")}
- */
+        startActivity(
+            Actions.openDestination(
+                this,
+                destination
+            )
+        )
+        finish()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        logger.d(
+            LOG_TAG,
+            "onDestroy"
+        )
+    }
+}
