@@ -64,7 +64,10 @@ class SessionTypeConverterTest {
         val convertedModel = runBlocking {
             sessionTypeConverter.convertModelToEntity(sessionType)
         }
-        assertEquals(sessionTypeEntity, convertedModel)
+        assertEquals(
+            sessionTypeEntity,
+            convertedModel
+        )
     }
 
     @Test
@@ -72,6 +75,9 @@ class SessionTypeConverterTest {
         val convertedEntity = runBlocking {
             sessionTypeConverter.convertEntitytoModel(sessionTypeEntity)
         }
-        assertEquals(sessionType, convertedEntity)
+        assertEquals(
+            sessionType,
+            convertedEntity
+        )
     }
 }

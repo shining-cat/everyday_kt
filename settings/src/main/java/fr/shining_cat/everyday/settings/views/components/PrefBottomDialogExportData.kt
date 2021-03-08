@@ -42,14 +42,12 @@ class PrefBottomDialogExportData(
     }
 
     private fun openDialog() {
-        val setExportDataBottomSheetDialog =
-            BottomDialogDismissibleMessageAndConfirm.newInstance(
-                title = context.getString(R.string.exportSessionsPreference_dialog_title),
-                message = context.getString(R.string.exportSessionsPreference_dialog_message),
-                confirmButtonLabel = context.getString(R.string.exportSessionsPreference_dialog_confirm_button)
-            )
-        setExportDataBottomSheetDialog.setBottomDialogDismissibleMessageAndConfirmListener(
-            object :
+        val setExportDataBottomSheetDialog = BottomDialogDismissibleMessageAndConfirm.newInstance(
+            title = context.getString(R.string.exportSessionsPreference_dialog_title),
+            message = context.getString(R.string.exportSessionsPreference_dialog_message),
+            confirmButtonLabel = context.getString(R.string.exportSessionsPreference_dialog_confirm_button)
+        )
+        setExportDataBottomSheetDialog.setBottomDialogDismissibleMessageAndConfirmListener(object :
                 BottomDialogDismissibleMessageAndConfirm.BottomDialogDismissibleMessageAndConfirmListener {
                 override fun onDismissed() {
                     // nothing to do here
@@ -63,6 +61,9 @@ class PrefBottomDialogExportData(
                     )
                 }
             })
-        setExportDataBottomSheetDialog.show(fragmentManager, "openExportSessionsDialog")
+        setExportDataBottomSheetDialog.show(
+            fragmentManager,
+            "openExportSessionsDialog"
+        )
     }
 }

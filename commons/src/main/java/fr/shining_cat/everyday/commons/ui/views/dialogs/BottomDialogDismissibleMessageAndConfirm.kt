@@ -49,23 +49,22 @@ class BottomDialogDismissibleMessageAndConfirm : BottomSheetDialogFragment() {
             title: String,
             message: String,
             confirmButtonLabel: String
-        ): BottomDialogDismissibleMessageAndConfirm =
-            BottomDialogDismissibleMessageAndConfirm().apply {
-                arguments = Bundle().apply {
-                    putString(
-                        TITLE_ARG,
-                        title
-                    )
-                    putString(
-                        MESSAGE_ARG,
-                        message
-                    )
-                    putString(
-                        CONFIRM_BUTTON_LABEL_ARG,
-                        confirmButtonLabel
-                    )
-                }
+        ): BottomDialogDismissibleMessageAndConfirm = BottomDialogDismissibleMessageAndConfirm().apply {
+            arguments = Bundle().apply {
+                putString(
+                    TITLE_ARG,
+                    title
+                )
+                putString(
+                    MESSAGE_ARG,
+                    message
+                )
+                putString(
+                    CONFIRM_BUTTON_LABEL_ARG,
+                    confirmButtonLabel
+                )
             }
+        }
     }
 
     override fun onCreateView(
@@ -86,8 +85,7 @@ class BottomDialogDismissibleMessageAndConfirm : BottomSheetDialogFragment() {
         val titleField = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomTitle
         titleField.text = title
         //
-        val dismissButton =
-            uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
+        val dismissButton = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
         dismissButton.setOnClickListener {
             listener?.onDismissed()
             dismiss()

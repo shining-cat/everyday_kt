@@ -66,8 +66,16 @@ class SharedPrefsHelperTest {
     @Test
     fun `test get KEEP_SCREEN_ON`() {
         val value = true
-        coEvery { mockSharedPreferences.getBoolean(any(), any()) } returns value
-        assertEquals(value, sharedPrefsHelper?.getKeepScreenOn())
+        coEvery {
+            mockSharedPreferences.getBoolean(
+                any(),
+                any()
+            )
+        } returns value
+        assertEquals(
+            value,
+            sharedPrefsHelper?.getKeepScreenOn()
+        )
         coVerify {
             mockSharedPreferences.getBoolean(
                 eq(SharedPrefsHelperSettings.KEEP_SCREEN_ON),
@@ -79,8 +87,16 @@ class SharedPrefsHelperTest {
     @Test
     fun `test get DO_NOT_DISTURB`() {
         val value = true
-        coEvery { mockSharedPreferences.getBoolean(any(), any()) } returns value
-        assertEquals(value, sharedPrefsHelper?.getDoNotDisturb())
+        coEvery {
+            mockSharedPreferences.getBoolean(
+                any(),
+                any()
+            )
+        } returns value
+        assertEquals(
+            value,
+            sharedPrefsHelper?.getDoNotDisturb()
+        )
         coVerify {
             mockSharedPreferences.getBoolean(
                 eq(SharedPrefsHelperSettings.DO_NOT_DISTURB),
@@ -92,8 +108,16 @@ class SharedPrefsHelperTest {
     @Test
     fun `test get AEROPLANE_MODE_REMINDER`() {
         val value = true
-        coEvery { mockSharedPreferences.getBoolean(any(), any()) } returns value
-        assertEquals(value, sharedPrefsHelper?.getPlaneModeReminder())
+        coEvery {
+            mockSharedPreferences.getBoolean(
+                any(),
+                any()
+            )
+        } returns value
+        assertEquals(
+            value,
+            sharedPrefsHelper?.getPlaneModeReminder()
+        )
         coVerify {
             mockSharedPreferences.getBoolean(
                 eq(SharedPrefsHelperSettings.AEROPLANE_MODE_REMINDER),
@@ -105,8 +129,16 @@ class SharedPrefsHelperTest {
     @Test
     fun `test get NOTIFICATION_ACTIVATED`() {
         val value = true
-        coEvery { mockSharedPreferences.getBoolean(any(), any()) } returns value
-        assertEquals(value, sharedPrefsHelper?.getNotificationActivated())
+        coEvery {
+            mockSharedPreferences.getBoolean(
+                any(),
+                any()
+            )
+        } returns value
+        assertEquals(
+            value,
+            sharedPrefsHelper?.getNotificationActivated()
+        )
         coVerify {
             mockSharedPreferences.getBoolean(
                 eq(SharedPrefsHelperSettings.NOTIFICATION_ACTIVATED),
@@ -118,8 +150,16 @@ class SharedPrefsHelperTest {
     @Test
     fun `test get INFINITE_SESSION`() {
         val value = true
-        coEvery { mockSharedPreferences.getBoolean(any(), any()) } returns value
-        assertEquals(value, sharedPrefsHelper?.getInfiniteSession())
+        coEvery {
+            mockSharedPreferences.getBoolean(
+                any(),
+                any()
+            )
+        } returns value
+        assertEquals(
+            value,
+            sharedPrefsHelper?.getInfiniteSession()
+        )
         coVerify {
             mockSharedPreferences.getBoolean(
                 eq(SharedPrefsHelperSettings.INFINITE_SESSION),
@@ -131,8 +171,16 @@ class SharedPrefsHelperTest {
     @Test
     fun `test get REWARDS_ACTIVATED`() {
         val value = false
-        coEvery { mockSharedPreferences.getBoolean(any(), any()) } returns value
-        assertEquals(value, sharedPrefsHelper?.getRewardsActivated())
+        coEvery {
+            mockSharedPreferences.getBoolean(
+                any(),
+                any()
+            )
+        } returns value
+        assertEquals(
+            value,
+            sharedPrefsHelper?.getRewardsActivated()
+        )
         coVerify {
             mockSharedPreferences.getBoolean(
                 eq(SharedPrefsHelperSettings.REWARDS_ACTIVATED),
@@ -144,8 +192,16 @@ class SharedPrefsHelperTest {
     @Test
     fun `test get STATISTICS_ACTIVATED`() {
         val value = false
-        coEvery { mockSharedPreferences.getBoolean(any(), any()) } returns value
-        assertEquals(value, sharedPrefsHelper?.getStatisticsActivated())
+        coEvery {
+            mockSharedPreferences.getBoolean(
+                any(),
+                any()
+            )
+        } returns value
+        assertEquals(
+            value,
+            sharedPrefsHelper?.getStatisticsActivated()
+        )
         coVerify {
             mockSharedPreferences.getBoolean(
                 eq(SharedPrefsHelperSettings.STATISTICS_ACTIVATED),
@@ -157,8 +213,16 @@ class SharedPrefsHelperTest {
     @Test
     fun `test get NOTIFICATION_TIME`() {
         val value = "notification Time"
-        coEvery { mockSharedPreferences.getString(any(), any()) } returns value
-        assertEquals(value, sharedPrefsHelper?.getNotificationTime())
+        coEvery {
+            mockSharedPreferences.getString(
+                any(),
+                any()
+            )
+        } returns value
+        assertEquals(
+            value,
+            sharedPrefsHelper?.getNotificationTime()
+        )
         coVerify {
             mockSharedPreferences.getString(
                 eq(SharedPrefsHelperSettings.NOTIFICATION_TIME),
@@ -182,8 +246,16 @@ class SharedPrefsHelperTest {
     @Test
     fun `test get NOTIFICATION_TEXT`() {
         val value = "notification text"
-        coEvery { mockSharedPreferences.getString(any(), any()) } returns value
-        assertEquals(value, sharedPrefsHelper?.getNotificationText())
+        coEvery {
+            mockSharedPreferences.getString(
+                any(),
+                any()
+            )
+        } returns value
+        assertEquals(
+            value,
+            sharedPrefsHelper?.getNotificationText()
+        )
         coVerify {
             mockSharedPreferences.getString(
                 eq(SharedPrefsHelperSettings.NOTIFICATION_TEXT),
@@ -207,8 +279,16 @@ class SharedPrefsHelperTest {
     @Test
     fun `test get NOTIFICATION_SOUND_TITLE`() {
         val value = "notification sound title"
-        coEvery { mockSharedPreferences.getString(any(), any()) } returns value
-        assertEquals(value, sharedPrefsHelper?.getNotificationSoundTitle())
+        coEvery {
+            mockSharedPreferences.getString(
+                any(),
+                any()
+            )
+        } returns value
+        assertEquals(
+            value,
+            sharedPrefsHelper?.getNotificationSoundTitle()
+        )
         coVerify {
             mockSharedPreferences.getString(
                 eq(SharedPrefsHelperSettings.NOTIFICATION_SOUND_TITLE),
@@ -232,8 +312,16 @@ class SharedPrefsHelperTest {
     @Test
     fun `test get COUNTDOWN_LENGTH`() {
         val value = 12345L
-        coEvery { mockSharedPreferences.getLong(any(), any()) } returns value
-        assertEquals(value, sharedPrefsHelper?.getCountDownLength())
+        coEvery {
+            mockSharedPreferences.getLong(
+                any(),
+                any()
+            )
+        } returns value
+        assertEquals(
+            value,
+            sharedPrefsHelper?.getCountDownLength()
+        )
         coVerify {
             mockSharedPreferences.getLong(
                 eq(SharedPrefsHelperSettings.COUNTDOWN_LENGTH),
@@ -257,8 +345,16 @@ class SharedPrefsHelperTest {
     @Test
     fun `test get DEFAULT_NIGHT_MODE`() {
         val value = 12345
-        coEvery { mockSharedPreferences.getInt(any(), any()) } returns value
-        assertEquals(value, sharedPrefsHelper?.getDefaultNightMode())
+        coEvery {
+            mockSharedPreferences.getInt(
+                any(),
+                any()
+            )
+        } returns value
+        assertEquals(
+            value,
+            sharedPrefsHelper?.getDefaultNightMode()
+        )
         coVerify {
             mockSharedPreferences.getInt(
                 eq(SharedPrefsHelperSettings.DEFAULT_NIGHT_MODE),

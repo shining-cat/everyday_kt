@@ -50,23 +50,22 @@ class BottomDialogDismissibleEditTextAndConfirm : BottomSheetDialogFragment() {
             title: String,
             editTextHint: String,
             confirmButtonLabel: String
-        ): BottomDialogDismissibleEditTextAndConfirm =
-            BottomDialogDismissibleEditTextAndConfirm().apply {
-                arguments = Bundle().apply {
-                    putString(
-                        TITLE_ARG,
-                        title
-                    )
-                    putString(
-                        HINT_ARG,
-                        editTextHint
-                    )
-                    putString(
-                        CONFIRM_BUTTON_LABEL_ARG,
-                        confirmButtonLabel
-                    )
-                }
+        ): BottomDialogDismissibleEditTextAndConfirm = BottomDialogDismissibleEditTextAndConfirm().apply {
+            arguments = Bundle().apply {
+                putString(
+                    TITLE_ARG,
+                    title
+                )
+                putString(
+                    HINT_ARG,
+                    editTextHint
+                )
+                putString(
+                    CONFIRM_BUTTON_LABEL_ARG,
+                    confirmButtonLabel
+                )
             }
+        }
     }
 
     override fun onCreateView(
@@ -87,8 +86,7 @@ class BottomDialogDismissibleEditTextAndConfirm : BottomSheetDialogFragment() {
         val titleField = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomTitle
         titleField.text = title
         //
-        val dismissButton =
-            uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
+        val dismissButton = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
         dismissButton.setOnClickListener {
             listener?.onDismissed()
             dismiss()

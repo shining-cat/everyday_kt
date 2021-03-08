@@ -35,7 +35,10 @@ class RewardsViewModel(
     val initReadyLiveData: LiveData<String> = _initReadyLiveData
 
     fun initViewModel() {
-        logger.d(LOG_TAG, "initViewModel")
+        logger.d(
+            LOG_TAG,
+            "initViewModel"
+        )
         mainScope.launch {
             _initReadyLiveData.value = LOG_TAG
         }

@@ -22,10 +22,12 @@ sealed class Output<out T> {
         val result: T
     ) : Output<T>()
 
-    data class Error(val errorCode: Int, val errorResponse: String, val exception: Exception?) :
-        Output<Nothing>() {
+    data class Error(
+        val errorCode: Int,
+        val errorResponse: String,
+        val exception: Exception?
+    ) : Output<Nothing>() {
 
-        override fun toString() =
-            "code: $errorCode | response: $errorResponse | exception: $exception"
+        override fun toString() = "code: $errorCode | response: $errorResponse | exception: $exception"
     }
 }

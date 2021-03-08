@@ -63,15 +63,30 @@ class StatisticsFragment : Fragment() {
     }
 
     private fun setupToolbar(statisticsFragmentBinding: StatisticsFragmentBinding) {
-        logger.d(LOG_TAG, "setupToolbar")
+        logger.d(
+            LOG_TAG,
+            "setupToolbar"
+        )
         val toolbar: Toolbar = statisticsFragmentBinding.toolbar
         (activity as ScreenActivity).setSupportActionBar(toolbar)
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        logger.d(LOG_TAG, "onCreateOptionsMenu")
-        inflater.inflate(R.menu.toolbar_menu_home, menu)
-        return super.onCreateOptionsMenu(menu, inflater)
+    override fun onCreateOptionsMenu(
+        menu: Menu,
+        inflater: MenuInflater
+    ) {
+        logger.d(
+            LOG_TAG,
+            "onCreateOptionsMenu"
+        )
+        inflater.inflate(
+            R.menu.toolbar_menu_home,
+            menu
+        )
+        return super.onCreateOptionsMenu(
+            menu,
+            inflater
+        )
     }
 }

@@ -56,10 +56,13 @@ class PrefBottomDialogEraseAllData(
                     // TODO: call Erase all data Usecase
                     logger.e(
                         LOG_TAG,
-                        "openEraseAllDataDialog::onBigButtonClicked::TODO: implement second confirmation in mid-screen \"popup\" Dialog, then call Erase all data Usecase"
+                        "openEraseAllDataDialog::onBigButtonClicked"
                     )
                 }
             })
-        eraseAllDataBottomSheetDialog.show(fragmentManager, "openEraseAllDataDialog")
+        eraseAllDataBottomSheetDialog.show(
+            fragmentManager,
+            "openEraseAllDataDialog"
+        )
     }
 }

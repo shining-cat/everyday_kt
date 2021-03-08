@@ -50,8 +50,7 @@ class RewardConverter(
             if (reward.acquisitionDate == RewardConstants.NO_ACQUISITION_DATE) RewardEntityConstants.NO_ACQUISITION_DATE else reward.acquisitionDate
         rewardEntity.escapingDate =
             if (reward.escapingDate == RewardConstants.NO_ESCAPING_DATE) RewardEntityConstants.NO_ESCAPING_DATE else reward.escapingDate
-        rewardEntity.name =
-            if (reward.name == RewardConstants.NO_NAME) RewardEntityConstants.NO_NAME else reward.name
+        rewardEntity.name = if (reward.name == RewardConstants.NO_NAME) RewardEntityConstants.NO_NAME else reward.name
         rewardEntity.isActive = reward.isActive
         rewardEntity.isEscaped = reward.isEscaped
         rewardEntity.legsColor = reward.legsColor
@@ -65,6 +64,18 @@ class RewardConverter(
     }
 
     suspend fun convertEntitytoModel(rewardEntity: RewardEntity): Reward {
+        val acquisitionDate = if (rewardEntity.acquisitionDate == RewardEntityConstants.NO_ACQUISITION_DATE) {
+            RewardConstants.NO_ACQUISITION_DATE
+        }
+        else {
+            rewardEntity.acquisitionDate
+        }
+        val escapingDate = if (rewardEntity.escapingDate == RewardEntityConstants.NO_ESCAPING_DATE) {
+            RewardConstants.NO_ESCAPING_DATE
+        }
+        else {
+            rewardEntity.escapingDate
+        }
         val rewardModel = Reward(
             id = rewardEntity.id,
             flowerKey = rewardEntity.flower,
@@ -75,12 +86,9 @@ class RewardConverter(
             hornsKey = rewardEntity.horns,
             level = Level.fromKey(rewardEntity.level)
         )
-        rewardModel.acquisitionDate =
-            if (rewardEntity.acquisitionDate == RewardEntityConstants.NO_ACQUISITION_DATE) RewardConstants.NO_ACQUISITION_DATE else rewardEntity.acquisitionDate
-        rewardModel.escapingDate =
-            if (rewardEntity.escapingDate == RewardEntityConstants.NO_ESCAPING_DATE) RewardConstants.NO_ESCAPING_DATE else rewardEntity.escapingDate
-        rewardModel.name =
-            if (rewardEntity.name == RewardEntityConstants.NO_NAME) RewardConstants.NO_NAME else rewardEntity.name
+        rewardModel.acquisitionDate = acquisitionDate
+        rewardModel.escapingDate = escapingDate
+        rewardModel.name = if (rewardEntity.name == RewardEntityConstants.NO_NAME) RewardConstants.NO_NAME else rewardEntity.name
         rewardModel.isActive = rewardEntity.isActive
         rewardModel.isEscaped = rewardEntity.isEscaped
         rewardModel.legsColor = rewardEntity.legsColor

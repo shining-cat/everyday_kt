@@ -63,15 +63,30 @@ class RewardsFragment : Fragment() {
     }
 
     private fun setupToolbar(rewardsFragmentBinding: RewardsFragmentBinding) {
-        logger.d(LOG_TAG, "setupToolbar")
+        logger.d(
+            LOG_TAG,
+            "setupToolbar"
+        )
         val toolbar: Toolbar = rewardsFragmentBinding.toolbar
         (activity as ScreenActivity).setSupportActionBar(toolbar)
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        logger.d(LOG_TAG, "onCreateOptionsMenu")
-        inflater.inflate(R.menu.toolbar_menu_rewards, menu)
-        return super.onCreateOptionsMenu(menu, inflater)
+    override fun onCreateOptionsMenu(
+        menu: Menu,
+        inflater: MenuInflater
+    ) {
+        logger.d(
+            LOG_TAG,
+            "onCreateOptionsMenu"
+        )
+        inflater.inflate(
+            R.menu.toolbar_menu_rewards,
+            menu
+        )
+        return super.onCreateOptionsMenu(
+            menu,
+            inflater
+        )
     }
 }

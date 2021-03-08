@@ -51,7 +51,10 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val homeFragmentBinding = HomeFragmentBinding.inflate(layoutInflater)
-        logger.d(LOG_TAG, "onCreateView")
+        logger.d(
+            LOG_TAG,
+            "onCreateView"
+        )
         //
         setupToolbar(homeFragmentBinding)
         //
@@ -67,16 +70,31 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupToolbar(homeFragmentBinding: HomeFragmentBinding) {
-        logger.d(LOG_TAG, "setupToolbar")
+        logger.d(
+            LOG_TAG,
+            "setupToolbar"
+        )
         val toolbar: Toolbar = homeFragmentBinding.toolbar
         (activity as ScreenActivity).setSupportActionBar(toolbar)
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        logger.d(LOG_TAG, "onCreateOptionsMenu")
-        inflater.inflate(R.menu.toolbar_menu_home, menu)
-        return super.onCreateOptionsMenu(menu, inflater)
+    override fun onCreateOptionsMenu(
+        menu: Menu,
+        inflater: MenuInflater
+    ) {
+        logger.d(
+            LOG_TAG,
+            "onCreateOptionsMenu"
+        )
+        inflater.inflate(
+            R.menu.toolbar_menu_home,
+            menu
+        )
+        return super.onCreateOptionsMenu(
+            menu,
+            inflater
+        )
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -92,6 +110,7 @@ class HomeFragment : Fragment() {
                 )
                 return true
             }
+
             R.id.actionbar_about -> {
                 showAboutDialog()
                 return true
@@ -101,7 +120,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun showAboutDialog() {
-        logger.d(LOG_TAG, "todo: showAboutDialog")
+        logger.d(
+            LOG_TAG,
+            "todo: showAboutDialog"
+        )
         // TODO("not implemented")
     }
 }

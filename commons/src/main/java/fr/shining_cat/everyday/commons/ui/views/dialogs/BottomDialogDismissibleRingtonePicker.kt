@@ -127,8 +127,7 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
         val titleField = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomTitle
         titleField.text = title
         //
-        val dismissButton =
-            uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
+        val dismissButton = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
         dismissButton.setOnClickListener {
             listener?.onDismissed()
             dismiss()
@@ -156,12 +155,11 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         selectListRecycler.layoutManager = layoutManager
         //
-        selectListAdapter.setSelectListAdapterListener(object :
-                SelectListAdapter.SelectListAdapterListener {
-                override fun onOptionSelected(selectedPosition: Int) {
-                    playSelectedRingtone(completeRingTonesUris[selectedPosition])
-                }
-            })
+        selectListAdapter.setSelectListAdapterListener(object : SelectListAdapter.SelectListAdapterListener {
+            override fun onOptionSelected(selectedPosition: Int) {
+                playSelectedRingtone(completeRingTonesUris[selectedPosition])
+            }
+        })
         //
         val confirmButtonLabel = arguments?.getString(
             CONFIRM_BUTTON_LABEL_ARG,
@@ -195,7 +193,8 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
     private fun buildCompleteRingTonesMap(): List<Pair<String, Uri>> {
         val silenceList = if (arguments?.getBoolean(SILENCE_ARG) == true) {
             getSilentRingtone()
-        } else {
+        }
+        else {
             listOf()
         }
         //
@@ -206,7 +205,8 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
                 ringTonesAssetsNames,
                 ringTonesDisplayNames
             )
-        } else {
+        }
+        else {
             logger.e(
                 LOG_TAG,
                 "buildCompleteRingTonesMap:: incompatible sources sizes"
@@ -287,7 +287,8 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
         ) ?: -1
         return if (resId != -1) {
             Uri.parse("android.resource://" + context.packageName + "/" + resId)
-        } else {
+        }
+        else {
             Uri.parse("")
         }
     }

@@ -63,15 +63,30 @@ class SessionsFragment : Fragment() {
     }
 
     private fun setupToolbar(sessionsFragmentBinding: SessionsFragmentBinding) {
-        logger.d(LOG_TAG, "setupToolbar")
+        logger.d(
+            LOG_TAG,
+            "setupToolbar"
+        )
         val toolbar: Toolbar = sessionsFragmentBinding.toolbar
         (activity as ScreenActivity).setSupportActionBar(toolbar)
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        logger.d(LOG_TAG, "onCreateOptionsMenu")
-        inflater.inflate(R.menu.toolbar_menu_sessions, menu)
-        return super.onCreateOptionsMenu(menu, inflater)
+    override fun onCreateOptionsMenu(
+        menu: Menu,
+        inflater: MenuInflater
+    ) {
+        logger.d(
+            LOG_TAG,
+            "onCreateOptionsMenu"
+        )
+        inflater.inflate(
+            R.menu.toolbar_menu_sessions,
+            menu
+        )
+        return super.onCreateOptionsMenu(
+            menu,
+            inflater
+        )
     }
 }

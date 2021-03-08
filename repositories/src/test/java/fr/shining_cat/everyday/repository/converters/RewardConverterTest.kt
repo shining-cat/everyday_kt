@@ -104,7 +104,10 @@ class RewardConverterTest {
         val convertedModel = runBlocking {
             rewardConverter.convertModelToEntity(reward)
         }
-        assertEquals(rewardEntity, convertedModel)
+        assertEquals(
+            rewardEntity,
+            convertedModel
+        )
     }
 
     @Test
@@ -112,6 +115,9 @@ class RewardConverterTest {
         val convertedEntity = runBlocking {
             rewardConverter.convertEntitytoModel(rewardEntity)
         }
-        assertEquals(reward, convertedEntity)
+        assertEquals(
+            reward,
+            convertedEntity
+        )
     }
 }

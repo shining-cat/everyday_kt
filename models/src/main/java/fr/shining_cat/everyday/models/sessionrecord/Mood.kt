@@ -26,19 +26,16 @@ data class Mood(
     val globalValue: MoodValue
 ) {
 
-    override fun toString() = "MOOD : timeStamp = " + timeOfRecord +
-        "\n\tBody = " + bodyValue +
-        "\n\tThoughts = " + thoughtsValue +
-        "\n\tFeelings = " + feelingsValue +
-        "\n\tGlobal = " + globalValue
+    override fun toString() =
+        "MOOD : timeStamp = " + timeOfRecord +
+            "\n\tBody = " + bodyValue +
+            "\n\tThoughts = " + thoughtsValue +
+            "\n\tFeelings = " + feelingsValue +
+            "\n\tGlobal = " + globalValue
 }
 
 enum class MoodValue(val key: Int) {
-    WORST(-2),
-    BAD(-1),
-    NOT_SET(0),
-    GOOD(1),
-    BEST(2);
+    WORST(-2), BAD(-1), NOT_SET(0), GOOD(1), BEST(2);
 
     companion object {
 

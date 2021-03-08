@@ -45,7 +45,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private lateinit var notificationSoundPref: PrefBottomDialogNotificationSoundSelect
     private lateinit var notificationTimePref: PrefBottomDialogNotificationTimePicker
 
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+    override fun onCreatePreferences(
+        savedInstanceState: Bundle?,
+        rootKey: String?
+    ) {
         // Set the name of the SharedPreferences file to be ours instead of default
         preferenceManager.sharedPreferencesName = SharedPrefsHelperSettings.NAME
         //
@@ -69,8 +72,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val keepScreenOnPreference = SwitchPreferenceCompat(prefContext)
         keepScreenOnPreference.key = SharedPrefsHelperSettings.KEEP_SCREEN_ON
         keepScreenOnPreference.title = getString(R.string.keepScreenOnPreference_title)
-        keepScreenOnPreference.summaryOff =
-            getString(R.string.keepScreenOnPreference_switch_off_text)
+        keepScreenOnPreference.summaryOff = getString(R.string.keepScreenOnPreference_switch_off_text)
         keepScreenOnPreference.summaryOn = getString(R.string.keepScreenOnPreference_switch_on_text)
         keepScreenOnPreference.setDefaultValue(false)
         keepScreenOnPreference.isIconSpaceReserved = false
@@ -79,8 +81,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val doNotDisturbPreference = SwitchPreferenceCompat(prefContext)
         doNotDisturbPreference.key = SharedPrefsHelperSettings.DO_NOT_DISTURB
         doNotDisturbPreference.title = getString(R.string.doNotDisturbPreference_title)
-        doNotDisturbPreference.summaryOff =
-            getString(R.string.doNotDisturbPreference_switch_off_text)
+        doNotDisturbPreference.summaryOff = getString(R.string.doNotDisturbPreference_switch_off_text)
         doNotDisturbPreference.summaryOn = getString(R.string.doNotDisturbPreference_switch_on_text)
         doNotDisturbPreference.setDefaultValue(false)
         doNotDisturbPreference.isIconSpaceReserved = false
@@ -107,26 +108,22 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val prefContext: Context = preferenceManager.context
         val notificationActivatedPreference = SwitchPreferenceCompat(prefContext)
         notificationActivatedPreference.key = SharedPrefsHelperSettings.NOTIFICATION_ACTIVATED
-        notificationActivatedPreference.title =
-            getString(R.string.notificationsPreferences_notification_activated_title)
+        notificationActivatedPreference.title = getString(R.string.notificationsPreferences_notification_activated_title)
         notificationActivatedPreference.isIconSpaceReserved = false
-        notificationActivatedPreference.onPreferenceChangeListener =
-            Preference.OnPreferenceChangeListener { _, newValue ->
-                updateSubNotificationPreferences(newValue as Boolean)
-                true
-            }
+        notificationActivatedPreference.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
+            updateSubNotificationPreferences(newValue as Boolean)
+            true
+        }
         //
         notificationTimePref = prefBottomDialogBuilder.buildPrefBottomDialogNotificationTimePicker()
         //
         notificationTextPref = prefBottomDialogBuilder.buildPrefBottomDialogNotificationEditText()
         //
-        notificationSoundPref =
-            prefBottomDialogBuilder.buildPrefBottomDialogNotificationSoundSelect()
+        notificationSoundPref = prefBottomDialogBuilder.buildPrefBottomDialogNotificationSoundSelect()
         //
-        val notificationsCategory =
-            PreferenceCategoryLongSummary(
-                prefContext
-            )
+        val notificationsCategory = PreferenceCategoryLongSummary(
+            prefContext
+        )
         notificationsCategory.title = getString(R.string.notificationsPreferencesCategory_title)
         notificationsCategory.summary = getString(R.string.notificationsPreferences_summary)
         notificationsCategory.isIconSpaceReserved = false
@@ -154,17 +151,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private fun setupCustomisationPreferences() {
         val prefContext = preferenceManager.context
         //
-        val defaultNightModePreference =
-            prefBottomDialogBuilder.buildPrefBottomDialogDefaultNightModeSelect()
-        defaultNightModePreference.onPreferenceChangeListener =
-            Preference.OnPreferenceChangeListener { _, _ ->
-                // force refresh of parent activity to apply theme choice
-                activity?.recreate()
-                true
-            }
+        val defaultNightModePreference = prefBottomDialogBuilder.buildPrefBottomDialogDefaultNightModeSelect()
+        defaultNightModePreference.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, _ ->
+            // force refresh of parent activity to apply theme choice
+            activity?.recreate()
+            true
+        }
         //
-        val startCountDownLengthPreference =
-            prefBottomDialogBuilder.buildPrefBottomDialogCountdownLengthPicker()
+        val startCountDownLengthPreference = prefBottomDialogBuilder.buildPrefBottomDialogCountdownLengthPicker()
         //
         val rewardsActivationPreference = SwitchPreferenceCompat(prefContext)
         rewardsActivationPreference.key = SharedPrefsHelperSettings.REWARDS_ACTIVATED
@@ -174,8 +168,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         //
         val statisticsActivationPreference = SwitchPreferenceCompat(prefContext)
         statisticsActivationPreference.key = SharedPrefsHelperSettings.STATISTICS_ACTIVATED
-        statisticsActivationPreference.title =
-            getString(R.string.statisticsActivationPreference_title)
+        statisticsActivationPreference.title = getString(R.string.statisticsActivationPreference_title)
         statisticsActivationPreference.setDefaultValue(true)
         statisticsActivationPreference.isIconSpaceReserved = false
         //

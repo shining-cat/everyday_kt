@@ -51,14 +51,12 @@ class PrefBottomDialogNotificationEditText(
     }
 
     private fun openDialog() {
-        val notificationTextInputBottomSheetDialog =
-            BottomDialogDismissibleEditTextAndConfirm.newInstance(
-                context.getString(R.string.notificationsPreferences_notification_text_title),
-                getNotificationTextDisplay(),
-                context.getString(R.string.generic_string_OK)
-            )
-        notificationTextInputBottomSheetDialog.setBottomDialogDismissibleMessageAndConfirmListener(
-            object :
+        val notificationTextInputBottomSheetDialog = BottomDialogDismissibleEditTextAndConfirm.newInstance(
+            context.getString(R.string.notificationsPreferences_notification_text_title),
+            getNotificationTextDisplay(),
+            context.getString(R.string.generic_string_OK)
+        )
+        notificationTextInputBottomSheetDialog.setBottomDialogDismissibleMessageAndConfirmListener(object :
                 BottomDialogDismissibleEditTextAndConfirm.BottomDialogDismissibleEditTextAndConfirmListener {
                 override fun onDismissed() {
                     // nothing to do here

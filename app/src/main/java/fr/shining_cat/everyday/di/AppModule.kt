@@ -22,5 +22,10 @@ import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val appModule = module {
-    viewModel { SplashViewModel(get(), get()) }
+    viewModel {
+        SplashViewModel(
+            get(),
+            get()
+        )
+    }
 }

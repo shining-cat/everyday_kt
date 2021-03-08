@@ -42,14 +42,12 @@ class PrefBottomDialogImportData(
     }
 
     private fun openDialog() {
-        val setImportDataBottomSheetDialog =
-            BottomDialogDismissibleMessageAndConfirm.newInstance(
-                title = context.getString(R.string.importSessionsPreference_dialog_title),
-                message = context.getString(R.string.importSessionsPreference_dialog_message),
-                confirmButtonLabel = context.getString(R.string.importSessionsPreference_dialog_confirm_button)
-            )
-        setImportDataBottomSheetDialog.setBottomDialogDismissibleMessageAndConfirmListener(
-            object :
+        val setImportDataBottomSheetDialog = BottomDialogDismissibleMessageAndConfirm.newInstance(
+            title = context.getString(R.string.importSessionsPreference_dialog_title),
+            message = context.getString(R.string.importSessionsPreference_dialog_message),
+            confirmButtonLabel = context.getString(R.string.importSessionsPreference_dialog_confirm_button)
+        )
+        setImportDataBottomSheetDialog.setBottomDialogDismissibleMessageAndConfirmListener(object :
                 BottomDialogDismissibleMessageAndConfirm.BottomDialogDismissibleMessageAndConfirmListener {
                 override fun onDismissed() {
                     // nothing to do here
@@ -63,6 +61,9 @@ class PrefBottomDialogImportData(
                     )
                 }
             })
-        setImportDataBottomSheetDialog.show(fragmentManager, "openImportSessionsDialog")
+        setImportDataBottomSheetDialog.show(
+            fragmentManager,
+            "openImportSessionsDialog"
+        )
     }
 }

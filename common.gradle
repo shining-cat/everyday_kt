@@ -58,10 +58,12 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'jacoco'
 apply plugin: "com.github.ben-manes.versions"
+apply plugin: "io.gitlab.arturbosch.detekt"
 apply from: 'https://raw.githubusercontent.com/JakeWharton/SdkSearch/master/gradle/projectDependencyGraph.gradle'
 apply from: "$project.rootDir/conf_plugin_jacoco.gradle"
 apply from: "$project.rootDir/conf_plugin_ktlint.gradle"
 apply from: "$project.rootDir/conf_plugin_ben_manes_versions.gradle"
+apply from: "$project.rootDir/conf_plugin_detekt.gradle"
 
 dependencies {
     implementation KotlinLibraries.kotlinJdk7

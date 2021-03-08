@@ -35,17 +35,20 @@ class SettingsActivity : AbstractActivity() {
         super.onCreate(savedInstanceState)
         val settingsActivityBinding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(settingsActivityBinding.root)
-        logger.d(LOG_TAG, "onCreate")
+        logger.d(
+            LOG_TAG,
+            "onCreate"
+        )
         setToolBar(settingsActivityBinding)
         hideLoadingView(settingsActivityBinding.loadingLayout.loadingView)
         loadPreferencesFragment()
     }
 
     private fun loadPreferencesFragment() {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.settings_fragment_container, SettingsFragment())
-            .commit()
+        supportFragmentManager.beginTransaction().replace(
+            R.id.settings_fragment_container,
+            SettingsFragment()
+        ).commit()
     }
 
     private fun setToolBar(settingsActivityBinding: ActivitySettingsBinding) {

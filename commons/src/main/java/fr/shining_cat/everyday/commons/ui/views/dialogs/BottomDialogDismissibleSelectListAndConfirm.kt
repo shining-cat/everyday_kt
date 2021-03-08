@@ -61,27 +61,26 @@ class BottomDialogDismissibleSelectListAndConfirm : BottomSheetDialogFragment() 
             optionsLabels: List<String>,
             confirmButtonLabel: String,
             initialSelectedIndex: Int = -1
-        ): BottomDialogDismissibleSelectListAndConfirm =
-            BottomDialogDismissibleSelectListAndConfirm().apply {
-                arguments = Bundle().apply {
-                    putString(
-                        TITLE_ARG,
-                        title
-                    )
-                    putStringArrayList(
-                        OPTIONS_ARG,
-                        ArrayList(optionsLabels)
-                    )
-                    putString(
-                        CONFIRM_BUTTON_LABEL_ARG,
-                        confirmButtonLabel
-                    )
-                    putInt(
-                        INITIAL_SELECTED_INDEX_ARG,
-                        initialSelectedIndex
-                    )
-                }
+        ): BottomDialogDismissibleSelectListAndConfirm = BottomDialogDismissibleSelectListAndConfirm().apply {
+            arguments = Bundle().apply {
+                putString(
+                    TITLE_ARG,
+                    title
+                )
+                putStringArrayList(
+                    OPTIONS_ARG,
+                    ArrayList(optionsLabels)
+                )
+                putString(
+                    CONFIRM_BUTTON_LABEL_ARG,
+                    confirmButtonLabel
+                )
+                putInt(
+                    INITIAL_SELECTED_INDEX_ARG,
+                    initialSelectedIndex
+                )
             }
+        }
     }
 
     override fun onCreateView(
@@ -102,8 +101,7 @@ class BottomDialogDismissibleSelectListAndConfirm : BottomSheetDialogFragment() 
         val titleField = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomTitle
         titleField.text = title
         //
-        val dismissButton =
-            uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
+        val dismissButton = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
         dismissButton.setOnClickListener {
             listener?.onDismissed()
             dismiss()

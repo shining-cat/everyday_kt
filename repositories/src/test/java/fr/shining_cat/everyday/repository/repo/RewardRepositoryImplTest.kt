@@ -61,11 +61,10 @@ class RewardRepositoryImplTest {
         Assert.assertNotNull(mockReward)
         Assert.assertNotNull(mockRewardEntity)
         Assert.assertNotNull(mockRewardConverter)
-        rewardRepo =
-            RewardRepositoryImpl(
-                mockRewardDao,
-                mockRewardConverter
-            )
+        rewardRepo = RewardRepositoryImpl(
+            mockRewardDao,
+            mockRewardConverter
+        )
     }
 
     // /////////////////////////////
@@ -76,14 +75,27 @@ class RewardRepositoryImplTest {
             mockRewardEntity,
             mockRewardEntity
         )
-        coEvery { mockRewardDao.insert(any()) } returns arrayOf(1L, 2L, 3L)
+        coEvery { mockRewardDao.insert(any()) } returns arrayOf(
+            1L,
+            2L,
+            3L
+        )
         val output = runBlocking {
-            rewardRepo.insert(listOf(mockReward, mockReward, mockReward))
+            rewardRepo.insert(
+                listOf(
+                    mockReward,
+                    mockReward,
+                    mockReward
+                )
+            )
         }
         coVerify { mockRewardConverter.convertModelsToEntities(any()) }
         coVerify { mockRewardDao.insert(any()) }
         assertTrue(output is Output.Success)
-        assertEquals(3, (output as Output.Success).result.size)
+        assertEquals(
+            3,
+            (output as Output.Success).result.size
+        )
     }
 
     @Test
@@ -95,12 +107,21 @@ class RewardRepositoryImplTest {
         )
         coEvery { mockRewardDao.update(any()) } returns 3
         val output = runBlocking {
-            rewardRepo.update(listOf(mockReward, mockReward, mockReward))
+            rewardRepo.update(
+                listOf(
+                    mockReward,
+                    mockReward,
+                    mockReward
+                )
+            )
         }
         coVerify { mockRewardConverter.convertModelsToEntities(any()) }
         coVerify { mockRewardDao.update(any()) }
         assertTrue(output is Output.Success)
-        assertEquals(3, (output as Output.Success).result)
+        assertEquals(
+            3,
+            (output as Output.Success).result
+        )
     }
 
     @Test
@@ -111,7 +132,10 @@ class RewardRepositoryImplTest {
         }
         coVerify { mockRewardDao.deleteAllRewards() }
         assertTrue(output is Output.Success)
-        assertEquals(7, (output as Output.Success).result)
+        assertEquals(
+            7,
+            (output as Output.Success).result
+        )
     }
 
     // //////////////
@@ -126,7 +150,10 @@ class RewardRepositoryImplTest {
         coVerify { mockRewardConverter.convertEntitytoModel(any()) }
         coVerify { mockRewardDao.getReward(any()) }
         assertTrue(output is Output.Success)
-        assertEquals(mockReward, (output as Output.Success).result)
+        assertEquals(
+            mockReward,
+            (output as Output.Success).result
+        )
     }
 
     @Test
@@ -141,7 +168,10 @@ class RewardRepositoryImplTest {
         coVerify { mockRewardDao.getAllRewardsActiveAcquisitionDateAsc() }
         coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
         assertTrue(output is Output.Success)
-        assertEquals(listOf(mockReward), (output as Output.Success).result)
+        assertEquals(
+            listOf(mockReward),
+            (output as Output.Success).result
+        )
     }
 
     @Test
@@ -156,7 +186,10 @@ class RewardRepositoryImplTest {
         coVerify { mockRewardDao.getAllRewardsActiveAcquisitionDateDesc() }
         coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
         assertTrue(output is Output.Success)
-        assertEquals(listOf(mockReward), (output as Output.Success).result)
+        assertEquals(
+            listOf(mockReward),
+            (output as Output.Success).result
+        )
     }
 
     @Test
@@ -171,7 +204,10 @@ class RewardRepositoryImplTest {
         coVerify { mockRewardDao.getAllRewardsActiveLevelAsc() }
         coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
         assertTrue(output is Output.Success)
-        assertEquals(listOf(mockReward), (output as Output.Success).result)
+        assertEquals(
+            listOf(mockReward),
+            (output as Output.Success).result
+        )
     }
 
     @Test
@@ -186,7 +222,10 @@ class RewardRepositoryImplTest {
         coVerify { mockRewardDao.getAllRewardsActiveLevelDesc() }
         coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
         assertTrue(output is Output.Success)
-        assertEquals(listOf(mockReward), (output as Output.Success).result)
+        assertEquals(
+            listOf(mockReward),
+            (output as Output.Success).result
+        )
     }
 
     @Test
@@ -201,7 +240,10 @@ class RewardRepositoryImplTest {
         coVerify { mockRewardDao.getAllRewardsNotEscapedAcquisitionDatDesc() }
         coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
         assertTrue(output is Output.Success)
-        assertEquals(listOf(mockReward), (output as Output.Success).result)
+        assertEquals(
+            listOf(mockReward),
+            (output as Output.Success).result
+        )
     }
 
     @Test
@@ -216,7 +258,10 @@ class RewardRepositoryImplTest {
         coVerify { mockRewardDao.getAllRewardsEscapedAcquisitionDateDesc() }
         coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
         assertTrue(output is Output.Success)
-        assertEquals(listOf(mockReward), (output as Output.Success).result)
+        assertEquals(
+            listOf(mockReward),
+            (output as Output.Success).result
+        )
     }
 
     @Test
@@ -231,7 +276,10 @@ class RewardRepositoryImplTest {
         coVerify { mockRewardDao.getAllRewardsOfSpecificLevelNotActive(any()) }
         coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
         assertTrue(output is Output.Success)
-        assertEquals(listOf(mockReward), (output as Output.Success).result)
+        assertEquals(
+            listOf(mockReward),
+            (output as Output.Success).result
+        )
     }
 
     @Test
@@ -246,7 +294,10 @@ class RewardRepositoryImplTest {
         coVerify { mockRewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(any()) }
         coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
         assertTrue(output is Output.Success)
-        assertEquals(listOf(mockReward), (output as Output.Success).result)
+        assertEquals(
+            listOf(mockReward),
+            (output as Output.Success).result
+        )
     }
 
     // //////////////
@@ -259,7 +310,10 @@ class RewardRepositoryImplTest {
         }
         coVerify { mockRewardDao.getNumberOfRows() }
         assertTrue(output is Output.Success)
-        assertEquals(13, (output as Output.Success).result)
+        assertEquals(
+            13,
+            (output as Output.Success).result
+        )
     }
 
     @Test
@@ -274,9 +328,15 @@ class RewardRepositoryImplTest {
         }
         coVerify { mockRewardDao.getNumberOfActiveNotEscapedRewardsForLevel(any()) }
         assertTrue(output4 is Output.Success)
-        assertEquals(7, (output4 as Output.Success).result)
+        assertEquals(
+            7,
+            (output4 as Output.Success).result
+        )
         assertTrue(output5 is Output.Success)
-        assertEquals(1, (output5 as Output.Success).result)
+        assertEquals(
+            1,
+            (output5 as Output.Success).result
+        )
     }
 
     @Test
@@ -291,8 +351,14 @@ class RewardRepositoryImplTest {
         }
         coVerify(exactly = 2) { mockRewardDao.getNumberOfEscapedRewardsForLevel(any()) }
         assertTrue(output3 is Output.Success)
-        assertEquals(9, (output3 as Output.Success).result)
+        assertEquals(
+            9,
+            (output3 as Output.Success).result
+        )
         assertTrue(output5 is Output.Success)
-        assertEquals(1, (output5 as Output.Success).result)
+        assertEquals(
+            1,
+            (output5 as Output.Success).result
+        )
     }
 }

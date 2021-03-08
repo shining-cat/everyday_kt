@@ -25,15 +25,17 @@ object Versions {
     const val lifecycle = "2.3.0"
     const val navigation = "2.3.3"
     const val ktlint = "0.40.0"
+    const val detekt = "1.1.1"
 }
 
 object Libraries {
 
     //gradle plugin to manage dependencies updates: see gradle tasks help>dependencyUpdates
-    const val gradleVersionsPlugin =
-        "com.github.ben-manes:gradle-versions-plugin:${Versions.benManesVersionsPlugin}"
+    const val gradleVersionsPlugin = "com.github.ben-manes:gradle-versions-plugin:${Versions.benManesVersionsPlugin}"
 
     const val jacocoPlugin = "org.jacoco:org.jacoco.core:${Versions.jacoco}"
+
+    const val detektPlugin = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${Versions.detekt}"
 
     //koin
     const val koin = "org.koin:koin-android:${Versions.koin}"
@@ -73,8 +75,7 @@ object AndroidLibraries {
 
     //JETPACK navigation
     const val navigation_fragment = "androidx.navigation:navigation-fragment:${Versions.navigation}"
-    const val navigation_fragment_ktx =
-        "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
+    const val navigation_fragment_ktx = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
     const val navigation_ui = "androidx.navigation:navigation-ui:${Versions.navigation}"
     const val navigation_ui_ktx = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
 
@@ -82,11 +83,9 @@ object AndroidLibraries {
     const val material = "com.google.android.material:material:1.3.0"
 
     //Lifecycle
-    const val lifecycle_commons_java8 =
-        "androidx.lifecycle:lifecycle-common-java8:${Versions.lifecycle}"
+    const val lifecycle_commons_java8 = "androidx.lifecycle:lifecycle-common-java8:${Versions.lifecycle}"
     const val lifecycle_livedata = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
-    const val lifecycle_viewmodel =
-        "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
+    const val lifecycle_viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
 
     //preferences
     const val jetpack_preferences = "androidx.preference:preference-ktx:1.1.1"

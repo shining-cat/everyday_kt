@@ -38,16 +38,26 @@ class ScreenActivity : AbstractActivity() {
         super.onCreate(savedInstanceState)
         val screenActivityBinding = ActivityScreenBinding.inflate(layoutInflater)
         setContentView(screenActivityBinding.root)
-        logger.d(LOG_TAG, "onCreate")
+        logger.d(
+            LOG_TAG,
+            "onCreate"
+        )
         val navController = findNavController(R.id.screens_nav_host_fragment)
-        setupBottomNavigation(screenActivityBinding, navController)
+        setupBottomNavigation(
+            screenActivityBinding,
+            navController
+        )
         navController.addOnDestinationChangedListener { _, destination, _ ->
             val dest: String = try {
                 resources.getResourceName(destination.id)
-            } catch (e: Resources.NotFoundException) {
+            }
+            catch (e: Resources.NotFoundException) {
                 Integer.toString(destination.id)
             }
-            logger.d(LOG_TAG, "Navigated to $dest")
+            logger.d(
+                LOG_TAG,
+                "Navigated to $dest"
+            )
         }
         hideLoadingView(screenActivityBinding.loadingLayout.loadingView)
     }

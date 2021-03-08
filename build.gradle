@@ -20,12 +20,14 @@ buildscript {
     repositories {
         google()
         jcenter()
+        gradlePluginPortal()
     }
     dependencies {
         classpath AndroidLibraries.gradle
         classpath KotlinLibraries.kotlinGradlePlugin
         classpath Libraries.gradleVersionsPlugin
         classpath Libraries.jacocoPlugin
+        classpath Libraries.detektPlugin
     }
 }
 

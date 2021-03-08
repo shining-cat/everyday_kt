@@ -39,21 +39,15 @@ class CritterPartsRepositoryImpl : CritterPartsRepository {
     var legsHolder: CritterPartResourcesHolder? = null
     var mouthHolder: CritterPartResourcesHolder? = null
 
-    override suspend fun getArmsResourcesHolder(): CritterPartResourcesHolder =
-        armsHolder ?: CritterPartResourcesHolder.ArmsResourcesHolder()
+    override suspend fun getArmsResourcesHolder(): CritterPartResourcesHolder = armsHolder ?: CritterPartResourcesHolder.ArmsResourcesHolder()
 
-    override suspend fun getEyesResourcesHolder(): CritterPartResourcesHolder =
-        eyesHolder ?: CritterPartResourcesHolder.EyesResourcesHolder()
+    override suspend fun getEyesResourcesHolder(): CritterPartResourcesHolder = eyesHolder ?: CritterPartResourcesHolder.EyesResourcesHolder()
 
-    override suspend fun getFlowerResourcesHolder(): CritterPartResourcesHolder =
-        flowerHolder ?: CritterPartResourcesHolder.FlowerResourcesHolder()
+    override suspend fun getFlowerResourcesHolder(): CritterPartResourcesHolder = flowerHolder ?: CritterPartResourcesHolder.FlowerResourcesHolder()
 
-    override suspend fun getHornsResourcesHolder(): CritterPartResourcesHolder =
-        hornsHolder ?: CritterPartResourcesHolder.HornsResourcesHolder()
+    override suspend fun getHornsResourcesHolder(): CritterPartResourcesHolder = hornsHolder ?: CritterPartResourcesHolder.HornsResourcesHolder()
 
-    override suspend fun getLegsResourcesHolder(): CritterPartResourcesHolder =
-        legsHolder ?: CritterPartResourcesHolder.LegsResourcesHolder()
+    override suspend fun getLegsResourcesHolder(): CritterPartResourcesHolder = legsHolder ?: CritterPartResourcesHolder.LegsResourcesHolder()
 
-    override suspend fun getMouthResourcesHolder(): CritterPartResourcesHolder =
-        mouthHolder ?: CritterPartResourcesHolder.MouthResourcesHolder()
+    override suspend fun getMouthResourcesHolder(): CritterPartResourcesHolder = mouthHolder ?: CritterPartResourcesHolder.MouthResourcesHolder()
 }

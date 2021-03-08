@@ -66,7 +66,11 @@ class SessionPresetRepositoryImplTest {
         coEvery { mockSessionPresetConverter.convertModelsToEntities(any()) } returns listOf(
             mockSessionPresetEntity
         )
-        coEvery { mockSessionPresetDao.insert(any()) } returns arrayOf(1, 2, 3)
+        coEvery { mockSessionPresetDao.insert(any()) } returns arrayOf(
+            1,
+            2,
+            3
+        )
         val output = runBlocking {
             sessionPresetRepo.insert(
                 listOf(
@@ -79,7 +83,10 @@ class SessionPresetRepositoryImplTest {
         coVerify { mockSessionPresetConverter.convertModelsToEntities(any()) }
         coVerify { mockSessionPresetDao.insert(any()) }
         assertTrue(output is Output.Success)
-        assertEquals(3, (output as Output.Success).result.size)
+        assertEquals(
+            3,
+            (output as Output.Success).result.size
+        )
     }
 
     @Test
@@ -92,7 +99,10 @@ class SessionPresetRepositoryImplTest {
         coVerify { mockSessionPresetConverter.convertModelToEntity(any()) }
         coVerify { mockSessionPresetDao.update(any()) }
         assertTrue(output is Output.Success)
-        assertEquals(1, (output as Output.Success).result)
+        assertEquals(
+            1,
+            (output as Output.Success).result
+        )
     }
 
     @Test
@@ -105,7 +115,10 @@ class SessionPresetRepositoryImplTest {
         coVerify { mockSessionPresetConverter.convertModelToEntity(any()) }
         coVerify { mockSessionPresetDao.delete(any()) }
         assertTrue(output is Output.Success)
-        assertEquals(1, (output as Output.Success).result)
+        assertEquals(
+            1,
+            (output as Output.Success).result
+        )
     }
 
     @Test
@@ -122,6 +135,9 @@ class SessionPresetRepositoryImplTest {
         coVerify { mockSessionPresetConverter.convertEntitiesToModels(any()) }
         coVerify { mockSessionPresetDao.getAllSessionPresetsLastEditTimeDesc() }
         assertTrue(output is Output.Success)
-        assertEquals(listOf(mockSessionPreset), (output as Output.Success).result)
+        assertEquals(
+            listOf(mockSessionPreset),
+            (output as Output.Success).result
+        )
     }
 }

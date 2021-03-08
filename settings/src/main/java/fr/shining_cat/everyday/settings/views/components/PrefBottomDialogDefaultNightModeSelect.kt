@@ -48,8 +48,7 @@ class PrefBottomDialogDefaultNightModeSelect(
 
     init {
         val selectedNightMode = sharedPrefsHelper.getDefaultNightMode()
-        val selectedNightModeDisplay =
-            defaultNightModeLabels[androidDefaultNightModeValues.indexOf(selectedNightMode)]
+        val selectedNightModeDisplay = defaultNightModeLabels[androidDefaultNightModeValues.indexOf(selectedNightMode)]
         summary = selectedNightModeDisplay
         title = context.getString(R.string.defaultNightModePreference_title)
         isIconSpaceReserved = false
@@ -60,25 +59,21 @@ class PrefBottomDialogDefaultNightModeSelect(
     }
 
     private fun openDialog() {
-        val selectedIndex =
-            androidDefaultNightModeValues.indexOf(sharedPrefsHelper.getDefaultNightMode())
-        val selectDefaultNightModeBottomSheetDialog =
-            BottomDialogDismissibleSelectListAndConfirm.newInstance(
-                context.getString(R.string.defaultNightModePreference_title),
-                defaultNightModeLabels,
-                context.getString(R.string.generic_string_VALIDATE),
-                selectedIndex
-            )
-        selectDefaultNightModeBottomSheetDialog.setBottomDialogDismissibleSelectListAndConfirmListener(
-            object :
+        val selectedIndex = androidDefaultNightModeValues.indexOf(sharedPrefsHelper.getDefaultNightMode())
+        val selectDefaultNightModeBottomSheetDialog = BottomDialogDismissibleSelectListAndConfirm.newInstance(
+            context.getString(R.string.defaultNightModePreference_title),
+            defaultNightModeLabels,
+            context.getString(R.string.generic_string_VALIDATE),
+            selectedIndex
+        )
+        selectDefaultNightModeBottomSheetDialog.setBottomDialogDismissibleSelectListAndConfirmListener(object :
                 BottomDialogDismissibleSelectListAndConfirm.BottomDialogDismissibleSelectListAndConfirmListener {
                 override fun onDismissed() {
                     // nothing to do here
                 }
 
                 override fun onValidateSelection(optionSelectedIndex: Int) {
-                    val androidDefaultNightModeValue =
-                        androidDefaultNightModeValues[optionSelectedIndex]
+                    val androidDefaultNightModeValue = androidDefaultNightModeValues[optionSelectedIndex]
                     sharedPrefsHelper.setDefaultNightMode(androidDefaultNightModeValue)
                     AppCompatDelegate.setDefaultNightMode(androidDefaultNightModeValue)
                     summary = defaultNightModeLabels[optionSelectedIndex]

@@ -52,11 +52,10 @@ class SessionRecordRepositoryImplTest {
         assertNotNull(mockSessionRecordDao)
         assertNotNull(mockSessionRecord)
         assertNotNull(mockSessionRecordEntity)
-        sessionRecordRepo =
-            SessionRecordRepositoryImpl(
-                mockSessionRecordDao,
-                mockSessionRecordConverter
-            )
+        sessionRecordRepo = SessionRecordRepositoryImpl(
+            mockSessionRecordDao,
+            mockSessionRecordConverter
+        )
         coEvery { mockSessionRecordConverter.convertModelsToEntities(any()) } returns listOf(
             mockSessionRecordEntity
         )
@@ -65,7 +64,11 @@ class SessionRecordRepositoryImplTest {
             mockSessionRecord
         )
         coEvery { mockSessionRecordConverter.convertEntityToModel(any()) } returns mockSessionRecord
-        coEvery { mockSessionRecordDao.insert(any()) } returns arrayOf(1, 2, 3)
+        coEvery { mockSessionRecordDao.insert(any()) } returns arrayOf(
+            1,
+            2,
+            3
+        )
         coEvery { mockSessionRecordDao.update(any()) } returns 3
         coEvery { mockSessionRecordDao.delete(any()) } returns 3
         coEvery { mockSessionRecordDao.asyncGetAllSessionsStartTimeAsc() } returns listOf(

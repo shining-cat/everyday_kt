@@ -98,8 +98,7 @@ class SessionRecordConverter(
                 sessionRecordEntity.endGlobalValue
             )
         )
-        val realDurationVsPlanned =
-            RealDurationVsPlanned.fromKey(sessionRecordEntity.realDurationVsPlanned)
+        val realDurationVsPlanned = RealDurationVsPlanned.fromKey(sessionRecordEntity.realDurationVsPlanned)
 
         return SessionRecord(
             id = sessionRecordEntity.id,
@@ -116,7 +115,10 @@ class SessionRecordConverter(
 
     // this is used for the csv export
     suspend fun convertModelToStringArray(sessionRecord: SessionRecord): Array<String> {
-        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+        val sdf = SimpleDateFormat(
+            "dd/MM/yyyy HH:mm",
+            Locale.getDefault()
+        )
         // 0 is for NOT SET so export it as such
         val startMoodRecord = sessionRecord.startMood
         val startBodyValue = startMoodRecord.bodyValue.name

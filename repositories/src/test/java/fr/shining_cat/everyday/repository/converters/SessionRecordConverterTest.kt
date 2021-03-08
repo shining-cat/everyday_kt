@@ -55,7 +55,10 @@ class SessionRecordConverterTest {
         val modeltranslated = runBlocking {
             sessionRecordConverter.convertModelToEntity(sessionRecord)
         }
-        assertEquals(modeltranslated, sessionRecordEntity)
+        assertEquals(
+            modeltranslated,
+            sessionRecordEntity
+        )
     }
 
     @Test
@@ -63,7 +66,10 @@ class SessionRecordConverterTest {
         val entityTranslated = runBlocking {
             sessionRecordConverter.convertEntityToModel(sessionRecordEntity)
         }
-        assertEquals(entityTranslated, sessionRecord)
+        assertEquals(
+            entityTranslated,
+            sessionRecord
+        )
     }
 
     @Test
@@ -81,7 +87,10 @@ class SessionRecordConverterTest {
         val endFeelingsValue = endMoodRecord.feelingsValue.name
         val endGlobalValue = endMoodRecord.globalValue.name
         //
-        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+        val sdf = SimpleDateFormat(
+            "dd/MM/yyyy HH:mm",
+            Locale.getDefault()
+        )
         val controlArray = arrayOf(
             sdf.format(startMoodRecord.timeOfRecord),
             sdf.format(endMoodRecord.timeOfRecord),
@@ -102,52 +111,68 @@ class SessionRecordConverterTest {
         val resultArray = runBlocking {
             sessionRecordConverter.convertModelToStringArray(sessionRecord)
         }
-        assertArrayEquals(controlArray, resultArray)
+        assertArrayEquals(
+            controlArray,
+            resultArray
+        )
     }
 
-    val sessionRecord =
-        SessionRecord(
-            id = 41,
-            startMood = generateMood(
-                1980,
-                5,
-                2,
-                15,
-                27,
-                54,
-                MoodValue.WORST,
-                MoodValue.NOT_SET,
-                MoodValue.GOOD,
-                MoodValue.BEST
-            ),
-            endMood = generateMood(
-                1981,
-                6,
-                3,
-                17,
-                45,
-                3,
-                MoodValue.NOT_SET,
-                MoodValue.GOOD,
-                MoodValue.BAD,
-                MoodValue.WORST
-            ),
-            notes = "testing notes string",
-            realDuration = 1500000,
-            pausesCount = 3,
-            realDurationVsPlanned = RealDurationVsPlanned.REAL_SHORTER,
-            guideMp3 = "testing guideMp3 string",
-            sessionTypeId = 5678L
-        )
+    val sessionRecord = SessionRecord(
+        id = 41,
+        startMood = generateMood(
+            1980,
+            5,
+            2,
+            15,
+            27,
+            54,
+            MoodValue.WORST,
+            MoodValue.NOT_SET,
+            MoodValue.GOOD,
+            MoodValue.BEST
+        ),
+        endMood = generateMood(
+            1981,
+            6,
+            3,
+            17,
+            45,
+            3,
+            MoodValue.NOT_SET,
+            MoodValue.GOOD,
+            MoodValue.BAD,
+            MoodValue.WORST
+        ),
+        notes = "testing notes string",
+        realDuration = 1500000,
+        pausesCount = 3,
+        realDurationVsPlanned = RealDurationVsPlanned.REAL_SHORTER,
+        guideMp3 = "testing guideMp3 string",
+        sessionTypeId = 5678L
+    )
 
     val sessionRecordEntity = SessionRecordEntity(
         id = 41,
-        startTimeOfRecord = GregorianCalendar(1980, 5, 2, 15, 27, 54).timeInMillis,
+        startTimeOfRecord = GregorianCalendar(
+            1980,
+            5,
+            2,
+            15,
+            27,
+            54
+        ).timeInMillis,
         startBodyValue = -2,
         startThoughtsValue = 0,
         startFeelingsValue = 1,
         startGlobalValue = 2,
-        endTimeOfRecord = GregorianCalendar(1981, 6, 3, 17, 45, 3).timeInMillis,
+        endTimeOfRecord = GregorianCalendar(
+            1981,
+            6,
+            3,
+            17,
+            45,
+            3
+        ).timeInMillis,
         endBodyValue = 0,
         endThoughtsValue = 1,
         endFeelingsValue = -1,

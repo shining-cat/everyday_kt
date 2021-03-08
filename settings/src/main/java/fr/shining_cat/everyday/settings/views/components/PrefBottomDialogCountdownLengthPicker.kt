@@ -41,10 +41,13 @@ class PrefBottomDialogCountdownLengthPicker(
     }
 
     private fun updateSummary() {
-        summary = context.getString(R.string.startCountDownLengthPreference_explanation) + ": " +
-            context.getString(R.string.startCountDownLengthPreference_value_display).format(
-                sharedPrefsHelper.getCountDownLength().toInt() / 1000
-            )
+        summary =
+            context.getString(R.string.startCountDownLengthPreference_explanation) +
+            ": " +
+            context.getString(R.string.startCountDownLengthPreference_value_display)
+                .format(
+                    sharedPrefsHelper.getCountDownLength().toInt() / 1000
+                )
     }
 
     override fun onClick() {
@@ -52,18 +55,16 @@ class PrefBottomDialogCountdownLengthPicker(
     }
 
     private fun openDialog() {
-        val setCountDownLengthBottomSheetDialog =
-            BottomDialogDismissibleSpinnersDurationAndConfirm.newInstance(
-                title = context.getString(R.string.startCountDownLengthPreference_title),
-                showHours = false,
-                showMinutes = false,
-                showSeconds = true,
-                explanationMessage = context.getString(R.string.startCountDownLengthPreference_explanation),
-                confirmButtonLabel = context.getString(R.string.generic_string_OK),
-                initialLengthMs = sharedPrefsHelper.getCountDownLength()
-            )
-        setCountDownLengthBottomSheetDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener(
-            object :
+        val setCountDownLengthBottomSheetDialog = BottomDialogDismissibleSpinnersDurationAndConfirm.newInstance(
+            title = context.getString(R.string.startCountDownLengthPreference_title),
+            showHours = false,
+            showMinutes = false,
+            showSeconds = true,
+            explanationMessage = context.getString(R.string.startCountDownLengthPreference_explanation),
+            confirmButtonLabel = context.getString(R.string.generic_string_OK),
+            initialLengthMs = sharedPrefsHelper.getCountDownLength()
+        )
+        setCountDownLengthBottomSheetDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener(object :
                 BottomDialogDismissibleSpinnersDurationAndConfirm.BottomDialogDismissibleSpinnerSecondsAndConfirmListener {
                 override fun onDismissed() {
                     // nothing to do here
@@ -74,6 +75,9 @@ class PrefBottomDialogCountdownLengthPicker(
                     updateSummary()
                 }
             })
-        setCountDownLengthBottomSheetDialog.show(fragmentManager, "openCountDownLengthPickerDialog")
+        setCountDownLengthBottomSheetDialog.show(
+            fragmentManager,
+            "openCountDownLengthPickerDialog"
+        )
     }
 }
