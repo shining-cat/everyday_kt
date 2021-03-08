@@ -27,7 +27,7 @@ import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelper
 import org.koin.android.ext.android.get
 
-abstract class AbstractActivity : AppCompatActivity() {
+abstract class AbstractActivity: AppCompatActivity() {
 
     private val LOG_TAG = AbstractActivity::class.java.simpleName
 
@@ -36,20 +36,16 @@ abstract class AbstractActivity : AppCompatActivity() {
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
+        // apply theme setting from prefs before calling super.onCreate to prevent a double activity instantiation on app launch
+        AppCompatDelegate.setDefaultNightMode(sharedPrefsHelper.getDefaultNightMode())
         super.onCreate(savedInstanceState)
-        // we will ignore the orientation lock warning for now, as we only plan to display the app in portrait mode for now
+        // we will ignore the orientation lock warning, as we only plan to display the app in portrait mode for now
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
 
-    override fun onResume() {
-        super.onResume()
-        // apply theme setting from prefs
-        AppCompatDelegate.setDefaultNightMode(sharedPrefsHelper.getDefaultNightMode())
-    }
-
-// /////////////////////////////////
+///////////////////////////////////
 // LOADING VIEW
-// /////////////////////////////////
+///////////////////////////////////
 
     fun showLoadingView(loadingView: View) {
         loadingView.visibility = View.VISIBLE
