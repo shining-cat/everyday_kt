@@ -166,17 +166,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val startCountDownLengthPreference =
             prefBottomDialogBuilder.buildPrefBottomDialogCountdownLengthPicker()
         //
-        val infiniteSessionPreference = SwitchPreferenceCompat(prefContext)
-        infiniteSessionPreference.key = SharedPrefsHelperSettings.INFINITE_SESSION
-        infiniteSessionPreference.title =
-            getString(R.string.infiniteSessionPreferencePreference_title)
-        infiniteSessionPreference.summaryOff =
-            getString(R.string.infiniteSessionPreferencePreference_switch_off_text)
-        infiniteSessionPreference.summaryOn =
-            getString(R.string.infiniteSessionPreferencePreference_switch_on_text)
-        infiniteSessionPreference.setDefaultValue(false)
-        infiniteSessionPreference.isIconSpaceReserved = false
-        //
         val rewardsActivationPreference = SwitchPreferenceCompat(prefContext)
         rewardsActivationPreference.key = SharedPrefsHelperSettings.REWARDS_ACTIVATED
         rewardsActivationPreference.title = getString(R.string.rewardsActivationPreference_title)
@@ -196,7 +185,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         preferenceScreen.addPreference(customisationCategory)
         customisationCategory.addPreference(defaultNightModePreference)
         customisationCategory.addPreference(startCountDownLengthPreference)
-        customisationCategory.addPreference(infiniteSessionPreference)
         customisationCategory.addPreference(rewardsActivationPreference)
         customisationCategory.addPreference(statisticsActivationPreference)
     }

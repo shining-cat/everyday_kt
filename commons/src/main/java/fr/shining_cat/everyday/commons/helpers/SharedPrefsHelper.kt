@@ -70,13 +70,6 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
         )
     }
 
-    fun getInfiniteSession(): Boolean {
-        return sharedPreferences.getBoolean(
-            SharedPrefsHelperSettings.INFINITE_SESSION,
-            false
-        )
-    }
-
     fun getRewardsActivated(): Boolean {
         return sharedPreferences.getBoolean(
             SharedPrefsHelperSettings.REWARDS_ACTIVATED,
@@ -100,8 +93,10 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
     }
 
     fun setNotificationTime(notificationTime: String) {
-        sharedPreferences.edit()
-            .putString(SharedPrefsHelperSettings.NOTIFICATION_TIME, notificationTime).apply()
+        sharedPreferences.edit().putString(
+            SharedPrefsHelperSettings.NOTIFICATION_TIME,
+            notificationTime
+        ).apply()
     }
 
     fun getNotificationText(): String {
@@ -113,8 +108,10 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
     }
 
     fun setNotificationText(notificationText: String) {
-        sharedPreferences.edit()
-            .putString(SharedPrefsHelperSettings.NOTIFICATION_TEXT, notificationText).apply()
+        sharedPreferences.edit().putString(
+            SharedPrefsHelperSettings.NOTIFICATION_TEXT,
+            notificationText
+        ).apply()
     }
 
     fun getNotificationSoundUri(): String {
@@ -125,9 +122,10 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
     } // TODO: check if empty on app init, and if it is, set to RingtoneManager.getDefaultUri(mRingtoneType)
 
     fun setNotificationSoundUri(selectedRingtoneUri: String) {
-        sharedPreferences.edit()
-            .putString(SharedPrefsHelperSettings.NOTIFICATION_SOUND_URI, selectedRingtoneUri)
-            .apply()
+        sharedPreferences.edit().putString(
+            SharedPrefsHelperSettings.NOTIFICATION_SOUND_URI,
+            selectedRingtoneUri
+        ).apply()
     }
 
     fun getNotificationSoundTitle(): String {
@@ -135,12 +133,13 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
             SharedPrefsHelperSettings.NOTIFICATION_SOUND_TITLE,
             ""
         ) ?: ""
-    } // TODO: check if empty on app init, and if it is, set to set to R.string.silence to handle translation
+    } // TODO: check if empty on app init, and if it is, set to set to default ringtone title see getNotificationSoundUri
 
     fun setNotificationSoundTitle(selectedRingtoneTitle: String) {
-        sharedPreferences.edit()
-            .putString(SharedPrefsHelperSettings.NOTIFICATION_SOUND_TITLE, selectedRingtoneTitle)
-            .apply()
+        sharedPreferences.edit().putString(
+            SharedPrefsHelperSettings.NOTIFICATION_SOUND_TITLE,
+            selectedRingtoneTitle
+        ).apply()
     }
 
     fun getCountDownLength(): Long {
@@ -151,8 +150,10 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
     }
 
     fun setCountDownLength(length: Long) {
-        sharedPreferences.edit()
-            .putLong(SharedPrefsHelperSettings.COUNTDOWN_LENGTH, length).apply()
+        sharedPreferences.edit().putLong(
+            SharedPrefsHelperSettings.COUNTDOWN_LENGTH,
+            length
+        ).apply()
     }
 
     fun getDefaultNightMode(): Int {
@@ -163,7 +164,9 @@ class SharedPrefsHelper(private val sharedPreferences: SharedPreferences) {
     }
 
     fun setDefaultNightMode(defaultNightMode: Int) {
-        sharedPreferences.edit()
-            .putInt(SharedPrefsHelperSettings.DEFAULT_NIGHT_MODE, defaultNightMode).apply()
+        sharedPreferences.edit().putInt(
+            SharedPrefsHelperSettings.DEFAULT_NIGHT_MODE,
+            defaultNightMode
+        ).apply()
     }
 }
