@@ -24,7 +24,7 @@ import fr.shining_cat.everyday.models.sessionrecord.MoodValue
 import fr.shining_cat.everyday.models.sessionrecord.RealDurationVsPlanned
 import fr.shining_cat.everyday.models.sessionrecord.SessionRecord
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 class SessionRecordConverter(

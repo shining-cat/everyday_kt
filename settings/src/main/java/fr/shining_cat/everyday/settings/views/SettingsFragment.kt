@@ -27,7 +27,11 @@ import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelper
 import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelperSettings
 import fr.shining_cat.everyday.settings.R
-import fr.shining_cat.everyday.settings.views.components.*
+import fr.shining_cat.everyday.settings.views.components.PrefBottomDialogBuilder
+import fr.shining_cat.everyday.settings.views.components.PrefBottomDialogNotificationEditText
+import fr.shining_cat.everyday.settings.views.components.PrefBottomDialogNotificationSoundSelect
+import fr.shining_cat.everyday.settings.views.components.PrefBottomDialogNotificationTimePicker
+import fr.shining_cat.everyday.settings.views.components.PreferenceCategoryLongSummary
 import org.koin.android.ext.android.get
 
 class SettingsFragment: PreferenceFragmentCompat() {

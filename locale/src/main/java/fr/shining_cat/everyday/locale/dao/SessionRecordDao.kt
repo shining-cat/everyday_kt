@@ -17,7 +17,12 @@
 
 package fr.shining_cat.everyday.locale.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntity
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.MP3_GUIDE
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntityColumnNames.NOTES
