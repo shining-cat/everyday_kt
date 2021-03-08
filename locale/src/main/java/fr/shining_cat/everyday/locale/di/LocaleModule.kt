@@ -22,9 +22,9 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val localeModule = module {
-    single {EveryDayRoomDatabase.getInstance(androidContext())}
-    single {(get() as EveryDayRoomDatabase).rewardDao()}
-    single {(get() as EveryDayRoomDatabase).sessionPresetDao()}
-    single {(get() as EveryDayRoomDatabase).sessionRecordDao()}
-    single {(get() as EveryDayRoomDatabase).sessionTypeDao()}
+    single { EveryDayRoomDatabase.getInstance(androidContext()) }
+    single { (get() as EveryDayRoomDatabase).rewardDao() }
+    single { (get() as EveryDayRoomDatabase).sessionPresetDao() }
+    single { (get() as EveryDayRoomDatabase).sessionRecordDao() }
+    single { (get() as EveryDayRoomDatabase).sessionTypeDao() }
 }

@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
 class SplashViewModel(
     appDispatchers: AppDispatchers,
     private val logger: Logger
-): AbstractViewModels(appDispatchers) {
+) : AbstractViewModels(appDispatchers) {
 
     private val LOG_TAG = SplashViewModel::class.java.simpleName
 

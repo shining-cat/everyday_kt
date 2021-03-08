@@ -25,7 +25,7 @@ import android.widget.EditText
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import fr.shining_cat.everyday.commons.databinding.DialogBottomEditTextAndConfirmBinding
 
-class BottomDialogDismissibleEditTextAndConfirm: BottomSheetDialogFragment() {
+class BottomDialogDismissibleEditTextAndConfirm : BottomSheetDialogFragment() {
 
     private val TITLE_ARG = "title_argument"
     private val HINT_ARG = "hint_argument"
@@ -105,7 +105,7 @@ class BottomDialogDismissibleEditTextAndConfirm: BottomSheetDialogFragment() {
         ) ?: ""
         val confirmButton = uiBindings.dialogBottomConfirmButton
         confirmButton.text = confirmButtonLabel
-        confirmButton.setOnClickListener {transmitInputText(editText)}
+        confirmButton.setOnClickListener { transmitInputText(editText) }
     }
 
     private fun transmitInputText(editText: EditText) {

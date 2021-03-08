@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 class StatisticsViewModel(
     appDispatchers: AppDispatchers,
     private val logger: Logger
-): AbstractViewModels(appDispatchers) {
+) : AbstractViewModels(appDispatchers) {
 
     private val LOG_TAG = StatisticsViewModel::class.java.simpleName
 

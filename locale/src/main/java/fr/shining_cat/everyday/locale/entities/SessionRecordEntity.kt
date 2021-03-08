@@ -58,7 +58,8 @@ data class SessionRecordEntity(
     @ColumnInfo(name = NOTES) var notes: String,
     @ColumnInfo(name = SESSION_REAL_DURATION) var realDuration: Long,
     @ColumnInfo(name = PAUSES_COUNT) var pausesCount: Int,
-    @ColumnInfo(name = REAL_DURATION_VS_PLANNED) var realDurationVsPlanned: Int, // <0 if real < planned; =0 if real = planned; >0 if real > planned  (obtained via Long.compare(real, planned)
+    // realDurationVsPlanned <0 if real < planned; =0 if real = planned; >0 if real > planned  (obtained via Long.compare(real, planned)
+    @ColumnInfo(name = REAL_DURATION_VS_PLANNED) var realDurationVsPlanned: Int,
     @ColumnInfo(name = MP3_GUIDE) var guideMp3: String,
     @ColumnInfo(name = TYPE) var sessionTypeId: Long
 )

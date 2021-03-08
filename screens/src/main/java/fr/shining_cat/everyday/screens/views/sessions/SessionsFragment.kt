@@ -35,7 +35,7 @@ import fr.shining_cat.everyday.screens.views.ScreenActivity
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class SessionsFragment: Fragment() {
+class SessionsFragment : Fragment() {
 
     private val LOG_TAG = SessionsFragment::class.java.simpleName
 
@@ -52,10 +52,12 @@ class SessionsFragment: Fragment() {
         setupToolbar(sessionsFragmentBinding)
         //
         val textView: TextView = sessionsFragmentBinding.fakeFragmentText
-        sessionsViewModel.initReadyLiveData.observe(viewLifecycleOwner,
+        sessionsViewModel.initReadyLiveData.observe(
+            viewLifecycleOwner,
             Observer {
                 textView.text = "This is ${LOG_TAG}\n $it loaded!"
-            })
+            }
+        )
         sessionsViewModel.initViewModel()
         return sessionsFragmentBinding.root
     }

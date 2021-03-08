@@ -72,7 +72,10 @@ abstract class SessionRecordDao {
 
     // SEARCH on guideMp3 and notes - concatenating params with '%' in SQL
     @Query(
-        "SELECT * from $SESSION_RECORD_TABLE WHERE " + "$MP3_GUIDE LIKE '%' || :searchRequest || '%' " + "OR $NOTES LIKE '%' || :searchRequest || '%' " + "ORDER BY $START_TIME_OF_RECORD DESC"
+        "SELECT * from $SESSION_RECORD_TABLE WHERE " +
+            "$MP3_GUIDE LIKE '%' || :searchRequest || '%' " +
+            "OR $NOTES LIKE '%' || :searchRequest || '%' " +
+            "ORDER BY $START_TIME_OF_RECORD DESC"
     )
     abstract suspend fun getSessionsSearch(searchRequest: String): List<SessionRecordEntity>
 

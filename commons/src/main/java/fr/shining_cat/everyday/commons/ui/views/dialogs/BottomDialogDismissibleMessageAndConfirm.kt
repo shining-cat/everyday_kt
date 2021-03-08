@@ -24,7 +24,7 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import fr.shining_cat.everyday.commons.databinding.DialogBottomMessageAndConfirmBinding
 
-class BottomDialogDismissibleMessageAndConfirm: BottomSheetDialogFragment() {
+class BottomDialogDismissibleMessageAndConfirm : BottomSheetDialogFragment() {
 
     private val TITLE_ARG = "title_argument"
     private val MESSAGE_ARG = "message_argument"
@@ -104,6 +104,6 @@ class BottomDialogDismissibleMessageAndConfirm: BottomSheetDialogFragment() {
         ) ?: ""
         val confirmButton = uiBindings.dialogBottomConfirmButton
         confirmButton.text = confirmButtonLabel
-        confirmButton.setOnClickListener {listener?.onConfirmButtonClicked()}
+        confirmButton.setOnClickListener { listener?.onConfirmButtonClicked() }
     }
 }

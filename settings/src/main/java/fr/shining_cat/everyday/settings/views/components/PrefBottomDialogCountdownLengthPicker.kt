@@ -30,7 +30,7 @@ class PrefBottomDialogCountdownLengthPicker(
     private val sharedPrefsHelper: SharedPrefsHelper,
     private val fragmentManager: FragmentManager,
     private val logger: Logger
-): Preference(context) {
+) : Preference(context) {
 
     private val LOG_TAG = PrefBottomDialogCountdownLengthPicker::class.java.name
 
@@ -42,7 +42,9 @@ class PrefBottomDialogCountdownLengthPicker(
 
     private fun updateSummary() {
         summary =
-            context.getString(R.string.startCountDownLengthPreference_explanation) + ": " + context.getString(R.string.startCountDownLengthPreference_value_display)
+            context.getString(R.string.startCountDownLengthPreference_explanation) +
+            ": " +
+            context.getString(R.string.startCountDownLengthPreference_value_display)
                 .format(
                     sharedPrefsHelper.getCountDownLength().toInt() / 1000
                 )
@@ -62,17 +64,17 @@ class PrefBottomDialogCountdownLengthPicker(
             confirmButtonLabel = context.getString(R.string.generic_string_OK),
             initialLengthMs = sharedPrefsHelper.getCountDownLength()
         )
-        setCountDownLengthBottomSheetDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener(object:
-            BottomDialogDismissibleSpinnersDurationAndConfirm.BottomDialogDismissibleSpinnerSecondsAndConfirmListener {
-            override fun onDismissed() {
-                // nothing to do here
-            }
+        setCountDownLengthBottomSheetDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener(object :
+                BottomDialogDismissibleSpinnersDurationAndConfirm.BottomDialogDismissibleSpinnerSecondsAndConfirmListener {
+                override fun onDismissed() {
+                    // nothing to do here
+                }
 
-            override fun onConfirmButtonClicked(lengthMs: Long) {
-                sharedPrefsHelper.setCountDownLength(lengthMs)
-                updateSummary()
-            }
-        })
+                override fun onConfirmButtonClicked(lengthMs: Long) {
+                    sharedPrefsHelper.setCountDownLength(lengthMs)
+                    updateSummary()
+                }
+            })
         setCountDownLengthBottomSheetDialog.show(
             fragmentManager,
             "openCountDownLengthPickerDialog"

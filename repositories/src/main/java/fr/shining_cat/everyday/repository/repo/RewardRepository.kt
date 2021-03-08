@@ -55,7 +55,7 @@ interface RewardRepository {
 class RewardRepositoryImpl(
     private val rewardDao: RewardDao,
     private val rewardConverter: RewardConverter
-): RewardRepository {
+) : RewardRepository {
 
     private fun genericReadError(exception: Exception) = Output.Error(
         ERROR_CODE_DATABASE_OPERATION_FAILED,
@@ -125,7 +125,7 @@ class RewardRepositoryImpl(
 
     override suspend fun deleteAllRewards(): Output<Int> {
         return try {
-            val deleted = withContext(Dispatchers.IO) {rewardDao.deleteAllRewards()}
+            val deleted = withContext(Dispatchers.IO) { rewardDao.deleteAllRewards() }
             Output.Success(deleted)
         }
         catch (exception: Exception) {
@@ -139,7 +139,7 @@ class RewardRepositoryImpl(
 
     override suspend fun getReward(rewardId: Long): Output<Reward> {
         return try {
-            val rewardEntity = withContext(Dispatchers.IO) {rewardDao.getReward(rewardId)}
+            val rewardEntity = withContext(Dispatchers.IO) { rewardDao.getReward(rewardId) }
             if (rewardEntity == null) {
                 Output.Error(
                     Constants.ERROR_CODE_NO_RESULT,
@@ -148,9 +148,11 @@ class RewardRepositoryImpl(
                 )
             }
             else {
-                Output.Success(withContext(Dispatchers.Default) {
-                    rewardConverter.convertEntitytoModel(rewardEntity)
-                })
+                Output.Success(
+                    withContext(Dispatchers.Default) {
+                        rewardConverter.convertEntitytoModel(rewardEntity)
+                    }
+                )
             }
         }
         catch (exception: Exception) {
@@ -307,9 +309,11 @@ class RewardRepositoryImpl(
             )
         }
         else {
-            Output.Success(withContext(Dispatchers.Default) {
-                rewardConverter.convertEntitiesToModels(rewardEntities)
-            })
+            Output.Success(
+                withContext(Dispatchers.Default) {
+                    rewardConverter.convertEntitiesToModels(rewardEntities)
+                }
+            )
         }
     }
 }

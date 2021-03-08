@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 class SessionsViewModel(
     appDispatchers: AppDispatchers,
     private val logger: Logger
-): AbstractViewModels(appDispatchers) {
+) : AbstractViewModels(appDispatchers) {
 
     private val LOG_TAG = SessionsViewModel::class.java.simpleName
 

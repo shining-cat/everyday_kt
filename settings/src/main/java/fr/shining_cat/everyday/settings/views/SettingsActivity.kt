@@ -25,7 +25,7 @@ import fr.shining_cat.everyday.settings.R
 import fr.shining_cat.everyday.settings.databinding.ActivitySettingsBinding
 import org.koin.android.ext.android.get
 
-class SettingsActivity: AbstractActivity() {
+class SettingsActivity : AbstractActivity() {
 
     private val LOG_TAG = SettingsActivity::class.java.simpleName
 

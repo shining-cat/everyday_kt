@@ -70,12 +70,12 @@ class RewardRepositoryImplTest {
     // /////////////////////////////
     @Test
     fun insert() {
-        coEvery {mockRewardConverter.convertModelsToEntities(any())} returns listOf(
+        coEvery { mockRewardConverter.convertModelsToEntities(any()) } returns listOf(
             mockRewardEntity,
             mockRewardEntity,
             mockRewardEntity
         )
-        coEvery {mockRewardDao.insert(any())} returns arrayOf(
+        coEvery { mockRewardDao.insert(any()) } returns arrayOf(
             1L,
             2L,
             3L
@@ -89,8 +89,8 @@ class RewardRepositoryImplTest {
                 )
             )
         }
-        coVerify {mockRewardConverter.convertModelsToEntities(any())}
-        coVerify {mockRewardDao.insert(any())}
+        coVerify { mockRewardConverter.convertModelsToEntities(any()) }
+        coVerify { mockRewardDao.insert(any()) }
         assertTrue(output is Output.Success)
         assertEquals(
             3,
@@ -100,12 +100,12 @@ class RewardRepositoryImplTest {
 
     @Test
     fun updateRewards() {
-        coEvery {mockRewardConverter.convertModelsToEntities(any())} returns listOf(
+        coEvery { mockRewardConverter.convertModelsToEntities(any()) } returns listOf(
             mockRewardEntity,
             mockRewardEntity,
             mockRewardEntity
         )
-        coEvery {mockRewardDao.update(any())} returns 3
+        coEvery { mockRewardDao.update(any()) } returns 3
         val output = runBlocking {
             rewardRepo.update(
                 listOf(
@@ -115,8 +115,8 @@ class RewardRepositoryImplTest {
                 )
             )
         }
-        coVerify {mockRewardConverter.convertModelsToEntities(any())}
-        coVerify {mockRewardDao.update(any())}
+        coVerify { mockRewardConverter.convertModelsToEntities(any()) }
+        coVerify { mockRewardDao.update(any()) }
         assertTrue(output is Output.Success)
         assertEquals(
             3,
@@ -126,11 +126,11 @@ class RewardRepositoryImplTest {
 
     @Test
     fun deleteAllRewards() {
-        coEvery {mockRewardDao.deleteAllRewards()} returns 7
+        coEvery { mockRewardDao.deleteAllRewards() } returns 7
         val output = runBlocking {
             rewardRepo.deleteAllRewards()
         }
-        coVerify {mockRewardDao.deleteAllRewards()}
+        coVerify { mockRewardDao.deleteAllRewards() }
         assertTrue(output is Output.Success)
         assertEquals(
             7,
@@ -142,13 +142,13 @@ class RewardRepositoryImplTest {
     // GETTERS
     @Test
     fun getSpecificReward() {
-        coEvery {mockRewardDao.getReward(8L)} returns mockRewardEntity
-        coEvery {mockRewardConverter.convertEntitytoModel(any())} returns mockReward
+        coEvery { mockRewardDao.getReward(8L) } returns mockRewardEntity
+        coEvery { mockRewardConverter.convertEntitytoModel(any()) } returns mockReward
         val output = runBlocking {
             rewardRepo.getReward(8L)
         }
-        coVerify {mockRewardConverter.convertEntitytoModel(any())}
-        coVerify {mockRewardDao.getReward(any())}
+        coVerify { mockRewardConverter.convertEntitytoModel(any()) }
+        coVerify { mockRewardDao.getReward(any()) }
         assertTrue(output is Output.Success)
         assertEquals(
             mockReward,
@@ -158,15 +158,15 @@ class RewardRepositoryImplTest {
 
     @Test
     fun rewardsActiveAcquisitionDateAsc() {
-        coEvery {mockRewardDao.getAllRewardsActiveAcquisitionDateAsc()} returns listOf(
+        coEvery { mockRewardDao.getAllRewardsActiveAcquisitionDateAsc() } returns listOf(
             mockRewardEntity
         )
-        coEvery {mockRewardConverter.convertEntitiesToModels(any())} returns listOf(mockReward)
+        coEvery { mockRewardConverter.convertEntitiesToModels(any()) } returns listOf(mockReward)
         val output = runBlocking {
             rewardRepo.rewardsActiveAcquisitionDateAsc()
         }
-        coVerify {mockRewardDao.getAllRewardsActiveAcquisitionDateAsc()}
-        coVerify {mockRewardConverter.convertEntitiesToModels(any())}
+        coVerify { mockRewardDao.getAllRewardsActiveAcquisitionDateAsc() }
+        coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
         assertTrue(output is Output.Success)
         assertEquals(
             listOf(mockReward),
@@ -176,15 +176,15 @@ class RewardRepositoryImplTest {
 
     @Test
     fun rewardsActiveAcquisitionDateDesc() {
-        coEvery {mockRewardDao.getAllRewardsActiveAcquisitionDateDesc()} returns listOf(
+        coEvery { mockRewardDao.getAllRewardsActiveAcquisitionDateDesc() } returns listOf(
             mockRewardEntity
         )
-        coEvery {mockRewardConverter.convertEntitiesToModels(any())} returns listOf(mockReward)
+        coEvery { mockRewardConverter.convertEntitiesToModels(any()) } returns listOf(mockReward)
         val output = runBlocking {
             rewardRepo.rewardsActiveAcquisitionDateDesc()
         }
-        coVerify {mockRewardDao.getAllRewardsActiveAcquisitionDateDesc()}
-        coVerify {mockRewardConverter.convertEntitiesToModels(any())}
+        coVerify { mockRewardDao.getAllRewardsActiveAcquisitionDateDesc() }
+        coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
         assertTrue(output is Output.Success)
         assertEquals(
             listOf(mockReward),
@@ -194,15 +194,15 @@ class RewardRepositoryImplTest {
 
     @Test
     fun rewardsActiveLevelAsc() {
-        coEvery {mockRewardDao.getAllRewardsActiveLevelAsc()} returns listOf(
+        coEvery { mockRewardDao.getAllRewardsActiveLevelAsc() } returns listOf(
             mockRewardEntity
         )
-        coEvery {mockRewardConverter.convertEntitiesToModels(any())} returns listOf(mockReward)
+        coEvery { mockRewardConverter.convertEntitiesToModels(any()) } returns listOf(mockReward)
         val output = runBlocking {
             rewardRepo.rewardsActiveLevelAsc()
         }
-        coVerify {mockRewardDao.getAllRewardsActiveLevelAsc()}
-        coVerify {mockRewardConverter.convertEntitiesToModels(any())}
+        coVerify { mockRewardDao.getAllRewardsActiveLevelAsc() }
+        coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
         assertTrue(output is Output.Success)
         assertEquals(
             listOf(mockReward),
@@ -212,15 +212,15 @@ class RewardRepositoryImplTest {
 
     @Test
     fun rewardsActiveLevelDesc() {
-        coEvery {mockRewardDao.getAllRewardsActiveLevelDesc()} returns listOf(
+        coEvery { mockRewardDao.getAllRewardsActiveLevelDesc() } returns listOf(
             mockRewardEntity
         )
-        coEvery {mockRewardConverter.convertEntitiesToModels(any())} returns listOf(mockReward)
+        coEvery { mockRewardConverter.convertEntitiesToModels(any()) } returns listOf(mockReward)
         val output = runBlocking {
             rewardRepo.rewardsActiveLevelDesc()
         }
-        coVerify {mockRewardDao.getAllRewardsActiveLevelDesc()}
-        coVerify {mockRewardConverter.convertEntitiesToModels(any())}
+        coVerify { mockRewardDao.getAllRewardsActiveLevelDesc() }
+        coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
         assertTrue(output is Output.Success)
         assertEquals(
             listOf(mockReward),
@@ -230,15 +230,15 @@ class RewardRepositoryImplTest {
 
     @Test
     fun rewardsNotEscapedAcquisitionDateDesc() {
-        coEvery {mockRewardDao.getAllRewardsNotEscapedAcquisitionDatDesc()} returns listOf(
+        coEvery { mockRewardDao.getAllRewardsNotEscapedAcquisitionDatDesc() } returns listOf(
             mockRewardEntity
         )
-        coEvery {mockRewardConverter.convertEntitiesToModels(any())} returns listOf(mockReward)
+        coEvery { mockRewardConverter.convertEntitiesToModels(any()) } returns listOf(mockReward)
         val output = runBlocking {
             rewardRepo.rewardsNotEscapedAcquisitionDateDesc()
         }
-        coVerify {mockRewardDao.getAllRewardsNotEscapedAcquisitionDatDesc()}
-        coVerify {mockRewardConverter.convertEntitiesToModels(any())}
+        coVerify { mockRewardDao.getAllRewardsNotEscapedAcquisitionDatDesc() }
+        coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
         assertTrue(output is Output.Success)
         assertEquals(
             listOf(mockReward),
@@ -248,15 +248,15 @@ class RewardRepositoryImplTest {
 
     @Test
     fun rewardsEscapedAcquisitionDateDesc() {
-        coEvery {mockRewardDao.getAllRewardsEscapedAcquisitionDateDesc()} returns listOf(
+        coEvery { mockRewardDao.getAllRewardsEscapedAcquisitionDateDesc() } returns listOf(
             mockRewardEntity
         )
-        coEvery {mockRewardConverter.convertEntitiesToModels(any())} returns listOf(mockReward)
+        coEvery { mockRewardConverter.convertEntitiesToModels(any()) } returns listOf(mockReward)
         val output = runBlocking {
             rewardRepo.rewardsEscapedAcquisitionDateDesc()
         }
-        coVerify {mockRewardDao.getAllRewardsEscapedAcquisitionDateDesc()}
-        coVerify {mockRewardConverter.convertEntitiesToModels(any())}
+        coVerify { mockRewardDao.getAllRewardsEscapedAcquisitionDateDesc() }
+        coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
         assertTrue(output is Output.Success)
         assertEquals(
             listOf(mockReward),
@@ -266,15 +266,15 @@ class RewardRepositoryImplTest {
 
     @Test
     fun rewardsOfSpecificLevelNotActive() {
-        coEvery {mockRewardDao.getAllRewardsOfSpecificLevelNotActive(any())} returns listOf(
+        coEvery { mockRewardDao.getAllRewardsOfSpecificLevelNotActive(any()) } returns listOf(
             mockRewardEntity
         )
-        coEvery {mockRewardConverter.convertEntitiesToModels(any())} returns listOf(mockReward)
+        coEvery { mockRewardConverter.convertEntitiesToModels(any()) } returns listOf(mockReward)
         val output = runBlocking {
             rewardRepo.rewardsOfSPecificLevelNotActive(3)
         }
-        coVerify {mockRewardDao.getAllRewardsOfSpecificLevelNotActive(any())}
-        coVerify {mockRewardConverter.convertEntitiesToModels(any())}
+        coVerify { mockRewardDao.getAllRewardsOfSpecificLevelNotActive(any()) }
+        coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
         assertTrue(output is Output.Success)
         assertEquals(
             listOf(mockReward),
@@ -284,15 +284,15 @@ class RewardRepositoryImplTest {
 
     @Test
     fun rewardsOfSPecificLevelNotActiveOrEscaped() {
-        coEvery {mockRewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(any())} returns listOf(
+        coEvery { mockRewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(any()) } returns listOf(
             mockRewardEntity
         )
-        coEvery {mockRewardConverter.convertEntitiesToModels(any())} returns listOf(mockReward)
+        coEvery { mockRewardConverter.convertEntitiesToModels(any()) } returns listOf(mockReward)
         val output = runBlocking {
             rewardRepo.rewardsOfSPecificLevelNotActiveOrEscaped(4)
         }
-        coVerify {mockRewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(any())}
-        coVerify {mockRewardConverter.convertEntitiesToModels(any())}
+        coVerify { mockRewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(any()) }
+        coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
         assertTrue(output is Output.Success)
         assertEquals(
             listOf(mockReward),
@@ -304,11 +304,11 @@ class RewardRepositoryImplTest {
     // COUNTS
     @Test
     fun allRewardsCount() {
-        coEvery {mockRewardDao.getNumberOfRows()} returns 13
+        coEvery { mockRewardDao.getNumberOfRows() } returns 13
         val output = runBlocking {
             rewardRepo.countAllRewards()
         }
-        coVerify {mockRewardDao.getNumberOfRows()}
+        coVerify { mockRewardDao.getNumberOfRows() }
         assertTrue(output is Output.Success)
         assertEquals(
             13,
@@ -318,15 +318,15 @@ class RewardRepositoryImplTest {
 
     @Test
     fun activeNotEscapedRewardsForLevel() {
-        coEvery {mockRewardDao.getNumberOfActiveNotEscapedRewardsForLevel(any())} returns 1
-        coEvery {mockRewardDao.getNumberOfActiveNotEscapedRewardsForLevel(4)} returns 7
+        coEvery { mockRewardDao.getNumberOfActiveNotEscapedRewardsForLevel(any()) } returns 1
+        coEvery { mockRewardDao.getNumberOfActiveNotEscapedRewardsForLevel(4) } returns 7
         val output4 = runBlocking {
             rewardRepo.countActiveNotEscapedRewardsForLevel(4)
         }
         val output5 = runBlocking {
             rewardRepo.countActiveNotEscapedRewardsForLevel(5)
         }
-        coVerify {mockRewardDao.getNumberOfActiveNotEscapedRewardsForLevel(any())}
+        coVerify { mockRewardDao.getNumberOfActiveNotEscapedRewardsForLevel(any()) }
         assertTrue(output4 is Output.Success)
         assertEquals(
             7,
@@ -341,15 +341,15 @@ class RewardRepositoryImplTest {
 
     @Test
     fun escapedRewardsForLevel() {
-        coEvery {mockRewardDao.getNumberOfEscapedRewardsForLevel(any())} returns 1
-        coEvery {mockRewardDao.getNumberOfEscapedRewardsForLevel(3)} returns 9
+        coEvery { mockRewardDao.getNumberOfEscapedRewardsForLevel(any()) } returns 1
+        coEvery { mockRewardDao.getNumberOfEscapedRewardsForLevel(3) } returns 9
         val output3 = runBlocking {
             rewardRepo.countEscapedRewardsForLevel(3)
         }
         val output5 = runBlocking {
             rewardRepo.countEscapedRewardsForLevel(5)
         }
-        coVerify(exactly = 2) {mockRewardDao.getNumberOfEscapedRewardsForLevel(any())}
+        coVerify(exactly = 2) { mockRewardDao.getNumberOfEscapedRewardsForLevel(any()) }
         assertTrue(output3 is Output.Success)
         assertEquals(
             9,

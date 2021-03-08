@@ -35,7 +35,7 @@ import fr.shining_cat.everyday.screens.views.ScreenActivity
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class RewardsFragment: Fragment() {
+class RewardsFragment : Fragment() {
 
     private val LOG_TAG = RewardsFragment::class.java.simpleName
 
@@ -52,10 +52,12 @@ class RewardsFragment: Fragment() {
         setupToolbar(rewardsFragmentBinding)
         //
         val textView: TextView = rewardsFragmentBinding.fakeFragmentText
-        rewardsViewModel.initReadyLiveData.observe(viewLifecycleOwner,
+        rewardsViewModel.initReadyLiveData.observe(
+            viewLifecycleOwner,
             Observer {
                 textView.text = "This is ${LOG_TAG}\n $it loaded!"
-            })
+            }
+        )
         rewardsViewModel.initViewModel()
         return rewardsFragmentBinding.root
     }

@@ -17,7 +17,8 @@
 
 package fr.shining_cat.everyday.models.sessionrecord
 
-enum class RealDurationVsPlanned(val key: Int) { EQUAL(0), REAL_SHORTER(-1), REAL_LONGER(1);
+enum class RealDurationVsPlanned(val key: Int) {
+    EQUAL(0), REAL_SHORTER(-1), REAL_LONGER(1);
 
     companion object {
 

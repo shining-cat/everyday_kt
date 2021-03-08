@@ -30,7 +30,7 @@ class PrefBottomDialogNotificationSoundSelect(
     private val sharedPrefsHelper: SharedPrefsHelper,
     private val fragmentManager: FragmentManager,
     private val logger: Logger
-): Preference(context) {
+) : Preference(context) {
 
     private val LOG_TAG = PrefBottomDialogNotificationSoundSelect::class.java.name
 
@@ -56,21 +56,21 @@ class PrefBottomDialogNotificationSoundSelect(
             ringTonesAssetsNames = ringtonesAssets,
             ringTonesDisplayNames = ringtonesTitles
         )
-        notificationSoundSelectDialogBottomSheetDialog.setBottomDialogDismissibleRingtonePickerListener(object:
-            BottomDialogDismissibleRingtonePicker.BottomDialogDismissibleRingtonePickerListener {
-            override fun onDismissed() {
-                // nothing to do here
-            }
+        notificationSoundSelectDialogBottomSheetDialog.setBottomDialogDismissibleRingtonePickerListener(object :
+                BottomDialogDismissibleRingtonePicker.BottomDialogDismissibleRingtonePickerListener {
+                override fun onDismissed() {
+                    // nothing to do here
+                }
 
-            override fun onValidateRingtoneSelected(
-                selectedRingtoneUri: String,
-                selectedRingtoneName: String
-            ) {
-                sharedPrefsHelper.setNotificationSoundUri(selectedRingtoneUri)
-                sharedPrefsHelper.setNotificationSoundTitle(selectedRingtoneName)
-                summary = selectedRingtoneName
-            }
-        })
+                override fun onValidateRingtoneSelected(
+                    selectedRingtoneUri: String,
+                    selectedRingtoneName: String
+                ) {
+                    sharedPrefsHelper.setNotificationSoundUri(selectedRingtoneUri)
+                    sharedPrefsHelper.setNotificationSoundTitle(selectedRingtoneName)
+                    summary = selectedRingtoneName
+                }
+            })
         notificationSoundSelectDialogBottomSheetDialog.show(
             fragmentManager,
             "openNotificationSoundSelectDialog"

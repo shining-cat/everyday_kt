@@ -32,7 +32,7 @@ class SessionRecordConverter(
 ) {
 
     suspend fun convertModelsToEntities(sessionRecords: List<SessionRecord>): List<SessionRecordEntity> {
-        return sessionRecords.map {sessionRecord -> convertModelToEntity(sessionRecord)}
+        return sessionRecords.map { sessionRecord -> convertModelToEntity(sessionRecord) }
     }
 
     suspend fun convertModelToEntity(sessionRecord: SessionRecord): SessionRecordEntity {
@@ -64,7 +64,7 @@ class SessionRecordConverter(
     }
 
     suspend fun convertEntitiesToModels(sessionRecordEntities: List<SessionRecordEntity>): List<SessionRecord> {
-        return sessionRecordEntities.map {sessionEntity -> convertEntityToModel(sessionEntity)}
+        return sessionRecordEntities.map { sessionEntity -> convertEntityToModel(sessionEntity) }
     }
 
     suspend fun convertEntityToModel(sessionRecordEntity: SessionRecordEntity): SessionRecord {

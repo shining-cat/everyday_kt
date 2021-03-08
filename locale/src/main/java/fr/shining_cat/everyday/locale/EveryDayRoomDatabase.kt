@@ -35,7 +35,7 @@ import fr.shining_cat.everyday.locale.entities.SessionTypeEntity
     version = 1,
     exportSchema = false
 )
-abstract class EveryDayRoomDatabase: RoomDatabase() {
+abstract class EveryDayRoomDatabase : RoomDatabase() {
 
     /**
      * Connects the database to the DAOs.

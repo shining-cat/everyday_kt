@@ -29,7 +29,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import fr.shining_cat.everyday.commons.databinding.DialogBottomSpinnersDurationAndConfirmBinding
 import java.util.concurrent.TimeUnit
 
-class BottomDialogDismissibleSpinnersDurationAndConfirm: BottomSheetDialogFragment() {
+class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragment() {
 
     private val TITLE_ARG = "title_argument"
     private val SHOW_HOURS_ARG = "show_hours_argument"
@@ -155,7 +155,7 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm: BottomSheetDialogFragme
         ) ?: ""
         val confirmButton = uiBindings.dialogBottomConfirmButton
         confirmButton.text = confirmButtonLabel
-        confirmButton.setOnClickListener {transmitInputLength()}
+        confirmButton.setOnClickListener { transmitInputLength() }
     }
 
     private fun collectLengthSelected(): Long {
@@ -219,7 +219,7 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm: BottomSheetDialogFragme
         showIt: Boolean,
         maxValue: Int = 0
     ) {
-        val twoDigitsFormatter = NumberPicker.Formatter {i ->
+        val twoDigitsFormatter = NumberPicker.Formatter { i ->
             String.format(
                 "%02d",
                 i

@@ -34,7 +34,7 @@ import fr.shining_cat.everyday.settings.views.components.PrefBottomDialogNotific
 import fr.shining_cat.everyday.settings.views.components.PreferenceCategoryLongSummary
 import org.koin.android.ext.android.get
 
-class SettingsFragment: PreferenceFragmentCompat() {
+class SettingsFragment : PreferenceFragmentCompat() {
 
     private val LOG_TAG = SettingsFragment::class.java.name
     private val logger: Logger = get()
@@ -110,7 +110,7 @@ class SettingsFragment: PreferenceFragmentCompat() {
         notificationActivatedPreference.key = SharedPrefsHelperSettings.NOTIFICATION_ACTIVATED
         notificationActivatedPreference.title = getString(R.string.notificationsPreferences_notification_activated_title)
         notificationActivatedPreference.isIconSpaceReserved = false
-        notificationActivatedPreference.onPreferenceChangeListener = Preference.OnPreferenceChangeListener {_, newValue ->
+        notificationActivatedPreference.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
             updateSubNotificationPreferences(newValue as Boolean)
             true
         }
@@ -152,7 +152,7 @@ class SettingsFragment: PreferenceFragmentCompat() {
         val prefContext = preferenceManager.context
         //
         val defaultNightModePreference = prefBottomDialogBuilder.buildPrefBottomDialogDefaultNightModeSelect()
-        defaultNightModePreference.onPreferenceChangeListener = Preference.OnPreferenceChangeListener {_, _ ->
+        defaultNightModePreference.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, _ ->
             // force refresh of parent activity to apply theme choice
             activity?.recreate()
             true

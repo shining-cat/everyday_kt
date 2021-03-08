@@ -22,7 +22,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 
-abstract class AbstractViewModels(protected val appDispatchers: AppDispatchers): ViewModel() {
+abstract class AbstractViewModels(protected val appDispatchers: AppDispatchers) : ViewModel() {
 
     private val viewModelJob = SupervisorJob()
     protected val mainScope = CoroutineScope(appDispatchers.main + viewModelJob)

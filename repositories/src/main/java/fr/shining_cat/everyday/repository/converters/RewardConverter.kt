@@ -29,7 +29,7 @@ class RewardConverter(
 ) {
 
     suspend fun convertModelsToEntities(rewards: List<Reward>): List<RewardEntity> {
-        return rewards.map {rewardModel -> convertModelToEntity(rewardModel)}
+        return rewards.map { rewardModel -> convertModelToEntity(rewardModel) }
     }
 
     suspend fun convertModelToEntity(reward: Reward): RewardEntity {
@@ -60,7 +60,7 @@ class RewardConverter(
     }
 
     suspend fun convertEntitiesToModels(rewardEntities: List<RewardEntity>): List<Reward> {
-        return rewardEntities.map {convertEntitytoModel(it)}
+        return rewardEntities.map { convertEntitytoModel(it) }
     }
 
     suspend fun convertEntitytoModel(rewardEntity: RewardEntity): Reward {

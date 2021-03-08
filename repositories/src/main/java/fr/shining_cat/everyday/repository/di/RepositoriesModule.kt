@@ -33,12 +33,12 @@ import org.koin.dsl.module
 val repositoriesModule = module {
 
     // Converters
-    factory {RewardConverter(get())}
-    factory {SessionRecordConverter(get())}
-    factory {SessionPresetConverter(get())}
+    factory { RewardConverter(get()) }
+    factory { SessionRecordConverter(get()) }
+    factory { SessionPresetConverter(get()) }
 
     // Repositories
-    factory {CritterPartsRepositoryImpl() as CritterPartsRepository}
+    factory { CritterPartsRepositoryImpl() as CritterPartsRepository }
     factory {
         RewardRepositoryImpl(
             get(),

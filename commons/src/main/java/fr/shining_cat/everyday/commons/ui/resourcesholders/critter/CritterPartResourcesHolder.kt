@@ -25,7 +25,7 @@ sealed class CritterPartResourcesHolder {
     abstract fun getDefaultPartResourceId(): Int
     abstract fun getResourceIdForKey(key: Int): Int
 
-    class ArmsResourcesHolder: CritterPartResourcesHolder() {
+    class ArmsResourcesHolder : CritterPartResourcesHolder() {
 
         override val partsCount: Int = ArmsDrawable.values().size
         override val firstItemIsOff = true
@@ -84,7 +84,7 @@ sealed class CritterPartResourcesHolder {
         }
     }
 
-    class EyesResourcesHolder: CritterPartResourcesHolder() {
+    class EyesResourcesHolder : CritterPartResourcesHolder() {
 
         override val partsCount: Int = EyesDrawable.values().size
         override val firstItemIsOff = true
@@ -143,7 +143,7 @@ sealed class CritterPartResourcesHolder {
         }
     }
 
-    class FlowerResourcesHolder: CritterPartResourcesHolder() {
+    class FlowerResourcesHolder : CritterPartResourcesHolder() {
 
         override val partsCount: Int = FlowerDrawable.values().size
         override val firstItemIsOff = true
@@ -198,7 +198,7 @@ sealed class CritterPartResourcesHolder {
         }
     }
 
-    class HornsResourcesHolder: CritterPartResourcesHolder() {
+    class HornsResourcesHolder : CritterPartResourcesHolder() {
 
         override val partsCount: Int = HornsDrawable.values().size
         override val firstItemIsOff = true
@@ -257,7 +257,7 @@ sealed class CritterPartResourcesHolder {
         }
     }
 
-    class LegsResourcesHolder: CritterPartResourcesHolder() {
+    class LegsResourcesHolder : CritterPartResourcesHolder() {
 
         override val partsCount: Int = LegsDrawable.values().size
         override val firstItemIsOff = true
@@ -316,7 +316,7 @@ sealed class CritterPartResourcesHolder {
         }
     }
 
-    class MouthResourcesHolder: CritterPartResourcesHolder() {
+    class MouthResourcesHolder : CritterPartResourcesHolder() {
 
         override val partsCount: Int = MouthDrawable.values().size
         override val firstItemIsOff = false

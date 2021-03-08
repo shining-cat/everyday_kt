@@ -28,7 +28,7 @@ import fr.shining_cat.everyday.screens.R
 import fr.shining_cat.everyday.screens.databinding.ActivityScreenBinding
 import org.koin.android.ext.android.get
 
-class ScreenActivity: AbstractActivity() {
+class ScreenActivity : AbstractActivity() {
 
     private val LOG_TAG = ScreenActivity::class.java.simpleName
 
@@ -47,7 +47,7 @@ class ScreenActivity: AbstractActivity() {
             screenActivityBinding,
             navController
         )
-        navController.addOnDestinationChangedListener {_, destination, _ ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
             val dest: String = try {
                 resources.getResourceName(destination.id)
             }

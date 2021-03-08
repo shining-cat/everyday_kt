@@ -37,7 +37,7 @@ interface SessionPresetRepository {
 class SessionPresetRepositoryImpl(
     val sessionPresetDao: SessionPresetDao,
     val sessionPresetConverter: SessionPresetConverter
-): SessionPresetRepository {
+) : SessionPresetRepository {
 
     private fun genericReadError(exception: java.lang.Exception) = Output.Error(
         Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
@@ -147,9 +147,11 @@ class SessionPresetRepositoryImpl(
             )
         }
         else {
-            Output.Success(withContext(Dispatchers.Default) {
-                sessionPresetConverter.convertEntitiesToModels(sessionPresetEntities)
-            })
+            Output.Success(
+                withContext(Dispatchers.Default) {
+                    sessionPresetConverter.convertEntitiesToModels(sessionPresetEntities)
+                }
+            )
         }
     }
 }

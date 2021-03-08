@@ -27,7 +27,7 @@ import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelper
 import org.koin.android.ext.android.get
 
-abstract class AbstractActivity: AppCompatActivity() {
+abstract class AbstractActivity : AppCompatActivity() {
 
     private val LOG_TAG = AbstractActivity::class.java.simpleName
 

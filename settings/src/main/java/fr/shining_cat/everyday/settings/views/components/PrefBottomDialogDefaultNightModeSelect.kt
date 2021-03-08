@@ -31,7 +31,7 @@ class PrefBottomDialogDefaultNightModeSelect(
     private val sharedPrefsHelper: SharedPrefsHelper,
     private val fragmentManager: FragmentManager,
     private val logger: Logger
-): Preference(context) {
+) : Preference(context) {
 
     private val LOG_TAG = PrefBottomDialogDefaultNightModeSelect::class.java.name
 
@@ -66,19 +66,19 @@ class PrefBottomDialogDefaultNightModeSelect(
             context.getString(R.string.generic_string_VALIDATE),
             selectedIndex
         )
-        selectDefaultNightModeBottomSheetDialog.setBottomDialogDismissibleSelectListAndConfirmListener(object:
-            BottomDialogDismissibleSelectListAndConfirm.BottomDialogDismissibleSelectListAndConfirmListener {
-            override fun onDismissed() {
-                // nothing to do here
-            }
+        selectDefaultNightModeBottomSheetDialog.setBottomDialogDismissibleSelectListAndConfirmListener(object :
+                BottomDialogDismissibleSelectListAndConfirm.BottomDialogDismissibleSelectListAndConfirmListener {
+                override fun onDismissed() {
+                    // nothing to do here
+                }
 
-            override fun onValidateSelection(optionSelectedIndex: Int) {
-                val androidDefaultNightModeValue = androidDefaultNightModeValues[optionSelectedIndex]
-                sharedPrefsHelper.setDefaultNightMode(androidDefaultNightModeValue)
-                AppCompatDelegate.setDefaultNightMode(androidDefaultNightModeValue)
-                summary = defaultNightModeLabels[optionSelectedIndex]
-            }
-        })
+                override fun onValidateSelection(optionSelectedIndex: Int) {
+                    val androidDefaultNightModeValue = androidDefaultNightModeValues[optionSelectedIndex]
+                    sharedPrefsHelper.setDefaultNightMode(androidDefaultNightModeValue)
+                    AppCompatDelegate.setDefaultNightMode(androidDefaultNightModeValue)
+                    summary = defaultNightModeLabels[optionSelectedIndex]
+                }
+            })
         selectDefaultNightModeBottomSheetDialog.show(
             fragmentManager,
             "openSelectDefaultNightModeDialog"

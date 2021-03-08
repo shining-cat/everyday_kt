@@ -46,7 +46,7 @@ interface SessionRecordRepository {
 class SessionRecordRepositoryImpl(
     private val sessionRecordDao: SessionRecordDao,
     private val sessionRecordConverter: SessionRecordConverter
-): SessionRecordRepository {
+) : SessionRecordRepository {
 
     private fun genericReadError(exception: java.lang.Exception) = Output.Error(
         Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
@@ -137,7 +137,7 @@ class SessionRecordRepositoryImpl(
 
     override suspend fun deleteAllSessions(): Output<Int> {
         return try {
-            val deleted = withContext(Dispatchers.IO) {sessionRecordDao.deleteAllSessions()}
+            val deleted = withContext(Dispatchers.IO) { sessionRecordDao.deleteAllSessions() }
             Output.Success(deleted)
         }
         catch (exception: Exception) {
@@ -282,9 +282,11 @@ class SessionRecordRepositoryImpl(
             )
         }
         else {
-            Output.Success(withContext(Dispatchers.Default) {
-                sessionRecordConverter.convertEntitiesToModels(sessionRecordEntities)
-            })
+            Output.Success(
+                withContext(Dispatchers.Default) {
+                    sessionRecordConverter.convertEntitiesToModels(sessionRecordEntities)
+                }
+            )
         }
     }
 }

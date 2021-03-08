@@ -38,7 +38,7 @@ import fr.shining_cat.everyday.screens.views.ScreenActivity
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class HomeFragment: Fragment() {
+class HomeFragment : Fragment() {
 
     private val LOG_TAG = HomeFragment::class.java.simpleName
 
@@ -59,10 +59,12 @@ class HomeFragment: Fragment() {
         setupToolbar(homeFragmentBinding)
         //
         val textView: TextView = homeFragmentBinding.fakeFragmentText
-        homeViewModel.initReadyLiveData.observe(viewLifecycleOwner,
+        homeViewModel.initReadyLiveData.observe(
+            viewLifecycleOwner,
             Observer {
                 textView.text = "This is ${LOG_TAG}\n $it loaded!"
-            })
+            }
+        )
         homeViewModel.initViewModel()
         return homeFragmentBinding.root
     }
@@ -98,12 +100,14 @@ class HomeFragment: Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.actionbar_settings -> {
-                startActivity(context?.let {
-                    Actions.openDestination(
-                        it,
-                        Destination.SettingsDestination()
-                    )
-                })
+                startActivity(
+                    context?.let {
+                        Actions.openDestination(
+                            it,
+                            Destination.SettingsDestination()
+                        )
+                    }
+                )
                 return true
             }
 

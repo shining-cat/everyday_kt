@@ -35,7 +35,7 @@ import fr.shining_cat.everyday.screens.views.ScreenActivity
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class StatisticsFragment: Fragment() {
+class StatisticsFragment : Fragment() {
 
     private val LOG_TAG = StatisticsFragment::class.java.simpleName
 
@@ -52,10 +52,12 @@ class StatisticsFragment: Fragment() {
         setupToolbar(statisticsFragmentBinding)
         //
         val textView: TextView = statisticsFragmentBinding.fakeFragmentText
-        statisticsViewModelViewModel.initReadyLiveData.observe(viewLifecycleOwner,
+        statisticsViewModelViewModel.initReadyLiveData.observe(
+            viewLifecycleOwner,
             Observer {
                 textView.text = "This is ${LOG_TAG}\n $it loaded!"
-            })
+            }
+        )
         statisticsViewModelViewModel.initViewModel()
         return statisticsFragmentBinding.root
     }

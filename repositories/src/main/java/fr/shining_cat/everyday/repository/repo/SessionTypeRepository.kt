@@ -37,7 +37,7 @@ interface SessionTypeRepository {
 class SessionTypeRepositoryImpl(
     val sessionTypeDao: SessionTypeDao,
     val sessionTypeConverter: SessionTypeConverter
-): SessionTypeRepository {
+) : SessionTypeRepository {
 
     private fun genericReadError(exception: java.lang.Exception) = Output.Error(
         Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
@@ -147,9 +147,11 @@ class SessionTypeRepositoryImpl(
             )
         }
         else {
-            Output.Success(withContext(Dispatchers.Default) {
-                sessionTypeConverter.convertEntitiesToModels(sessionTypeEntities)
-            })
+            Output.Success(
+                withContext(Dispatchers.Default) {
+                    sessionTypeConverter.convertEntitiesToModels(sessionTypeEntities)
+                }
+            )
         }
     }
 }

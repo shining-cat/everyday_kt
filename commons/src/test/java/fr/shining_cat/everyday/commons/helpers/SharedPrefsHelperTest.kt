@@ -41,7 +41,7 @@ class SharedPrefsHelperTest {
     fun setUp() {
         MockKAnnotations.init(this)
         sharedPrefsHelper = SharedPrefsHelper(mockSharedPreferences)
-        coEvery {mockSharedPreferences.edit()} returns mockSharedPreferencesEditor
+        coEvery { mockSharedPreferences.edit() } returns mockSharedPreferencesEditor
         coEvery {
             mockSharedPreferencesEditor.putString(
                 any(),
@@ -60,7 +60,7 @@ class SharedPrefsHelperTest {
                 any()
             )
         } returns mockSharedPreferencesEditor
-        coEvery {mockSharedPreferencesEditor.apply()} returns Unit
+        coEvery { mockSharedPreferencesEditor.apply() } returns Unit
     }
 
     @Test

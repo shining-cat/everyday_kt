@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 class HomeViewModel(
     appDispatchers: AppDispatchers,
     private val logger: Logger
-): AbstractViewModels(appDispatchers) {
+) : AbstractViewModels(appDispatchers) {
 
     private val LOG_TAG = HomeViewModel::class.java.simpleName
 

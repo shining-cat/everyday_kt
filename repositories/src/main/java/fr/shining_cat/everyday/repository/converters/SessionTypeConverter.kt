@@ -26,7 +26,7 @@ class SessionTypeConverter(
 ) {
 
     suspend fun convertModelsToEntities(sessionTypes: List<SessionType>): List<SessionTypeEntity> {
-        return sessionTypes.map {sessionType -> convertModelToEntity(sessionType)}
+        return sessionTypes.map { sessionType -> convertModelToEntity(sessionType) }
     }
 
     suspend fun convertModelToEntity(sessionType: SessionType): SessionTypeEntity {
@@ -40,7 +40,7 @@ class SessionTypeConverter(
     }
 
     suspend fun convertEntitiesToModels(sessionTypeEntities: List<SessionTypeEntity>): List<SessionType> {
-        return sessionTypeEntities.map {sessionEntity -> convertEntitytoModel(sessionEntity)}
+        return sessionTypeEntities.map { sessionEntity -> convertEntitytoModel(sessionEntity) }
     }
 
     suspend fun convertEntitytoModel(sessionTypeEntity: SessionTypeEntity): SessionType {
