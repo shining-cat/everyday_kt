@@ -56,8 +56,8 @@ class PrefBottomDialogNotificationSoundSelect(
                 initialSelectionUri = selectedNotificationSoundUri,
                 confirmButtonLabel = context.getString(R.string.generic_string_OK),
                 showSilenceChoice = false,
-                ringtonesAssetsNames = ringtonesAssets,
-                ringtonesDisplayNames = ringtonesTitles
+                ringTonesAssetsNames = ringtonesAssets,
+                ringTonesDisplayNames = ringtonesTitles
             )
         notificationSoundSelectDialogBottomSheetDialog.setBottomDialogDismissibleRingtonePickerListener(
             object :

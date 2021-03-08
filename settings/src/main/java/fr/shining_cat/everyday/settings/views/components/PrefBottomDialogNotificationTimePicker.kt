@@ -30,7 +30,7 @@ class PrefBottomDialogNotificationTimePicker(
     private val sharedPrefsHelper: SharedPrefsHelper,
     private val fragmentManager: FragmentManager,
     private val logger: Logger
-) : Preference(context) {
+): Preference(context) {
 
     private val LOG_TAG = PrefBottomDialogNotificationTimePicker::class.java.name
 
@@ -46,30 +46,39 @@ class PrefBottomDialogNotificationTimePicker(
 
     private fun openDialog() {
         val presetNotificationTime = sharedPrefsHelper.getNotificationTime()
-        val initialHour = Integer.valueOf(presetNotificationTime.substring(0, 2))
+        val initialHour = Integer.valueOf(
+            presetNotificationTime.substring(0,2)
+        )
         val initialMin = Integer.valueOf(presetNotificationTime.substring(3))
-        val notificationTimeInputBottomSheetDialog =
-            BottomDialogDismissibleTimePicker.newInstance(
-                context.getString(R.string.notificationsPreferences_notification_time_title),
-                context.getString(R.string.generic_string_OK),
-                initialHour,
-                initialMin
-            )
-        notificationTimeInputBottomSheetDialog.setBottomDialogDismissibleTimePickerListener(
-            object :
-                BottomDialogDismissibleTimePicker.BottomDialogDismissibleTimePickerListener {
-                override fun onDismissed() {
-                    // nothing to do here
-                }
+        val notificationTimeInputBottomSheetDialog = BottomDialogDismissibleTimePicker.newInstance(
+            context.getString(R.string.notificationsPreferences_notification_time_title),
+            context.getString(R.string.generic_string_OK),
+            initialHour,
+            initialMin
+        )
+        notificationTimeInputBottomSheetDialog.setBottomDialogDismissibleTimePickerListener(object:
+            BottomDialogDismissibleTimePicker.BottomDialogDismissibleTimePickerListener {
+            override fun onDismissed() {
+                // nothing to do here
+            }
 
-                override fun onConfirmButtonClicked(hour: Int, minutes: Int) {
-                    val hoursAsString = String.format("%02d", hour)
-                    val minutesAsString = String.format("%02d", minutes)
-                    val notificationTime = "$hoursAsString:$minutesAsString"
-                    sharedPrefsHelper.setNotificationTime(notificationTime)
-                    summary = notificationTime
-                }
-            })
+            override fun onConfirmButtonClicked(
+                hour: Int,
+                minutes: Int
+            ) {
+                val hoursAsString = String.format(
+                    "%02d",
+                    hour
+                )
+                val minutesAsString = String.format(
+                    "%02d",
+                    minutes
+                )
+                val notificationTime = "$hoursAsString:$minutesAsString"
+                sharedPrefsHelper.setNotificationTime(notificationTime)
+                summary = notificationTime
+            }
+        })
         notificationTimeInputBottomSheetDialog.show(
             fragmentManager,
             "openNotificationTimeInputDialog"

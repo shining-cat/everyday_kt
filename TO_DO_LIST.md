@@ -7,10 +7,36 @@
   - [x] locale module
   - [x] repositories module
   - [x] commons module -> write tests on SharedPrefsHelper
-- [ ] change implementation of dialog fragments to remove companion object and make use of jetpack safeArgs
+- [x] fix Jacoco error log at each app launch
+- [x] home activity is launched twice at startup
+- [ ] find a cleaner way to handle duration in BottomDialogDismissibleSpinnersDurationAndConfirm
 - [ ] find some way to automate code formatting in a customizable way (ie set else to new line etc.) ktlint looks good, but does not follow rules set in editorconfig, need to write custom Ruleset
-- [ ] home activity is launched twice at startup -> debug
 - [ ] find info on building optional feature: rewards mechanism and statistics will only be added as a feature later, in order to be able to build a working version faster => we may have to split the screens module up to dissociate "bonus" features from "core" features, question is where to put the associated models, dto, repos, if not in the corresponding modules?
 - [ ] check if possible to set github actions up, have some kind of simple CI/CD running maybe? (see: https://medium.com/google-developer-experts/github-actions-for-android-developers-6b54c8a32f55)
 - [ ] build launch icon from rewards assets, insert as vector adaptative icon (see https://medium.com/androiddevelopers/vectordrawable-adaptive-icons-3fed3d3205b5)
 - [ ] update file access method for import/export (Storage Access Framework API aka Scoped Storage). As I understand it for now, since the access we need is for non-media files (csv), we will have to use the system file picker, which is already  planned for the import, and is actually a better way for the export than the present version with a dialog showing the export file location. Maybe some difficulties regarding compatibility with older versions of android. (see: https://www.youtube.com/watch?v=UnJ3amzJM94 and https://medium.com/swlh/sample-for-android-storage-access-framework-aka-scoped-storage-for-basic-use-cases-3ee4fee404fc)
+
+- [ ] Usecases:
+  - [ ] initUseCase (splahViewModel) : load user prefs or set defaults in if first launch
+  - [ ] loadSessionsPresetsUseCase (homeViewModel)
+  - [ ] loadOneSessionPresetUseCase (homeViewModel)
+  - [ ] addSessionPresetUseCase (homeViewModel)
+  - [ ] editSessionPresetUseCase (homeViewModel)
+  - [ ] deleteSessionPresetUsecase (homeViewModel)
+  - [ ] display sessions presets on Home fragment
+  - [ ] plug add session preset to FAB on Home Fragment, display and plug usecase to creation dialog
+  - [ ] plug edit session preset to long press on preset on Home Fragment, display and plug usecase to edition/suppression dialog
+  - [ ] loadStatsSummaryUseCase (homeViewModel)
+  - [ ] display stats summary on Home fragment
+  - [ ] recordStartMoodUseCase + start session mood input dialog -> temp save to sharedPrefs?
+  - [ ] recordEndMoodUseCase + end session mood input dialog -> temp save to sharedPrefs?
+  - [ ] launchSessionUseCase (SessionViewModel) => don't know yet how to do this: need something capable of running in the background whatever happens to process
+  - [ ] session running screen countdown + play audio if required
+  - [ ] recordCompletedSessionUseCase
+  - [ ] importSessionsUseCase (from settings screen) / warning: conform to Storage Access Framework, conditions depending on running API version may be different :/
+  - [ ] exportSessionsUseCase (from settings screen) / warning: conform to Storage Access Framework, conditions depending on running API version may be different :/
+  - [ ] loadSessionsRecordedUseCase
+  - [ ] display recorded sessions as list in Sessions fragment
+  - [ ] loadSpecificSessionDetails
+  - [ ] display one session details
+  - [ ] write about text + build about dialog

@@ -19,9 +19,9 @@ package fr.shining_cat.everyday.navigation
 
 sealed class Destination {
 
-    class HomeDestination : Destination()
+    class HomeDestination: Destination()
 
-    class SettingsDestination : Destination()
+    class SettingsDestination: Destination()
 
-    class SessionDestination : Destination()
+    class SessionDestination: Destination()
 }
