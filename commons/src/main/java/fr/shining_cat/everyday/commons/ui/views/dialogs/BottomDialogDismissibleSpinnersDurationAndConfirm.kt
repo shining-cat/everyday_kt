@@ -24,6 +24,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.NumberPicker
+import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import fr.shining_cat.everyday.commons.databinding.DialogBottomSpinnersDurationAndConfirmBinding
 import java.util.concurrent.TimeUnit
@@ -179,62 +180,61 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
         showSecondsPicker: Boolean,
         initialLengthMs: Long
     ) {
+        setPicker(
+            uiBindings.dialogBottomDurationHoursPicker,
+            uiBindings.dialogBottomDurationHoursUnit,
+            showHoursPicker,
+            23
+        )
+        setPicker(
+            uiBindings.dialogBottomDurationMinutesPicker,
+            uiBindings.dialogBottomDurationMinutesUnit,
+            showMinutesPicker,
+            59
+        )
+        setPicker(
+            uiBindings.dialogBottomDurationSecondsPicker,
+            uiBindings.dialogBottomDurationSecondsUnit,
+            showSecondsPicker,
+            59
+        )
+        // convert initial time as ms to h, m, and s
+        val initialLengthHours = TimeUnit.MILLISECONDS.toHours(initialLengthMs)
+        val initialLengthMinutes = TimeUnit.MILLISECONDS.toMinutes(initialLengthMs)
+        val initialLengthSeconds = TimeUnit.MILLISECONDS.toSeconds(initialLengthMs)
+        val fullMinutes = (initialLengthMinutes - TimeUnit.HOURS.toMinutes(initialLengthHours))
+        val fullSeconds =
+            (initialLengthSeconds - (TimeUnit.HOURS.toSeconds(initialLengthHours) + TimeUnit.MINUTES.toSeconds(fullMinutes)))
+        // apply to pickers
+        hoursPicker.value = initialLengthHours.toInt()
+        minutesPicker.value = fullMinutes.toInt()
+        secondsPicker.value = fullSeconds.toInt()
+        Log.d(
+            "DIALOG",
+            "fullHours = $initialLengthHours," + "fullMinutes = $fullMinutes, fullSeconds = $fullSeconds"
+        )
+    }
+
+    private fun setPicker(
+        picker: NumberPicker,
+        units: TextView,
+        showIt: Boolean,
+        maxValue: Int = 0
+    ) {
         val twoDigitsFormatter = NumberPicker.Formatter { i ->
             String.format(
                 "%02d",
                 i
             )
         }
-        //
-        hoursPicker = uiBindings.dialogBottomDurationHoursPicker
-        if (showHoursPicker) {
-            hoursPicker.maxValue = 23
-            hoursPicker.minValue = 0
-            hoursPicker.setFormatter(twoDigitsFormatter)
-            hoursPicker.wrapSelectorWheel = false
+        if (showIt) {
+            picker.maxValue = maxValue
+            picker.minValue = 0
+            picker.setFormatter(twoDigitsFormatter)
+            picker.wrapSelectorWheel = false
         } else {
-            hoursPicker.visibility = GONE
-            uiBindings.dialogBottomDurationHoursUnit.visibility = GONE
+            picker.visibility = GONE
+            units.visibility = GONE
         }
-        //
-        minutesPicker = uiBindings.dialogBottomDurationMinutesPicker
-        if (showMinutesPicker) {
-            minutesPicker.maxValue = 59
-            minutesPicker.minValue = 0
-            minutesPicker.setFormatter(twoDigitsFormatter)
-            minutesPicker.wrapSelectorWheel = false
-        } else {
-            minutesPicker.visibility = GONE
-            uiBindings.dialogBottomDurationMinutesUnit.visibility = GONE
-        }
-        //
-        secondsPicker = uiBindings.dialogBottomDurationSecondsPicker
-        if (showSecondsPicker) {
-            secondsPicker.maxValue = 59
-            secondsPicker.minValue = 0
-            secondsPicker.setFormatter(twoDigitsFormatter)
-            secondsPicker.wrapSelectorWheel = false
-        } else {
-            hoursPicker.visibility = GONE
-            uiBindings.dialogBottomDurationSecondsUnit.visibility = GONE
-        }
-        // convert initial time as ms to h, m, and s
-        // TODO: find some cleaner way to convert this, while still staying compatible with API21
-        val initialLengthHours = TimeUnit.MILLISECONDS.toHours(initialLengthMs)
-        val initialLengthMinutes = TimeUnit.MILLISECONDS.toMinutes(initialLengthMs)
-        val initialLengthSeconds = TimeUnit.MILLISECONDS.toSeconds(initialLengthMs)
-        val fullHours = initialLengthHours.toInt()
-        val fullMinutes =
-            (initialLengthMinutes - TimeUnit.HOURS.toMinutes(fullHours.toLong())).toInt()
-        val fullSeconds =
-            (initialLengthSeconds - (TimeUnit.HOURS.toSeconds(fullHours.toLong()) + TimeUnit.MINUTES.toSeconds(fullMinutes.toLong()))).toInt()
-        // apply to pickers
-        hoursPicker.value = fullHours
-        minutesPicker.value = fullMinutes
-        secondsPicker.value = fullSeconds
-        Log.d(
-            "DIALOG",
-            "fullHours = $fullHours, fullMinutes = $fullMinutes, fullSeconds = $fullSeconds"
-        )
     }
 }
