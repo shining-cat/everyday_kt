@@ -25,7 +25,7 @@ import fr.shining_cat.everyday.commons.Constants
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.viewmodels.AbstractViewModels
 import fr.shining_cat.everyday.commons.viewmodels.AppDispatchers
-import fr.shining_cat.everyday.domain.InitDefaultPrefsValues
+import fr.shining_cat.everyday.domain.InitDefaultPrefsValuesUseCase
 import fr.shining_cat.everyday.navigation.Destination
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 
 class SplashViewModel(
     appDispatchers: AppDispatchers,
-    private val initDefaultPrefsValues: InitDefaultPrefsValues,
+    private val initDefaultPrefsValuesUseCase: InitDefaultPrefsValuesUseCase,
     private val logger: Logger
 ) : AbstractViewModels(appDispatchers) {
 
@@ -59,7 +59,8 @@ class SplashViewModel(
             }
             ioScope.async {
                 val deviceDefaultRingtoneUri = RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_NOTIFICATION)
-                initDefaultPrefsValues.execute(context, deviceDefaultRingtoneUri)
+                val deviceDefaultRingtoneTitle = RingtoneManager.getRingtone(context, deviceDefaultRingtoneUri).getTitle(context)
+                initDefaultPrefsValuesUseCase.execute(context, deviceDefaultRingtoneUri, deviceDefaultRingtoneTitle)
             }
 
             delayDeferred.await()

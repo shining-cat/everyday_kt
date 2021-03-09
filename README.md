@@ -48,7 +48,7 @@ To use it: launch gradle task everyday>everydayDependencyUpdates
 
  - settings
  - import/export data
- - create, edit and delete sessions presets
+ - create, edit and delete sessions presets swipe right to open edit screen (delete button is inside edit screen)
  - launching session from preset
  - mood recording
  - session run with simple countdown and animation (pulse) based on audio-file duration or preset length. Play audio if selected
@@ -61,8 +61,9 @@ this version will continue to exist and should be updated and deployed alongside
 
 ### Features planned for the full version of the app which will be the one called EVERYDAY, random order for now:
 
- - manual session recording and editting
- - reorder sessions preset
+ - manual session input and editing
+ - reorder sessions preset -> swipe left to move preset to top of list
+ - create shortcut on device home screen to launch session according to preset -> long press on preset offers option in dialog
  - display recorded sessions in a calendar view
  - rewards basic mechanism (acquisition of one reward per session the reward's level depends on the session length, display as mini-cards in dedicated screen)
  - rewards complete mechanism: gamification: increment number of rewards for longer streaks, lose rewards for streak breaking
@@ -71,14 +72,14 @@ this version will continue to exist and should be updated and deployed alongside
 
 ### Future features ideas, random order:
 
- - achievments badges? (1 week, 1 month etc)
+ - achievements badges? (1 week, 1 month etc)
  - gamification upgrade: user can choose to exchange rewards (not escaped) for a better one (ex: éxlevel1 for 1xlevel2 etc)
  - different session countdown animations (lava-lamp, screen filling, etc)
  - user can choose to have an irregular sound played during a session in addition to a regular interval or no sound
  - security lock on app start, with fingerprint/pin code + setting to activate/deactivate it (see Nextcloud Password android app for reference) see: https://proandroiddev.com/biometrics-in-android-50424de8d0e
- - add "type" attribute for sessions, associated with [label, color, description]:
+ - add "type" attribute for sessions, associated with label, color, description
 	 - the type is shown on the session short view (list view and calendar view) as a color sticker, and on the session detailed view as a label
-	 -  also on the preset button
+	 - also on the preset button
 	 - Clicking on this label displays the type description in a bottom dialog
 	 - Users can attribute a type to any session (in the “start session” dialog)
 	 - screen to admin sessions types, accessible from “Settings”

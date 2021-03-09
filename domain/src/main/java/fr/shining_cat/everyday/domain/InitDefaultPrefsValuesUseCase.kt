@@ -6,15 +6,15 @@ import android.net.Uri
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelper
 
-class InitDefaultPrefsValues(
+class InitDefaultPrefsValuesUseCase(
     private val sharedPrefsHelper: SharedPrefsHelper,
     private val logger: Logger
 ) {
 
-    suspend fun execute(context: Context, deviceDefaultRingtoneUri: Uri) {
+    suspend fun execute(context: Context, deviceDefaultRingtoneUri: Uri, deviceDefaultRingtoneTitle: String) {
         checkNotificationTextInit(context)
         checkNotificationSoundDefaultUriSet(deviceDefaultRingtoneUri)
-        checkNotificationSoundDefaultTitleSet(context, deviceDefaultRingtoneUri)
+        checkNotificationSoundDefaultTitleSet(deviceDefaultRingtoneTitle)
     }
 
     private fun checkNotificationTextInit(context: Context) {
@@ -31,11 +31,10 @@ class InitDefaultPrefsValues(
         }
     }
 
-    private fun checkNotificationSoundDefaultTitleSet(context: Context, deviceDefaultRingtoneUri: Uri) {
+    private fun checkNotificationSoundDefaultTitleSet(deviceDefaultRingtoneTitle: String) {
         val notificationSoundDefaultTitleInPrefs = sharedPrefsHelper.getNotificationSoundTitle()
         if (notificationSoundDefaultTitleInPrefs.isBlank()) {
-            val deviceDefaultRingtone = RingtoneManager.getRingtone(context, deviceDefaultRingtoneUri)
-            sharedPrefsHelper.setNotificationSoundTitle(deviceDefaultRingtone.getTitle(context))
+            sharedPrefsHelper.setNotificationSoundTitle(deviceDefaultRingtoneTitle)
         }
     }
 
