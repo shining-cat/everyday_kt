@@ -144,7 +144,7 @@ class SessionRecordRepositoryImpl(
             Output.Error(
                 Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                 Constants.ERROR_MESSAGE_DELETE_FAILED,
-                Exception(Constants.ERROR_MESSAGE_DELETE_FAILED)
+                exception
             )
         }
     }

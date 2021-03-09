@@ -148,27 +148,6 @@ class SharedPrefsHelperTest {
     }
 
     @Test
-    fun `test get INFINITE_SESSION`() {
-        val value = true
-        coEvery {
-            mockSharedPreferences.getBoolean(
-                any(),
-                any()
-            )
-        } returns value
-        assertEquals(
-            value,
-            sharedPrefsHelper?.getInfiniteSession()
-        )
-        coVerify {
-            mockSharedPreferences.getBoolean(
-                eq(SharedPrefsHelperSettings.INFINITE_SESSION),
-                eq(false)
-            )
-        }
-    }
-
-    @Test
     fun `test get REWARDS_ACTIVATED`() {
         val value = false
         coEvery {

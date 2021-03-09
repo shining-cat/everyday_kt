@@ -23,7 +23,7 @@
   - [x] tests on initUseCase
   - [x] addSessionPresetUseCase (homeViewModel)
   - [x] addSessionPresetUseCase test
-  - [ ] missing test cases in repositories -> check and complete!
+  - [ ] missing failing test cases in repositories in repositories, incomplete error output and exception error output
   - [ ] loadSessionsPresetsUseCase (homeViewModel)
   - [ ] loadOneSessionPresetUseCase (homeViewModel)
   - [ ] editSessionPresetUseCase (homeViewModel)

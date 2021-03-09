@@ -132,7 +132,7 @@ class RewardRepositoryImpl(
             Output.Error(
                 ERROR_CODE_DATABASE_OPERATION_FAILED,
                 ERROR_MESSAGE_DELETE_FAILED,
-                Exception(ERROR_MESSAGE_DELETE_FAILED)
+                exception
             )
         }
     }
