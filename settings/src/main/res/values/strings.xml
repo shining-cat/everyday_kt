@@ -32,7 +32,7 @@
     <string name="notificationsPreferences_summary">Recevoir une notification si aucune session n\’a été enregistrée dans la journée arrivée l’heure programmée</string>
     <string name="notificationsPreferences_notification_activated_title">Activer le rappel</string>
     <string name="notificationsPreferences_notification_text_title">Texte de notification</string>
-    <string name="notificationsPreferences_notification_text_default_text">C\'est l\'heure de pratiquer!</string>
+
     <string name="notificationsPreferences_notification_time_title">Heure de notification</string>
     <string name="notificationsPreferences_notification_sound_title">Son de notification</string>
     <!---->

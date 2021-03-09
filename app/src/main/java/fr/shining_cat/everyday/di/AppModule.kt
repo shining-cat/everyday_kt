@@ -25,6 +25,7 @@ val appModule = module {
     viewModel {
         SplashViewModel(
             get(),
+            get(),
             get()
         )
     }

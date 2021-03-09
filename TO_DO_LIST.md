@@ -19,7 +19,8 @@
 - [ ] update file access method for import/export (Storage Access Framework API aka Scoped Storage). As I understand it for now, since the access we need is for non-media files (csv), we will have to use the system file picker, which is already  planned for the import, and is actually a better way for the export than the present version with a dialog showing the export file location. Maybe some difficulties regarding compatibility with older versions of android. (see: https://www.youtube.com/watch?v=UnJ3amzJM94 and https://medium.com/swlh/sample-for-android-storage-access-framework-aka-scoped-storage-for-basic-use-cases-3ee4fee404fc)
 
 - [ ] Usecases:
-  - [ ] initUseCase (splahViewModel) : load user prefs or set defaults in if first launch
+  - [x] initUseCase (splahViewModel) : load user prefs or set defaults in if first launch
+  - [x] tests on initUseCase
   - [ ] loadSessionsPresetsUseCase (homeViewModel)
   - [ ] loadOneSessionPresetUseCase (homeViewModel)
   - [ ] addSessionPresetUseCase (homeViewModel)
