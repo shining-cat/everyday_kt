@@ -64,20 +64,15 @@ class SessionTypeRepositoryImplTest {
             mockSessionType
         )
         coEvery { mockSessionTypeConverter.convertEntitytoModel(any()) } returns mockSessionType
+    }
+
+    @Test
+    fun insert() {
         coEvery { mockSessionTypeDao.insert(any()) } returns arrayOf(
             1,
             2,
             3
         )
-        coEvery { mockSessionTypeDao.update(any()) } returns 3
-        coEvery { mockSessionTypeDao.delete(any()) } returns 3
-        coEvery { mockSessionTypeDao.getAllSessionTypesLastEditTimeDesc() } returns listOf(
-            mockSessionTypeEntity
-        )
-    }
-
-    @Test
-    fun insert() {
         runBlocking {
             sessionTypeRepo.insert(listOf(mockSessionType))
         }
@@ -87,6 +82,7 @@ class SessionTypeRepositoryImplTest {
 
     @Test
     fun update() {
+        coEvery { mockSessionTypeDao.update(any()) } returns 3
         runBlocking {
             sessionTypeRepo.update(mockSessionType)
         }
@@ -95,7 +91,8 @@ class SessionTypeRepositoryImplTest {
     }
 
     @Test
-    fun deleteSession() {
+    fun deleteSessionType() {
+        coEvery { mockSessionTypeDao.delete(any()) } returns 3
         runBlocking {
             sessionTypeRepo.delete(mockSessionType)
         }
@@ -104,7 +101,10 @@ class SessionTypeRepositoryImplTest {
     }
 
     @Test
-    fun getAllSessionsStartTimeAsc() {
+    fun getAllSessionTypesLastEditTimeDesc() {
+        coEvery { mockSessionTypeDao.getAllSessionTypesLastEditTimeDesc() } returns listOf(
+            mockSessionTypeEntity
+        )
         runBlocking {
             sessionTypeRepo.getAllSessionTypesLastEditTimeDesc()
         }
