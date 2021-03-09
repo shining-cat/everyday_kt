@@ -282,7 +282,7 @@ class RewardRepositoryImplTest {
     }
 
     @Test
-    fun `delete failed with exception`() {
+    fun `delete all failed with exception`() {
         coEvery { mockRewardDao.deleteAllRewards() } throws mockException
         val output = runBlocking {
             rewardRepo.deleteAllRewards()
