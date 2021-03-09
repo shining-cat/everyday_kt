@@ -38,7 +38,7 @@ abstract class SessionTypeDao {
     abstract suspend fun update(sessionType: SessionTypeEntity): Int
 
     @Delete
-    abstract suspend fun delete(sessionTypes: SessionTypeEntity): Int
+    abstract suspend fun delete(sessionType: SessionTypeEntity): Int
 
     @Query("DELETE FROM $SESSION_TYPE_TABLE_NAME")
     abstract suspend fun deleteAllSessionTypes(): Int

@@ -131,27 +131,24 @@ class SessionTypeRepositoryImpl(
             val sessionTypeEntities = withContext(Dispatchers.IO) {
                 sessionTypeDao.getAllSessionTypesLastEditTimeDesc()
             }
-            handleQueryResult(sessionTypeEntities)
+            if (sessionTypeEntities.isEmpty()) {
+                Output.Error(
+                    Constants.ERROR_CODE_NO_RESULT,
+                    Constants.ERROR_MESSAGE_NO_RESULT,
+                    NullPointerException(Constants.ERROR_MESSAGE_NO_RESULT)
+                )
+            }
+            else {
+                Output.Success(
+                    withContext(Dispatchers.Default) {
+                        sessionTypeConverter.convertEntitiesToModels(sessionTypeEntities)
+                    }
+                )
+            }
         }
         catch (exception: Exception) {
             genericReadError(exception)
         }
     }
 
-    private suspend fun handleQueryResult(sessionTypeEntities: List<SessionTypeEntity>): Output<List<SessionType>> {
-        return if (sessionTypeEntities.isEmpty()) {
-            Output.Error(
-                Constants.ERROR_CODE_NO_RESULT,
-                Constants.ERROR_MESSAGE_NO_RESULT,
-                NullPointerException(Constants.ERROR_MESSAGE_NO_RESULT)
-            )
-        }
-        else {
-            Output.Success(
-                withContext(Dispatchers.Default) {
-                    sessionTypeConverter.convertEntitiesToModels(sessionTypeEntities)
-                }
-            )
-        }
-    }
 }
