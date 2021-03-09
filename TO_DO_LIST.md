@@ -21,9 +21,11 @@
 - [ ] Usecases:
   - [x] initUseCase (splahViewModel) : load user prefs or set defaults in if first launch
   - [x] tests on initUseCase
+  - [x] addSessionPresetUseCase (homeViewModel)
+  - [x] addSessionPresetUseCase test
+  - [ ] missing test cases in repositories -> check and complete!
   - [ ] loadSessionsPresetsUseCase (homeViewModel)
   - [ ] loadOneSessionPresetUseCase (homeViewModel)
-  - [ ] addSessionPresetUseCase (homeViewModel)
   - [ ] editSessionPresetUseCase (homeViewModel)
   - [ ] deleteSessionPresetUsecase (homeViewModel)
   - [ ] display sessions presets on Home fragment
