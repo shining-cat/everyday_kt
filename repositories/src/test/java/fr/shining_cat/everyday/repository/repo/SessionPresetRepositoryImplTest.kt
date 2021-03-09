@@ -67,9 +67,9 @@ class SessionPresetRepositoryImplTest {
             mockSessionPresetEntity
         )
         coEvery { mockSessionPresetDao.insert(any()) } returns arrayOf(
-            1,
-            2,
-            3
+            1L,
+            2L,
+            3L
         )
         val output = runBlocking {
             sessionPresetRepo.insert(
@@ -122,7 +122,7 @@ class SessionPresetRepositoryImplTest {
     }
 
     @Test
-    fun getAllSessionsStartTimeAsc() {
+    fun getAllSessionPresetsLastEditTimeDesc() {
         coEvery { mockSessionPresetConverter.convertEntitiesToModels(any()) } returns listOf(
             mockSessionPreset
         )
