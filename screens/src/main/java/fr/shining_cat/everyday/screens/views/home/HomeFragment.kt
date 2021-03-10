@@ -17,7 +17,6 @@
 
 package fr.shining_cat.everyday.screens.views.home
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -27,6 +26,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.navigation.Actions
 import fr.shining_cat.everyday.navigation.Destination
@@ -34,6 +34,7 @@ import fr.shining_cat.everyday.screens.R
 import fr.shining_cat.everyday.screens.databinding.FragmentHomeBinding
 import fr.shining_cat.everyday.screens.viewmodels.HomeViewModel
 import fr.shining_cat.everyday.screens.views.ScreenActivity
+import fr.shining_cat.everyday.screens.views.home.sessionpresets.CreateSessionPresetDialog
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -117,19 +118,19 @@ class HomeFragment : Fragment() {
 
     private fun showAboutDialog() {
         val aboutDialog = AboutDialog.newInstance()
-        aboutDialog.show(
-            parentFragmentManager,
-            "openAboutDialog"
-        )
+        aboutDialog.show(parentFragmentManager, "openAboutDialog")
     }
     ////////////////////
     // FAB
 
     private fun setupAddSessionPresetFab(homeFragmentBinding: FragmentHomeBinding) {
-        homeFragmentBinding.addSessionPresetFab.setOnClickListener { showCreateSessionPresetDialog(requireContext()) }
+        homeFragmentBinding.addSessionPresetFab.setOnClickListener { showCreateSessionPresetDialog() }
     }
 
-    private fun showCreateSessionPresetDialog(context: Context) {
-
+    private fun showCreateSessionPresetDialog() {
+        val dialogFragment = CreateSessionPresetDialog()
+        val transaction: FragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        transaction.add(android.R.id.content, dialogFragment).addToBackStack(null).commit()
     }
 }
