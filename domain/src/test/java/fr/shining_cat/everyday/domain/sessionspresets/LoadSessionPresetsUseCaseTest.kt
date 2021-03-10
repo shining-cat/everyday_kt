@@ -1,7 +1,5 @@
 package fr.shining_cat.everyday.domain.sessionspresets
 
-import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_CODE_DATABASE_OPERATION_FAILED
-import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_INSERT_FAILED
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.domain.Result
 import fr.shining_cat.everyday.models.SessionPreset
@@ -18,7 +16,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
-class CreateSessionPresetUseCaseTest {
+class LoadSessionPresetsUseCaseTest {
     @MockK
     private lateinit var mockSessionPresetRepository: SessionPresetRepository
 
@@ -26,7 +24,7 @@ class CreateSessionPresetUseCaseTest {
     private lateinit var mockLogger: Logger
 
     @MockK
-    private lateinit var mockOutputSuccess: Output.Success<Array<Long>>
+    private lateinit var mockOutputSuccess: Output.Success<List<SessionPreset>>
 
     @MockK
     private lateinit var mockOutputError: Output.Error
@@ -37,60 +35,43 @@ class CreateSessionPresetUseCaseTest {
     @MockK
     private lateinit var mockSessionPreset: SessionPreset
 
-    private lateinit var createSessionPresetUseCase: CreateSessionPresetUseCase
+    private lateinit var loadSessionPresetsUseCase: LoadSessionPresetsUseCase
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
         Assert.assertNotNull(mockSessionPresetRepository)
 
-        createSessionPresetUseCase = CreateSessionPresetUseCase(
+        loadSessionPresetsUseCase = LoadSessionPresetsUseCase(
             mockSessionPresetRepository,
             mockLogger
         )
     }
 
     @Test
-    fun `test insert succeeded`() {
-        coEvery { mockSessionPresetRepository.insert(any()) } returns mockOutputSuccess
-        val success = arrayOf(3L)
+    fun `test load succeeded`() {
+        coEvery { mockSessionPresetRepository.getAllSessionPresetsLastEditTimeDesc() } returns mockOutputSuccess
+        val success = listOf(mockSessionPreset, mockSessionPreset, mockSessionPreset)
         coEvery { mockOutputSuccess.result } returns success
         val output = runBlocking {
-            createSessionPresetUseCase.execute(mockSessionPreset)
+            loadSessionPresetsUseCase.execute()
         }
-        coVerify(exactly = 1) { mockSessionPresetRepository.insert(listOf(mockSessionPreset)) }
+        coVerify(exactly = 1) { mockSessionPresetRepository.getAllSessionPresetsLastEditTimeDesc() }
         assertTrue(output is Result.Success)
         output as Result.Success
-        assertEquals(3L, output.result)
+        assertEquals(listOf(mockSessionPreset, mockSessionPreset, mockSessionPreset), output.result)
     }
 
     @Test
-    fun `test insert failed returned wrong number of ids`() {
-        coEvery { mockSessionPresetRepository.insert(any()) } returns mockOutputSuccess
-        val success = arrayOf(3L, 7L, 9L)
-        coEvery { mockOutputSuccess.result } returns success
-        val result = runBlocking {
-            createSessionPresetUseCase.execute(mockSessionPreset)
-        }
-        coVerify(exactly = 1) { mockSessionPresetRepository.insert(listOf(mockSessionPreset)) }
-        assertTrue(result is Result.Error)
-        assertTrue(result is Result.Error)
-        result as Result.Error
-        assertEquals(ERROR_CODE_DATABASE_OPERATION_FAILED, result.errorCode)
-        assertEquals(ERROR_MESSAGE_INSERT_FAILED, result.errorResponse)
-        assertEquals(ERROR_MESSAGE_INSERT_FAILED, result.exception?.message)
-    }
-
-    @Test
-    fun `test insert failed with exception`() {
-        coEvery { mockSessionPresetRepository.insert(any()) } returns mockOutputError
+    fun `test load failed`() {
+        coEvery { mockSessionPresetRepository.getAllSessionPresetsLastEditTimeDesc() } returns mockOutputError
         coEvery { mockOutputError.errorCode } returns 123
         coEvery { mockOutputError.errorResponse } returns "mocked error response message"
         coEvery { mockOutputError.exception } returns mockException
         val result = runBlocking {
-            createSessionPresetUseCase.execute(mockSessionPreset)
+            loadSessionPresetsUseCase.execute()
         }
-        coVerify(exactly = 1) { mockSessionPresetRepository.insert(listOf(mockSessionPreset)) }
+        coVerify(exactly = 1) { mockSessionPresetRepository.getAllSessionPresetsLastEditTimeDesc() }
         assertTrue(result is Result.Error)
         result as Result.Error
         assertEquals(123, result.errorCode)
