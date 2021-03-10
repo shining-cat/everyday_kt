@@ -26,14 +26,12 @@
 ### sessions presets
   - [x] addSessionPresetUseCase (homeViewModel)
   - [x] addSessionPresetUseCase tests
-  - [ ] loadSessionsPresetsUseCase (homeViewModel)
-  - [ ] loadSessionsPresetsUseCase tests
-  - [ ] loadOneSessionPresetUseCase (homeViewModel)
-  - [ ] loadOneSessionPresetUseCase test
+  - [x] loadSessionsPresetsUseCase (homeViewModel)
+  - [x] loadSessionsPresetsUseCase tests
+  - [x] deleteSessionPresetUseCase (homeViewModel)
+  - [x] deleteSessionPresetUseCase tests
   - [ ] editSessionPresetUseCase (homeViewModel)
   - [ ] editSessionPresetUseCase tests
-  - [ ] deleteSessionPresetUseCase (homeViewModel)
-  - [ ] deleteSessionPresetUseCase tests
   - [ ] plug add session preset to FAB on Home Fragment, display and plug usecase to creation dialog
   - [ ] display sessions presets on Home fragment
   - [ ] plug edit session preset to swipe left on preset on Home Fragment, display and plug usecase to edition/suppression dialog
