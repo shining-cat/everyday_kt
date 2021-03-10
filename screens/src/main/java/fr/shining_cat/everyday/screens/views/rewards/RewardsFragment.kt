@@ -29,7 +29,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.screens.R
-import fr.shining_cat.everyday.screens.databinding.RewardsFragmentBinding
+import fr.shining_cat.everyday.screens.databinding.FragmentRewardsBinding
 import fr.shining_cat.everyday.screens.viewmodels.RewardsViewModel
 import fr.shining_cat.everyday.screens.views.ScreenActivity
 import org.koin.android.ext.android.get
@@ -47,7 +47,7 @@ class RewardsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rewardsFragmentBinding = RewardsFragmentBinding.inflate(layoutInflater)
+        val rewardsFragmentBinding = FragmentRewardsBinding.inflate(layoutInflater)
         //
         setupToolbar(rewardsFragmentBinding)
         //
@@ -62,7 +62,7 @@ class RewardsFragment : Fragment() {
         return rewardsFragmentBinding.root
     }
 
-    private fun setupToolbar(rewardsFragmentBinding: RewardsFragmentBinding) {
+    private fun setupToolbar(rewardsFragmentBinding: FragmentRewardsBinding) {
         logger.d(
             LOG_TAG,
             "setupToolbar"

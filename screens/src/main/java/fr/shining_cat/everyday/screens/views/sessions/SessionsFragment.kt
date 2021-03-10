@@ -29,7 +29,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.screens.R
-import fr.shining_cat.everyday.screens.databinding.SessionsFragmentBinding
+import fr.shining_cat.everyday.screens.databinding.FragmentSessionsBinding
 import fr.shining_cat.everyday.screens.viewmodels.SessionsViewModel
 import fr.shining_cat.everyday.screens.views.ScreenActivity
 import org.koin.android.ext.android.get
@@ -47,7 +47,7 @@ class SessionsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val sessionsFragmentBinding = SessionsFragmentBinding.inflate(layoutInflater)
+        val sessionsFragmentBinding = FragmentSessionsBinding.inflate(layoutInflater)
         //
         setupToolbar(sessionsFragmentBinding)
         //
@@ -62,7 +62,7 @@ class SessionsFragment : Fragment() {
         return sessionsFragmentBinding.root
     }
 
-    private fun setupToolbar(sessionsFragmentBinding: SessionsFragmentBinding) {
+    private fun setupToolbar(sessionsFragmentBinding: FragmentSessionsBinding) {
         logger.d(
             LOG_TAG,
             "setupToolbar"

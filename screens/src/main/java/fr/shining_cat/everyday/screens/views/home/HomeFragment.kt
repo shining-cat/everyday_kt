@@ -17,6 +17,7 @@
 
 package fr.shining_cat.everyday.screens.views.home
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -24,15 +25,13 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.navigation.Actions
 import fr.shining_cat.everyday.navigation.Destination
 import fr.shining_cat.everyday.screens.R
-import fr.shining_cat.everyday.screens.databinding.HomeFragmentBinding
+import fr.shining_cat.everyday.screens.databinding.FragmentHomeBinding
 import fr.shining_cat.everyday.screens.viewmodels.HomeViewModel
 import fr.shining_cat.everyday.screens.views.ScreenActivity
 import org.koin.android.ext.android.get
@@ -50,7 +49,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val homeFragmentBinding = HomeFragmentBinding.inflate(layoutInflater)
+        val homeFragmentBinding = FragmentHomeBinding.inflate(layoutInflater)
         logger.d(
             LOG_TAG,
             "onCreateView"
@@ -58,18 +57,15 @@ class HomeFragment : Fragment() {
         //
         setupToolbar(homeFragmentBinding)
         //
-        val textView: TextView = homeFragmentBinding.fakeFragmentText
-        homeViewModel.initReadyLiveData.observe(
-            viewLifecycleOwner,
-            Observer {
-                textView.text = "This is ${LOG_TAG}\n $it loaded!"
-            }
-        )
+        setupAddSessionPresetFab(homeFragmentBinding)
+        //
         homeViewModel.initViewModel()
         return homeFragmentBinding.root
     }
 
-    private fun setupToolbar(homeFragmentBinding: HomeFragmentBinding) {
+    ////////////////////////
+    // TOOLBAR
+    private fun setupToolbar(homeFragmentBinding: FragmentHomeBinding) {
         logger.d(
             LOG_TAG,
             "setupToolbar"
@@ -120,10 +116,20 @@ class HomeFragment : Fragment() {
     }
 
     private fun showAboutDialog() {
-        logger.d(
-            LOG_TAG,
-            "todo: showAboutDialog"
+        val aboutDialog = AboutDialog.newInstance()
+        aboutDialog.show(
+            parentFragmentManager,
+            "openAboutDialog"
         )
-        // TODO("not implemented")
+    }
+    ////////////////////
+    // FAB
+
+    private fun setupAddSessionPresetFab(homeFragmentBinding: FragmentHomeBinding) {
+        homeFragmentBinding.addSessionPresetFab.setOnClickListener { showCreateSessionPresetDialog(requireContext()) }
+    }
+
+    private fun showCreateSessionPresetDialog(context: Context) {
+
     }
 }

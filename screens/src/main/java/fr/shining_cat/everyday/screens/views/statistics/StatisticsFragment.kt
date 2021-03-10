@@ -29,7 +29,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.screens.R
-import fr.shining_cat.everyday.screens.databinding.StatisticsFragmentBinding
+import fr.shining_cat.everyday.screens.databinding.FragmentStatisticsBinding
 import fr.shining_cat.everyday.screens.viewmodels.StatisticsViewModel
 import fr.shining_cat.everyday.screens.views.ScreenActivity
 import org.koin.android.ext.android.get
@@ -47,7 +47,7 @@ class StatisticsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val statisticsFragmentBinding = StatisticsFragmentBinding.inflate(layoutInflater)
+        val statisticsFragmentBinding = FragmentStatisticsBinding.inflate(layoutInflater)
         //
         setupToolbar(statisticsFragmentBinding)
         //
@@ -62,7 +62,7 @@ class StatisticsFragment : Fragment() {
         return statisticsFragmentBinding.root
     }
 
-    private fun setupToolbar(statisticsFragmentBinding: StatisticsFragmentBinding) {
+    private fun setupToolbar(statisticsFragmentBinding: FragmentStatisticsBinding) {
         logger.d(
             LOG_TAG,
             "setupToolbar"

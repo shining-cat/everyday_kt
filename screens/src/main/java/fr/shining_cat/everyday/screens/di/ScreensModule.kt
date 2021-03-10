@@ -17,6 +17,7 @@
 
 package fr.shining_cat.everyday.screens.di
 
+import fr.shining_cat.everyday.screens.viewmodels.CreateSessionPresetViewModel
 import fr.shining_cat.everyday.screens.viewmodels.HomeViewModel
 import fr.shining_cat.everyday.screens.viewmodels.RewardsViewModel
 import fr.shining_cat.everyday.screens.viewmodels.SessionsViewModel
@@ -46,6 +47,12 @@ val screensModule = module {
     }
     viewModel {
         RewardsViewModel(
+            get(),
+            get()
+        )
+    }
+    viewModel {
+        CreateSessionPresetViewModel(
             get(),
             get()
         )
