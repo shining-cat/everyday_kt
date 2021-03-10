@@ -1,5 +1,7 @@
 package fr.shining_cat.everyday.domain.sessionspresets
 
+import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_CODE_DATABASE_OPERATION_FAILED
+import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_INSERT_FAILED
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.domain.Result
 import fr.shining_cat.everyday.models.SessionPreset
@@ -11,7 +13,6 @@ import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
-import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -54,16 +55,34 @@ class CreateSessionPresetUseCaseTest {
         coEvery { mockSessionPresetRepository.insert(any()) } returns mockOutputSuccess
         val success = arrayOf(3L)
         coEvery { mockOutputSuccess.result } returns success
+        val output = runBlocking {
+            createSessionPresetUseCase.execute(mockSessionPreset)
+        }
+        coVerify(exactly = 1) { mockSessionPresetRepository.insert(listOf(mockSessionPreset)) }
+        assertTrue(output is Result.Success)
+        output as Result.Success
+        assertEquals(3L, output.result)
+    }
+
+    @Test
+    fun `test insert failed returned wrong number of ids`() {
+        coEvery { mockSessionPresetRepository.insert(any()) } returns mockOutputSuccess
+        val success = arrayOf(3L, 7L, 9L)
+        coEvery { mockOutputSuccess.result } returns success
         val result = runBlocking {
             createSessionPresetUseCase.execute(mockSessionPreset)
         }
         coVerify(exactly = 1) { mockSessionPresetRepository.insert(listOf(mockSessionPreset)) }
-        assertTrue(result is Result.Success)
-        assertArrayEquals(arrayOf(3L), (result as Result.Success).result)
+        assertTrue(result is Result.Error)
+        assertTrue(result is Result.Error)
+        result as Result.Error
+        assertEquals(ERROR_CODE_DATABASE_OPERATION_FAILED, result.errorCode)
+        assertEquals(ERROR_MESSAGE_INSERT_FAILED, result.errorResponse)
+        assertEquals(ERROR_MESSAGE_INSERT_FAILED, result.exception?.message)
     }
 
     @Test
-    fun `test insert failed`() {
+    fun `test insert failed with exception`() {
         coEvery { mockSessionPresetRepository.insert(any()) } returns mockOutputError
         coEvery { mockOutputError.errorCode } returns 123
         coEvery { mockOutputError.errorResponse } returns "mocked error response message"
