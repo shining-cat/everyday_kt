@@ -47,12 +47,12 @@ To use it: launch gradle task everyday>everydayDependencyUpdates
 ### first deployed version will include:
 
  - settings
- - import/export data
  - create, edit and delete sessions presets swipe right to open edit screen (delete button is inside edit screen)
  - launching session from preset
  - mood recording
  - session run with simple countdown and animation (pulse) based on audio-file duration or preset length. Play audio if selected
  - recording session (with audio metadata when adequate)
+ - import/export data
  - displaying sessions recorded as list (no calendar view, no statistics) + detail view per session
  - about page + text
 
