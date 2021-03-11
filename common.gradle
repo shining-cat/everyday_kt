@@ -56,6 +56,7 @@ android {
 
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-parcelize'
 apply plugin: 'jacoco'
 apply plugin: "com.github.ben-manes.versions"
 apply plugin: "io.gitlab.arturbosch.detekt"

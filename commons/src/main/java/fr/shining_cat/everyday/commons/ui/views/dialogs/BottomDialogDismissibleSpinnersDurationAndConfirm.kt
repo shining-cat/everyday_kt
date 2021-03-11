@@ -45,9 +45,7 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
 
     private var listener: BottomDialogDismissibleSpinnerSecondsAndConfirmListener? = null
 
-    interface BottomDialogDismissibleSpinnerSecondsAndConfirmListener {
-
-        fun onDismissed()
+    fun interface BottomDialogDismissibleSpinnerSecondsAndConfirmListener {
         fun onConfirmButtonClicked(lengthMs: Long)
     }
 
@@ -121,7 +119,6 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
         //
         val dismissButton = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
         dismissButton.setOnClickListener {
-            listener?.onDismissed()
             dismiss()
         }
         //
@@ -155,19 +152,19 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
         ) ?: ""
         val confirmButton = uiBindings.dialogBottomConfirmButton
         confirmButton.text = confirmButtonLabel
-        confirmButton.setOnClickListener { transmitInputLength() }
+        confirmButton.setOnClickListener { transmitInputLength(uiBindings) }
     }
 
-    private fun collectLengthSelected(): Long {
-        val hours: Int = hoursPicker.value
-        val minutes: Int = minutesPicker.value
-        val seconds: Int = secondsPicker.value
+    private fun collectLengthSelected(uiBindings: DialogBottomSpinnersDurationAndConfirmBinding): Long {
+        val hours: Int = uiBindings.dialogBottomDurationHoursPicker.value
+        val minutes: Int = uiBindings.dialogBottomDurationMinutesPicker.value
+        val seconds: Int = uiBindings.dialogBottomDurationSecondsPicker.value
         return ((hours * 60 + minutes) * 60 + seconds) * 1000.toLong()
     }
 
-    private fun transmitInputLength() {
+    private fun transmitInputLength(uiBindings: DialogBottomSpinnersDurationAndConfirmBinding) {
         listener?.onConfirmButtonClicked(
-            collectLengthSelected()
+            collectLengthSelected(uiBindings)
         )
         dismiss()
     }
@@ -204,9 +201,9 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
         val fullMinutes = (initialLengthMinutes - TimeUnit.HOURS.toMinutes(initialLengthHours))
         val fullSeconds = (initialLengthSeconds - (TimeUnit.HOURS.toSeconds(initialLengthHours) + TimeUnit.MINUTES.toSeconds(fullMinutes)))
         // apply to pickers
-        hoursPicker.value = initialLengthHours.toInt()
-        minutesPicker.value = fullMinutes.toInt()
-        secondsPicker.value = fullSeconds.toInt()
+        uiBindings.dialogBottomDurationHoursPicker.value = initialLengthHours.toInt()
+        uiBindings.dialogBottomDurationMinutesPicker.value = fullMinutes.toInt()
+        uiBindings.dialogBottomDurationSecondsPicker.value = fullSeconds.toInt()
         Log.d(
             "DIALOG",
             "fullHours = $initialLengthHours," + "fullMinutes = $fullMinutes, fullSeconds = $fullSeconds"

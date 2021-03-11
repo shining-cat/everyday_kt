@@ -36,5 +36,13 @@ class Constants {
 
         // Constants
         const val SPLASH_MIN_DURATION_MILLIS = 1000L
+        const val DEFAULT_SESSION_COUNTDOWN_MILLIS = 5 * 1000L
+        const val DEFAULT_SESSION_DURATION_MILLIS = 15 * 60 * 1000L
+
+
+        //
+        const val ONE_SECOND_AS_MS = 1000L
+        const val ONE_MINUTE_AS_MS = 60 * 1000L
+        const val ONE_HOUR_AS_MS = 60 * 60 * 1000L
     }
 }

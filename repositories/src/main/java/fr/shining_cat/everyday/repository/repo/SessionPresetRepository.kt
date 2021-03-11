@@ -35,8 +35,8 @@ interface SessionPresetRepository {
 }
 
 class SessionPresetRepositoryImpl(
-    val sessionPresetDao: SessionPresetDao,
-    val sessionPresetConverter: SessionPresetConverter
+    private val sessionPresetDao: SessionPresetDao,
+    private val sessionPresetConverter: SessionPresetConverter
 ) : SessionPresetRepository {
 
     private fun genericReadError(exception: java.lang.Exception) = Output.Error(

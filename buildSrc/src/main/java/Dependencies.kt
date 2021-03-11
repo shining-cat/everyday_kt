@@ -23,7 +23,7 @@ object Versions {
     const val jacoco = "0.8.6"
     const val room = "2.2.6"
     const val lifecycle = "2.3.0"
-    const val navigation = "2.3.3"
+    const val navigation = "2.3.4"
     const val ktlint = "0.40.0"
     const val detekt = "1.1.1"
 }
@@ -45,13 +45,14 @@ object Libraries {
     const val stetho = "com.facebook.stetho:stetho:1.5.1"
 
     //AirBnB Lottie
-    const val lottie = "com.airbnb.android:lottie:3.6.0"
+    const val lottie = "com.airbnb.android:lottie:3.6.1"
 }
 
 object KotlinLibraries {
 
     const val kotlinJdk7 = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
     const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+
 }
 
 object AndroidLibraries {
@@ -95,7 +96,7 @@ object TestLibraries {
 
     const val mockk = "io.mockk:mockk:1.10.6"
     const val junit = "junit:junit:4.13.2"
-    const val coroutines_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.2"
+    const val coroutines_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3"
     const val robolectric = "org.robolectric:robolectric:4.5.1"
 }
 

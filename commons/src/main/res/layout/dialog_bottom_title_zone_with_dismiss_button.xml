@@ -24,14 +24,6 @@
     android:backgroundTint="?attr/colorPrimary"
     tools:showIn="@layout/dialog_bottom_big_button">
 
-    <!--    <View-->
-    <!--        android:id="@+id/dialog_bottom_title_background"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="40dp"-->
-    <!--        android:background="?attr/colorPrimary"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
-
     <ImageView
         android:id="@+id/dialog_bottom_dismiss_button"
         android:layout_width="0dp"
@@ -39,30 +31,18 @@
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:padding="12dp"
+        android:padding="@dimen/space_s"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_cross" />
-    <!--    <ImageView-->
-    <!--        android:id="@+id/dialog_bottom_dismiss_button"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="0dp"-->
-    <!--        app:layout_constraintDimensionRatio="1:1"-->
-    <!--        app:srcCompat="@drawable/ic_cross"-->
-    <!--        android:background="?attr/selectableItemBackground"-->
-    <!--        android:clickable="true"-->
-    <!--        android:padding="12dp"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="@+id/dialog_bottom_title_background"-->
-    <!--        app:layout_constraintBottom_toBottomOf="@+id/dialog_bottom_title_background"-->
-    <!--        android:focusable="true" />-->
+        app:srcCompat="@drawable/ic_cross"
+        android:contentDescription="@string/content_description_close_button" />
 
     <TextView
         android:id="@+id/dialog_bottom_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="@dimen/space_xs"
         android:backgroundTint="?attr/colorPrimary"
         android:textAlignment="viewStart"
         android:textColor="?attr/colorOnPrimary"

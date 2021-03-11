@@ -28,13 +28,15 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import fr.shining_cat.everyday.commons.Logger
+import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleErrorMessage
+import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleMessageAndConfirm
 import fr.shining_cat.everyday.navigation.Actions
 import fr.shining_cat.everyday.navigation.Destination
 import fr.shining_cat.everyday.screens.R
 import fr.shining_cat.everyday.screens.databinding.FragmentHomeBinding
 import fr.shining_cat.everyday.screens.viewmodels.HomeViewModel
 import fr.shining_cat.everyday.screens.views.ScreenActivity
-import fr.shining_cat.everyday.screens.views.home.sessionpresets.CreateSessionPresetDialog
+import fr.shining_cat.everyday.screens.views.home.sessionpresets.SessionPresetDialog
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -49,28 +51,53 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val homeFragmentBinding = FragmentHomeBinding.inflate(layoutInflater)
-        logger.d(
-            LOG_TAG,
-            "onCreateView"
-        )
         //
         setupToolbar(homeFragmentBinding)
         //
         setupAddSessionPresetFab(homeFragmentBinding)
         //
-        homeViewModel.initViewModel()
+        setUpSessionPresetsRecyclerView()
+        //
+        setupObservers()
+        //
+        homeViewModel.initViewModel(resources)
         return homeFragmentBinding.root
+    }
+
+
+    ////////////////////////
+    // OBSERVERS
+    private fun setupObservers() {
+        homeViewModel.errorLiveData.observe(viewLifecycleOwner, {
+            logger.e(LOG_TAG, "homeViewModel.errorLiveData::$it")
+            showErrorDialog(it)
+        })
+        homeViewModel.sessionPresetsLiveData.observe(viewLifecycleOwner, {
+            logger.d(LOG_TAG, "homeViewModel.sessionPresetsLiveData::${it.size}")
+            if (it.size == 0) {
+                //TODO: display empty list message
+            }
+            else {
+                //TODO: update list display through adapter
+            }
+        })
+    }
+
+    ////////////////////////
+    // ERROR DISPLAY
+    private fun showErrorDialog(errorMessage: String){
+        val errorDialog = BottomDialogDismissibleErrorMessage.newInstance(
+            title = getString(R.string.generic_string_ERROR),
+            message = errorMessage
+        )
+        errorDialog.show(childFragmentManager, "openAboutDialog")
     }
 
     ////////////////////////
     // TOOLBAR
     private fun setupToolbar(homeFragmentBinding: FragmentHomeBinding) {
-        logger.d(
-            LOG_TAG,
-            "setupToolbar"
-        )
         val toolbar: Toolbar = homeFragmentBinding.toolbar
         (activity as ScreenActivity).setSupportActionBar(toolbar)
         setHasOptionsMenu(true)
@@ -80,10 +107,6 @@ class HomeFragment : Fragment() {
         menu: Menu,
         inflater: MenuInflater
     ) {
-        logger.d(
-            LOG_TAG,
-            "onCreateOptionsMenu"
-        )
         inflater.inflate(
             R.menu.toolbar_menu_home,
             menu
@@ -118,19 +141,27 @@ class HomeFragment : Fragment() {
 
     private fun showAboutDialog() {
         val aboutDialog = AboutDialog.newInstance()
-        aboutDialog.show(parentFragmentManager, "openAboutDialog")
+        aboutDialog.show(childFragmentManager, "openAboutDialog")
     }
+
     ////////////////////
     // FAB
-
     private fun setupAddSessionPresetFab(homeFragmentBinding: FragmentHomeBinding) {
         homeFragmentBinding.addSessionPresetFab.setOnClickListener { showCreateSessionPresetDialog() }
     }
 
     private fun showCreateSessionPresetDialog() {
-        val dialogFragment = CreateSessionPresetDialog()
+        val dialogFragment = SessionPresetDialog.newInstance()
+        dialogFragment.setSessionPresetDialogListener { homeViewModel.saveSessionPreset(it, resources) }
         val transaction: FragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         transaction.add(android.R.id.content, dialogFragment).addToBackStack(null).commit()
     }
+
+    ////////////////////
+    // SESSION PRESETS LIST
+    private fun setUpSessionPresetsRecyclerView() {
+
+    }
+
 }

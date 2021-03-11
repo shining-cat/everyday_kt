@@ -46,5 +46,11 @@
     <string name="generic_string_CONTINUE" translatable="true">Continuer</string>
     <string name="generic_string_PASS" translatable="true">Passer</string>
 
+    <string name="hms_duration_format_short" translatable="false">%02dh %02dmn %02ds</string>
+    <string name="ms_duration_format_short" translatable="false">%02dmn %02ds</string>
+    <string name="s_duration_format_short" translatable="false">%02ds</string>
+
     <string name="notificationsPreferences_notification_text_default_text">C\'est l\'heure de pratiquer!</string>
+    <string name="content_description_close_button">bouton fermeture de la fenêtre</string>
+    <string name="content_description_validate_dialog">bouton validation</string>
 </resources>

@@ -19,6 +19,9 @@ package fr.shining_cat.everyday.domain.di
 
 import fr.shining_cat.everyday.domain.InitDefaultPrefsValuesUseCase
 import fr.shining_cat.everyday.domain.sessionspresets.CreateSessionPresetUseCase
+import fr.shining_cat.everyday.domain.sessionspresets.DeleteSessionPresetUseCase
+import fr.shining_cat.everyday.domain.sessionspresets.LoadSessionPresetsUseCase
+import fr.shining_cat.everyday.domain.sessionspresets.UpdateSessionPresetUseCase
 import org.koin.dsl.module
 
 val domainModule = module {
@@ -28,5 +31,14 @@ val domainModule = module {
     }
     factory {
         CreateSessionPresetUseCase(get(), get())
+    }
+    factory {
+        UpdateSessionPresetUseCase(get(), get())
+    }
+    factory {
+        LoadSessionPresetsUseCase(get(), get())
+    }
+    factory {
+        DeleteSessionPresetUseCase(get(), get())
     }
 }

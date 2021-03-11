@@ -39,4 +39,23 @@
     <!--CONTENTS DESCRIPTIONS-->
     <string name="content_description_add_new_preset">Bouton ajouter un nouveau préréglage</string>
     <string name="content_description_kiwi_logo">kiwi logo</string>
+
+    <!--SESSION PRESETS    -->
+    <string name="session_preset_creation_dialog_title">Création</string>
+    <string name="session_preset_edition_dialog_title">Édition du preset</string>
+    <string name="session_preset_audio_edit_dialog_title">Édition des sessions Audio</string>
+    <string name="duration">Durée</string>
+    <string name="countdown">Compte à rebours</string>
+    <string name="start_end_sound">Son de début et fin</string>
+    <string name="interval">Intervalle</string>
+    <string name="vibration">Vibration</string>
+    <string name="interval_sound">Son d\'intervalle</string>
+    <string name="title_settings">Paramètres</string>
+    <string name="audio_guide">Support Audio</string>
+    <string name="no_session_preset_found">Aucun preset trouvé, créez-en un nouveau!</string>
+    <string name="session_duration_explanation">pour une session audio, la durée sera celle du fichier choisi</string>
+    <string name="session_countdown_explanation">longueur du compte à rebours avant le démarrage</string>
+    <string name="session_interval_explanation">Intervalle auquel un son sera joué, choisir 0 pour aucun</string>
+
+
 </resources>

@@ -17,6 +17,10 @@
 
 package fr.shining_cat.everyday.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class SessionPreset(
     var id: Long,
     var duration: Long,
@@ -29,4 +33,4 @@ data class SessionPreset(
     var vibration: Boolean,
     var lastEditTime: Long,
     var sessionTypeId: Long
-)
+) : Parcelable

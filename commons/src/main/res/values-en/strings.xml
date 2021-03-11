@@ -37,5 +37,7 @@
     <string name="confirm_suppress">Confirm suppression</string>
 
     <string name="notificationsPreferences_notification_text_default_text">It\'s time to practice!</string>
+    <string name="content_description_close_button">close dialog button</string>
+    <string name="content_description_validate_dialog">validate button</string>
 
 </resources>

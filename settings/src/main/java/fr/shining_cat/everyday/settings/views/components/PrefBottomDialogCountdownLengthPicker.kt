@@ -43,11 +43,11 @@ class PrefBottomDialogCountdownLengthPicker(
     private fun updateSummary() {
         summary =
             context.getString(R.string.startCountDownLengthPreference_explanation) +
-            ": " +
-            context.getString(R.string.startCountDownLengthPreference_value_display)
-                .format(
-                    sharedPrefsHelper.getCountDownLength().toInt() / 1000
-                )
+                ": " +
+                context.getString(R.string.startCountDownLengthPreference_value_display)
+                    .format(
+                        sharedPrefsHelper.getCountDownLength().toInt() / 1000
+                    )
     }
 
     override fun onClick() {
@@ -64,17 +64,10 @@ class PrefBottomDialogCountdownLengthPicker(
             confirmButtonLabel = context.getString(R.string.generic_string_OK),
             initialLengthMs = sharedPrefsHelper.getCountDownLength()
         )
-        setCountDownLengthBottomSheetDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener(object :
-                BottomDialogDismissibleSpinnersDurationAndConfirm.BottomDialogDismissibleSpinnerSecondsAndConfirmListener {
-                override fun onDismissed() {
-                    // nothing to do here
-                }
-
-                override fun onConfirmButtonClicked(lengthMs: Long) {
-                    sharedPrefsHelper.setCountDownLength(lengthMs)
-                    updateSummary()
-                }
-            })
+        setCountDownLengthBottomSheetDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener { lengthMs ->
+            sharedPrefsHelper.setCountDownLength(lengthMs)
+            updateSummary()
+        }
         setCountDownLengthBottomSheetDialog.show(
             fragmentManager,
             "openCountDownLengthPickerDialog"
