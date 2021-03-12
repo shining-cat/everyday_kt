@@ -6,15 +6,17 @@ import androidx.recyclerview.widget.RecyclerView
 
 class SessionPresetItemDecoration(private val spaceSize: Int) : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
-        outRect: Rect, view: View,
+        outRect: Rect,
+        view: View,
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
+        //this item decorator is counter intuitive because the recycler using it is reverted, so the childAdapterPositions are upside -down
         with(outRect) {
             top = spaceSize
             left = 0
             right = 0
-            bottom = 0
+            bottom = if (parent.getChildAdapterPosition(view) == 0) spaceSize else 0
         }
     }
 }
