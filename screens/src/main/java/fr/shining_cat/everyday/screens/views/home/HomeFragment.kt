@@ -17,6 +17,7 @@
 
 package fr.shining_cat.everyday.screens.views.home
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -31,7 +32,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_DRAGGING
+import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
+import fr.shining_cat.everyday.commons.Constants.Companion.SLOW_ANIMATION_DURATION_MILLIS
+import fr.shining_cat.everyday.commons.Constants.Companion.STANDARD_ANIMATION_DURATION_MILLIS
 import fr.shining_cat.everyday.commons.Logger
+import fr.shining_cat.everyday.commons.extensions.animateAlpha
 import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleErrorMessage
 import fr.shining_cat.everyday.models.SessionPreset
 import fr.shining_cat.everyday.navigation.Actions
@@ -60,9 +66,9 @@ class HomeFragment : Fragment() {
         //
         setupToolbar(homeFragmentBinding)
         //
-        setupAddSessionPresetFab(homeFragmentBinding)
+        setupAddSessionPresetFab(homeFragmentBinding, true)
         //
-        setUpSessionPresetsRecyclerView(homeFragmentBinding.sessionPresetRecyclerView)
+        setUpSessionPresetsRecyclerView(homeFragmentBinding)
         //
         setupObservers(homeFragmentBinding)
         //
@@ -150,8 +156,13 @@ class HomeFragment : Fragment() {
 
     ////////////////////
     // FAB
-    private fun setupAddSessionPresetFab(homeFragmentBinding: FragmentHomeBinding) {
-        homeFragmentBinding.addSessionPresetFab.setOnClickListener { showCreateSessionPresetDialog() }
+    private fun setupAddSessionPresetFab(homeFragmentBinding: FragmentHomeBinding, active: Boolean) {
+        if (active) {
+            homeFragmentBinding.addSessionPresetFab.setOnClickListener { showCreateSessionPresetDialog() }
+        }
+        else {
+            homeFragmentBinding.addSessionPresetFab.setOnClickListener { null }
+        }
     }
 
     private fun showCreateSessionPresetDialog() {
@@ -174,8 +185,8 @@ class HomeFragment : Fragment() {
 
     ////////////////////
     // SESSION PRESETS LIST
-    private fun setUpSessionPresetsRecyclerView(recyclerView: RecyclerView) {
-        recyclerView.apply {
+    private fun setUpSessionPresetsRecyclerView(homeFragmentBinding: FragmentHomeBinding) {
+        homeFragmentBinding.sessionPresetRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext()).apply {
                 orientation = RecyclerView.VERTICAL
                 reverseLayout = true
@@ -186,6 +197,43 @@ class HomeFragment : Fragment() {
                 removeItemDecorationAt(0)
             }
             addItemDecoration(SessionPresetItemDecoration(resources.getDimensionPixelSize(R.dimen.space_s)))
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    logger.d(LOG_TAG, "sessionPresetRecyclerView::onScrollStateChanged::newState = $newState")
+                    when (newState) {
+                        SCROLL_STATE_IDLE -> {
+                            showHideAddSessionPresetButton(homeFragmentBinding, true)
+                        }
+                        SCROLL_STATE_DRAGGING -> {
+                            showHideAddSessionPresetButton(homeFragmentBinding, false)
+                        }
+                    }
+                }
+            })
+        }
+    }
+
+    private fun showHideAddSessionPresetButton(homeFragmentBinding: FragmentHomeBinding, showIt: Boolean) {
+        if (showIt) {
+            homeFragmentBinding.addSessionPresetFab.visibility = VISIBLE
+            //TODO: animation does not work :/
+//            (homeFragmentBinding.addSessionPresetFab as View).animateAlpha(
+//                fromAlpha = 0f,
+//                toAlpha = 1f,
+//                duration = SLOW_ANIMATION_DURATION_MILLIS,
+//                onEnd = { setupAddSessionPresetFab(homeFragmentBinding, true) }
+//            )
+        }
+        else {
+            homeFragmentBinding.addSessionPresetFab.visibility = GONE
+            //TODO: animation does not work :/
+//            (homeFragmentBinding.addSessionPresetFab as View).animateAlpha(
+//                fromAlpha = 1f,
+//                toAlpha = 0f,
+//                duration = STANDARD_ANIMATION_DURATION_MILLIS,
+//                onStart = { setupAddSessionPresetFab(homeFragmentBinding, false) }
+//            )
         }
     }
 
