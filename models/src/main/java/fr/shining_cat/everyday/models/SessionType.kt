@@ -18,9 +18,9 @@
 package fr.shining_cat.everyday.models
 
 data class SessionType(
-    var id: Long = 0L,
-    var name: String,
-    var description: String,
-    var color: String,
-    var lastEditTime: Long
+    val id: Long = 0L,
+    val name: String,
+    val description: String,
+    val color: String,
+    val lastEditTime: Long
 )

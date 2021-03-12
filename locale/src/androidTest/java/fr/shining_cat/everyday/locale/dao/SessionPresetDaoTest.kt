@@ -82,20 +82,34 @@ class SessionPresetDaoTest {
         desiredLastEditTime: Long = 890L,
         sessionTypeId: Long = 901L
     ): SessionPresetEntity {
-        val returnEntity = SessionPresetEntity(
-            duration = desiredDuration,
-            startAndEndSoundUri = desiredStartAndEndSoundUri,
-            intermediateIntervalLength = desiredIntermediateIntervalLength,
-            startCountdownLength = desiredStartCountdownLength,
-            intermediateIntervalRandom = desiredIntermediateIntervalRandom,
-            intermediateIntervalSoundUri = desiredIntermediateIntervalSoundUri,
-            audioGuideSoundUri = desiredAudioGuideSoundUri,
-            vibration = desiredVibration,
-            lastEditTime = desiredLastEditTime,
-            sessionTypeId = sessionTypeId
-        )
-        if (desiredId != -1L) {
-            returnEntity.id = desiredId
+        val returnEntity = if (desiredId != -1L) {
+            SessionPresetEntity(
+                id = desiredId,
+                duration = desiredDuration,
+                startAndEndSoundUri = desiredStartAndEndSoundUri,
+                intermediateIntervalLength = desiredIntermediateIntervalLength,
+                startCountdownLength = desiredStartCountdownLength,
+                intermediateIntervalRandom = desiredIntermediateIntervalRandom,
+                intermediateIntervalSoundUri = desiredIntermediateIntervalSoundUri,
+                audioGuideSoundUri = desiredAudioGuideSoundUri,
+                vibration = desiredVibration,
+                lastEditTime = desiredLastEditTime,
+                sessionTypeId = sessionTypeId
+            )
+        }
+        else {
+            SessionPresetEntity(
+                duration = desiredDuration,
+                startAndEndSoundUri = desiredStartAndEndSoundUri,
+                intermediateIntervalLength = desiredIntermediateIntervalLength,
+                startCountdownLength = desiredStartCountdownLength,
+                intermediateIntervalRandom = desiredIntermediateIntervalRandom,
+                intermediateIntervalSoundUri = desiredIntermediateIntervalSoundUri,
+                audioGuideSoundUri = desiredAudioGuideSoundUri,
+                vibration = desiredVibration,
+                lastEditTime = desiredLastEditTime,
+                sessionTypeId = sessionTypeId
+            )
         }
         return returnEntity
     }
@@ -343,19 +357,21 @@ class SessionPresetDaoTest {
         }
         assertTableSize(54)
         //
-        sessionPresetEntity.duration = 4321L
-        sessionPresetEntity.startAndEndSoundUri = "after update desiredStartAndEndSoundUri"
-        sessionPresetEntity.intermediateIntervalLength = 5432L
-        sessionPresetEntity.startCountdownLength = 6543L
-        sessionPresetEntity.intermediateIntervalRandom = false
-        sessionPresetEntity.intermediateIntervalSoundUri =
-            "after update desiredIntermediateIntervalSoundUri"
-        sessionPresetEntity.audioGuideSoundUri = "after update desiredAudioGuideSoundUri"
-        sessionPresetEntity.vibration = true
-        sessionPresetEntity.lastEditTime = 74L
+        val updatingSessionPresetEntity = generateSessionPreset(
+            desiredId = 43L,
+            desiredDuration = 4321L,
+            desiredStartAndEndSoundUri = "after update desiredStartAndEndSoundUri",
+            desiredIntermediateIntervalLength = 5432L,
+            desiredStartCountdownLength = 6543L,
+            desiredIntermediateIntervalRandom = false,
+            desiredIntermediateIntervalSoundUri = "after update desiredIntermediateIntervalSoundUri",
+            desiredAudioGuideSoundUri = "after update desiredAudioGuideSoundUri",
+            desiredVibration = true,
+            desiredLastEditTime = 74L
+        )
         //
         val numberOfUpdatedItems = runBlocking {
-            sessionPresetDao.update(sessionPresetEntity)
+            sessionPresetDao.update(updatingSessionPresetEntity)
         }
         assertEquals(1, numberOfUpdatedItems)
         assertTableSize(54)
@@ -363,23 +379,23 @@ class SessionPresetDaoTest {
             sessionPresetDao.getAllSessionPresetsLastEditTimeDesc().filter { it.id == 43L }[0]
         }
         Assert.assertNotNull(sessionPresetEntityUpdated)
-        assertEquals(4321L, sessionPresetEntity.duration)
+        assertEquals(4321L, sessionPresetEntityUpdated.duration)
         assertEquals(
             "after update desiredStartAndEndSoundUri",
-            sessionPresetEntity.startAndEndSoundUri
+            sessionPresetEntityUpdated.startAndEndSoundUri
         )
-        assertEquals(5432L, sessionPresetEntity.intermediateIntervalLength)
-        assertEquals(6543L, sessionPresetEntity.startCountdownLength)
-        assertEquals(false, sessionPresetEntity.intermediateIntervalRandom)
+        assertEquals(5432L, sessionPresetEntityUpdated.intermediateIntervalLength)
+        assertEquals(6543L, sessionPresetEntityUpdated.startCountdownLength)
+        assertEquals(false, sessionPresetEntityUpdated.intermediateIntervalRandom)
         assertEquals(
             "after update desiredIntermediateIntervalSoundUri",
-            sessionPresetEntity.intermediateIntervalSoundUri
+            sessionPresetEntityUpdated.intermediateIntervalSoundUri
         )
         assertEquals(
             "after update desiredAudioGuideSoundUri",
-            sessionPresetEntity.audioGuideSoundUri
+            sessionPresetEntityUpdated.audioGuideSoundUri
         )
-        assertEquals(true, sessionPresetEntity.vibration)
-        assertEquals(74L, sessionPresetEntity.lastEditTime)
+        assertEquals(true, sessionPresetEntityUpdated.vibration)
+        assertEquals(74L, sessionPresetEntityUpdated.lastEditTime)
     }
 }

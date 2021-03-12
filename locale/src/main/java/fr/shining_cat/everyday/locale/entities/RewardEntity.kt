@@ -44,7 +44,7 @@ import fr.shining_cat.everyday.locale.entities.RewardTable.REWARD_TABLE
 
 @Entity(tableName = REWARD_TABLE)
 data class RewardEntity(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = REWARD_ID) var id: Long = 0L,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = REWARD_ID) val id: Long = 0L,
     //
     @ColumnInfo(name = FLOWER) val flower: Int,
     @ColumnInfo(name = MOUTH) val mouth: Int,
@@ -53,14 +53,14 @@ data class RewardEntity(
     @ColumnInfo(name = EYES) val eyes: Int,
     @ColumnInfo(name = HORNS) val horns: Int,
     @ColumnInfo(name = LEVEL) val level: Int,
-    @ColumnInfo(name = DATE_ACQUISITION) var acquisitionDate: Long = NO_ACQUISITION_DATE,
-    @ColumnInfo(name = DATE_ESCAPING) var escapingDate: Long = NO_ESCAPING_DATE,
-    @ColumnInfo(name = ACTIVE_STATE) var isActive: Boolean = false,
-    @ColumnInfo(name = ESCAPED_STATE) var isEscaped: Boolean = true,
-    @ColumnInfo(name = CUSTOM_NAME) var name: String = NO_NAME,
-    @ColumnInfo(name = LEGS_COLOR) var legsColor: String = DEFAULT_REWARD_COLOR,
-    @ColumnInfo(name = BODY_COLOR) var bodyColor: String = DEFAULT_REWARD_COLOR,
-    @ColumnInfo(name = ARMS_COLOR) var armsColor: String = DEFAULT_REWARD_COLOR
+    @ColumnInfo(name = DATE_ACQUISITION) val acquisitionDate: Long = NO_ACQUISITION_DATE,
+    @ColumnInfo(name = DATE_ESCAPING) val escapingDate: Long = NO_ESCAPING_DATE,
+    @ColumnInfo(name = ACTIVE_STATE) val isActive: Boolean = false,
+    @ColumnInfo(name = ESCAPED_STATE) val isEscaped: Boolean = true,
+    @ColumnInfo(name = CUSTOM_NAME) val name: String = NO_NAME,
+    @ColumnInfo(name = LEGS_COLOR) val legsColor: String = DEFAULT_REWARD_COLOR,
+    @ColumnInfo(name = BODY_COLOR) val bodyColor: String = DEFAULT_REWARD_COLOR,
+    @ColumnInfo(name = ARMS_COLOR) val armsColor: String = DEFAULT_REWARD_COLOR
 )
 
 object RewardEntityConstants {

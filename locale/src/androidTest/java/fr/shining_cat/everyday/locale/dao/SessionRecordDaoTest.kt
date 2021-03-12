@@ -464,25 +464,36 @@ class SessionRecordDaoTest {
             sessionRecordDao.insert(generateSessions(20))
         }
         checkTotalCountIs(21)
-        sessionRecordEntityToUpdate.startTimeOfRecord =
-            GregorianCalendar(1923, 5, 22, 17, 12, 7).timeInMillis
-        sessionRecordEntityToUpdate.startBodyValue = 2
-        sessionRecordEntityToUpdate.startThoughtsValue = 1
-        sessionRecordEntityToUpdate.startFeelingsValue = 0
-        sessionRecordEntityToUpdate.startGlobalValue = -1
-        sessionRecordEntityToUpdate.endTimeOfRecord =
-            GregorianCalendar(1975, 7, 14, 21, 13, 24).timeInMillis
-        sessionRecordEntityToUpdate.endBodyValue = -1
-        sessionRecordEntityToUpdate.endThoughtsValue = -1
-        sessionRecordEntityToUpdate.endFeelingsValue = 2
-        sessionRecordEntityToUpdate.endGlobalValue = 1
-        sessionRecordEntityToUpdate.notes = "updateSession notes UPDATED"
-        sessionRecordEntityToUpdate.realDuration = 987654321
-        sessionRecordEntityToUpdate.pausesCount = 1
-        sessionRecordEntityToUpdate.realDurationVsPlanned = -1
-        sessionRecordEntityToUpdate.guideMp3 = "updateSession guideMp3 UPDATED"
+        val updatingSessionRecordEntityToUpdate = generateSessionRecordEntity(
+            desiredId = 73,
+            yearstart = 1923,
+            monthstart = 5,
+            dayOfMonthstart = 22,
+            hourOfDaystart = 17,
+            minutestart = 12,
+            secondstart = 7,
+            startBodyValue = 2,
+            startThoughtsValue = 1,
+            startFeelingsValue = 0,
+            startGlobalValue = -1,
+            yearend = 1975,
+            monthend = 7,
+            dayOfMonthend = 14,
+            hourOfDayend = 21,
+            minuteend = 13,
+            secondend = 24,
+            endBodyValue = -1,
+            endThoughtsValue = -1,
+            endFeelingsValue = 2,
+            endGlobalValue = 1,
+            notes = "updateSession notes UPDATED",
+            realDuration = 987654321,
+            pausesCount = 1,
+            realDurationVsPlanned = -1,
+            guideMp3 = "updateSession guideMp3 UPDATED"
+        )
         val numberOfUpdatedItems = runBlocking {
-            sessionRecordDao.update(sessionRecordEntityToUpdate)
+            sessionRecordDao.update(updatingSessionRecordEntityToUpdate)
         }
         assertEquals(1, numberOfUpdatedItems)
         checkTotalCountIs(21)

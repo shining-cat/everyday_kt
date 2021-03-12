@@ -96,35 +96,61 @@ class RewardDaoTest {
         desiredBodyColor: String = "#00FF0000",
         desiredArmsColor: String = "#0000FF00"
     ): RewardEntity {
-        val returnEntity = RewardEntity(
-            flower = desiredFlower,
-            mouth = desiredMouth,
-            legs = desiredLegs,
-            arms = desiredArms,
-            eyes = desiredEyes,
-            horns = desiredHorns,
-            level = desiredLevel,
-            acquisitionDate = GregorianCalendar(
-                yearAcquired,
-                monthAcquired,
-                dayAcquired
-            ).timeInMillis,
-            escapingDate = GregorianCalendar(
-                yearEscaped,
-                monthEscaped,
-                dayEscaped
-            ).timeInMillis,
-            isActive = active,
-            isEscaped = escaped,
-            name = desiredName,
-            legsColor = desiredLegsColor,
-            bodyColor = desiredBodyColor,
-            armsColor = desiredArmsColor
-        )
-        if (desiredId != -1L) {
-            returnEntity.id = desiredId
+        return if (desiredId != -1L) {
+            RewardEntity(
+                id = desiredId,
+                flower = desiredFlower,
+                mouth = desiredMouth,
+                legs = desiredLegs,
+                arms = desiredArms,
+                eyes = desiredEyes,
+                horns = desiredHorns,
+                level = desiredLevel,
+                acquisitionDate = GregorianCalendar(
+                    yearAcquired,
+                    monthAcquired,
+                    dayAcquired
+                ).timeInMillis,
+                escapingDate = GregorianCalendar(
+                    yearEscaped,
+                    monthEscaped,
+                    dayEscaped
+                ).timeInMillis,
+                isActive = active,
+                isEscaped = escaped,
+                name = desiredName,
+                legsColor = desiredLegsColor,
+                bodyColor = desiredBodyColor,
+                armsColor = desiredArmsColor
+            )
         }
-        return returnEntity
+        else{
+            RewardEntity(
+                flower = desiredFlower,
+                mouth = desiredMouth,
+                legs = desiredLegs,
+                arms = desiredArms,
+                eyes = desiredEyes,
+                horns = desiredHorns,
+                level = desiredLevel,
+                acquisitionDate = GregorianCalendar(
+                    yearAcquired,
+                    monthAcquired,
+                    dayAcquired
+                ).timeInMillis,
+                escapingDate = GregorianCalendar(
+                    yearEscaped,
+                    monthEscaped,
+                    dayEscaped
+                ).timeInMillis,
+                isActive = active,
+                isEscaped = escaped,
+                name = desiredName,
+                legsColor = desiredLegsColor,
+                bodyColor = desiredBodyColor,
+                armsColor = desiredArmsColor
+            )
+        }
     }
 
     private fun generateRewards(
@@ -558,25 +584,25 @@ class RewardDaoTest {
         }
         assertTableSize(54)
         //
-        rewardEntity.acquisitionDate = GregorianCalendar(
-            2019,
-            6,
-            16
-        ).timeInMillis
-        rewardEntity.escapingDate = GregorianCalendar(
-            2020,
-            5,
-            22
-        ).timeInMillis
-        rewardEntity.isActive = false
-        rewardEntity.isEscaped = true
-        rewardEntity.name = "I have updated my name"
-        rewardEntity.legsColor = "#00FF000000"
-        rewardEntity.bodyColor = "#0000FF00"
-        rewardEntity.armsColor = "#FFFFFFFF"
+        val updatingRewardEntity = generateReward(
+            desiredLevel = 5,
+            active = false,
+            escaped = true,
+            desiredId = 43,
+            yearAcquired = 2019,
+            monthAcquired = 6,
+            dayAcquired = 16,
+            yearEscaped = 2020,
+            monthEscaped = 5,
+            dayEscaped = 22,
+            desiredName = "I have updated my name",
+            desiredLegsColor = "#00FF000000",
+            desiredBodyColor = "#0000FF00",
+            desiredArmsColor = "#FFFFFFFF"
+        )
         //
         val numberOfUpdatedItems = runBlocking {
-            rewardDao.update(listOf(rewardEntity))
+            rewardDao.update(listOf(updatingRewardEntity))
         }
         assertEquals(
             1,
@@ -680,76 +706,83 @@ class RewardDaoTest {
             insertedIds.size
         )
         //
-        rewardsToTestUpdateList[0].acquisitionDate = GregorianCalendar(
-            2019,
-            1,
-            16
-        ).timeInMillis
-        rewardsToTestUpdateList[0].escapingDate = GregorianCalendar(
-            2020,
-            1,
-            22
-        ).timeInMillis
-        rewardsToTestUpdateList[0].isActive = false
-        rewardsToTestUpdateList[0].isEscaped = true
-        rewardsToTestUpdateList[0].name = "name updated 0"
-        rewardsToTestUpdateList[0].legsColor = "legsColor updated 0"
-        rewardsToTestUpdateList[0].bodyColor = "bodyColor updated 0"
-        rewardsToTestUpdateList[0].armsColor = "armsColor updated 0"
-        //
-        rewardsToTestUpdateList[1].acquisitionDate = GregorianCalendar(
-            2019,
-            2,
-            16
-        ).timeInMillis
-        rewardsToTestUpdateList[1].escapingDate = GregorianCalendar(
-            2020,
-            2,
-            22
-        ).timeInMillis
-        rewardsToTestUpdateList[1].isActive = true
-        rewardsToTestUpdateList[1].isEscaped = false
-        rewardsToTestUpdateList[1].name = "name updated 1"
-        rewardsToTestUpdateList[1].legsColor = "legsColor updated 1"
-        rewardsToTestUpdateList[1].bodyColor = "bodyColor updated 1"
-        rewardsToTestUpdateList[1].armsColor = "armsColor updated 1"
-        //
-        rewardsToTestUpdateList[2].acquisitionDate = GregorianCalendar(
-            2019,
-            3,
-            16
-        ).timeInMillis
-        rewardsToTestUpdateList[2].escapingDate = GregorianCalendar(
-            2020,
-            3,
-            22
-        ).timeInMillis
-        rewardsToTestUpdateList[2].isActive = true
-        rewardsToTestUpdateList[2].isEscaped = true
-        rewardsToTestUpdateList[2].name = "name updated 2"
-        rewardsToTestUpdateList[2].legsColor = "legsColor updated 2"
-        rewardsToTestUpdateList[2].bodyColor = "bodyColor updated 2"
-        rewardsToTestUpdateList[2].armsColor = "armsColor updated 2"
-        //
-        rewardsToTestUpdateList[3].acquisitionDate = GregorianCalendar(
-            2019,
-            4,
-            16
-        ).timeInMillis
-        rewardsToTestUpdateList[3].escapingDate = GregorianCalendar(
-            2020,
-            4,
-            22
-        ).timeInMillis
-        rewardsToTestUpdateList[3].isActive = false
-        rewardsToTestUpdateList[3].isEscaped = false
-        rewardsToTestUpdateList[3].name = "name updated 3"
-        rewardsToTestUpdateList[3].legsColor = "legsColor updated 3"
-        rewardsToTestUpdateList[3].bodyColor = "bodyColor updated 3"
-        rewardsToTestUpdateList[3].armsColor = "armsColor updated 3"
+        val updatingRewardsList = listOf(
+            rewardsToTestUpdateList[0].copy(
+                acquisitionDate = GregorianCalendar(
+                    2019,
+                    1,
+                    16
+                ).timeInMillis,
+                escapingDate = GregorianCalendar(
+                    2020,
+                    1,
+                    22
+                ).timeInMillis,
+                isActive = false,
+                isEscaped = true,
+                name = "name updated 0",
+                legsColor = "legsColor updated 0",
+                bodyColor = "bodyColor updated 0",
+                armsColor = "armsColor updated 0"
+            ),
+            rewardsToTestUpdateList[1].copy(
+                acquisitionDate = GregorianCalendar(
+                    2019,
+                    2,
+                    16
+                ).timeInMillis,
+                escapingDate = GregorianCalendar(
+                    2020,
+                    2,
+                    22
+                ).timeInMillis,
+                isActive = true,
+                isEscaped = false,
+                name = "name updated 1",
+                legsColor = "legsColor updated 1",
+                bodyColor = "bodyColor updated 1",
+                armsColor = "armsColor updated 1"
+            ),
+            rewardsToTestUpdateList[2].copy(
+                acquisitionDate = GregorianCalendar(
+                    2019,
+                    3,
+                    16
+                ).timeInMillis,
+                escapingDate = GregorianCalendar(
+                    2020,
+                    3,
+                    22
+                ).timeInMillis,
+                isActive = true,
+                isEscaped = true,
+                name = "name updated 2",
+                legsColor = "legsColor updated 2",
+                bodyColor = "bodyColor updated 2",
+                armsColor = "armsColor updated 2"
+            ),
+            rewardsToTestUpdateList[3].copy(
+                acquisitionDate = GregorianCalendar(
+                    2019,
+                    4,
+                    16
+                ).timeInMillis,
+                escapingDate = GregorianCalendar(
+                    2020,
+                    4,
+                    22
+                ).timeInMillis,
+                isActive = false,
+                isEscaped = false,
+                name = "name updated 3",
+                legsColor = "legsColor updated 3",
+                bodyColor = "bodyColor updated 3",
+                armsColor = "armsColor updated 3"
+            )
+        )
         //
         val numberOfUpdatedItems = runBlocking {
-            rewardDao.update(rewardsToTestUpdateList)
+            rewardDao.update(updatingRewardsList)
         }
         assertEquals(
             4,
