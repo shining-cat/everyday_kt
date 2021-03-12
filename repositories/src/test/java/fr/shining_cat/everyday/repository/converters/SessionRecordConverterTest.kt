@@ -56,8 +56,8 @@ class SessionRecordConverterTest {
             sessionRecordConverter.convertModelToEntity(sessionRecord)
         }
         assertEquals(
-            modeltranslated,
-            sessionRecordEntity
+            sessionRecordEntity,
+            modeltranslated
         )
     }
 
@@ -67,8 +67,30 @@ class SessionRecordConverterTest {
             sessionRecordConverter.convertEntityToModel(sessionRecordEntity)
         }
         assertEquals(
-            entityTranslated,
-            sessionRecord
+            sessionRecord,
+            entityTranslated
+        )
+    }
+
+    @Test
+    fun convertModelToEntityNoId() {
+        val modeltranslated = runBlocking {
+            sessionRecordConverter.convertModelToEntity(sessionRecordNoId)
+        }
+        assertEquals(
+            sessionRecordEntityNoId,
+            modeltranslated
+        )
+    }
+
+    @Test
+    fun convertEntitytoModelNoId() {
+        val entityTranslated = runBlocking {
+            sessionRecordConverter.convertEntityToModel(sessionRecordEntityNoId)
+        }
+        assertEquals(
+            sessionRecordNoId,
+            entityTranslated
         )
     }
 
@@ -153,6 +175,73 @@ class SessionRecordConverterTest {
 
     val sessionRecordEntity = SessionRecordEntity(
         id = 41,
+        startTimeOfRecord = GregorianCalendar(
+            1980,
+            5,
+            2,
+            15,
+            27,
+            54
+        ).timeInMillis,
+        startBodyValue = -2,
+        startThoughtsValue = 0,
+        startFeelingsValue = 1,
+        startGlobalValue = 2,
+        endTimeOfRecord = GregorianCalendar(
+            1981,
+            6,
+            3,
+            17,
+            45,
+            3
+        ).timeInMillis,
+        endBodyValue = 0,
+        endThoughtsValue = 1,
+        endFeelingsValue = -1,
+        endGlobalValue = -2,
+        notes = "testing notes string",
+        realDuration = 1500000,
+        pausesCount = 3,
+        realDurationVsPlanned = -1,
+        guideMp3 = "testing guideMp3 string",
+        sessionTypeId = 5678L
+    )
+    val sessionRecordNoId = SessionRecord(
+        id = -1L,
+        startMood = generateMood(
+            1980,
+            5,
+            2,
+            15,
+            27,
+            54,
+            MoodValue.WORST,
+            MoodValue.NOT_SET,
+            MoodValue.GOOD,
+            MoodValue.BEST
+        ),
+        endMood = generateMood(
+            1981,
+            6,
+            3,
+            17,
+            45,
+            3,
+            MoodValue.NOT_SET,
+            MoodValue.GOOD,
+            MoodValue.BAD,
+            MoodValue.WORST
+        ),
+        notes = "testing notes string",
+        realDuration = 1500000,
+        pausesCount = 3,
+        realDurationVsPlanned = RealDurationVsPlanned.REAL_SHORTER,
+        guideMp3 = "testing guideMp3 string",
+        sessionTypeId = 5678L
+    )
+
+    val sessionRecordEntityNoId = SessionRecordEntity(
+        id = null,
         startTimeOfRecord = GregorianCalendar(
             1980,
             5,

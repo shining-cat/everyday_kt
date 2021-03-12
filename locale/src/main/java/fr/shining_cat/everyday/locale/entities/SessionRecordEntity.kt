@@ -41,7 +41,7 @@ import fr.shining_cat.everyday.locale.entities.SessionRecordTable.SESSION_RECORD
 
 @Entity(tableName = SESSION_RECORD_TABLE)
 data class SessionRecordEntity(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = SESSION_RECORD_ID) val id: Long = 0L,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = SESSION_RECORD_ID) val id: Long? = null,
     //
     @ColumnInfo(name = START_TIME_OF_RECORD) val startTimeOfRecord: Long,
     @ColumnInfo(name = START_BODY_VALUE) val startBodyValue: Int,

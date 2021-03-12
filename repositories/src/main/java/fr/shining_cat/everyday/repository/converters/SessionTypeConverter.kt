@@ -31,7 +31,7 @@ class SessionTypeConverter(
 
     suspend fun convertModelToEntity(sessionType: SessionType): SessionTypeEntity {
         return SessionTypeEntity(
-            id = sessionType.id,
+            id = if (sessionType.id != -1L) sessionType.id else null,
             name = sessionType.name,
             description = sessionType.description,
             color = sessionType.color,
@@ -45,7 +45,7 @@ class SessionTypeConverter(
 
     suspend fun convertEntitytoModel(sessionTypeEntity: SessionTypeEntity): SessionType {
         return SessionType(
-            id = sessionTypeEntity.id,
+            id = sessionTypeEntity.id ?: -1L,
             name = sessionTypeEntity.name,
             description = sessionTypeEntity.description,
             color = sessionTypeEntity.color,

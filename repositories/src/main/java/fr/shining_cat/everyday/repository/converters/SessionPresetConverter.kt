@@ -30,19 +30,35 @@ class SessionPresetConverter(
     }
 
     suspend fun convertModelToEntity(sessionPreset: SessionPreset): SessionPresetEntity {
-        return SessionPresetEntity(
-            id = sessionPreset.id,
-            duration = sessionPreset.duration,
-            startAndEndSoundUri = sessionPreset.startAndEndSoundUri,
-            intermediateIntervalLength = sessionPreset.intermediateIntervalLength,
-            startCountdownLength = sessionPreset.startCountdownLength,
-            intermediateIntervalRandom = sessionPreset.intermediateIntervalRandom,
-            intermediateIntervalSoundUri = sessionPreset.intermediateIntervalSoundUri,
-            audioGuideSoundUri = sessionPreset.audioGuideSoundUri,
-            vibration = sessionPreset.vibration,
-            lastEditTime = sessionPreset.lastEditTime,
-            sessionTypeId = sessionPreset.sessionTypeId
-        )
+        return if (sessionPreset.id == -1L) {
+            SessionPresetEntity(
+                duration = sessionPreset.duration,
+                startAndEndSoundUri = sessionPreset.startAndEndSoundUri,
+                intermediateIntervalLength = sessionPreset.intermediateIntervalLength,
+                startCountdownLength = sessionPreset.startCountdownLength,
+                intermediateIntervalRandom = sessionPreset.intermediateIntervalRandom,
+                intermediateIntervalSoundUri = sessionPreset.intermediateIntervalSoundUri,
+                audioGuideSoundUri = sessionPreset.audioGuideSoundUri,
+                vibration = sessionPreset.vibration,
+                lastEditTime = sessionPreset.lastEditTime,
+                sessionTypeId = sessionPreset.sessionTypeId
+            )
+        }
+        else {
+            SessionPresetEntity(
+                id = sessionPreset.id,
+                duration = sessionPreset.duration,
+                startAndEndSoundUri = sessionPreset.startAndEndSoundUri,
+                intermediateIntervalLength = sessionPreset.intermediateIntervalLength,
+                startCountdownLength = sessionPreset.startCountdownLength,
+                intermediateIntervalRandom = sessionPreset.intermediateIntervalRandom,
+                intermediateIntervalSoundUri = sessionPreset.intermediateIntervalSoundUri,
+                audioGuideSoundUri = sessionPreset.audioGuideSoundUri,
+                vibration = sessionPreset.vibration,
+                lastEditTime = sessionPreset.lastEditTime,
+                sessionTypeId = sessionPreset.sessionTypeId
+            )
+        }
     }
 
     suspend fun convertEntitiesToModels(sessionPresetEntities: List<SessionPresetEntity>): List<SessionPreset> {
@@ -51,7 +67,7 @@ class SessionPresetConverter(
 
     suspend fun convertEntitytoModel(sessionPresetEntity: SessionPresetEntity): SessionPreset {
         return SessionPreset(
-            id = sessionPresetEntity.id,
+            id = sessionPresetEntity.id ?: -1L,
             duration = sessionPresetEntity.duration,
             startAndEndSoundUri = sessionPresetEntity.startAndEndSoundUri,
             intermediateIntervalLength = sessionPresetEntity.intermediateIntervalLength,

@@ -44,7 +44,7 @@ import fr.shining_cat.everyday.locale.entities.RewardTable.REWARD_TABLE
 
 @Entity(tableName = REWARD_TABLE)
 data class RewardEntity(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = REWARD_ID) val id: Long = 0L,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = REWARD_ID) val id: Long? = null,
     //
     @ColumnInfo(name = FLOWER) val flower: Int,
     @ColumnInfo(name = MOUTH) val mouth: Int,

@@ -124,7 +124,7 @@ class RewardDaoTest {
                 armsColor = desiredArmsColor
             )
         }
-        else{
+        else {
             RewardEntity(
                 flower = desiredFlower,
                 mouth = desiredMouth,
@@ -213,7 +213,7 @@ class RewardDaoTest {
 
     @Test
     fun testDeleteRewardFromEmptyTable() {
-        val rewardEntityToDeleteTest = generateReward(desiredId = 25)
+        val rewardEntityToDeleteTest = generateReward(desiredId = 25L)
         //
         assertTableSize(0)
         val countDeleted = runBlocking {
@@ -231,16 +231,16 @@ class RewardDaoTest {
         runBlocking {
             rewardDao.insert(
                 listOf(
-                    generateReward(desiredId = 25),
-                    generateReward(desiredId = 26),
-                    generateReward(desiredId = 27),
-                    generateReward(desiredId = 28),
-                    generateReward(desiredId = 29),
-                    generateReward(desiredId = 30)
+                    generateReward(desiredId = 25L),
+                    generateReward(desiredId = 26L),
+                    generateReward(desiredId = 27L),
+                    generateReward(desiredId = 28L),
+                    generateReward(desiredId = 29L),
+                    generateReward(desiredId = 30L)
                 )
             )
         }
-        val rewardEntityToDeleteTest = generateReward(desiredId = 723)
+        val rewardEntityToDeleteTest = generateReward(desiredId = 723L)
         //
         assertTableSize(6)
         val countDeleted = runBlocking {
@@ -255,7 +255,7 @@ class RewardDaoTest {
 
     @Test
     fun testDeleteOneReward() {
-        val rewardEntityToDeleteTest = generateReward(desiredId = 25)
+        val rewardEntityToDeleteTest = generateReward(desiredId = 25L)
         val rewardsToInsertList = mutableListOf<RewardEntity>()
         rewardsToInsertList.add(rewardEntityToDeleteTest)
         rewardsToInsertList.addAll(generateRewards(50))
@@ -357,7 +357,7 @@ class RewardDaoTest {
     fun testGetRewardOnEmptyTable() {
         runBlocking {
             assertTableSize(0)
-            val rewardEntity = rewardDao.getReward(75)
+            val rewardEntity = rewardDao.getReward(75L)
             assertNull(rewardEntity)
         }
     }
@@ -367,15 +367,15 @@ class RewardDaoTest {
         runBlocking {
             rewardDao.insert(
                 listOf(
-                    generateReward(desiredId = 25),
-                    generateReward(desiredId = 26),
-                    generateReward(desiredId = 27),
-                    generateReward(desiredId = 28),
-                    generateReward(desiredId = 29)
+                    generateReward(desiredId = 25L),
+                    generateReward(desiredId = 26L),
+                    generateReward(desiredId = 27L),
+                    generateReward(desiredId = 28L),
+                    generateReward(desiredId = 29L)
                 )
             )
             assertTableSize(5)
-            val rewardEntity = rewardDao.getReward(73)
+            val rewardEntity = rewardDao.getReward(73L)
             assertNull(rewardEntity)
         }
     }
@@ -424,7 +424,7 @@ class RewardDaoTest {
         assertNotNull(rewardEntity)
         if (rewardEntity != null) {
             assertEquals(
-                83,
+                83L,
                 rewardEntity.id
             )
             assertEquals(
@@ -505,7 +505,7 @@ class RewardDaoTest {
     @Test
     fun testUpdateOneRewardOnEmptyTable() {
         assertTableSize(0)
-        val rewardEntityToUpdate = generateReward(desiredId = 73)
+        val rewardEntityToUpdate = generateReward(desiredId = 73L)
         val numberOfUpdatedItems = runBlocking {
             rewardDao.update(listOf(rewardEntityToUpdate))
         }
@@ -521,16 +521,16 @@ class RewardDaoTest {
         runBlocking {
             rewardDao.insert(
                 listOf(
-                    generateReward(desiredId = 25),
-                    generateReward(desiredId = 26),
-                    generateReward(desiredId = 27),
-                    generateReward(desiredId = 28),
-                    generateReward(desiredId = 29)
+                    generateReward(desiredId = 25L),
+                    generateReward(desiredId = 26L),
+                    generateReward(desiredId = 27L),
+                    generateReward(desiredId = 28L),
+                    generateReward(desiredId = 29L)
                 )
             )
         }
         assertTableSize(5)
-        val rewardEntityToUpdate = generateReward(desiredId = 73)
+        val rewardEntityToUpdate = generateReward(desiredId = 73L)
         val numberOfUpdatedItems = runBlocking {
             rewardDao.update(listOf(rewardEntityToUpdate))
         }
@@ -544,10 +544,10 @@ class RewardDaoTest {
     @Test
     fun testUpdateOneReward() {
         val rewardEntity = generateReward(
+            desiredId = 43L,
             desiredLevel = 5,
             active = true,
             escaped = false,
-            desiredId = 43,
             yearAcquired = 1987,
             monthAcquired = 2,
             dayAcquired = 9,
@@ -610,12 +610,12 @@ class RewardDaoTest {
         )
         assertTableSize(54)
         val rewardEntityUpdated = runBlocking {
-            rewardDao.getReward(rewardEntity.id)
+            rewardDao.getReward(rewardEntity.id  ?: -1L)
         }
         assertNotNull(rewardEntityUpdated)
         if (rewardEntityUpdated != null) {
             assertEquals(
-                43,
+                43L,
                 rewardEntityUpdated.id
             )
             assertEquals(
@@ -790,7 +790,7 @@ class RewardDaoTest {
         )
         //
         val rewardEntityUpdated0 = runBlocking {
-            rewardDao.getReward(rewardsToTestUpdateList[0].id)
+            rewardDao.getReward(rewardsToTestUpdateList[0].id ?: -1L)
         }
         assertNotNull(rewardEntityUpdated0)
         if (rewardEntityUpdated0 != null) {
@@ -869,7 +869,7 @@ class RewardDaoTest {
         }
         //
         val rewardEntityUpdated1 = runBlocking {
-            rewardDao.getReward(rewardsToTestUpdateList[1].id)
+            rewardDao.getReward(rewardsToTestUpdateList[1].id ?: -1L)
         }
         assertNotNull(rewardEntityUpdated1)
         if (rewardEntityUpdated1 != null) {
@@ -948,7 +948,7 @@ class RewardDaoTest {
         }
         //
         val rewardEntityUpdated2 = runBlocking {
-            rewardDao.getReward(rewardsToTestUpdateList[2].id)
+            rewardDao.getReward(rewardsToTestUpdateList[2].id ?: -1L)
         }
         assertNotNull(rewardEntityUpdated2)
         if (rewardEntityUpdated2 != null) {
@@ -1027,7 +1027,7 @@ class RewardDaoTest {
         }
         //
         val rewardEntityUpdated3 = runBlocking {
-            rewardDao.getReward(rewardsToTestUpdateList[3].id)
+            rewardDao.getReward(rewardsToTestUpdateList[3].id ?: -1L)
         }
         assertNotNull(rewardEntityUpdated3)
         if (rewardEntityUpdated3 != null) {

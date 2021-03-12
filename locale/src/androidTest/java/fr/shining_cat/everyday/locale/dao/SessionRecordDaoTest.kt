@@ -375,7 +375,7 @@ class SessionRecordDaoTest {
         }
         assertNotNull(sessionRecordEntityExtracted)
         if (sessionRecordEntityExtracted != null) {
-            assertEquals(73, sessionRecordEntityExtracted.id)
+            assertEquals(73L, sessionRecordEntityExtracted.id)
             assertEquals(
                 GregorianCalendar(1623, 3, 5, 22, 21, 32).timeInMillis,
                 sessionRecordEntityExtracted.startTimeOfRecord
@@ -502,7 +502,7 @@ class SessionRecordDaoTest {
         }
         assertNotNull(sessionRecordEntityExtracted)
         if (sessionRecordEntityExtracted != null) {
-            assertEquals(73, sessionRecordEntityExtracted.id)
+            assertEquals(73L, sessionRecordEntityExtracted.id)
             assertEquals(
                 GregorianCalendar(1923, 5, 22, 17, 12, 7).timeInMillis,
                 sessionRecordEntityExtracted.startTimeOfRecord

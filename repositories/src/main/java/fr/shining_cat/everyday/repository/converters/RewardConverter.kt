@@ -39,12 +39,7 @@ class RewardConverter(
         val escapingDate =
             if (reward.escapingDate == RewardConstants.NO_ESCAPING_DATE) RewardEntityConstants.NO_ESCAPING_DATE else reward.escapingDate
         return RewardEntity(
-            id = if (reward.id != -1L) {
-                reward.id //else, let it be set by Room as a new Id
-            }
-            else {
-                0L
-            },
+            id = if (reward.id != -1L) reward.id else null,
             flower = reward.flowerKey,
             mouth = reward.mouthKey,
             legs = reward.legsKey,
