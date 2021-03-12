@@ -50,12 +50,14 @@
     <string name="interval">Intervalle</string>
     <string name="vibration">Vibration</string>
     <string name="interval_sound">Son d\'intervalle</string>
-    <string name="title_settings">Paramètres</string>
     <string name="audio_guide">Support Audio</string>
     <string name="no_session_preset_found">Aucun preset trouvé, créez-en un nouveau!</string>
-    <string name="session_duration_explanation">pour une session audio, la durée sera celle du fichier choisi</string>
+    <string name="session_duration_vs_audio_explanation">pour une session audio, la durée sera celle du fichier choisi</string>
+    <string name="session_interval_vs_audio_explanation">pour une session audio, il n\y aura pas d\'intervalles intermédiaires</string>
     <string name="session_countdown_explanation">longueur du compte à rebours avant le démarrage</string>
     <string name="session_interval_explanation">Intervalle auquel un son sera joué, choisir 0 pour aucun</string>
+    <string name="audio_session_preset_title">Démarrer une session audio:</string>
+    <string name="timed_session_preset_title">Démarrer une session chronométrée</string>
 
 
 </resources>

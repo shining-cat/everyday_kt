@@ -43,23 +43,15 @@ class PrefBottomDialogEraseAllData(
 
     private fun openDialog() {
         val eraseAllDataBottomSheetDialog = BottomDialogDismissibleBigButton.newInstance(
-            title = context.getString(R.string.confirm_suppress),
+            title = context.getString(R.string.generic_string_CONFIRM_DELETE),
             bigButtonLabel = context.getString(R.string.generic_string_DELETE)
         )
-        eraseAllDataBottomSheetDialog.setBottomDialogDismissibleBigButtonListener(object :
-                BottomDialogDismissibleBigButton.BottomDialogDismissibleBigButtonListener {
-                override fun onDismissed() {
-                    // nothing to do here
-                }
-
-                override fun onBigButtonClicked() {
-                    // TODO: call Erase all data Usecase
-                    logger.e(
-                        LOG_TAG,
-                        "openEraseAllDataDialog::onBigButtonClicked"
-                    )
-                }
-            })
+        eraseAllDataBottomSheetDialog.setBottomDialogDismissibleBigButtonListener { // TODO: call Erase all data Usecase
+            logger.e(
+                LOG_TAG,
+                "openEraseAllDataDialog::onBigButtonClicked"
+            )
+        }
         eraseAllDataBottomSheetDialog.show(
             fragmentManager,
             "openEraseAllDataDialog"

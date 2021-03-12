@@ -51,7 +51,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/dialog_bottom_dismiss_button"
         app:layout_constraintTop_toTopOf="@+id/dialog_bottom_dismiss_button"
-        tools:text="@string/confirm_suppress" />
+        tools:text="@string/generic_string_CONFIRM_DELETE" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,20 +16,19 @@
   -->
 
 <resources>
+    <string name="app_made_by">Design and development:</string>
+    <string name="info_text_string"><![CDATA[Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id vestibulum lectus, nec congue dui. Morbi sed fermentum tellus. Quisque consectetur ullamcorper ante a viverra. Fusce quis malesuada nisl. Cras egestas condimentum nisi et porttitor. Vivamus id arcu turpis. Cras dignissim vehicula metus, at feugiat purus cursus in. Quisque feugiat sem aliquam, consectetur odio id, accumsan mi. Vivamus dignissim feugiat ipsum vitae pretium. Praesent eu tortor sem. Maecenas eu purus ornare, posuere urna vitae, maximus lacus. Integer venenatis neque eu ultrices feugiat. Morbi hendrerit tellus massa, vel dignissim elit ullamcorper sed. In posuere dapibus ex sit amet tempus. Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex metus a risus. Nam rutrum neque orci, eget congue ipsum tincidunt non. Quisque pulvinar sed velit eu cursus. Vestibulum nec porta elit. In eget diam magna. Integer in eros interdum, ornare mi quis, sagittis diam. Aliquam ullamcorper quam a gravida lacinia. Maecenas a mattis metus. Nunc faucibus auctor tellus sed accumsan. Fusce posuere odio eget nibh iaculis vehicula. In hac habitasse platea dictumst. Donec dictum viverra diam sit amet tincidunt. Etiam pellentesque blandit massa, ut hendrerit purus accumsan eget. Cras viverra, nunc non semper ullamcorper, nisl ante sodales ante, at venenatis justo tellus a ipsum. Vestibulum aliquet accumsan pretium. Sed rhoncus a orci sit amet porta.]]></string>
+
     <string name="title_about">About</string>
-    <string name="title_settings" translatable="true">Settings</string>
     <string name="title_home" translatable="true">Home</string>
     <string name="title_sessions" translatable="true">Sessions</string>
     <string name="title_statistics">Statistics</string>
     <string name="title_rewards">Rewards</string>
-    <string name="app_made_by">Design and development:</string>
-    <string name="info_text_string"><![CDATA[Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id vestibulum lectus, nec congue dui. Morbi sed fermentum tellus. Quisque consectetur ullamcorper ante a viverra. Fusce quis malesuada nisl. Cras egestas condimentum nisi et porttitor. Vivamus id arcu turpis. Cras dignissim vehicula metus, at feugiat purus cursus in. Quisque feugiat sem aliquam, consectetur odio id, accumsan mi. Vivamus dignissim feugiat ipsum vitae pretium. Praesent eu tortor sem. Maecenas eu purus ornare, posuere urna vitae, maximus lacus. Integer venenatis neque eu ultrices feugiat. Morbi hendrerit tellus massa, vel dignissim elit ullamcorper sed. In posuere dapibus ex sit amet tempus. Vestibulum mattis, mi et lacinia tristique, mi diam varius magna, eget porta ex metus a risus. Nam rutrum neque orci, eget congue ipsum tincidunt non. Quisque pulvinar sed velit eu cursus. Vestibulum nec porta elit. In eget diam magna. Integer in eros interdum, ornare mi quis, sagittis diam. Aliquam ullamcorper quam a gravida lacinia. Maecenas a mattis metus. Nunc faucibus auctor tellus sed accumsan. Fusce posuere odio eget nibh iaculis vehicula. In hac habitasse platea dictumst. Donec dictum viverra diam sit amet tincidunt. Etiam pellentesque blandit massa, ut hendrerit purus accumsan eget. Cras viverra, nunc non semper ullamcorper, nisl ante sodales ante, at venenatis justo tellus a ipsum. Vestibulum aliquet accumsan pretium. Sed rhoncus a orci sit amet porta.]]></string>
     <string name="title_rewards_grid">Grid</string>
     <string name="title_rewards_list">List</string>
     <string name="title_sessions_calendar">Calendar</string>
     <string name="title_sessions_list">List</string>
-    <string name="content_description_add_new_preset">Add new session preset button</string>
-    <string name="content_description_kiwi_logo">kiwi logo</string>
+
     <string name="session_preset_creation_dialog_title">Creation</string>
     <string name="session_preset_edition_dialog_title">Preset Edition</string>>
     <string name="session_preset_audio_edit_dialog_title">Audio Session Edition</string>
@@ -41,7 +40,13 @@
     <string name="interval_sound">Interval sound</string>
     <string name="audio_guide">Audio Guide</string>
     <string name="no_session_preset_found">No preset found, create a new one!</string>
-    <string name="session_duration_explanation">pour une session audio, la durée sera celle du fichier choisi</string>
+    <string name="session_duration_vs_audio_explanation">pour une session audio, la durée sera celle du fichier choisi</string>
+    <string name="session_interval_vs_audio_explanation">pour une session audio, il n\y aura pas d\'intervalles intermédiaires</string>
     <string name="session_countdown_explanation">longueur du compte à rebours avant le démarrage</string>
     <string name="session_interval_explanation">Définir un intervalle auquel un son sera joué</string>
+
+    <string name="content_description_add_new_preset">Add new session preset button</string>
+    <string name="content_description_kiwi_logo">kiwi logo</string>
+    <string name="audio_session_preset_title">Démarrer une session audio:</string>
+    <string name="timed_session_preset_title">Démarrer une session chronométrée</string>
 </resources>

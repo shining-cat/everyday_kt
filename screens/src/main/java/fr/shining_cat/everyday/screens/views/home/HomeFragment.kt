@@ -23,20 +23,23 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleErrorMessage
-import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleMessageAndConfirm
+import fr.shining_cat.everyday.models.SessionPreset
 import fr.shining_cat.everyday.navigation.Actions
 import fr.shining_cat.everyday.navigation.Destination
 import fr.shining_cat.everyday.screens.R
 import fr.shining_cat.everyday.screens.databinding.FragmentHomeBinding
 import fr.shining_cat.everyday.screens.viewmodels.HomeViewModel
 import fr.shining_cat.everyday.screens.views.ScreenActivity
-import fr.shining_cat.everyday.screens.views.home.sessionpresets.SessionPresetDialog
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -46,6 +49,7 @@ class HomeFragment : Fragment() {
 
     private val logger: Logger = get()
     private val homeViewModel: HomeViewModel by viewModel()
+    private val sessionPresetsAdapter = SessionPresetsAdapter(logger)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,36 +62,36 @@ class HomeFragment : Fragment() {
         //
         setupAddSessionPresetFab(homeFragmentBinding)
         //
-        setUpSessionPresetsRecyclerView()
+        setUpSessionPresetsRecyclerView(homeFragmentBinding.sessionPresetRecyclerView)
         //
-        setupObservers()
+        setupObservers(homeFragmentBinding)
         //
         homeViewModel.initViewModel(resources)
         return homeFragmentBinding.root
     }
 
-
     ////////////////////////
     // OBSERVERS
-    private fun setupObservers() {
+    private fun setupObservers(homeFragmentBinding: FragmentHomeBinding) {
         homeViewModel.errorLiveData.observe(viewLifecycleOwner, {
             logger.e(LOG_TAG, "homeViewModel.errorLiveData::$it")
             showErrorDialog(it)
         })
         homeViewModel.sessionPresetsLiveData.observe(viewLifecycleOwner, {
             logger.d(LOG_TAG, "homeViewModel.sessionPresetsLiveData::${it.size}")
-            if (it.size == 0) {
-                //TODO: display empty list message
+            if (it.isEmpty()) {
+                homeFragmentBinding.emptyListMessage.visibility = VISIBLE
             }
             else {
-                //TODO: update list display through adapter
+                homeFragmentBinding.emptyListMessage.visibility = GONE
+                sessionPresetsAdapter.submitList(it)
             }
         })
     }
 
     ////////////////////////
     // ERROR DISPLAY
-    private fun showErrorDialog(errorMessage: String){
+    private fun showErrorDialog(errorMessage: String) {
         val errorDialog = BottomDialogDismissibleErrorMessage.newInstance(
             title = getString(R.string.generic_string_ERROR),
             message = errorMessage
@@ -152,16 +156,35 @@ class HomeFragment : Fragment() {
 
     private fun showCreateSessionPresetDialog() {
         val dialogFragment = SessionPresetDialog.newInstance()
-        dialogFragment.setSessionPresetDialogListener { homeViewModel.saveSessionPreset(it, resources) }
+        dialogFragment.setSessionPresetDialogListener(sessionPresetDialogListener)
         val transaction: FragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         transaction.add(android.R.id.content, dialogFragment).addToBackStack(null).commit()
     }
 
+    private val sessionPresetDialogListener = object : SessionPresetDialog.SessionPresetDialogListener {
+        override fun onConfirmButtonClicked(sessionPreset: SessionPreset) {
+            homeViewModel.saveSessionPreset(sessionPreset, resources)
+        }
+
+        override fun onDeletePresetConfirmed(sessionPreset: SessionPreset) {
+            homeViewModel.deleteSessionPreset(sessionPreset, resources)
+        }
+    }
+
     ////////////////////
     // SESSION PRESETS LIST
-    private fun setUpSessionPresetsRecyclerView() {
-
+    private fun setUpSessionPresetsRecyclerView(recyclerView: RecyclerView) {
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext()).apply {
+                orientation = RecyclerView.VERTICAL
+            }
+            adapter = sessionPresetsAdapter
+            while (itemDecorationCount > 0) {
+                removeItemDecorationAt(0)
+            }
+            addItemDecoration(SessionPresetItemDecoration(resources.getDimensionPixelSize(R.dimen.space_l)))
+        }
     }
 
 }

@@ -40,10 +40,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private val logger: Logger = get()
     private val sharedPrefsHelper: SharedPrefsHelper = get()
 
-    private lateinit var prefBottomDialogBuilder: PrefBottomDialogBuilder
-    private lateinit var notificationTextPref: PrefBottomDialogNotificationEditText
-    private lateinit var notificationSoundPref: PrefBottomDialogNotificationSoundSelect
-    private lateinit var notificationTimePref: PrefBottomDialogNotificationTimePicker
+    private var prefBottomDialogBuilder: PrefBottomDialogBuilder? = null
+    private var notificationTextPref: PrefBottomDialogNotificationEditText? = null
+    private var notificationSoundPref: PrefBottomDialogNotificationSoundSelect? = null
+    private var notificationTimePref: PrefBottomDialogNotificationTimePicker? = null
 
     override fun onCreatePreferences(
         savedInstanceState: Bundle?,
@@ -115,11 +115,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
         //
-        notificationTimePref = prefBottomDialogBuilder.buildPrefBottomDialogNotificationTimePicker()
+        notificationTimePref = prefBottomDialogBuilder?.buildPrefBottomDialogNotificationTimePicker()
         //
-        notificationTextPref = prefBottomDialogBuilder.buildPrefBottomDialogNotificationEditText()
+        notificationTextPref = prefBottomDialogBuilder?.buildPrefBottomDialogNotificationEditText()
         //
-        notificationSoundPref = prefBottomDialogBuilder.buildPrefBottomDialogNotificationSoundSelect()
+        notificationSoundPref = prefBottomDialogBuilder?.buildPrefBottomDialogNotificationSoundSelect()
         //
         val notificationsCategory = PreferenceCategoryLongSummary(
             prefContext
@@ -138,12 +138,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun updateSubNotificationPreferences(notificationActivated: Boolean) {
-        notificationTimePref.isEnabled = notificationActivated
-        notificationTextPref.isEnabled = notificationActivated
-        notificationSoundPref.isEnabled = notificationActivated
-        notificationTimePref.isVisible = notificationActivated
-        notificationTextPref.isVisible = notificationActivated
-        notificationSoundPref.isVisible = notificationActivated
+        notificationTimePref?.isEnabled = notificationActivated
+        notificationTextPref?.isEnabled = notificationActivated
+        notificationSoundPref?.isEnabled = notificationActivated
+        notificationTimePref?.isVisible = notificationActivated
+        notificationTextPref?.isVisible = notificationActivated
+        notificationSoundPref?.isVisible = notificationActivated
     }
 
     // ///////////////
@@ -151,14 +151,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private fun setupCustomisationPreferences() {
         val prefContext = preferenceManager.context
         //
-        val defaultNightModePreference = prefBottomDialogBuilder.buildPrefBottomDialogDefaultNightModeSelect()
-        defaultNightModePreference.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, _ ->
+        val defaultNightModePreference = prefBottomDialogBuilder?.buildPrefBottomDialogDefaultNightModeSelect()
+        defaultNightModePreference?.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, _ ->
             // force refresh of parent activity to apply theme choice
             activity?.recreate()
             true
         }
         //
-        val startCountDownLengthPreference = prefBottomDialogBuilder.buildPrefBottomDialogCountdownLengthPicker()
+        val startCountDownLengthPreference = prefBottomDialogBuilder?.buildPrefBottomDialogCountdownLengthPicker()
         //
         val rewardsActivationPreference = SwitchPreferenceCompat(prefContext)
         rewardsActivationPreference.key = SharedPrefsHelperSettings.REWARDS_ACTIVATED
@@ -186,11 +186,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private fun setupDataManagementPreferences() {
         val prefContext = preferenceManager.context
         //
-        val importSessionsPreference = prefBottomDialogBuilder.buildPrefBottomDialogImportData()
+        val importSessionsPreference = prefBottomDialogBuilder?.buildPrefBottomDialogImportData()
         //
-        val exportSessionsPreference = prefBottomDialogBuilder.buildPrefBottomDialogExportData()
+        val exportSessionsPreference = prefBottomDialogBuilder?.buildPrefBottomDialogExportData()
         //
-        val eraseDataPreference = prefBottomDialogBuilder.buildPrefBottomDialogEraseAllData()
+        val eraseDataPreference = prefBottomDialogBuilder?.buildPrefBottomDialogEraseAllData()
         //
         val dataManagementCategory = PreferenceCategory(prefContext)
         dataManagementCategory.title = getString(R.string.dataManagementPreferencesCategory_title)

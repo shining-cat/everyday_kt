@@ -127,7 +127,7 @@
             android:orientation="vertical"
             android:paddingTop="@dimen/space_xs"
             android:paddingBottom="@dimen/space_xs"
-            app:layout_constraintBottom_toTopOf="@+id/interval_zone"
+            app:layout_constraintBottom_toTopOf="@+id/interval_length_zone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/start_end_sound_zone">
@@ -151,7 +151,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/interval_zone"
+            android:id="@+id/interval_length_zone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/space_l"
@@ -196,7 +196,7 @@
             app:layout_constraintBottom_toTopOf="@+id/vibration_zone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/interval_zone">
+            app:layout_constraintTop_toBottomOf="@id/interval_length_zone">
 
             <TextView
                 android:id="@+id/interval_sound_label"
@@ -220,13 +220,13 @@
             android:id="@+id/vibration_zone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/space_xxl"
+            android:layout_marginBottom="@dimen/space_l"
             android:background="?attr/selectableItemBackground"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:paddingTop="@dimen/space_xs"
             android:paddingBottom="@dimen/space_xs"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/session_preset_delete_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/interval_sound_zone">
@@ -245,6 +245,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/session_preset_delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_xxl"
+            android:backgroundTint="?attr/colorSecondary"
+            android:padding="@dimen/medium_space"
+            android:text="@string/generic_string_DELETE"
+            android:textColor="?attr/colorOnSecondary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vibration_zone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -39,10 +39,6 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
     private val CONFIRM_BUTTON_LABEL_ARG = "confirm_button_label_argument"
     private val INITIAL_LENGTH_ARG = "initial_length_argument"
 
-    private lateinit var hoursPicker: NumberPicker
-    private lateinit var minutesPicker: NumberPicker
-    private lateinit var secondsPicker: NumberPicker
-
     private var listener: BottomDialogDismissibleSpinnerSecondsAndConfirmListener? = null
 
     fun interface BottomDialogDismissibleSpinnerSecondsAndConfirmListener {
