@@ -185,7 +185,7 @@ class HomeFragment : Fragment() {
             while (itemDecorationCount > 0) {
                 removeItemDecorationAt(0)
             }
-            addItemDecoration(SessionPresetItemDecoration(resources.getDimensionPixelSize(R.dimen.space_l)))
+            addItemDecoration(SessionPresetItemDecoration(resources.getDimensionPixelSize(R.dimen.space_s)))
         }
     }
 
