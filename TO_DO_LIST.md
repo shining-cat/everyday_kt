@@ -37,6 +37,7 @@
   - [ ] display sessions presets on Home fragment
   - [ ] plug edit session preset to swipe left on preset on Home Fragment, display and plug usecase to edition/suppression dialog
   - [ ] handle audio session preset: open file picker or smthg similar, get the audio file uri and store along in SessionPreset
+  - [ ] home ragment: hide fab when scroll detected, show again on release
 ### launch session
   - [ ] launchSessionUseCase (SessionViewModel) => don't know yet how to do this: need something capable of running in the background whatever happens to process
   - [ ] recordStartMoodUseCase + start session mood input dialog -> temp save to sharedPrefs?

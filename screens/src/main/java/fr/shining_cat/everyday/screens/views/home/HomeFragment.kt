@@ -178,6 +178,8 @@ class HomeFragment : Fragment() {
         recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext()).apply {
                 orientation = RecyclerView.VERTICAL
+                reverseLayout = true
+                stackFromEnd = true
             }
             adapter = sessionPresetsAdapter
             while (itemDecorationCount > 0) {

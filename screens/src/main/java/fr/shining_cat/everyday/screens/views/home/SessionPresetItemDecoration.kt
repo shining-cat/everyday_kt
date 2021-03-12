@@ -11,12 +11,7 @@ class SessionPresetItemDecoration(private val spaceSize: Int) : RecyclerView.Ite
         state: RecyclerView.State
     ) {
         with(outRect) {
-            top = if (parent.getChildAdapterPosition(view) == 0) {
-                0
-            }
-            else {
-                spaceSize
-            }
+            top = spaceSize
             left = 0
             right = 0
             bottom = 0
