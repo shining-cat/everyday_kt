@@ -114,4 +114,9 @@ class HomeViewModel(
             }
         }
     }
+
+    fun moveSessionPresetToTop(sessionPreset: SessionPreset, resources: Resources) {
+        val sessionPreset = sessionPreset.copy(lastEditTime = System.currentTimeMillis())
+        saveSessionPreset(sessionPreset, resources)
+    }
 }

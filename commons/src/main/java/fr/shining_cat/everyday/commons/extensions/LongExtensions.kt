@@ -21,6 +21,7 @@ fun Long.autoFormatDurationMsAsSmallestHhMmSsString(
     }
 }
 
+//TODO: build the rests of each unit with a modulo rather than the chain of subtraction : val restOfMinutes = minutes % 60
 fun Long.formatDurationMsAsHhMmSsString(formatString: String = "%02d:%02d:%02d"): String {
     val initialLengthHours = TimeUnit.MILLISECONDS.toHours(this)
     val initialLengthMinutes = TimeUnit.MILLISECONDS.toMinutes(this)

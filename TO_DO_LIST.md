@@ -35,9 +35,10 @@
   - [x] editSessionPresetUseCase tests
   - [x] plug add session preset to FAB on Home Fragment, display and plug usecase to creation dialog (without audio mechanics)
   - [x] display sessions presets on Home fragment
-  - [ ] plug edit session preset to swipe left on preset on Home Fragment, display and plug usecase to edition/suppression dialog
+  - [x] plug edit session preset to swipe left on preset on Home Fragment, display and plug usecase to edition/suppression dialog
   - [ ] handle audio session preset: open file picker or smth similar, get the audio file uri and store along in SessionPreset, handle display in homefragment list
-  - [ ] find a way to animate hide/show "add session preset" fab when scroll detected, show again on release
+  - [ ] find a way to animate hide/show "add session preset" fab when scroll detected, show again on release, for now it only works without animation
+
 ### launch session
   - [ ] launchSessionUseCase (SessionViewModel) => don't know yet how to do this: need something capable of running in the background whatever happens to process
   - [ ] recordStartMoodUseCase + start session mood input dialog -> temp save to sharedPrefs?
