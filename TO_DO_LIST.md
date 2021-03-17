@@ -13,6 +13,7 @@
 - [x] implement detekt plugin
 - [x] missing failing test cases in repositories in repositories, incomplete error output and exception error output
 - [ ] build launch icon from rewards assets, insert as vector adaptive icon (see https://medium.com/androiddevelopers/vectordrawable-adaptive-icons-3fed3d3205b5)
+- [x] build about dialog
 - [ ] write about text + build about dialog
 - [ ] add custom rules to detekt to put else, catch, finally on new line => this seems quite heavy work, we may skip this, but the pb is that ktlint rules contradict our own
 - [ ] decide how to handle remaining errors reported by detekt (too many functions in SharedPrefsHelper is ok, too many parameters in method, etc.)
@@ -32,9 +33,12 @@
   - [x] deleteSessionPresetUseCase tests
   - [x] editSessionPresetUseCase (homeViewModel)
   - [x] editSessionPresetUseCase tests
-  - [ ] plug add session preset to FAB on Home Fragment, display and plug usecase to creation dialog
-  - [ ] display sessions presets on Home fragment
-  - [ ] plug edit session preset to swipe left on preset on Home Fragment, display and plug usecase to edition/suppression dialog
+  - [x] plug add session preset to FAB on Home Fragment, display and plug usecase to creation dialog (without audio mechanics)
+  - [x] display sessions presets on Home fragment
+  - [x] plug edit session preset to swipe left on preset on Home Fragment, display and plug usecase to edition/suppression dialog
+  - [ ] handle audio session preset: open file picker or smth similar, get the audio file uri and store along in SessionPreset, handle display in homefragment list
+  - [ ] find a way to animate hide/show "add session preset" fab when scroll detected, show again on release, for now it only works without animation
+
 ### launch session
   - [ ] launchSessionUseCase (SessionViewModel) => don't know yet how to do this: need something capable of running in the background whatever happens to process
   - [ ] recordStartMoodUseCase + start session mood input dialog -> temp save to sharedPrefs?

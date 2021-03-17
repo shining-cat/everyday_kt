@@ -41,7 +41,7 @@ class SessionRecordConverter(
         val realDurationVsPlanned = sessionRecord.realDurationVsPlanned.key
 
         return SessionRecordEntity(
-            id = sessionRecord.id,
+            id = if (sessionRecord.id != -1L) sessionRecord.id else null,
             startTimeOfRecord = startMoodRecord.timeOfRecord,
             startBodyValue = startMoodRecord.bodyValue.key,
             startThoughtsValue = startMoodRecord.thoughtsValue.key,
@@ -101,7 +101,7 @@ class SessionRecordConverter(
         val realDurationVsPlanned = RealDurationVsPlanned.fromKey(sessionRecordEntity.realDurationVsPlanned)
 
         return SessionRecord(
-            id = sessionRecordEntity.id,
+            id = sessionRecordEntity.id ?: -1L,
             startMood = startMoodRecord,
             endMood = endMoodRecord,
             notes = sessionRecordEntity.notes,

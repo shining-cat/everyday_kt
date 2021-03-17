@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021. Shining-cat - Shiva Bernhard
+  ~ This file is part of Everyday.
+  ~
+  ~     Everyday is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, version 3 of the License.
+  ~
+  ~     Everyday is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with Everyday.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="fr.shining_cat.everyday.screens.views.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_sessions"
+        android:name="fr.shining_cat.everyday.screens.views.sessions.SessionsFragment"
+        android:label="@string/title_sessions"
+        tools:layout="@layout/fragment_sessions" />
+
+    <fragment
+        android:id="@+id/navigation_statistics"
+        android:name="fr.shining_cat.everyday.screens.views.statistics.StatisticsFragment"
+        android:label="@string/title_statistics"
+        tools:layout="@layout/fragment_statistics" />
+
+    <fragment
+        android:id="@+id/navigation_rewards"
+        android:name="fr.shining_cat.everyday.screens.views.rewards.RewardsFragment"
+        android:label="@string/title_rewards"
+        tools:layout="@layout/fragment_rewards" />
+
+</navigation>

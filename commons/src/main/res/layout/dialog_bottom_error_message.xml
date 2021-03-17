@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021. Shining-cat - Shiva Bernhard
+  ~ This file is part of Everyday.
+  ~
+  ~     Everyday is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, version 3 of the License.
+  ~
+  ~     Everyday is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with Everyday.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/top_rounded_corners_shape"
+    android:backgroundTint="?attr/colorSurface"
+    android:paddingBottom="@dimen/space_l"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/dialog_bottom_title_zone_with_dismiss_button"
+        layout="@layout/dialog_bottom_title_zone_with_dismiss_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/dialog_bottom_warning_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:layout_marginTop="@dimen/space_l"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/content_description_close_button"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dialog_bottom_title_zone_with_dismiss_button"
+        app:srcCompat="@drawable/ic_warning" />
+
+    <TextView
+        android:id="@+id/dialog_bottom_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_xxl"
+        android:layout_marginTop="@dimen/space_xl"
+        android:layout_marginEnd="@dimen/space_xxl"
+        android:textAlignment="center"
+        android:textColor="?attr/colorOnSurface"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_bottom_warning_icon"
+        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean posuere feugiat eleifend." />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

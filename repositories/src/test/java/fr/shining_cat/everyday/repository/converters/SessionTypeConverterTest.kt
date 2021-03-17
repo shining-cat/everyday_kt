@@ -57,6 +57,21 @@ class SessionTypeConverterTest {
         color = "color",
         lastEditTime = 234L
     )
+    val sessionTypeNoId = SessionType(
+        id = -1L,
+        name = "name",
+        description = "description",
+        color = "color",
+        lastEditTime = 234L
+    )
+
+    val sessionTypeEntityNoId = SessionTypeEntity(
+        id = null,
+        name = "name",
+        description = "description",
+        color = "color",
+        lastEditTime = 234L
+    )
 
     // ////////////////////////////////
     @Test
@@ -77,6 +92,28 @@ class SessionTypeConverterTest {
         }
         assertEquals(
             sessionType,
+            convertedEntity
+        )
+    }
+
+    @Test
+    fun convertModelToEntityNoId() {
+        val convertedModel = runBlocking {
+            sessionTypeConverter.convertModelToEntity(sessionTypeNoId)
+        }
+        assertEquals(
+            sessionTypeEntityNoId,
+            convertedModel
+        )
+    }
+
+    @Test
+    fun convertEntitytoModelNoId() {
+        val convertedEntity = runBlocking {
+            sessionTypeConverter.convertEntitytoModel(sessionTypeEntityNoId)
+        }
+        assertEquals(
+            sessionTypeNoId,
             convertedEntity
         )
     }

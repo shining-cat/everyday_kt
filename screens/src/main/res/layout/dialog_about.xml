@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021. Shining-cat - Shiva Bernhard
+  ~ This file is part of Everyday.
+  ~
+  ~     Everyday is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, version 3 of the License.
+  ~
+  ~     Everyday is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with Everyday.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/top_rounded_corners_shape"
+    android:backgroundTint="?attr/colorSurface"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/dialog_bottom_title_zone_with_dismiss_button"
+        layout="@layout/dialog_bottom_title_zone_with_dismiss_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/about_info_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_xxl"
+        android:layout_marginTop="@dimen/space_xxl"
+        android:layout_marginEnd="@dimen/space_xxl"
+        android:text="@string/info_text_string"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_bottom_title_zone_with_dismiss_button" />
+
+    <View
+        android:id="@+id/about_separator"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginStart="@dimen/space_xxl"
+        android:layout_marginTop="@dimen/medium_space"
+        android:layout_marginEnd="@dimen/space_xxl"
+        android:background="?attr/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/about_info_text" />
+
+    <TextView
+        android:id="@+id/about_app_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_xxl"
+        android:layout_marginTop="@dimen/no_space"
+        android:text="@string/app_name"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/about_app_version"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/about_logo" />
+
+    <TextView
+        android:id="@+id/about_app_version"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_xxl"
+        android:layout_marginTop="@dimen/space_xs"
+        android:layout_marginEnd="@dimen/space_xxl"
+        android:text="@string/app_version"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/about_app_name"
+        app:layout_constraintBottom_toTopOf="@id/about_created_by" />
+
+    <TextView
+        android:id="@+id/about_created_by"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_xxl"
+        android:layout_marginTop="@dimen/space_xs"
+        android:layout_marginEnd="@dimen/space_xxl"
+        android:text="@string/app_made_by"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/about_app_version"
+        app:layout_constraintBottom_toTopOf="@id/about_created_name" />
+
+    <TextView
+        android:id="@+id/about_created_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_xxl"
+        android:layout_marginTop="@dimen/space_xs"
+        android:layout_marginEnd="@dimen/space_xxl"
+        android:text="@string/app_made_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/about_created_by"
+        app:layout_constraintBottom_toTopOf="@id/about_website"/>
+
+    <TextView
+        android:id="@+id/about_website"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_xxl"
+        android:layout_marginTop="@dimen/space_xs"
+        android:text="@string/website"
+        app:layout_constraintBottom_toBottomOf="@id/about_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/about_created_name" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/about_vertical_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="right"
+        app:constraint_referenced_ids="about_app_name, about_app_version, about_created_by, about_created_name, about_website" />
+
+    <ImageView
+        android:id="@+id/about_logo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_xxl"
+        android:layout_marginTop="@dimen/medium_space"
+        android:layout_marginEnd="@dimen/space_xxl"
+        android:layout_marginBottom="@dimen/space_xxl"
+        android:padding="@dimen/medium_space"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/content_description_kiwi_logo"
+        android:scaleType="fitCenter"
+        android:src="@drawable/kiwi"
+        app:tint="?attr/colorOnSurface"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/about_vertical_barrier"
+        app:layout_constraintTop_toBottomOf="@id/about_separator" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

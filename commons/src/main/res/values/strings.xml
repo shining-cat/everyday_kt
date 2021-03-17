@@ -20,8 +20,7 @@
     <string name="app_name" translatable="false">EveryDay WIP KOTLIN</string>
     <string name="app_version" translatable="false">Version 0.4</string>
 
-    <string name="title_settings">Paramètres</string>
-    <string name="confirm_suppress">Confirmer la suppression</string>
+    <string name="title_settings">Settings</string>
 
     <!-- GENERIC STRINGS -->
     <string name="generic_string_NO" translatable="true">Non</string>
@@ -41,10 +40,20 @@
     <string name="generic_string_SHARE" translatable="true">Partager</string>
     <string name="generic_string_EDIT" translatable="true">Modifier</string>
     <string name="generic_string_DELETE" translatable="true">Supprimer</string>
+    <string name="generic_string_CONFIRM_DELETE" translatable="true">Confirm suppression</string>
     <string name="generic_string_ERROR" translatable="true">Erreur</string>
     <string name="generic_string_OPEN_SETTING" translatable="true">Ouvrir le réglage</string>
     <string name="generic_string_CONTINUE" translatable="true">Continuer</string>
     <string name="generic_string_PASS" translatable="true">Passer</string>
+    <string name="generic_string_NONE" translatable="true">Aucun</string>
 
-    <string name="notificationsPreferences_notification_text_default_text">C\'est l\'heure de pratiquer!</string>
+    <string name="hms_duration_format_short" translatable="true">%02dh %02dmn %02ds</string>
+    <string name="ms_duration_format_short" translatable="true">%02dmn %02ds</string>
+    <string name="s_duration_format_short" translatable="true">%02ds</string>
+
+    <string name="notificationsPreferences_notification_text_default_text" translatable="true">C\'est l\'heure de pratiquer!</string>
+    <string name="content_description_close_button" translatable="true">bouton fermeture de la fenêtre</string>
+    <string name="content_description_validate_dialog" translatable="true">bouton validation</string>
+    <string name="generic_EMPTY_LIST" translatable="true">Liste vide…</string>
+    <string name="generic_NO_SELECTION">Aucune sélection</string>
 </resources>

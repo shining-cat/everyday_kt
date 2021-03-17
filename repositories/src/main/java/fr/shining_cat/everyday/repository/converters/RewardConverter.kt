@@ -34,29 +34,28 @@ class RewardConverter(
 
     suspend fun convertModelToEntity(reward: Reward): RewardEntity {
         val level = reward.level.key
-        val rewardEntity = RewardEntity(
+        val acquisitionDate =
+            if (reward.acquisitionDate == RewardConstants.NO_ACQUISITION_DATE) RewardEntityConstants.NO_ACQUISITION_DATE else reward.acquisitionDate
+        val escapingDate =
+            if (reward.escapingDate == RewardConstants.NO_ESCAPING_DATE) RewardEntityConstants.NO_ESCAPING_DATE else reward.escapingDate
+        return RewardEntity(
+            id = if (reward.id != -1L) reward.id else null,
             flower = reward.flowerKey,
             mouth = reward.mouthKey,
             legs = reward.legsKey,
             arms = reward.armsKey,
             eyes = reward.eyesKey,
             horns = reward.hornsKey,
-            level = level
+            level = level,
+            acquisitionDate = acquisitionDate,
+            escapingDate = escapingDate,
+            name = if (reward.name == RewardConstants.NO_NAME) RewardEntityConstants.NO_NAME else reward.name,
+            isActive = reward.isActive,
+            isEscaped = reward.isEscaped,
+            legsColor = reward.legsColor,
+            bodyColor = reward.bodyColor,
+            armsColor = reward.armsColor
         )
-        if (reward.id != -1L) {
-            rewardEntity.id = reward.id
-        }
-        rewardEntity.acquisitionDate =
-            if (reward.acquisitionDate == RewardConstants.NO_ACQUISITION_DATE) RewardEntityConstants.NO_ACQUISITION_DATE else reward.acquisitionDate
-        rewardEntity.escapingDate =
-            if (reward.escapingDate == RewardConstants.NO_ESCAPING_DATE) RewardEntityConstants.NO_ESCAPING_DATE else reward.escapingDate
-        rewardEntity.name = if (reward.name == RewardConstants.NO_NAME) RewardEntityConstants.NO_NAME else reward.name
-        rewardEntity.isActive = reward.isActive
-        rewardEntity.isEscaped = reward.isEscaped
-        rewardEntity.legsColor = reward.legsColor
-        rewardEntity.bodyColor = reward.bodyColor
-        rewardEntity.armsColor = reward.armsColor
-        return rewardEntity
     }
 
     suspend fun convertEntitiesToModels(rewardEntities: List<RewardEntity>): List<Reward> {
@@ -76,24 +75,23 @@ class RewardConverter(
         else {
             rewardEntity.escapingDate
         }
-        val rewardModel = Reward(
-            id = rewardEntity.id,
+        return Reward(
+            id = rewardEntity.id ?: -1L,
             flowerKey = rewardEntity.flower,
             mouthKey = rewardEntity.mouth,
             legsKey = rewardEntity.legs,
             armsKey = rewardEntity.arms,
             eyesKey = rewardEntity.eyes,
             hornsKey = rewardEntity.horns,
-            level = Level.fromKey(rewardEntity.level)
+            level = Level.fromKey(rewardEntity.level),
+            acquisitionDate = acquisitionDate,
+            escapingDate = escapingDate,
+            name = if (rewardEntity.name == RewardEntityConstants.NO_NAME) RewardConstants.NO_NAME else rewardEntity.name,
+            isActive = rewardEntity.isActive,
+            isEscaped = rewardEntity.isEscaped,
+            legsColor = rewardEntity.legsColor,
+            bodyColor = rewardEntity.bodyColor,
+            armsColor = rewardEntity.armsColor
         )
-        rewardModel.acquisitionDate = acquisitionDate
-        rewardModel.escapingDate = escapingDate
-        rewardModel.name = if (rewardEntity.name == RewardEntityConstants.NO_NAME) RewardConstants.NO_NAME else rewardEntity.name
-        rewardModel.isActive = rewardEntity.isActive
-        rewardModel.isEscaped = rewardEntity.isEscaped
-        rewardModel.legsColor = rewardEntity.legsColor
-        rewardModel.bodyColor = rewardEntity.bodyColor
-        rewardModel.armsColor = rewardEntity.armsColor
-        return rewardModel
     }
 }

@@ -29,12 +29,12 @@ import fr.shining_cat.everyday.locale.entities.SessionTypeTable.SESSION_TYPE_TAB
 
 @Entity(tableName = SESSION_TYPE_TABLE_NAME)
 data class SessionTypeEntity(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = SESSION_TYPE_ID) var id: Long = 0L,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = SESSION_TYPE_ID) val id: Long? = null,
     //
-    @ColumnInfo(name = NAME) var name: String,
-    @ColumnInfo(name = DESCRIPTION) var description: String,
-    @ColumnInfo(name = COLOR) var color: String,
-    @ColumnInfo(name = LAST_EDIT_DATE) var lastEditTime: Long
+    @ColumnInfo(name = NAME) val name: String,
+    @ColumnInfo(name = DESCRIPTION) val description: String,
+    @ColumnInfo(name = COLOR) val color: String,
+    @ColumnInfo(name = LAST_EDIT_DATE) val lastEditTime: Long
 )
 
 object SessionTypeTable {

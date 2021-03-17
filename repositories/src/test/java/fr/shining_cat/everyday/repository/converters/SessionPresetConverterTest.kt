@@ -69,8 +69,34 @@ class SessionPresetConverterTest {
         lastEditTime = 567L,
         sessionTypeId = 678L
     )
+    val sessionPresetNoId = SessionPreset(
+        id = -1L,
+        duration = 234L,
+        startAndEndSoundUri = "startAndEndSoundUri",
+        intermediateIntervalLength = 345L,
+        startCountdownLength = 456L,
+        intermediateIntervalRandom = true,
+        intermediateIntervalSoundUri = "intermediateIntervalSoundUri",
+        audioGuideSoundUri = "audioGuideSoundUri",
+        vibration = true,
+        lastEditTime = 567L,
+        sessionTypeId = 678L
+    )
+    val sessionPresetEntityNoId = SessionPresetEntity(
+        id = null,
+        duration = 234L,
+        startAndEndSoundUri = "startAndEndSoundUri",
+        intermediateIntervalLength = 345L,
+        startCountdownLength = 456L,
+        intermediateIntervalRandom = true,
+        intermediateIntervalSoundUri = "intermediateIntervalSoundUri",
+        audioGuideSoundUri = "audioGuideSoundUri",
+        vibration = true,
+        lastEditTime = 567L,
+        sessionTypeId = 678L
+    )
 
-    // ////////////////////////////////
+    //////////////////////////////////
     @Test
     fun convertModelToEntity() {
         val convertedModel = runBlocking {
@@ -83,12 +109,35 @@ class SessionPresetConverterTest {
     }
 
     @Test
+    fun convertModelToEntityNoId() {
+
+        val convertedModel = runBlocking {
+            sessionPresetConverter.convertModelToEntity(sessionPresetNoId)
+        }
+        assertEquals(
+            sessionPresetEntityNoId,
+            convertedModel
+        )
+    }
+
+    @Test
     fun convertEntitytoModel() {
         val convertedEntity = runBlocking {
             sessionPresetConverter.convertEntitytoModel(sessionPresetEntity)
         }
         assertEquals(
             sessionPreset,
+            convertedEntity
+        )
+    }
+
+    @Test
+    fun convertEntitytoModelNoId() {
+        val convertedEntity = runBlocking {
+            sessionPresetConverter.convertEntitytoModel(sessionPresetEntityNoId)
+        }
+        assertEquals(
+            sessionPresetNoId,
             convertedEntity
         )
     }

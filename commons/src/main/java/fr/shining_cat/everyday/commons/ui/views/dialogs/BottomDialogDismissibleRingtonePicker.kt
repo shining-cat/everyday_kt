@@ -55,9 +55,7 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
         playingRingtone?.stop()
     }
 
-    interface BottomDialogDismissibleRingtonePickerListener {
-
-        fun onDismissed()
+    fun interface BottomDialogDismissibleRingtonePickerListener {
         fun onValidateRingtoneSelected(
             selectedRingtoneUri: String,
             selectedRingtoneName: String
@@ -77,8 +75,8 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
             initialSelectionUri: String,
             confirmButtonLabel: String,
             showSilenceChoice: Boolean = false,
-            ringTonesAssetsNames: Array<String> = emptyArray(),
-            ringTonesDisplayNames: Array<String> = emptyArray()
+            ringTonesAssetsNames: Array<String>? = emptyArray(),
+            ringTonesDisplayNames: Array<String>? = emptyArray()
         ): BottomDialogDismissibleRingtonePicker = BottomDialogDismissibleRingtonePicker().apply {
             arguments = Bundle().apply {
                 putString(
@@ -129,7 +127,6 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
         //
         val dismissButton = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
         dismissButton.setOnClickListener {
-            listener?.onDismissed()
             dismiss()
         }
         //

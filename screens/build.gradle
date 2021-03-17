@@ -29,6 +29,7 @@ dependencies {
 
     implementation project(Modules.models)
     implementation project(Modules.commons)
+    implementation project(Modules.domain)
     implementation project(Modules.interModulesNavigation)
 
 

@@ -30,15 +30,11 @@ class BottomDialogDismissibleBigButton : BottomSheetDialogFragment() {
     private val BIG_BUTTON_LABEL_ARG = "big_button_label_argument"
     private var listener: BottomDialogDismissibleBigButtonListener? = null
 
-    interface BottomDialogDismissibleBigButtonListener {
-
-        fun onDismissed()
+    fun interface BottomDialogDismissibleBigButtonListener {
         fun onBigButtonClicked()
     }
 
-    fun setBottomDialogDismissibleBigButtonListener(
-        listener: BottomDialogDismissibleBigButtonListener
-    ) {
+    fun setBottomDialogDismissibleBigButtonListener(listener: BottomDialogDismissibleBigButtonListener) {
         this.listener = listener
     }
 
@@ -81,7 +77,6 @@ class BottomDialogDismissibleBigButton : BottomSheetDialogFragment() {
         //
         val dismissButton = uiBindings.dialogBottomTitleZoneWithDismissButton.dialogBottomDismissButton
         dismissButton.setOnClickListener {
-            listener?.onDismissed()
             dismiss()
         }
         //

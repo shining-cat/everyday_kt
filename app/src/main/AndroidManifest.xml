@@ -18,8 +18,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fr.shining_cat.everyday">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
     <!--    set allowBackup to false because of exploit possibility through backup/export feature-->
     <application
         android:name=".EverydayApplication"

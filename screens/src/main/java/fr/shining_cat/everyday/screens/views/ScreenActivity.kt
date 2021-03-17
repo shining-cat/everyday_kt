@@ -17,10 +17,8 @@
 
 package fr.shining_cat.everyday.screens.views
 
-import android.content.res.Resources
 import android.os.Bundle
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.ui.views.AbstractActivity
@@ -38,34 +36,14 @@ class ScreenActivity : AbstractActivity() {
         super.onCreate(savedInstanceState)
         val screenActivityBinding = ActivityScreenBinding.inflate(layoutInflater)
         setContentView(screenActivityBinding.root)
-        logger.d(
-            LOG_TAG,
-            "onCreate"
-        )
-        val navController = findNavController(R.id.screens_nav_host_fragment)
-        setupBottomNavigation(
-            screenActivityBinding,
-            navController
-        )
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            val dest: String = try {
-                resources.getResourceName(destination.id)
-            }
-            catch (e: Resources.NotFoundException) {
-                Integer.toString(destination.id)
-            }
-            logger.d(
-                LOG_TAG,
-                "Navigated to $dest"
-            )
-        }
+        setupBottomNavigation(screenActivityBinding)
         hideLoadingView(screenActivityBinding.loadingLayout.loadingView)
     }
 
-    private fun setupBottomNavigation(
-        screenActivityBinding: ActivityScreenBinding,
-        navController: NavController
-    ) {
+
+    private fun setupBottomNavigation(screenActivityBinding: ActivityScreenBinding) {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.screens_nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
         screenActivityBinding.bottomNavView.setupWithNavController(navController)
     }
 }

@@ -98,6 +98,60 @@ class RewardConverterTest {
         armsColor = "#0000FF00"
     )
 
+    val rewardNoId = Reward(
+        id = -1L,
+        flowerKey = 0,
+        mouthKey = 1,
+        legsKey = 2,
+        armsKey = 3,
+        eyesKey = 4,
+        hornsKey = 5,
+        level = Level.fromKey(3),
+        acquisitionDate = GregorianCalendar(
+            2000,
+            5,
+            13
+        ).timeInMillis,
+        escapingDate = GregorianCalendar(
+            2001,
+            6,
+            25
+        ).timeInMillis,
+        isActive = true,
+        isEscaped = false,
+        name = "this is my name",
+        legsColor = "#FF000000",
+        bodyColor = "#00FF0000",
+        armsColor = "#0000FF00"
+    )
+
+    val rewardEntityNoId = RewardEntity(
+        id = null,
+        flower = 0,
+        mouth = 1,
+        legs = 2,
+        arms = 3,
+        eyes = 4,
+        horns = 5,
+        level = 3,
+        acquisitionDate = GregorianCalendar(
+            2000,
+            5,
+            13
+        ).timeInMillis,
+        escapingDate = GregorianCalendar(
+            2001,
+            6,
+            25
+        ).timeInMillis,
+        isActive = true,
+        isEscaped = false,
+        name = "this is my name",
+        legsColor = "#FF000000",
+        bodyColor = "#00FF0000",
+        armsColor = "#0000FF00"
+    )
+
     // ////////////////////////////////
     @Test
     fun convertModelToEntity() {
@@ -117,6 +171,28 @@ class RewardConverterTest {
         }
         assertEquals(
             reward,
+            convertedEntity
+        )
+    }
+
+    @Test
+    fun convertModelToEntityNoID() {
+        val convertedModel = runBlocking {
+            rewardConverter.convertModelToEntity(rewardNoId)
+        }
+        assertEquals(
+            rewardEntityNoId,
+            convertedModel
+        )
+    }
+
+    @Test
+    fun convertEntitytoModelNoId() {
+        val convertedEntity = runBlocking {
+            rewardConverter.convertEntitytoModel(rewardEntityNoId)
+        }
+        assertEquals(
+            rewardNoId,
             convertedEntity
         )
     }

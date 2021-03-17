@@ -41,27 +41,27 @@ import fr.shining_cat.everyday.locale.entities.SessionRecordTable.SESSION_RECORD
 
 @Entity(tableName = SESSION_RECORD_TABLE)
 data class SessionRecordEntity(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = SESSION_RECORD_ID) var id: Long = 0L,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = SESSION_RECORD_ID) val id: Long? = null,
     //
-    @ColumnInfo(name = START_TIME_OF_RECORD) var startTimeOfRecord: Long,
-    @ColumnInfo(name = START_BODY_VALUE) var startBodyValue: Int,
-    @ColumnInfo(name = START_THOUGHTS_VALUE) var startThoughtsValue: Int,
-    @ColumnInfo(name = START_FEELINGS_VALUE) var startFeelingsValue: Int,
-    @ColumnInfo(name = START_GLOBAL_VALUE) var startGlobalValue: Int,
+    @ColumnInfo(name = START_TIME_OF_RECORD) val startTimeOfRecord: Long,
+    @ColumnInfo(name = START_BODY_VALUE) val startBodyValue: Int,
+    @ColumnInfo(name = START_THOUGHTS_VALUE) val startThoughtsValue: Int,
+    @ColumnInfo(name = START_FEELINGS_VALUE) val startFeelingsValue: Int,
+    @ColumnInfo(name = START_GLOBAL_VALUE) val startGlobalValue: Int,
     //
-    @ColumnInfo(name = END_TIME_OF_RECORD) var endTimeOfRecord: Long,
-    @ColumnInfo(name = END_BODY_VALUE) var endBodyValue: Int,
-    @ColumnInfo(name = END_THOUGHTS_VALUE) var endThoughtsValue: Int,
-    @ColumnInfo(name = END_FEELINGS_VALUE) var endFeelingsValue: Int,
-    @ColumnInfo(name = END_GLOBAL_VALUE) var endGlobalValue: Int,
+    @ColumnInfo(name = END_TIME_OF_RECORD) val endTimeOfRecord: Long,
+    @ColumnInfo(name = END_BODY_VALUE) val endBodyValue: Int,
+    @ColumnInfo(name = END_THOUGHTS_VALUE) val endThoughtsValue: Int,
+    @ColumnInfo(name = END_FEELINGS_VALUE) val endFeelingsValue: Int,
+    @ColumnInfo(name = END_GLOBAL_VALUE) val endGlobalValue: Int,
     //
-    @ColumnInfo(name = NOTES) var notes: String,
-    @ColumnInfo(name = SESSION_REAL_DURATION) var realDuration: Long,
-    @ColumnInfo(name = PAUSES_COUNT) var pausesCount: Int,
+    @ColumnInfo(name = NOTES) val notes: String,
+    @ColumnInfo(name = SESSION_REAL_DURATION) val realDuration: Long,
+    @ColumnInfo(name = PAUSES_COUNT) val pausesCount: Int,
     // realDurationVsPlanned <0 if real < planned; =0 if real = planned; >0 if real > planned  (obtained via Long.compare(real, planned)
-    @ColumnInfo(name = REAL_DURATION_VS_PLANNED) var realDurationVsPlanned: Int,
-    @ColumnInfo(name = MP3_GUIDE) var guideMp3: String,
-    @ColumnInfo(name = TYPE) var sessionTypeId: Long
+    @ColumnInfo(name = REAL_DURATION_VS_PLANNED) val realDurationVsPlanned: Int,
+    @ColumnInfo(name = MP3_GUIDE) val guideMp3: String,
+    @ColumnInfo(name = TYPE) val sessionTypeId: Long
 )
 
 object SessionRecordTable {

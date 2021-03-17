@@ -29,6 +29,10 @@ val screensModule = module {
     viewModel {
         HomeViewModel(
             get(),
+            get(),
+            get(),
+            get(),
+            get(),
             get()
         )
     }

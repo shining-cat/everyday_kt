@@ -46,7 +46,7 @@ class SplashScreenActivity : AbstractActivity() {
         showLoadingView(activitySplashscreenBinding.loadingLayout.loadingView)
         splashViewModel.initLiveData.observe(
             this,
-            Observer {
+            {
                 logger.d(
                     LOG_TAG,
                     "initLiveData: $it"

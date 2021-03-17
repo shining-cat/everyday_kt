@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="standard_toolbar_height">56dp</dimen>
+    <dimen name="no_space">0dp</dimen>
+    <dimen name="space_xxs">4dp</dimen>
+    <dimen name="space_xs">8dp</dimen>
+    <dimen name="space_s">12dp</dimen>
+    <dimen name="medium_space">16dp</dimen>
+    <dimen name="space_l">20dp</dimen>
+    <dimen name="space_xl">24dp</dimen>
+    <dimen name="space_xxl">32dp</dimen>
+    <dimen name="space_xxxl">64dp</dimen>
+
+
+    <dimen name="toolbar_standard_title_size">18sp</dimen>
+    <dimen name="title_level_1_text_size">18sp</dimen>
+    <dimen name="title_level_2_text_size">16sp</dimen>
+    <dimen name="normal_text_size">14sp</dimen>
+
+</resources>

@@ -16,7 +16,6 @@
   -->
 
 <resources>
-    <string name="title_settings">Settings</string>
     <string name="generic_string_NO">No</string>
     <string name="generic_string_YES">Yes</string>
     <string name="generic_string_VALIDATE">Confirm</string>
@@ -34,8 +33,19 @@
     <string name="generic_string_OPEN_SETTING">Open Setting</string>
     <string name="generic_string_CONTINUE">Continue</string>
     <string name="generic_string_PASS">Skip</string>
-    <string name="confirm_suppress">Confirm suppression</string>
+    <string name="generic_string_CONFIRM_DELETE">Confirm suppression</string>
+    <string name="generic_string_NONE" translatable="true">None</string>
+
+    <string name="title_settings" translatable="true">Settings</string>
+
+    <string name="hms_duration_format_short" translatable="true">%02dh %02dmn %02ds</string>
+    <string name="ms_duration_format_short" translatable="true">%02dmn %02ds</string>
+    <string name="s_duration_format_short" translatable="true">%02ds</string>
 
     <string name="notificationsPreferences_notification_text_default_text">It\'s time to practice!</string>
+    <string name="content_description_close_button">close dialog button</string>
+    <string name="content_description_validate_dialog">validate button</string>
+    <string name="generic_EMPTY_LIST">Empty list…</string>
+    <string name="generic_NO_SELECTION">Aucune sélection</string>
 
 </resources>

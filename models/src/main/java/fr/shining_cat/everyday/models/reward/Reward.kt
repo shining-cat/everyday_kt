@@ -31,7 +31,7 @@ import fr.shining_cat.everyday.models.reward.RewardConstants.NO_NAME
 // if a reward escapes, then isEscaped is set to true, and escape_date is set to the moment it happens, if it is obtained again, then isEscaped is re-set to false
 
 data class Reward(
-    var id: Long = -1L,
+    val id: Long = -1L,
     val flowerKey: Int,
     val mouthKey: Int,
     val legsKey: Int,
@@ -39,14 +39,14 @@ data class Reward(
     val eyesKey: Int,
     val hornsKey: Int,
     val level: Level,
-    var acquisitionDate: Long = NO_ACQUISITION_DATE,
-    var escapingDate: Long = NO_ESCAPING_DATE,
-    var isActive: Boolean = false,
-    var isEscaped: Boolean = true,
-    var name: String = NO_NAME,
-    var legsColor: String = DEFAULT_REWARD_COLOR,
-    var bodyColor: String = DEFAULT_REWARD_COLOR,
-    var armsColor: String = DEFAULT_REWARD_COLOR
+    val acquisitionDate: Long = NO_ACQUISITION_DATE,
+    val escapingDate: Long = NO_ESCAPING_DATE,
+    val isActive: Boolean = false,
+    val isEscaped: Boolean = true,
+    val name: String = NO_NAME,
+    val legsColor: String = DEFAULT_REWARD_COLOR,
+    val bodyColor: String = DEFAULT_REWARD_COLOR,
+    val armsColor: String = DEFAULT_REWARD_COLOR
 )
 
 object RewardConstants {
