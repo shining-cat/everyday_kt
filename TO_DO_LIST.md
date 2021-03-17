@@ -14,6 +14,7 @@
 - [x] missing failing test cases in repositories in repositories, incomplete error output and exception error output
 - [ ] build launch icon from rewards assets, insert as vector adaptive icon (see https://medium.com/androiddevelopers/vectordrawable-adaptive-icons-3fed3d3205b5)
 - [x] build about dialog
+- [ ] tests on HomeViewModel
 - [ ] write about text + build about dialog
 - [ ] add custom rules to detekt to put else, catch, finally on new line => this seems quite heavy work, we may skip this, but the pb is that ktlint rules contradict our own
 - [ ] decide how to handle remaining errors reported by detekt (too many functions in SharedPrefsHelper is ok, too many parameters in method, etc.)
@@ -24,6 +25,7 @@
 ### launching app
   - [x] initUseCase (splashViewModel) : load user prefs or set defaults in if first launch
   - [x] tests on initUseCase
+
 ### sessions presets
   - [x] addSessionPresetUseCase (homeViewModel)
   - [x] addSessionPresetUseCase tests
@@ -48,6 +50,7 @@
   - [ ] recordCompletedSessionUseCase
   - [ ] recordCompletedSessionUseCase tests
   - [ ] session running screen countdown + play audio if required
+
 ### stats
   - [ ] loadStatsSummaryUseCase (homeViewModel)
   - [ ] display stats summary on Home fragment
