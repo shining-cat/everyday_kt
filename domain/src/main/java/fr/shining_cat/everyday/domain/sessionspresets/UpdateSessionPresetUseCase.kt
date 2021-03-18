@@ -13,8 +13,11 @@ class UpdateSessionPresetUseCase(
     private val logger: Logger
 ) {
 
-    suspend fun execute(sessionPreset: SessionPreset): Result<Int> {
-        val output = sessionPresetRepository.update(sessionPreset)
+    suspend fun execute(
+        sessionPreset: SessionPreset,
+        currentTime: Long
+    ): Result<Int> {
+        val output = sessionPresetRepository.update(sessionPreset.copy(lastEditTime = currentTime))
         return if (output is Output.Success) {
             //this usecase only handle single item deletion
             if (output.result == 1) {

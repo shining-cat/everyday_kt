@@ -1,9 +1,12 @@
 package fr.shining_cat.everyday.screens.views.home
 
+import android.app.Activity
 import android.app.Dialog
+import android.content.Intent
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Bundle
+import android.provider.DocumentsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.INVISIBLE
@@ -12,6 +15,7 @@ import android.view.ViewGroup
 import android.view.Window.FEATURE_NO_TITLE
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import fr.shining_cat.everyday.commons.Constants.Companion.ACTIVITY_RESULT_SELECT_AUDIO_FILE
 import fr.shining_cat.everyday.commons.Constants.Companion.DEFAULT_SESSION_COUNTDOWN_MILLIS
 import fr.shining_cat.everyday.commons.Constants.Companion.DEFAULT_SESSION_DURATION_MILLIS
 import fr.shining_cat.everyday.commons.Logger
@@ -19,14 +23,19 @@ import fr.shining_cat.everyday.commons.extensions.autoFormatDurationMsAsSmallest
 import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleBigButton
 import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleRingtonePicker
 import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleSpinnersDurationAndConfirm
+import fr.shining_cat.everyday.models.AudioFileMetadata
 import fr.shining_cat.everyday.models.SessionPreset
 import fr.shining_cat.everyday.screens.R
 import fr.shining_cat.everyday.screens.databinding.DialogSessionPresetBinding
+import fr.shining_cat.everyday.screens.viewmodels.SessionPresetViewModel
 import org.koin.android.ext.android.get
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class SessionPresetDialog: DialogFragment() {
 
     private val LOG_TAG = SessionPresetDialog::class.java.name
+
+    private val sessionPresetViewModel: SessionPresetViewModel by viewModel()
 
     private val DISABLED_ZONE_ALPHA = 0.5f
     private val ENABLED_ZONE_ALPHA = 1f
@@ -38,6 +47,7 @@ class SessionPresetDialog: DialogFragment() {
     //
     private var newId = -1L
     private var newAudioGuideUri = ""
+    private var newAudioGuideLabel = ""
     private var newDuration = 0L
     private var newStartEndSoundUri: Uri = Uri.parse("")
     private var newStartEndSoundName = ""
@@ -64,6 +74,7 @@ class SessionPresetDialog: DialogFragment() {
         fun newInstance(preset: SessionPreset? = null): SessionPresetDialog = SessionPresetDialog().apply {
             arguments = Bundle().apply {
                 if (preset != null) {
+                    sessionPresetViewModel.init(preset)
                     putParcelable(
                         PRESET_INPUT_ARG,
                         preset
@@ -102,7 +113,7 @@ class SessionPresetDialog: DialogFragment() {
         //
         val validateButton = uiBindings.dialogSessionPresetTitleZone.dialogFullscreenTitleZoneValidateButton
         validateButton.setOnClickListener {
-            listener?.onConfirmButtonClicked(buildSessionPreset())
+            listener?.onConfirmButtonClicked(sessionPresetViewModel.sessionPresetUpdatedLiveData.value)
             dismiss()
         }
         //
@@ -139,20 +150,21 @@ class SessionPresetDialog: DialogFragment() {
         )
         //
         newId = presetInput?.id ?: -1L
-        newAudioGuideUri = presetInput?.audioGuideSoundUri ?: ""
+        newAudioGuideUri = presetInput?.audioGuideSoundUriString ?: ""
         newDuration = presetInput?.duration ?: DEFAULT_SESSION_DURATION_MILLIS
-        newStartEndSoundUri = if (presetInput?.startAndEndSoundUri == null) deviceDefaultRingtoneUri else Uri.parse(presetInput.startAndEndSoundUri)
+        newStartEndSoundUri =
+            if (presetInput?.startAndEndSoundUriString == null) deviceDefaultRingtoneUri else Uri.parse(presetInput.startAndEndSoundUriString)
         newStartEndSoundName = RingtoneManager.getRingtone(
             context,
             newStartEndSoundUri
         ).getTitle(context)
         newCountdown = presetInput?.startCountdownLength ?: DEFAULT_SESSION_COUNTDOWN_MILLIS
         newIntervalLength = presetInput?.intermediateIntervalLength ?: 0L
-        newIntervalSoundUri = if (presetInput?.intermediateIntervalSoundUri == null) {
+        newIntervalSoundUri = if (presetInput?.intermediateIntervalSoundUriString == null) {
             deviceDefaultRingtoneUri
         }
         else {
-            Uri.parse(presetInput.intermediateIntervalSoundUri)
+            Uri.parse(presetInput.intermediateIntervalSoundUriString)
         }
         newIntervalSoundName = RingtoneManager.getRingtone(
             context,
@@ -182,17 +194,49 @@ class SessionPresetDialog: DialogFragment() {
             //TODO: get selected file name from metadata
         }
         uiBindings.audioGuideZone.setOnClickListener {
-            //TODO: open file picker, get result as file Uri
             Toast.makeText(
                 context,
                 "TODO: OPEN FILE PICKER",
                 Toast.LENGTH_LONG
             ).show()
+            openSystemFilePicker(newAudioGuideUri)
         }
         toggleTimerVsAudioPreset(
             uiBindings,
             newAudioGuideUri.isNotBlank()
         )
+    }
+
+    private fun openSystemFilePicker(pickerInitialUri: String? = null) {
+        val chooseAudioIntent = Intent(Intent.ACTION_GET_CONTENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "audio/*"
+            if (pickerInitialUri != null && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                Uri.parse(pickerInitialUri)
+                // Optionally, specify a URI for the file that should appear in the system file picker when it loads.
+                putExtra(
+                    DocumentsContract.EXTRA_INITIAL_URI,
+                    pickerInitialUri
+                )
+            }
+        }
+        startActivityForResult(
+            chooseAudioIntent,
+            ACTIVITY_RESULT_SELECT_AUDIO_FILE
+        )
+    }
+
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        resultData: Intent?
+    ) {
+        if (requestCode == ACTIVITY_RESULT_SELECT_AUDIO_FILE && resultCode == Activity.RESULT_OK) {
+            // The result data contains a URI for the document or directory that the user selected.
+            resultData?.data?.also {uri ->
+                newAudioGuideUri = uri.toString()
+            }
+        }
     }
 
     private fun toggleTimerVsAudioPreset(
@@ -218,6 +262,7 @@ class SessionPresetDialog: DialogFragment() {
         disabled: Boolean
     ) {
         if (disabled) {
+            //TODO: set duration field to audio file duration from metadata
             uiBindings.durationZone.alpha = DISABLED_ZONE_ALPHA
             uiBindings.durationZone.setOnClickListener {
                 Toast.makeText(
@@ -412,23 +457,6 @@ class SessionPresetDialog: DialogFragment() {
                 )
             }
         }
-    }
-
-    //////////////////
-    private fun buildSessionPreset(): SessionPreset {
-        return SessionPreset(
-            id = newId,
-            duration = newDuration,
-            startAndEndSoundUri = newStartEndSoundUri.toString(),
-            intermediateIntervalLength = newIntervalLength,
-            startCountdownLength = newCountdown,
-            intermediateIntervalRandom = false,
-            intermediateIntervalSoundUri = newIntervalSoundUri.toString(),
-            audioGuideSoundUri = newAudioGuideUri,
-            vibration = newVibration,
-            lastEditTime = System.currentTimeMillis(),
-            sessionTypeId = -1L
-        )
     }
 
     /////////////////

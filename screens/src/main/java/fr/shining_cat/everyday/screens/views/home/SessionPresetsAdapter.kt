@@ -22,7 +22,7 @@ class SessionPresetsAdapter(
 
     override fun getItemViewType(position: Int): Int {
         val item = getItem(position)
-        return if (item.audioGuideSoundUri.isBlank()) {
+        return if (item.audioGuideSoundUriString.isBlank()) {
             SessionPresetViewType.TIMED_SESSION.value
         }
         else {

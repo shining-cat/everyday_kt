@@ -82,10 +82,10 @@ class HomeViewModel(
         mainScope.launch {
             val recordSessionPresetResult = ioScope.async {
                 if (sessionPreset.id == -1L) {
-                    createSessionPresetUseCase.execute(sessionPreset)
+                    createSessionPresetUseCase.execute(sessionPreset, System.currentTimeMillis())
                 }
                 else {
-                    updateSessionPresetUseCase.execute(sessionPreset)
+                    updateSessionPresetUseCase.execute(sessionPreset, System.currentTimeMillis())
                 }
             }.await()
             if (recordSessionPresetResult is Result.Success) {

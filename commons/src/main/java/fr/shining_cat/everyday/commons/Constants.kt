@@ -47,5 +47,8 @@ class Constants {
         const val ONE_SECOND_AS_MS = 1000L
         const val ONE_MINUTE_AS_MS = 60 * 1000L
         const val ONE_HOUR_AS_MS = 60 * 60 * 1000L
+
+        //
+        const val ACTIVITY_RESULT_SELECT_AUDIO_FILE: Int = 513
     }
 }

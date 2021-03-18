@@ -1,6 +1,5 @@
 package fr.shining_cat.everyday.domain.sessionspresets
 
-import fr.shining_cat.everyday.commons.Constants
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_CODE_DATABASE_OPERATION_FAILED
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_INSERT_FAILED
 import fr.shining_cat.everyday.commons.Logger
@@ -14,8 +13,11 @@ class CreateSessionPresetUseCase(
     private val logger: Logger
 ) {
 
-    suspend fun execute(sessionPreset: SessionPreset): Result<Long> {
-        val output = sessionPresetRepository.insert(listOf(sessionPreset))
+    suspend fun execute(
+        sessionPreset: SessionPreset,
+        currentTime: Long
+    ): Result<Long> {
+        val output = sessionPresetRepository.insert(listOf(sessionPreset.copy(lastEditTime = currentTime)))
         return if (output is Output.Success) {
             //this usecase only handle single item insertion
             if (output.result.size == 1) {

@@ -23,14 +23,17 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class SessionPreset(
     val id: Long,
-    val duration: Long,
-    val startAndEndSoundUri: String,
-    val intermediateIntervalLength: Long,
     val startCountdownLength: Long,
+    val startAndEndSoundUriString: String,
+    val intermediateIntervalLength: Long,
     val intermediateIntervalRandom: Boolean,
-    val intermediateIntervalSoundUri: String,
-    val audioGuideSoundUri: String,
+    val intermediateIntervalSoundUriString: String,
+    val duration: Long,
+    val audioGuideSoundUriString: String,
+    val audioGuideSoundArtistName: String,
+    val audioGuideSoundAlbumName: String,
+    val audioGuideSoundFileName: String,
     val vibration: Boolean,
-    val lastEditTime: Long,
-    val sessionTypeId: Long
+    val sessionTypeId: Long,
+    val lastEditTime: Long
 ) : Parcelable

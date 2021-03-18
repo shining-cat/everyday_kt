@@ -33,12 +33,12 @@ class SessionPresetConverter(
         return if (sessionPreset.id == -1L) {
             SessionPresetEntity(
                 duration = sessionPreset.duration,
-                startAndEndSoundUri = sessionPreset.startAndEndSoundUri,
+                startAndEndSoundUri = sessionPreset.startAndEndSoundUriString,
                 intermediateIntervalLength = sessionPreset.intermediateIntervalLength,
                 startCountdownLength = sessionPreset.startCountdownLength,
                 intermediateIntervalRandom = sessionPreset.intermediateIntervalRandom,
-                intermediateIntervalSoundUri = sessionPreset.intermediateIntervalSoundUri,
-                audioGuideSoundUri = sessionPreset.audioGuideSoundUri,
+                intermediateIntervalSoundUri = sessionPreset.intermediateIntervalSoundUriString,
+                audioGuideSoundUri = sessionPreset.audioGuideSoundUriString,
                 vibration = sessionPreset.vibration,
                 lastEditTime = sessionPreset.lastEditTime,
                 sessionTypeId = sessionPreset.sessionTypeId
@@ -48,12 +48,12 @@ class SessionPresetConverter(
             SessionPresetEntity(
                 id = sessionPreset.id,
                 duration = sessionPreset.duration,
-                startAndEndSoundUri = sessionPreset.startAndEndSoundUri,
+                startAndEndSoundUri = sessionPreset.startAndEndSoundUriString,
                 intermediateIntervalLength = sessionPreset.intermediateIntervalLength,
                 startCountdownLength = sessionPreset.startCountdownLength,
                 intermediateIntervalRandom = sessionPreset.intermediateIntervalRandom,
-                intermediateIntervalSoundUri = sessionPreset.intermediateIntervalSoundUri,
-                audioGuideSoundUri = sessionPreset.audioGuideSoundUri,
+                intermediateIntervalSoundUri = sessionPreset.intermediateIntervalSoundUriString,
+                audioGuideSoundUri = sessionPreset.audioGuideSoundUriString,
                 vibration = sessionPreset.vibration,
                 lastEditTime = sessionPreset.lastEditTime,
                 sessionTypeId = sessionPreset.sessionTypeId
@@ -69,12 +69,12 @@ class SessionPresetConverter(
         return SessionPreset(
             id = sessionPresetEntity.id ?: -1L,
             duration = sessionPresetEntity.duration,
-            startAndEndSoundUri = sessionPresetEntity.startAndEndSoundUri,
+            startAndEndSoundUriString = sessionPresetEntity.startAndEndSoundUri,
             intermediateIntervalLength = sessionPresetEntity.intermediateIntervalLength,
             startCountdownLength = sessionPresetEntity.startCountdownLength,
             intermediateIntervalRandom = sessionPresetEntity.intermediateIntervalRandom,
-            intermediateIntervalSoundUri = sessionPresetEntity.intermediateIntervalSoundUri,
-            audioGuideSoundUri = sessionPresetEntity.audioGuideSoundUri,
+            intermediateIntervalSoundUriString = sessionPresetEntity.intermediateIntervalSoundUri,
+            audioGuideSoundUriString = sessionPresetEntity.audioGuideSoundUri,
             vibration = sessionPresetEntity.vibration,
             lastEditTime = sessionPresetEntity.lastEditTime,
             sessionTypeId = sessionPresetEntity.sessionTypeId
