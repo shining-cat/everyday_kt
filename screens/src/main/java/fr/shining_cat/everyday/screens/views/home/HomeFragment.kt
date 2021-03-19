@@ -51,7 +51,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class HomeFragment: Fragment() {
 
-    private val LOG_TAG = HomeFragment::class.java.simpleName
+    private val LOG_TAG = HomeFragment::class.java.name
 
     private val logger: Logger = get()
     private val homeViewModel: HomeViewModel by viewModel()
@@ -98,6 +98,7 @@ class HomeFragment: Fragment() {
                 )
                 if (it.isEmpty()) {
                     homeFragmentBinding.emptyListMessage.visibility = VISIBLE
+                    sessionPresetsAdapter.notifyDataSetChanged()
                 }
                 else {
                     homeFragmentBinding.emptyListMessage.visibility = GONE
@@ -179,7 +180,7 @@ class HomeFragment: Fragment() {
             homeFragmentBinding.addSessionPresetFab.setOnClickListener {showSessionPresetDialog()}
         }
         else {
-            homeFragmentBinding.addSessionPresetFab.setOnClickListener {null}
+            homeFragmentBinding.addSessionPresetFab.setOnClickListener(null)
         }
     }
 
@@ -285,10 +286,10 @@ class HomeFragment: Fragment() {
             R.drawable.ic_move_to_top
         )
         return object: SwipeInRecyclerViewCallback(
-            editIcon,
-            moveToTopIcon,
-            null,
-            logger
+            rightIcon = editIcon,
+            leftIcon = moveToTopIcon,
+            backgroundColor = null,
+            logger = logger
         ) {
             override fun onSwiped(
                 viewHolder: RecyclerView.ViewHolder,
@@ -299,7 +300,7 @@ class HomeFragment: Fragment() {
                 if (swipedPreset == null) {
                     logger.e(
                         LOG_TAG,
-                        "onSwiped::swiped left:: could not retrieve SessionPreset for position $position"
+                        "onSwiped:: could not retrieve SessionPreset for position $position"
                     )
                 }
                 else {

@@ -29,7 +29,7 @@ import org.koin.android.ext.android.get
 
 abstract class AbstractActivity : AppCompatActivity() {
 
-    private val LOG_TAG = AbstractActivity::class.java.simpleName
+    private val LOG_TAG = AbstractActivity::class.java.name
 
     private val logger: Logger = get()
     private val sharedPrefsHelper: SharedPrefsHelper = get()

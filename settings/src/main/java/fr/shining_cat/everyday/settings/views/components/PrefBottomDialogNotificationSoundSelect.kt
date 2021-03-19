@@ -46,7 +46,7 @@ class PrefBottomDialogNotificationSoundSelect(
 
     private fun openDialog() {
         val selectedNotificationSoundUri = sharedPrefsHelper.getNotificationSoundUri()
-        val ringtonesAssets = context.resources.getStringArray(fr.shining_cat.everyday.commons.R.array.ringtonesAssetsNames)
+        val ringtonesAssets = context.resources.getStringArray(fr.shining_cat.everyday.commons.R.array.ringtonesRawAssetsNames)
         val ringtonesTitles = context.resources.getStringArray(fr.shining_cat.everyday.commons.R.array.ringtonesTitles)
         val notificationSoundSelectDialogBottomSheetDialog = BottomDialogDismissibleRingtonePicker.newInstance(
             title = context.getString(R.string.notificationsPreferences_notification_sound_title),

@@ -47,7 +47,7 @@
     <string name="content_description_validate_dialog">validate button</string>
     <string name="generic_EMPTY_LIST">Empty list…</string>
     <string name="generic_NO_SELECTION">Aucune sélection</string>
-    <string name="unknown_audio_file">Fichier audio inconnu</string>
+    <string name="unknown_title">Fichier audio inconnu</string>
     <string name="unknown_artist">Artiste inconnu</string>
     <string name="unknown_album">Album inconnu</string>
 

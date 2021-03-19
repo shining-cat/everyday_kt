@@ -27,7 +27,7 @@ import org.koin.android.ext.android.get
 
 class SettingsActivity : AbstractActivity() {
 
-    private val LOG_TAG = SettingsActivity::class.java.simpleName
+    private val LOG_TAG = SettingsActivity::class.java.name
 
     private val logger: Logger = get()
 

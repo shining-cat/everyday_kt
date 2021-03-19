@@ -29,7 +29,7 @@ class FileMetadataRetrieveUseCase(
     val logger: Logger
 ) {
 
-    private val LOG_TAG = FileMetadataRetrieveUseCase::class.simpleName
+    private val LOG_TAG = FileMetadataRetrieveUseCase::class.java.name
 
     fun execute(
         context: Context,
@@ -38,29 +38,44 @@ class FileMetadataRetrieveUseCase(
 
         val resources = context.resources
         //default values
-        var fileName = context.getString(R.string.unknown_audio_file)
+        var title = context.getString(R.string.unknown_title)
         var artist = context.getString(R.string.unknown_artist)
         var album = context.getString(R.string.unknown_album)
         var durationMs = -1L
 
         val mmr = MediaMetadataRetriever()
-        mmr.setDataSource(
-            context,
-            fileUri
-        )
+        //TODO: this way of accessing files on device >API30 throws exception and crashes => find the way to handle api <29 , api = 29, and api >29
+        // see https://petrakeas.medium.com/android-10-11-storage-cheat-sheet-76866a989df4
+        // and https://developer.android.com/training/data-storage/use-cases
+            mmr.setDataSource(
+                context,
+                fileUri
+            )
+
         //get audio file display name :
-        val fileNameStr = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)
-        if (fileNameStr.isNullOrBlank()) {
+        val titleStr = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)
+        if (titleStr.isNullOrBlank()) {
             Log.e(
                 LOG_TAG,
                 "retrieveMetadata::MediaMetadataRetriever could not retrieve METADATA_KEY_TITLE :: fileNameStr is NULL or EMPTY!!"
             )
         }
         else {
-            fileName = fileNameStr
+            title = titleStr
         }
-        //get audio file artist name
-        val artistNameStr = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)
+        //get audio file artist name, try to grab info from different metadata fields
+        val artistNameStr = if (!mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST).isNullOrBlank()) {
+            mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)
+        }
+        else if (!mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST).isNullOrBlank()) {
+            mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST)
+        }
+        else if (!mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_COMPOSER).isNullOrBlank()) {
+            mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_COMPOSER)
+        }
+        else {
+            mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_AUTHOR)
+        }
         if (artistNameStr.isNullOrBlank()) {
             Log.e(
                 LOG_TAG,
@@ -93,7 +108,7 @@ class FileMetadataRetrieveUseCase(
             durationMs = durationMsStr.toLong()
         }
         return AudioFileMetadata(
-            fileName,
+            title,
             artist,
             album,
             durationMs

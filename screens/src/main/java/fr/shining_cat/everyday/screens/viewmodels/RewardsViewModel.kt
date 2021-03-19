@@ -29,7 +29,7 @@ class RewardsViewModel(
     private val logger: Logger
 ) : AbstractViewModels(appDispatchers) {
 
-    private val LOG_TAG = RewardsViewModel::class.java.simpleName
+    private val LOG_TAG = RewardsViewModel::class.java.name
 
     private val _initReadyLiveData = MutableLiveData<String>()
     val initReadyLiveData: LiveData<String> = _initReadyLiveData

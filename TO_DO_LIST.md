@@ -38,12 +38,16 @@
   - [x] plug add session preset to FAB on Home Fragment, display and plug usecase to creation dialog (without audio mechanics)
   - [x] display sessions presets on Home fragment
   - [x] plug edit session preset to swipe left on preset on Home Fragment, display and plug usecase to edition/suppression dialog
-  - [ ] modified SessionPreset to hold more fields => must update tests and usages
+  - [x] modified SessionPreset to hold more fields => must update tests and usages
   - [ ] modified CreateSessionPresetUseCase and UpdateSessionPresetUseCase to require editTime on execute => update tests and usages
   - [ ] added a viewmodel for sessionpreset dialog => plug sessionpreset dialog UI to viewmodel's sessionPresetUpdatedLiveData
-      - [ ] when audio file is selected, display metadata
+      - [x] when audio file is selected, display metadata
       - [ ] when audio file is selected, if duration is -1L (= could not retrieve) we need user duration selection, maybe set duration to 0s and prevent dialog validation, deactivate toast on duration clicked in this case
-  - [ ] handle audio session preset: open file picker or smth similar, get the audio file uri and store along in SessionPreset, handle display in homefragment list
+  - [x] handle audio session preset: open file picker or smth similar, get the audio file uri and store along in SessionPreset, handle display in homefragment list
+  - [x] pb when deleting last preset: icon drawn be swipelistener is still present => find a way to reset canvas!
+  - [ ] pb when accessing files with uris. find the way to handle api <29 , api = 29, and api >29
+        see https://petrakeas.medium.com/android-10-11-storage-cheat-sheet-76866a989df4
+        and https://developer.android.com/training/data-storage/use-cases
   - [ ] find a way to animate hide/show "add session preset" fab when scroll detected, show again on release, for now it only works without animation
 
 ### launch session
@@ -55,6 +59,9 @@
   - [ ] recordCompletedSessionUseCase
   - [ ] recordCompletedSessionUseCase tests
   - [ ] session running screen countdown + play audio if required
+
+### reminder
+  - [ ] setup alarm feature
 
 ### stats
   - [ ] loadStatsSummaryUseCase (homeViewModel)
