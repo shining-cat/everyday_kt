@@ -35,27 +35,21 @@ class FileMetadataRetrieveUseCase(
         context: Context,
         fileUri: Uri
     ): AudioFileMetadata {
-
-        val resources = context.resources
         //default values
         var title = context.getString(R.string.unknown_title)
         var artist = context.getString(R.string.unknown_artist)
         var album = context.getString(R.string.unknown_album)
         var durationMs = -1L
-
+        //
         val mmr = MediaMetadataRetriever()
-        //TODO: this way of accessing files on device >API30 throws exception and crashes => find the way to handle api <29 , api = 29, and api >29
-        // see https://petrakeas.medium.com/android-10-11-storage-cheat-sheet-76866a989df4
-        // and https://developer.android.com/training/data-storage/use-cases
         try {
             mmr.setDataSource(
                 context,
                 fileUri
             )
         }
-        catch (e:Exception)
-        {
-            logger.e(LOG_TAG, "failing to set data source on MediaMetadataRetriever:: $e")
+        catch (e: Exception) {
+            logger.e(LOG_TAG, "failing to set data source on MediaMetadataRetriever, could not access file, metadata will not be retrieved:: $e")
         }
         //get audio file display name :
         val titleStr = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)

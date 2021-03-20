@@ -242,7 +242,8 @@ class SessionPresetDialog: DialogFragment() {
     }
 
     private fun openSystemFilePicker(pickerInitialUri: String) {
-        val chooseAudioIntent = Intent(Intent.ACTION_GET_CONTENT).apply {
+        //Intent.ACTION_OPEN_DOCUMENT is needed for persistent access grant on the retrieved URI, Intent.ACTION_GET_CONTENT would only allow this one-shot access, causing an exception on subsequent access attempts
+        val chooseAudioIntent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "audio/*"
             if (pickerInitialUri.isNotBlank() && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
