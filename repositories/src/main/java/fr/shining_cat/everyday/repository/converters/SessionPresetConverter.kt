@@ -26,58 +26,73 @@ class SessionPresetConverter(
 ) {
 
     suspend fun convertModelsToEntities(sessionPresets: List<SessionPreset>): List<SessionPresetEntity> {
-        return sessionPresets.map { sessionPreset -> convertModelToEntity(sessionPreset) }
+        return sessionPresets.map {sessionPreset -> convertModelToEntity(sessionPreset)}
     }
 
     suspend fun convertModelToEntity(sessionPreset: SessionPreset): SessionPresetEntity {
         return if (sessionPreset.id == -1L) {
             SessionPresetEntity(
-                duration = sessionPreset.duration,
-                startAndEndSoundUri = sessionPreset.startAndEndSoundUri,
-                intermediateIntervalLength = sessionPreset.intermediateIntervalLength,
                 startCountdownLength = sessionPreset.startCountdownLength,
+                startAndEndSoundUri = sessionPreset.startAndEndSoundUriString,
+                startAndEndSoundName = sessionPreset.startAndEndSoundName,
+                intermediateIntervalLength = sessionPreset.intermediateIntervalLength,
                 intermediateIntervalRandom = sessionPreset.intermediateIntervalRandom,
-                intermediateIntervalSoundUri = sessionPreset.intermediateIntervalSoundUri,
-                audioGuideSoundUri = sessionPreset.audioGuideSoundUri,
+                intermediateIntervalSoundUri = sessionPreset.intermediateIntervalSoundUriString,
+                intermediateIntervalSoundName = sessionPreset.intermediateIntervalSoundName,
+                duration = sessionPreset.duration,
+                audioGuideSoundUri = sessionPreset.audioGuideSoundUriString,
+                audioGuideSoundArtistName = sessionPreset.audioGuideSoundArtistName,
+                audioGuideSoundAlbumName = sessionPreset.audioGuideSoundAlbumName,
+                audioGuideSoundTitle = sessionPreset.audioGuideSoundTitle,
                 vibration = sessionPreset.vibration,
+                sessionTypeId = sessionPreset.sessionTypeId,
                 lastEditTime = sessionPreset.lastEditTime,
-                sessionTypeId = sessionPreset.sessionTypeId
             )
         }
         else {
             SessionPresetEntity(
                 id = sessionPreset.id,
-                duration = sessionPreset.duration,
-                startAndEndSoundUri = sessionPreset.startAndEndSoundUri,
-                intermediateIntervalLength = sessionPreset.intermediateIntervalLength,
                 startCountdownLength = sessionPreset.startCountdownLength,
+                startAndEndSoundUri = sessionPreset.startAndEndSoundUriString,
+                startAndEndSoundName = sessionPreset.startAndEndSoundName,
+                intermediateIntervalLength = sessionPreset.intermediateIntervalLength,
                 intermediateIntervalRandom = sessionPreset.intermediateIntervalRandom,
-                intermediateIntervalSoundUri = sessionPreset.intermediateIntervalSoundUri,
-                audioGuideSoundUri = sessionPreset.audioGuideSoundUri,
+                intermediateIntervalSoundUri = sessionPreset.intermediateIntervalSoundUriString,
+                intermediateIntervalSoundName = sessionPreset.intermediateIntervalSoundName,
+                duration = sessionPreset.duration,
+                audioGuideSoundUri = sessionPreset.audioGuideSoundUriString,
+                audioGuideSoundArtistName = sessionPreset.audioGuideSoundArtistName,
+                audioGuideSoundAlbumName = sessionPreset.audioGuideSoundAlbumName,
+                audioGuideSoundTitle = sessionPreset.audioGuideSoundTitle,
                 vibration = sessionPreset.vibration,
+                sessionTypeId = sessionPreset.sessionTypeId,
                 lastEditTime = sessionPreset.lastEditTime,
-                sessionTypeId = sessionPreset.sessionTypeId
             )
         }
     }
 
     suspend fun convertEntitiesToModels(sessionPresetEntities: List<SessionPresetEntity>): List<SessionPreset> {
-        return sessionPresetEntities.map { sessionEntity -> convertEntitytoModel(sessionEntity) }
+        return sessionPresetEntities.map {sessionEntity -> convertEntityToModel(sessionEntity)}
     }
 
-    suspend fun convertEntitytoModel(sessionPresetEntity: SessionPresetEntity): SessionPreset {
+    suspend fun convertEntityToModel(sessionPresetEntity: SessionPresetEntity): SessionPreset {
         return SessionPreset(
             id = sessionPresetEntity.id ?: -1L,
-            duration = sessionPresetEntity.duration,
-            startAndEndSoundUri = sessionPresetEntity.startAndEndSoundUri,
-            intermediateIntervalLength = sessionPresetEntity.intermediateIntervalLength,
             startCountdownLength = sessionPresetEntity.startCountdownLength,
+            startAndEndSoundUriString = sessionPresetEntity.startAndEndSoundUri,
+            startAndEndSoundName = sessionPresetEntity.startAndEndSoundName,
+            intermediateIntervalLength = sessionPresetEntity.intermediateIntervalLength,
             intermediateIntervalRandom = sessionPresetEntity.intermediateIntervalRandom,
-            intermediateIntervalSoundUri = sessionPresetEntity.intermediateIntervalSoundUri,
-            audioGuideSoundUri = sessionPresetEntity.audioGuideSoundUri,
+            intermediateIntervalSoundUriString = sessionPresetEntity.intermediateIntervalSoundUri,
+            intermediateIntervalSoundName = sessionPresetEntity.intermediateIntervalSoundName,
+            duration = sessionPresetEntity.duration,
+            audioGuideSoundUriString = sessionPresetEntity.audioGuideSoundUri,
+            audioGuideSoundArtistName = sessionPresetEntity.audioGuideSoundArtistName,
+            audioGuideSoundAlbumName = sessionPresetEntity.audioGuideSoundAlbumName,
+            audioGuideSoundTitle = sessionPresetEntity.audioGuideSoundTitle,
             vibration = sessionPresetEntity.vibration,
+            sessionTypeId = sessionPresetEntity.sessionTypeId,
             lastEditTime = sessionPresetEntity.lastEditTime,
-            sessionTypeId = sessionPresetEntity.sessionTypeId
         )
     }
 }

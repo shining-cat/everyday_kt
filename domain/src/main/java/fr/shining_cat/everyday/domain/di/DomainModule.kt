@@ -17,6 +17,7 @@
 
 package fr.shining_cat.everyday.domain.di
 
+import fr.shining_cat.everyday.domain.FileMetadataRetrieveUseCase
 import fr.shining_cat.everyday.domain.InitDefaultPrefsValuesUseCase
 import fr.shining_cat.everyday.domain.sessionspresets.CreateSessionPresetUseCase
 import fr.shining_cat.everyday.domain.sessionspresets.DeleteSessionPresetUseCase
@@ -40,5 +41,8 @@ val domainModule = module {
     }
     factory {
         DeleteSessionPresetUseCase(get(), get())
+    }
+    factory {
+        FileMetadataRetrieveUseCase(get())
     }
 }

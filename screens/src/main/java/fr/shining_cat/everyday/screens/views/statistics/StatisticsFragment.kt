@@ -37,7 +37,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class StatisticsFragment : Fragment() {
 
-    private val LOG_TAG = StatisticsFragment::class.java.simpleName
+    private val LOG_TAG = StatisticsFragment::class.java.name
 
     private val logger: Logger = get()
     private val statisticsViewModelViewModel: StatisticsViewModel by viewModel()

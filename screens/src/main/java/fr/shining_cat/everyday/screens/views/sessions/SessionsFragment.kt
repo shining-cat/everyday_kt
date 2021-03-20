@@ -37,7 +37,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class SessionsFragment : Fragment() {
 
-    private val LOG_TAG = SessionsFragment::class.java.simpleName
+    private val LOG_TAG = SessionsFragment::class.java.name
 
     private val logger: Logger = get()
     private val sessionsViewModel: SessionsViewModel by viewModel()

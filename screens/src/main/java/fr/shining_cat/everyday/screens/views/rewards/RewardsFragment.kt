@@ -37,7 +37,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class RewardsFragment : Fragment() {
 
-    private val LOG_TAG = RewardsFragment::class.java.simpleName
+    private val LOG_TAG = RewardsFragment::class.java.name
 
     private val logger: Logger = get()
     private val rewardsViewModel: RewardsViewModel by viewModel()

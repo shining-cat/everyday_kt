@@ -17,7 +17,7 @@
 
 <resources>
     <!--raw sound files names in res/raw -->
-    <string-array name="ringtonesAssetsNames">
+    <string-array name="ringtonesRawAssetsNames">
         <item>singing_bowl_low_long_one_hit</item>
         <item>singing_bowl_high_short_one_hit</item>
         <item>singing_bowl_high_short_two_hits_slow</item>

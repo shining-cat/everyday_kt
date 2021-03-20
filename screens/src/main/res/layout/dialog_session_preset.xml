@@ -38,6 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/audio_guide"
+                android:textAlignment="center"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="@dimen/title_level_2_text_size"
                 android:textStyle="bold" />
@@ -46,6 +47,7 @@
                 android:id="@+id/audio_guide_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAlignment="center"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="@dimen/normal_text_size"
                 tools:text="What shall we do with a drunken sailor?" />
@@ -71,6 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/duration"
+                android:textAlignment="center"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="@dimen/title_level_2_text_size"
                 android:textStyle="bold" />
@@ -79,6 +82,7 @@
                 android:id="@+id/duration_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAlignment="center"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="@dimen/normal_text_size"
                 tools:text="1h 25mn" />
@@ -104,6 +108,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/start_end_sound"
+                android:textAlignment="center"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="@dimen/title_level_2_text_size"
                 android:textStyle="bold" />
@@ -112,6 +117,7 @@
                 android:id="@+id/start_end_sound_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAlignment="center"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="@dimen/normal_text_size"
                 tools:text="piti zoizos" />
@@ -137,6 +143,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/countdown"
+                android:textAlignment="center"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="@dimen/title_level_2_text_size"
                 android:textStyle="bold" />
@@ -145,6 +152,7 @@
                 android:id="@+id/countdown_length_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAlignment="center"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="@dimen/normal_text_size"
                 tools:text="13s" />
@@ -170,6 +178,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/interval"
+                android:textAlignment="center"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="@dimen/title_level_2_text_size"
                 android:textStyle="bold" />
@@ -178,6 +187,7 @@
                 android:id="@+id/interval_length_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAlignment="center"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="@dimen/normal_text_size"
                 tools:text="1mn" />
@@ -203,6 +213,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/interval_sound"
+                android:textAlignment="center"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="@dimen/title_level_2_text_size"
                 android:textStyle="bold" />
@@ -211,6 +222,7 @@
                 android:id="@+id/interval_sound_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAlignment="center"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="@dimen/normal_text_size"
                 tools:text="pitite clocloche" />
@@ -236,6 +248,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/vibration"
+                android:textAlignment="center"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="@dimen/title_level_2_text_size"
                 android:textStyle="bold" />

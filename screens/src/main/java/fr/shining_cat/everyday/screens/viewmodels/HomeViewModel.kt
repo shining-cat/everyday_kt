@@ -43,7 +43,7 @@ class HomeViewModel(
     private val logger: Logger
 ) : AbstractViewModels(appDispatchers) {
 
-    private val LOG_TAG = HomeViewModel::class.java.simpleName
+    private val LOG_TAG = HomeViewModel::class.java.name
 
     private val _sessionPresetsLiveData = MutableLiveData<List<SessionPreset>>()
     val sessionPresetsLiveData: LiveData<List<SessionPreset>> = _sessionPresetsLiveData

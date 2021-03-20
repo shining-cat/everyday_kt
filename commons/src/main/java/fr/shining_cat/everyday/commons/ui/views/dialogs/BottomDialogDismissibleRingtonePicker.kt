@@ -34,6 +34,7 @@ import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.R
 import fr.shining_cat.everyday.commons.databinding.DialogBottomRingtonePickerAndConfirmBinding
 import org.koin.android.ext.android.get
+import java.security.InvalidParameterException
 
 class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
 
@@ -137,8 +138,9 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
             INITIAL_SELECTION_URI_ARG,
             ""
         ) ?: ""
-        if (initialSelectionUriString.isBlank()) {
-            logger.e(LOG_TAG, "initUi::initial selection is empty, this should never happen!")
+        if (initialSelectionUriString.isBlank() && arguments?.getBoolean(SILENCE_ARG) == false) {
+            logger.e(LOG_TAG, "initUi::initial selection is silence but silence is not allowed, this should never happen!")
+            throw InvalidParameterException("initial selection is silence but silence is not allowed")
         }
         val selectListAdapter = SelectListAdapter(logger)
         selectListAdapter.optionsLabels = completeRingTonesLabels

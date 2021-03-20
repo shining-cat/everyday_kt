@@ -30,7 +30,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class SplashScreenActivity : AbstractActivity() {
 
-    private val LOG_TAG = SplashScreenActivity::class.java.simpleName
+    private val LOG_TAG = SplashScreenActivity::class.java.name
 
     private val splashViewModel: SplashViewModel by viewModel()
     private val logger: Logger = get()

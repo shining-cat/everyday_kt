@@ -40,13 +40,16 @@
     <string name="interval_sound">Interval sound</string>
     <string name="audio_guide">Audio Guide</string>
     <string name="no_session_preset_found">No preset found, create a new one!</string>
-    <string name="session_duration_vs_audio_explanation">pour une session audio, la durée sera celle du fichier choisi</string>
-    <string name="session_interval_vs_audio_explanation">pour une session audio, il n\y aura pas d\'intervalles intermédiaires</string>
-    <string name="session_countdown_explanation">longueur du compte à rebours avant le démarrage</string>
-    <string name="session_interval_explanation">Définir un intervalle auquel un son sera joué</string>
+    <string name="session_duration_vs_audio_explanation">for an audio session, duration will be the audio file\'s duration.\nAn audio session can\'t be changed into a timed session.</string>
+    <string name="session_interval_vs_audio_explanation">for an audio session, there will be no intermediate interval</string>
+    <string name="session_countdown_explanation">Start countdown length</string>
+    <string name="session_interval_explanation">Chose an interval at which a sound will be played</string>
 
     <string name="content_description_add_new_preset">Add new session preset button</string>
     <string name="content_description_kiwi_logo">kiwi logo</string>
-    <string name="audio_session_preset_title">Démarrer une session audio:</string>
-    <string name="timed_session_preset_title">Démarrer une session chronométrée</string>
+    <string name="audio_session_preset_title">Start audio session:</string>
+    <string name="timed_session_preset_title">Start timed session:</string>
+    <string name="unknown_audio_duration_fill_manually">unknown duration, please input selected audio file duration manually</string>
+    <string name="audio_file_display_info">%s - %s - %s</string>
+    <string name="session_preset_invalid_preset">Le preset est invalide, corriger les champs indiqués</string>
 </resources>

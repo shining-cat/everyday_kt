@@ -28,7 +28,7 @@ import org.koin.android.ext.android.get
 
 class ScreenActivity : AbstractActivity() {
 
-    private val LOG_TAG = ScreenActivity::class.java.simpleName
+    private val LOG_TAG = ScreenActivity::class.java.name
 
     private val logger: Logger = get()
 
