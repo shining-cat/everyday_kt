@@ -48,6 +48,26 @@ class CreateSessionPresetUseCaseTest {
             mockSessionPresetRepository,
             mockLogger
         )
+        coEvery {
+            mockSessionPreset.copy(
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any(),
+                any()
+            )
+        } returns mockSessionPreset
     }
 
     @Test

@@ -34,7 +34,7 @@ class SessionPresetViewModel(
     appDispatchers: AppDispatchers,
     private val metadataRetrieveUseCase: FileMetadataRetrieveUseCase,
     private val logger: Logger
-): AbstractViewModels(appDispatchers) {
+) : AbstractViewModels(appDispatchers) {
 
     private val LOG_TAG = SessionPresetViewModel::class.java.name
 
@@ -71,17 +71,18 @@ class SessionPresetViewModel(
             )
         }
         else null
-
-        logger.d(LOG_TAG, "init::audioFileMetadata?.artistName = ${audioFileMetadata?.artistName}")
-        logger.d(LOG_TAG, "init::audioFileMetadata?.albumName = ${audioFileMetadata?.albumName}")
-        logger.d(LOG_TAG, "init::audioFileMetadata?.fileName = ${audioFileMetadata?.fileName}")
         //
         val duration = if (audioFileMetadata != null) {
-            if (audioFileMetadata.durationMs != -1L) {
-                audioFileMetadata.durationMs
-            }
-            else {
-                -1L //=> audio file duration could not be retrieved => we need the user to input it manually
+            when {
+                audioFileMetadata.durationMs != -1L -> {
+                    audioFileMetadata.durationMs
+                }
+                presetInput?.duration != null -> {
+                    presetInput.duration //=> audio file duration could not be retrieved, but a duration was already saved (probably by the user) => we will treat this duration as if it came from the file metadata
+                }
+                else -> {
+                    -1L //=> audio file duration could not be retrieved => we need the user to input it manually
+                }
             }
         }
         else presetInput?.duration ?: Constants.DEFAULT_SESSION_DURATION_MILLIS
@@ -113,7 +114,7 @@ class SessionPresetViewModel(
                 "" //audio session  => no intermediate interval "" is not equivalent for "silence" here
             }
             else {
-                presetInput?.intermediateIntervalSoundUriString ?: deviceDefaultRingtoneName
+                presetInput?.intermediateIntervalSoundName ?: deviceDefaultRingtoneName
             },
             duration = duration,
             audioGuideSoundUriString = presetInput?.audioGuideSoundUriString ?: "",

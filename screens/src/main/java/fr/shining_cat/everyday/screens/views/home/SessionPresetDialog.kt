@@ -3,6 +3,7 @@ package fr.shining_cat.everyday.screens.views.home
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.DocumentsContract
@@ -15,6 +16,7 @@ import android.view.Window.FEATURE_NO_TITLE
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.color.MaterialColors
 import fr.shining_cat.everyday.commons.Constants.Companion.ACTIVITY_RESULT_SELECT_AUDIO_FILE
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.extensions.autoFormatDurationMsAsSmallestHhMmSsString
@@ -278,6 +280,8 @@ class SessionPresetDialog: DialogFragment() {
         uiBindings: DialogSessionPresetBinding,
         sessionPreset: SessionPreset
     ) {
+        val durationValueNormalColor = MaterialColors.getColor(requireContext(), R.attr.colorOnSurface, Color.BLACK)
+        uiBindings.durationValue.setTextColor(durationValueNormalColor)
         val isAnAudioSession = sessionPreset.audioGuideSoundUriString.isNotBlank()
         val audioSessionDurationUnknown = isAnAudioSession && sessionPreset.duration == -1L
         if (isAnAudioSession) {

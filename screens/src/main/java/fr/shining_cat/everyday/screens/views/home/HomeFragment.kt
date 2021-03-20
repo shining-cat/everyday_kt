@@ -98,7 +98,7 @@ class HomeFragment: Fragment() {
                 )
                 if (it.isEmpty()) {
                     homeFragmentBinding.emptyListMessage.visibility = VISIBLE
-                    sessionPresetsAdapter.notifyDataSetChanged()
+                    sessionPresetsAdapter.submitList(it)
                 }
                 else {
                     homeFragmentBinding.emptyListMessage.visibility = GONE
