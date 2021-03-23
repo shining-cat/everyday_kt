@@ -137,8 +137,7 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
         val explanationTv = uiBindings.dialogBottomInstruction
         if (explanation.isNotBlank()) {
             explanationTv.text = explanation
-        }
-        else {
+        } else {
             explanationTv.visibility = GONE
         }
         //
@@ -223,8 +222,7 @@ class BottomDialogDismissibleSpinnersDurationAndConfirm : BottomSheetDialogFragm
             picker.minValue = 0
             picker.setFormatter(twoDigitsFormatter)
             picker.wrapSelectorWheel = false
-        }
-        else {
+        } else {
             picker.visibility = GONE
             units.visibility = GONE
         }

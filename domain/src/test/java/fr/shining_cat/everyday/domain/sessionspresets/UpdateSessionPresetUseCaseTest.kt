@@ -1,7 +1,6 @@
 package fr.shining_cat.everyday.domain.sessionspresets
 
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_CODE_DATABASE_OPERATION_FAILED
-import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_DELETE_FAILED
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_UPDATE_FAILED
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.domain.Result

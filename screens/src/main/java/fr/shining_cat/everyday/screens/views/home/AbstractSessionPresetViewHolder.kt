@@ -13,5 +13,4 @@ abstract class AbstractSessionPresetViewHolder(
     private val LOG_TAG = AbstractSessionPresetViewHolder::class.java.name
 
     abstract fun bindView(sessionPreset: SessionPreset)
-
 }

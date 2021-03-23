@@ -1,7 +1,6 @@
 package fr.shining_cat.everyday.domain
 
 import android.content.Context
-import android.media.RingtoneManager
 import android.net.Uri
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelper
@@ -37,5 +36,4 @@ class InitDefaultPrefsValuesUseCase(
             sharedPrefsHelper.setNotificationSoundTitle(deviceDefaultRingtoneTitle)
         }
     }
-
 }

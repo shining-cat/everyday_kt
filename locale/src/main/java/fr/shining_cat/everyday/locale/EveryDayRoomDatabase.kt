@@ -72,8 +72,7 @@ abstract class EveryDayRoomDatabase : RoomDatabase() {
                             context,
                             EveryDayRoomDatabase::class.java
                         ).fallbackToDestructiveMigration().build()
-                    }
-                    else {
+                    } else {
                         instance = Room.databaseBuilder(
                             context,
                             EveryDayRoomDatabase::class.java,

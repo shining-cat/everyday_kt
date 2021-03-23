@@ -340,5 +340,4 @@ class SessionPresetRepositoryImplTest {
             output.exception
         )
     }
-
 }

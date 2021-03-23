@@ -44,8 +44,7 @@ class Logger {
                     tag,
                     msg
                 )
-            }
-            else {
+            } else {
                 Log.e(
                     tag,
                     msg,

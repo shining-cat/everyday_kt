@@ -19,7 +19,6 @@ package fr.shining_cat.everyday.repository.repo
 
 import fr.shining_cat.everyday.commons.Constants
 import fr.shining_cat.everyday.locale.dao.SessionTypeDao
-import fr.shining_cat.everyday.locale.entities.SessionTypeEntity
 import fr.shining_cat.everyday.models.SessionType
 import fr.shining_cat.everyday.repository.Output
 import fr.shining_cat.everyday.repository.converters.SessionTypeConverter
@@ -54,16 +53,14 @@ class SessionTypeRepositoryImpl(
             }
             if (inserted.size == sessionTypes.size) {
                 Output.Success(inserted)
-            }
-            else {
+            } else {
                 Output.Error(
                     Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                     Constants.ERROR_MESSAGE_INSERT_FAILED,
                     Exception(Constants.ERROR_MESSAGE_INSERT_FAILED)
                 )
             }
-        }
-        catch (exception: Exception) {
+        } catch (exception: Exception) {
             Output.Error(
                 Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                 Constants.ERROR_MESSAGE_INSERT_FAILED,
@@ -81,16 +78,14 @@ class SessionTypeRepositoryImpl(
             }
             if (updated == 1) {
                 Output.Success(updated)
-            }
-            else {
+            } else {
                 Output.Error(
                     Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                     Constants.ERROR_MESSAGE_UPDATE_FAILED,
                     Exception(Constants.ERROR_MESSAGE_UPDATE_FAILED)
                 )
             }
-        }
-        catch (exception: Exception) {
+        } catch (exception: Exception) {
             Output.Error(
                 Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                 Constants.ERROR_MESSAGE_UPDATE_FAILED,
@@ -108,16 +103,14 @@ class SessionTypeRepositoryImpl(
             }
             if (deleted == 1) {
                 Output.Success(deleted)
-            }
-            else {
+            } else {
                 Output.Error(
                     Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                     Constants.ERROR_MESSAGE_DELETE_FAILED,
                     Exception(Constants.ERROR_MESSAGE_DELETE_FAILED)
                 )
             }
-        }
-        catch (exception: Exception) {
+        } catch (exception: Exception) {
             Output.Error(
                 Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                 Constants.ERROR_MESSAGE_DELETE_FAILED,
@@ -137,18 +130,15 @@ class SessionTypeRepositoryImpl(
                     Constants.ERROR_MESSAGE_NO_RESULT,
                     NullPointerException(Constants.ERROR_MESSAGE_NO_RESULT)
                 )
-            }
-            else {
+            } else {
                 Output.Success(
                     withContext(Dispatchers.Default) {
                         sessionTypeConverter.convertEntitiesToModels(sessionTypeEntities)
                     }
                 )
             }
-        }
-        catch (exception: Exception) {
+        } catch (exception: Exception) {
             genericReadError(exception)
         }
     }
-
 }

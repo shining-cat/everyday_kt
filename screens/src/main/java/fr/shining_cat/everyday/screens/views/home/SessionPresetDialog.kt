@@ -31,7 +31,7 @@ import fr.shining_cat.everyday.screens.viewmodels.SessionPresetViewModel
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class SessionPresetDialog: DialogFragment() {
+class SessionPresetDialog : DialogFragment() {
 
     private val LOG_TAG = SessionPresetDialog::class.java.name
 
@@ -76,13 +76,15 @@ class SessionPresetDialog: DialogFragment() {
     ): View {
         val sessionPresetDialogBinding = DialogSessionPresetBinding.inflate(LayoutInflater.from(context))
         //
-        sessionPresetViewModel.sessionPresetUpdatedLiveData.observe(viewLifecycleOwner,
+        sessionPresetViewModel.sessionPresetUpdatedLiveData.observe(
+            viewLifecycleOwner,
             {
                 updateUi(
                     it,
                     sessionPresetDialogBinding
                 )
-            })
+            }
+        )
         //
         val presetInput = arguments?.getParcelable(PRESET_INPUT_ARG) as SessionPreset?
         sessionPresetViewModel.init(
@@ -99,7 +101,7 @@ class SessionPresetDialog: DialogFragment() {
         return dialog
     }
 
-    //////////////////////////
+    // ////////////////////////
     //  UI elements initialization
     private fun initUi(uiBindings: DialogSessionPresetBinding) {
         setUpTitle(uiBindings)
@@ -114,8 +116,7 @@ class SessionPresetDialog: DialogFragment() {
         val titleField = uiBindings.dialogSessionPresetTitleZone.dialogFullscreenTitleZoneTitle
         titleField.text = if (isCreation) {
             getString(R.string.session_preset_creation_dialog_title)
-        }
-        else {
+        } else {
             getString(R.string.session_preset_edition_dialog_title)
         }
     }
@@ -136,15 +137,13 @@ class SessionPresetDialog: DialogFragment() {
                 if (sessionPresetToSave != null) {
                     listener?.onConfirmButtonClicked(sessionPresetToSave)
                     dismiss()
-                }
-                else {
+                } else {
                     logger.e(
                         LOG_TAG,
                         "validateButton::onClick:: no SessionPreset found to save"
                     )
                 }
-            }
-            else {
+            } else {
                 val presetInvalidDialog = BottomDialogDismissibleErrorMessage.newInstance(
                     getString(R.string.generic_string_ERROR),
                     getString(R.string.session_preset_invalid_preset)
@@ -161,8 +160,7 @@ class SessionPresetDialog: DialogFragment() {
         val sessionPreset = sessionPresetViewModel.sessionPresetUpdatedLiveData.value
         if (sessionPreset == null || sessionPreset.id == -1L) {
             uiBindings.sessionPresetDeleteButton.visibility = INVISIBLE
-        }
-        else {
+        } else {
             uiBindings.sessionPresetDeleteButton.visibility = VISIBLE
             uiBindings.sessionPresetDeleteButton.setOnClickListener {
                 val confirmDeleteDialog = BottomDialogDismissibleBigButton.newInstance(
@@ -182,7 +180,7 @@ class SessionPresetDialog: DialogFragment() {
         }
     }
 
-    //////////////////////////
+    // ////////////////////////
     //  UI elements update
     private fun updateUi(
         sessionPreset: SessionPreset,
@@ -218,17 +216,16 @@ class SessionPresetDialog: DialogFragment() {
         )
     }
 
-    //note: once an audio file has been selected, user can only modify the audio selection.
-    //=> an audio session preset can never be changed to a timed session, it has to be deleted, and a new timed session created
-    //(this is why the default type is timed when user creates a preset
+    // note: once an audio file has been selected, user can only modify the audio selection.
+    // => an audio session preset can never be changed to a timed session, it has to be deleted, and a new timed session created
+    // (this is why the default type is timed when user creates a preset
     private fun updateAudioZone(
         uiBindings: DialogSessionPresetBinding,
         sessionPreset: SessionPreset
     ) {
         if (sessionPreset.audioGuideSoundUriString.isBlank()) {
             uiBindings.audioGuideValue.text = getString(R.string.generic_NO_SELECTION)
-        }
-        else {
+        } else {
             uiBindings.audioGuideValue.text = getString(
                 R.string.audio_file_display_info,
                 sessionPreset.audioGuideSoundTitle,
@@ -242,7 +239,7 @@ class SessionPresetDialog: DialogFragment() {
     }
 
     private fun openSystemFilePicker(pickerInitialUri: String) {
-        //Intent.ACTION_OPEN_DOCUMENT is needed for persistent access grant on the retrieved URI, Intent.ACTION_GET_CONTENT would only allow this one-shot access, causing an exception on subsequent access attempts
+        // Intent.ACTION_OPEN_DOCUMENT is needed for persistent access grant on the retrieved URI, Intent.ACTION_GET_CONTENT would only allow this one-shot access, causing an exception on subsequent access attempts
         val chooseAudioIntent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "audio/*"
@@ -268,7 +265,7 @@ class SessionPresetDialog: DialogFragment() {
     ) {
         if (requestCode == ACTIVITY_RESULT_SELECT_AUDIO_FILE && resultCode == Activity.RESULT_OK) {
             // The result data contains a URI for the document or directory that the user selected.
-            resultData?.data?.also {uri ->
+            resultData?.data?.also { uri ->
                 sessionPresetViewModel.updatePresetAudioGuideSoundUriString(
                     requireContext(),
                     uri.toString()
@@ -286,7 +283,7 @@ class SessionPresetDialog: DialogFragment() {
         val isAnAudioSession = sessionPreset.audioGuideSoundUriString.isNotBlank()
         val audioSessionDurationUnknown = isAnAudioSession && sessionPreset.duration == -1L
         if (isAnAudioSession) {
-            if (audioSessionDurationUnknown) { //we have an audio file for the session, but could not retrieve its duration through its metadata => we need the user to input it manually
+            if (audioSessionDurationUnknown) { // we have an audio file for the session, but could not retrieve its duration through its metadata => we need the user to input it manually
                 uiBindings.durationZone.alpha = ENABLED_ZONE_ALPHA
                 uiBindings.durationValue.text = getString(R.string.unknown_audio_duration_fill_manually)
                 val errorColor = ContextCompat.getColor(
@@ -300,8 +297,7 @@ class SessionPresetDialog: DialogFragment() {
                         0L
                     )
                 )
-            }
-            else { //duration field is filled with duration retrieved from audio file metadata, and interaction is deactivated
+            } else { // duration field is filled with duration retrieved from audio file metadata, and interaction is deactivated
                 uiBindings.durationZone.alpha = DISABLED_ZONE_ALPHA
                 uiBindings.durationValue.text = formatDurationMsToString(sessionPreset.duration)
                 uiBindings.durationZone.setOnClickListener {
@@ -312,8 +308,7 @@ class SessionPresetDialog: DialogFragment() {
                     ).show()
                 }
             }
-        }
-        else {//timed session: duration is pre-fillled with input value, or default duration, interaction is active
+        } else { // timed session: duration is pre-fillled with input value, or default duration, interaction is active
             uiBindings.durationZone.alpha = ENABLED_ZONE_ALPHA
             uiBindings.durationValue.text = formatDurationMsToString(sessionPreset.duration)
             uiBindings.durationZone.setOnClickListener(
@@ -338,7 +333,7 @@ class SessionPresetDialog: DialogFragment() {
             confirmButtonLabel = getString(R.string.generic_string_OK),
             initialLengthMs = initialDuration
         )
-        durationDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener {lengthMs ->
+        durationDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener { lengthMs ->
             uiBindings.durationValue.text = formatDurationMsToString(lengthMs)
             sessionPresetViewModel.updatePresetDuration(lengthMs)
         }
@@ -365,7 +360,7 @@ class SessionPresetDialog: DialogFragment() {
                 ringTonesAssetsNames = ringTonesAssets,
                 ringTonesDisplayNames = ringTonesTitles
             )
-            soundPickerDialog.setBottomDialogDismissibleRingtonePickerListener {selectedRingtoneUri, selectedRingtoneName ->
+            soundPickerDialog.setBottomDialogDismissibleRingtonePickerListener { selectedRingtoneUri, selectedRingtoneName ->
                 sessionPresetViewModel.updatePresetStartAndEndSoundUriString(selectedRingtoneUri)
                 sessionPresetViewModel.updatePresetStartAndEndSoundName(selectedRingtoneName)
             }
@@ -391,7 +386,7 @@ class SessionPresetDialog: DialogFragment() {
                 confirmButtonLabel = getString(R.string.generic_string_OK),
                 initialLengthMs = sessionPreset.startCountdownLength
             )
-            countdownDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener {lengthMs ->
+            countdownDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener { lengthMs ->
                 uiBindings.countdownLengthValue.text = formatDurationMsToString(lengthMs)
                 sessionPresetViewModel.updatePresetStartCountdownLength(lengthMs)
             }
@@ -406,7 +401,7 @@ class SessionPresetDialog: DialogFragment() {
         uiBindings: DialogSessionPresetBinding,
         sessionPreset: SessionPreset
     ) {
-        if (sessionPreset.intermediateIntervalLength == -1L) {//this is an audio session
+        if (sessionPreset.intermediateIntervalLength == -1L) { // this is an audio session
             uiBindings.intervalLengthValue.text = getString(R.string.generic_string_NONE)
             uiBindings.intervalLengthZone.alpha = DISABLED_ZONE_ALPHA
             uiBindings.intervalLengthZone.setOnClickListener {
@@ -416,8 +411,7 @@ class SessionPresetDialog: DialogFragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-        }
-        else {
+        } else {
             uiBindings.intervalLengthZone.alpha = ENABLED_ZONE_ALPHA
             uiBindings.intervalLengthValue.text = formatDurationMsToString(sessionPreset.intermediateIntervalLength)
             uiBindings.intervalLengthZone.setOnClickListener {
@@ -430,7 +424,7 @@ class SessionPresetDialog: DialogFragment() {
                     confirmButtonLabel = getString(R.string.generic_string_OK),
                     initialLengthMs = sessionPreset.intermediateIntervalLength
                 )
-                intervalLengthDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener {lengthMs ->
+                intervalLengthDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener { lengthMs ->
                     uiBindings.intervalLengthValue.text = formatDurationMsToString(lengthMs)
                     sessionPresetViewModel.updatePresetIntermediateIntervalLength(lengthMs)
                 }
@@ -446,7 +440,7 @@ class SessionPresetDialog: DialogFragment() {
         uiBindings: DialogSessionPresetBinding,
         sessionPreset: SessionPreset
     ) {
-        if (sessionPreset.intermediateIntervalSoundName.isBlank()) {//this is an audio session
+        if (sessionPreset.intermediateIntervalSoundName.isBlank()) { // this is an audio session
             uiBindings.intervalSoundZone.alpha = DISABLED_ZONE_ALPHA
             uiBindings.intervalSoundValue.text = getString(R.string.generic_string_NONE)
             uiBindings.intervalSoundZone.setOnClickListener {
@@ -456,8 +450,7 @@ class SessionPresetDialog: DialogFragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-        }
-        else {
+        } else {
             uiBindings.intervalSoundZone.alpha = ENABLED_ZONE_ALPHA
             uiBindings.intervalSoundValue.text = sessionPreset.intermediateIntervalSoundName
             val ringTonesAssets = context?.resources?.getStringArray(fr.shining_cat.everyday.commons.R.array.ringtonesRawAssetsNames)
@@ -471,7 +464,7 @@ class SessionPresetDialog: DialogFragment() {
                     ringTonesAssetsNames = ringTonesAssets,
                     ringTonesDisplayNames = ringTonesTitles
                 )
-                soundPickerDialog.setBottomDialogDismissibleRingtonePickerListener {selectedRingtoneUri, selectedRingtoneName ->
+                soundPickerDialog.setBottomDialogDismissibleRingtonePickerListener { selectedRingtoneUri, selectedRingtoneName ->
                     sessionPresetViewModel.updatePresetIntermediateIntervalSoundUriString(selectedRingtoneUri)
                     sessionPresetViewModel.updatePresetIntermediateIntervalSoundName(selectedRingtoneName)
                 }
@@ -487,18 +480,18 @@ class SessionPresetDialog: DialogFragment() {
         uiBindings: DialogSessionPresetBinding,
         sessionPreset: SessionPreset
     ) {
-        uiBindings.vibrationZone.setOnClickListener(null) //unregister listener to avoid OnCheckedChangeListener trigger when updating value
+        uiBindings.vibrationZone.setOnClickListener(null) // unregister listener to avoid OnCheckedChangeListener trigger when updating value
         uiBindings.vibrationSwitch.isChecked = sessionPreset.vibration
-        //reset listener
+        // reset listener
         uiBindings.vibrationZone.setOnClickListener {
             uiBindings.vibrationSwitch.toggle()
         }
-        uiBindings.vibrationSwitch.setOnCheckedChangeListener {_, p1 ->
+        uiBindings.vibrationSwitch.setOnCheckedChangeListener { _, p1 ->
             sessionPresetViewModel.updatePresetVibration(p1)
         }
     }
 
-    /////////////////
+    // ///////////////
     private fun formatDurationMsToString(duration: Long): String {
         return duration.autoFormatDurationMsAsSmallestHhMmSsString(
             getString(R.string.hms_duration_format_short),

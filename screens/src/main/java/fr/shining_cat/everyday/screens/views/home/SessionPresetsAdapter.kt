@@ -24,8 +24,7 @@ class SessionPresetsAdapter(
         val item = getItem(position)
         return if (item.audioGuideSoundUriString.isBlank()) {
             SessionPresetViewType.TIMED_SESSION.value
-        }
-        else {
+        } else {
             SessionPresetViewType.AUDIO_SESSION.value
         }
     }
@@ -86,4 +85,3 @@ class SessionPresetsAdapter(
         ): Boolean = oldItem == newItem
     }
 }
-

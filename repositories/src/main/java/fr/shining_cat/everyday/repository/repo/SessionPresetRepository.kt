@@ -54,16 +54,14 @@ class SessionPresetRepositoryImpl(
             }
             if (inserted.size == sessionPresets.size) {
                 Output.Success(inserted)
-            }
-            else {
+            } else {
                 Output.Error(
                     Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                     Constants.ERROR_MESSAGE_INSERT_FAILED,
                     Exception(Constants.ERROR_MESSAGE_INSERT_FAILED)
                 )
             }
-        }
-        catch (exception: Exception) {
+        } catch (exception: Exception) {
             Output.Error(
                 Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                 Constants.ERROR_MESSAGE_INSERT_FAILED,
@@ -81,16 +79,14 @@ class SessionPresetRepositoryImpl(
             }
             if (updated == 1) {
                 Output.Success(updated)
-            }
-            else {
+            } else {
                 Output.Error(
                     Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                     Constants.ERROR_MESSAGE_UPDATE_FAILED,
                     Exception(Constants.ERROR_MESSAGE_UPDATE_FAILED)
                 )
             }
-        }
-        catch (exception: Exception) {
+        } catch (exception: Exception) {
             Output.Error(
                 Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                 Constants.ERROR_MESSAGE_UPDATE_FAILED,
@@ -108,16 +104,14 @@ class SessionPresetRepositoryImpl(
             }
             if (deleted == 1) {
                 Output.Success(deleted)
-            }
-            else {
+            } else {
                 Output.Error(
                     Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                     Constants.ERROR_MESSAGE_DELETE_FAILED,
                     Exception(Constants.ERROR_MESSAGE_DELETE_FAILED)
                 )
             }
-        }
-        catch (exception: Exception) {
+        } catch (exception: Exception) {
             Output.Error(
                 Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                 Constants.ERROR_MESSAGE_DELETE_FAILED,
@@ -132,8 +126,7 @@ class SessionPresetRepositoryImpl(
                 sessionPresetDao.getAllSessionPresetsLastEditTimeDesc()
             }
             handleQueryResult(sessionPresetEntities)
-        }
-        catch (exception: Exception) {
+        } catch (exception: Exception) {
             genericReadError(exception)
         }
     }
@@ -145,8 +138,7 @@ class SessionPresetRepositoryImpl(
                 Constants.ERROR_MESSAGE_NO_RESULT,
                 NullPointerException(Constants.ERROR_MESSAGE_NO_RESULT)
             )
-        }
-        else {
+        } else {
             Output.Success(
                 withContext(Dispatchers.Default) {
                     sessionPresetConverter.convertEntitiesToModels(sessionPresetEntities)

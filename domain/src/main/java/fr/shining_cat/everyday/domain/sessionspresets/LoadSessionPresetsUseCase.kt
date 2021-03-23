@@ -15,8 +15,7 @@ class LoadSessionPresetsUseCase(
         val output = sessionPresetRepository.getAllSessionPresetsLastEditTimeDesc()
         return if (output is Output.Success) {
             Result.Success(output.result)
-        }
-        else {
+        } else {
             output as Output.Error
             Result.Error(
                 output.errorCode,

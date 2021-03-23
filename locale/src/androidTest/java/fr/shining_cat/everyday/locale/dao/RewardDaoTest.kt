@@ -123,8 +123,7 @@ class RewardDaoTest {
                 bodyColor = desiredBodyColor,
                 armsColor = desiredArmsColor
             )
-        }
-        else {
+        } else {
             RewardEntity(
                 flower = desiredFlower,
                 mouth = desiredMouth,
@@ -610,7 +609,7 @@ class RewardDaoTest {
         )
         assertTableSize(54)
         val rewardEntityUpdated = runBlocking {
-            rewardDao.getReward(rewardEntity.id  ?: -1L)
+            rewardDao.getReward(rewardEntity.id ?: -1L)
         }
         assertNotNull(rewardEntityUpdated)
         if (rewardEntityUpdated != null) {

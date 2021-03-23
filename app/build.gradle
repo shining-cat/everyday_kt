@@ -20,8 +20,15 @@ apply from: "$project.rootDir/common.gradle"
 
 android {
     defaultConfig {
+        //these 2 attributes can only be defined in the app level module => can't be included in common.gradle, loaded by every other (library-level) modules
         applicationId ApplicationSpecs.id
         vectorDrawables.useSupportLibrary = true
+    }
+
+    //including this option through common.gradle seems to cause a conflict with its inclusion into the app level build.gradle
+    // => it should only be included in modules that need it, directly in their gradle file
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 

@@ -63,15 +63,13 @@ class HomeViewModel(
             if (sessionPresetsResult is Result.Success) {
                 val sessionsList = sessionPresetsResult.result
                 _sessionPresetsLiveData.value = sessionsList
-            }
-            else {
+            } else {
                 sessionPresetsResult as Result.Error
-                //reset list
+                // reset list
                 _sessionPresetsLiveData.value = listOf()
                 if (sessionPresetsResult.errorCode == ERROR_CODE_NO_RESULT) {
                     _errorLiveData.value = resources.getString(R.string.no_session_preset_found)
-                }
-                else {
+                } else {
                     _errorLiveData.value = sessionPresetsResult.errorResponse
                 }
             }
@@ -83,16 +81,14 @@ class HomeViewModel(
             val recordSessionPresetResult = ioScope.async {
                 if (sessionPreset.id == -1L) {
                     createSessionPresetUseCase.execute(sessionPreset)
-                }
-                else {
+                } else {
                     updateSessionPresetUseCase.execute(sessionPreset)
                 }
             }.await()
             if (recordSessionPresetResult is Result.Success) {
-                //reload complete session presets list, will trigger list update on UI side
+                // reload complete session presets list, will trigger list update on UI side
                 loadSessionPresets(resources)
-            }
-            else {
+            } else {
                 recordSessionPresetResult as Result.Error
                 _errorLiveData.value = recordSessionPresetResult.errorResponse
             }
@@ -105,10 +101,9 @@ class HomeViewModel(
                 deleteSessionPresetUseCase.execute(sessionPreset)
             }.await()
             if (deleteSessionPresetResult is Result.Success) {
-                //reload complete session presets list, will trigger list update on UI side
+                // reload complete session presets list, will trigger list update on UI side
                 loadSessionPresets(resources)
-            }
-            else {
+            } else {
                 deleteSessionPresetResult as Result.Error
                 _errorLiveData.value = deleteSessionPresetResult.errorResponse
             }
@@ -116,7 +111,7 @@ class HomeViewModel(
     }
 
     fun moveSessionPresetToTop(sessionPreset: SessionPreset, resources: Resources) {
-        val sessionPreset = sessionPreset.copy(lastEditTime = System.currentTimeMillis())
-        saveSessionPreset(sessionPreset, resources)
+        val sessionPresetOut = sessionPreset.copy(lastEditTime = System.currentTimeMillis())
+        saveSessionPreset(sessionPresetOut, resources)
     }
 }

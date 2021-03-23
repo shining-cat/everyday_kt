@@ -84,8 +84,7 @@ class SessionTypeDaoTest {
                 color = desiredColor,
                 lastEditTime = desiredLastEditTime
             )
-        }
-        else{
+        } else {
             SessionTypeEntity(
                 name = desiredName,
                 description = desiredDescription,

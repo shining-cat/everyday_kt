@@ -18,13 +18,13 @@
 object Versions {
 
     const val koin = "2.2.2"
-    const val kotlin = "1.4.31"
+    const val kotlin = "1.4.32"
     const val benManesVersionsPlugin = "0.36.0"
     const val jacoco = "0.8.6"
     const val room = "2.2.6"
     const val lifecycle = "2.3.0"
     const val navigation = "2.3.4"
-    const val ktlint = "0.40.0"
+    const val ktlint = "0.41.0"
     const val detekt = "1.1.1"
 }
 
@@ -57,7 +57,7 @@ object KotlinLibraries {
 
 object AndroidLibraries {
 
-    const val gradle = "com.android.tools.build:gradle:4.0.2"//keep at 4.0.2, because 4.1.2 breaks jacoco tests reports task
+    const val gradle = "com.android.tools.build:gradle:4.0.2"//keep at 4.0.2, because 4.1.3 still breaks jacoco tests reports task
 
     //
     const val core_ktx = "androidx.core:core-ktx:1.3.2"
@@ -94,7 +94,7 @@ object AndroidLibraries {
 
 object TestLibraries {
 
-    const val mockk = "io.mockk:mockk:1.10.6"
+    const val mockk = "io.mockk:mockk:1.11.0"
     const val junit = "junit:junit:4.13.2"
     const val coroutines_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3"
     const val robolectric = "org.robolectric:robolectric:4.5.1"

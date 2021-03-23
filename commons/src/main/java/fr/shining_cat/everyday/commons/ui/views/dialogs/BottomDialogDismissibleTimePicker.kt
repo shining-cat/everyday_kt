@@ -25,7 +25,7 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import fr.shining_cat.everyday.commons.databinding.DialogBottomTimePickerAndConfirmBinding
 
-class BottomDialogDismissibleTimePicker : BottomSheetDialogFragment() {
+class BottomDialogDismissibleTimePicker: BottomSheetDialogFragment() {
 
     private val TITLE_ARG = "title_argument"
     private val HOUR_ARG = "hour_argument"
@@ -115,9 +115,9 @@ class BottomDialogDismissibleTimePicker : BottomSheetDialogFragment() {
             timePicker.hour = hour
             timePicker.minute = minutes
         }
-        else {
-            @Suppress("DEPRECATION") timePicker.currentMinute = minutes
-            @Suppress("DEPRECATION") timePicker.currentHour = hour
+        else @Suppress("DEPRECATION") {
+            timePicker.currentHour = hour
+            timePicker.currentMinute = minutes
         }
         //
         val confirmButtonLabel = arguments?.getString(

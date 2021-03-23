@@ -23,7 +23,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import fr.shining_cat.everyday.commons.databinding.DialogBottomErrorMessageBinding
-import fr.shining_cat.everyday.commons.databinding.DialogBottomMessageAndConfirmBinding
 
 class BottomDialogDismissibleErrorMessage : BottomSheetDialogFragment() {
 

@@ -40,7 +40,6 @@ class ScreenActivity : AbstractActivity() {
         hideLoadingView(screenActivityBinding.loadingLayout.loadingView)
     }
 
-
     private fun setupBottomNavigation(screenActivityBinding: ActivityScreenBinding) {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.screens_nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController

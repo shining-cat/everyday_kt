@@ -35,7 +35,7 @@ class FileMetadataRetrieveUseCase(
         context: Context,
         fileUri: Uri
     ): AudioFileMetadata {
-        //default values
+        // default values
         var title = context.getString(R.string.unknown_title)
         var artist = context.getString(R.string.unknown_artist)
         var album = context.getString(R.string.unknown_album)
@@ -47,32 +47,27 @@ class FileMetadataRetrieveUseCase(
                 context,
                 fileUri
             )
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             logger.e(LOG_TAG, "failing to set data source on MediaMetadataRetriever, could not access file, metadata will not be retrieved:: $e")
         }
-        //get audio file display name :
+        // get audio file display name :
         val titleStr = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)
         if (titleStr.isNullOrBlank()) {
             Log.e(
                 LOG_TAG,
                 "retrieveMetadata::MediaMetadataRetriever could not retrieve METADATA_KEY_TITLE :: fileNameStr is NULL or EMPTY!!"
             )
-        }
-        else {
+        } else {
             title = titleStr
         }
-        //get audio file artist name, try to grab info from different metadata fields
+        // get audio file artist name, try to grab info from different metadata fields
         val artistNameStr = if (!mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST).isNullOrBlank()) {
             mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)
-        }
-        else if (!mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST).isNullOrBlank()) {
+        } else if (!mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST).isNullOrBlank()) {
             mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST)
-        }
-        else if (!mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_COMPOSER).isNullOrBlank()) {
+        } else if (!mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_COMPOSER).isNullOrBlank()) {
             mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_COMPOSER)
-        }
-        else {
+        } else {
             mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_AUTHOR)
         }
         if (artistNameStr.isNullOrBlank()) {
@@ -80,30 +75,27 @@ class FileMetadataRetrieveUseCase(
                 LOG_TAG,
                 "retrieveMetadata::MediaMetadataRetriever could not retrieve METADATA_KEY_ARTIST :: artistNameStr is NULL or EMPTY!!"
             )
-        }
-        else {
+        } else {
             artist = artistNameStr
         }
-        //get audio file album name
+        // get audio file album name
         val albumNameStr = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM)
         if (albumNameStr.isNullOrBlank()) {
             Log.e(
                 LOG_TAG,
                 "retrieveMetadata::MediaMetadataRetriever could not retrieve METADATA_KEY_ALBUM :: artistNameStr is NULL or EMPTY!!"
             )
-        }
-        else {
+        } else {
             album = albumNameStr
         }
-        //get audio file duration :
+        // get audio file duration :
         val durationMsStr = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
         if (durationMsStr.isNullOrBlank()) {
             Log.e(
                 LOG_TAG,
                 "retrieveMetadata::MediaMetadataRetriever could not retrieve METADATA_KEY_DURATION :: durationStr is NULL or EMPTY!!"
             )
-        }
-        else {
+        } else {
             durationMs = durationMsStr.toLong()
         }
         return AudioFileMetadata(

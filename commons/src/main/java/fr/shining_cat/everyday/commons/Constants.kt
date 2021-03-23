@@ -42,7 +42,6 @@ class Constants {
         const val DEFAULT_SESSION_COUNTDOWN_MILLIS = 5 * 1000L
         const val DEFAULT_SESSION_DURATION_MILLIS = 15 * 60 * 1000L
 
-
         //
         const val ONE_SECOND_AS_MS = 1000L
         const val ONE_MINUTE_AS_MS = 60 * 1000L
@@ -51,7 +50,7 @@ class Constants {
         //
         const val ACTIVITY_RESULT_SELECT_AUDIO_FILE: Int = 513
 
-        //SessionPreset special values
+        // SessionPreset special values
         const val INTERVAL_LENGTH_IS_NONE_FOR_AUDIO_SESSION = -1L
     }
 }

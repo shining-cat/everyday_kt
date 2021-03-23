@@ -15,7 +15,7 @@ abstract class SwipeInRecyclerViewCallback(
     private val leftIcon: Drawable?,
     private val backgroundColor: Int?,
     private val logger: Logger
-): ItemTouchHelper.SimpleCallback(
+) : ItemTouchHelper.SimpleCallback(
     0,
     ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
 ) {
@@ -25,9 +25,9 @@ abstract class SwipeInRecyclerViewCallback(
     private val intrinsicWidth = rightIcon?.intrinsicWidth ?: 24
     private val intrinsicHeight = rightIcon?.intrinsicHeight ?: 24
     private val background = ColorDrawable()
-    private val clearPaint = Paint().apply {xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)}
+    private val clearPaint = Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR) }
 
-    //onMove is for the dragging feature, not used here
+    // onMove is for the dragging feature, not used here
     override fun onMove(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder,
@@ -70,7 +70,7 @@ abstract class SwipeInRecyclerViewCallback(
         }
 
         // Draw the background if a color has been provided
-        if(backgroundColor != null) {
+        if (backgroundColor != null) {
             background.color = backgroundColor
             background.setBounds(
                 itemView.left,
@@ -85,7 +85,7 @@ abstract class SwipeInRecyclerViewCallback(
         val iconBottomBorder = iconTopBorder + intrinsicHeight
         val iconMargin = (itemHeight - intrinsicHeight) / 2
 
-        if (dX > 0) {//dragging to the right -> show icon on the left
+        if (dX > 0) { // dragging to the right -> show icon on the left
             val iconLeftBorder = itemView.left + iconMargin
             val iconRightBorder = itemView.left + intrinsicWidth + iconMargin
             // Draw the left side icon
@@ -96,11 +96,10 @@ abstract class SwipeInRecyclerViewCallback(
                 iconBottomBorder
             )
             leftIcon?.draw(c)
-        }
-        else {//dragging to the left -> show icon on the right
+        } else { // dragging to the left -> show icon on the right
             val iconLeftBorder = itemView.right - iconMargin - intrinsicWidth
             val iconRightBorder = itemView.right - iconMargin
-            //apply right side icon bounds
+            // apply right side icon bounds
             rightIcon?.setBounds(
                 iconLeftBorder,
                 iconTopBorder,

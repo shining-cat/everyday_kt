@@ -46,7 +46,7 @@ class SessionPresetConverterTest {
         id = 123L,
         startCountdownLength = 456L,
         startAndEndSoundUriString = "startAndEndSoundUri",
-        startAndEndSoundName= "startAndEndSoundName",
+        startAndEndSoundName = "startAndEndSoundName",
         intermediateIntervalLength = 345L,
         intermediateIntervalRandom = true,
         intermediateIntervalSoundUriString = "intermediateIntervalSoundUri",
@@ -65,7 +65,7 @@ class SessionPresetConverterTest {
         id = 123L,
         startCountdownLength = 456L,
         startAndEndSoundUri = "startAndEndSoundUri",
-        startAndEndSoundName= "startAndEndSoundName",
+        startAndEndSoundName = "startAndEndSoundName",
         intermediateIntervalLength = 345L,
         intermediateIntervalRandom = true,
         intermediateIntervalSoundUri = "intermediateIntervalSoundUri",
@@ -84,7 +84,7 @@ class SessionPresetConverterTest {
         id = -1L,
         startCountdownLength = 456L,
         startAndEndSoundUriString = "startAndEndSoundUri",
-        startAndEndSoundName= "startAndEndSoundName",
+        startAndEndSoundName = "startAndEndSoundName",
         intermediateIntervalLength = 345L,
         intermediateIntervalRandom = true,
         intermediateIntervalSoundUriString = "intermediateIntervalSoundUri",
@@ -103,7 +103,7 @@ class SessionPresetConverterTest {
         id = null,
         startCountdownLength = 456L,
         startAndEndSoundUri = "startAndEndSoundUri",
-        startAndEndSoundName= "startAndEndSoundName",
+        startAndEndSoundName = "startAndEndSoundName",
         intermediateIntervalLength = 345L,
         intermediateIntervalRandom = true,
         intermediateIntervalSoundUri = "intermediateIntervalSoundUri",
@@ -118,7 +118,7 @@ class SessionPresetConverterTest {
         lastEditTime = 567L
     )
 
-    //////////////////////////////////
+    // ////////////////////////////////
     @Test
     fun convertModelToEntity() {
         val convertedModel = runBlocking {
