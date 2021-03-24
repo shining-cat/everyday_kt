@@ -38,8 +38,8 @@
 
     <string name="title_settings" translatable="true">Settings</string>
 
-    <string name="hms_duration_format_short" translatable="true">%02dh %02dmn %02ds</string>
-    <string name="ms_duration_format_short" translatable="true">%02dmn %02ds</string>
+    <string name="hms_duration_format_short" translatable="true">%1$02dh %2$02dmn %3$02ds</string>
+    <string name="ms_duration_format_short" translatable="true">%1$02dmn %2$02ds</string>
     <string name="s_duration_format_short" translatable="true">%02ds</string>
 
     <string name="notificationsPreferences_notification_text_default_text">It\'s time to practice!</string>

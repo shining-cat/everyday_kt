@@ -1,3 +1,5 @@
+apply plugin: "com.github.ben-manes.versions"
+
 def isNonStable = { String version ->
     def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { it -> version.toUpperCase().contains(it) }
     def regex = /^[0-9,.v-]+(-r)?$/
@@ -11,6 +13,6 @@ dependencyUpdates {
     }
 }
 
-task everydayDependencyUpdates(type: Copy, dependsOn: 'dependencyUpdates') {
+task everydayDependenciesUpdates(type: Copy, dependsOn: 'dependencyUpdates') {
     group = 'Everyday'
 }

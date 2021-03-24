@@ -18,6 +18,14 @@
 apply plugin: 'com.android.library'
 apply from: "$project.rootDir/common.gradle"
 
+android {
+    //including this option through common.gradle seems to cause a conflict with its inclusion into the app level build.gradle
+    // => it should only be included in modules that need it, directly in their gradle file
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
 dependencies {
     implementation AndroidLibraries.appCompat
     implementation AndroidLibraries.constraintLayout

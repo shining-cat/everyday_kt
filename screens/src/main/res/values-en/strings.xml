@@ -50,6 +50,6 @@
     <string name="audio_session_preset_title">Start audio session:</string>
     <string name="timed_session_preset_title">Start timed session:</string>
     <string name="unknown_audio_duration_fill_manually">unknown duration, please input selected audio file duration manually</string>
-    <string name="audio_file_display_info">%s - %s - %s</string>
+    <string name="audio_file_display_info">%1$s - %2$s - %3$s</string>
     <string name="session_preset_invalid_preset">Le preset est invalide, corriger les champs indiqués</string>
 </resources>

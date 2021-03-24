@@ -96,8 +96,7 @@ class SessionPresetDaoTest {
                 lastEditTime = desiredLastEditTime,
                 sessionTypeId = sessionTypeId
             )
-        }
-        else {
+        } else {
             SessionPresetEntity(
                 duration = desiredDuration,
                 startAndEndSoundUri = desiredStartAndEndSoundUri,

@@ -2,20 +2,31 @@
 <resources>
 
     <dimen name="standard_toolbar_height">56dp</dimen>
-    <dimen name="no_space">0dp</dimen>
-    <dimen name="space_xxs">4dp</dimen>
-    <dimen name="space_xs">8dp</dimen>
-    <dimen name="space_s">12dp</dimen>
-    <dimen name="medium_space">16dp</dimen>
-    <dimen name="space_l">20dp</dimen>
-    <dimen name="space_xl">24dp</dimen>
-    <dimen name="space_xxl">32dp</dimen>
-    <dimen name="space_xxxl">64dp</dimen>
-
-
     <dimen name="toolbar_standard_title_size">18sp</dimen>
+
+    <!-- Standard TEXT sizes -->
     <dimen name="title_level_1_text_size">18sp</dimen>
     <dimen name="title_level_2_text_size">16sp</dimen>
     <dimen name="normal_text_size">14sp</dimen>
+
+    <!-- Standard Margins -->
+    <dimen name="no_margin">0dp</dimen>
+    <dimen name="sextuple_margin">96dp</dimen>
+    <dimen name="quintuple_margin">80dp</dimen>
+    <dimen name="quadruple_margin">64dp</dimen>
+    <dimen name="triple_and_half_margin">56dp</dimen>
+    <dimen name="triple_margin">48dp</dimen>
+    <dimen name="double_and_half_margin">40dp</dimen>
+    <dimen name="double_margin">32dp</dimen>
+    <dimen name="single_and_half_margin">24dp</dimen>
+    <dimen name="single_and_quarter_margin">20dp</dimen>
+    <dimen name="single_margin">16dp</dimen>
+    <dimen name="three_quarter_margin">12dp</dimen>
+    <dimen name="half_margin">8dp</dimen>
+    <dimen name="third_margin">6dp</dimen>
+    <dimen name="quarter_margin">4dp</dimen>
+    <dimen name="eighth_margin">2dp</dimen>
+    <dimen name="sixteenth_margin">1dp</dimen>
+
 
 </resources>

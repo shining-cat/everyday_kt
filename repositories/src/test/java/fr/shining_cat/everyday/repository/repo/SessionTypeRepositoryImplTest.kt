@@ -333,5 +333,4 @@ class SessionTypeRepositoryImplTest {
             output.exception
         )
     }
-
 }

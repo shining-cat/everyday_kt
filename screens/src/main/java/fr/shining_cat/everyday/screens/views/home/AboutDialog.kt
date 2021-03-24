@@ -46,13 +46,13 @@ class AboutDialog : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //hack: forcing BottomSheetDialog to open fully expanded
+        // hack: forcing BottomSheetDialog to open fully expanded
         dialog?.setOnShowListener { dialog ->
             val d = dialog as BottomSheetDialog
             val bottomSheet = d.findViewById<View>(R.id.design_bottom_sheet) as FrameLayout
             val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-            bottomSheetBehavior.skipCollapsed = true //avoid collapsed step on dismissal
+            bottomSheetBehavior.skipCollapsed = true // avoid collapsed step on dismissal
         }
     }
 
@@ -66,6 +66,6 @@ class AboutDialog : BottomSheetDialogFragment() {
             dismiss()
         }
         //
-        //TODO: build the rest of the about dialog
+        // TODO: build the rest of the about dialog
     }
 }

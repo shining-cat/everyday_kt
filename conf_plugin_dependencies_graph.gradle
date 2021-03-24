@@ -1,0 +1,6 @@
+apply from: 'https://raw.githubusercontent.com/JakeWharton/SdkSearch/master/gradle/projectDependencyGraph.gradle'
+
+// This task launches the tests and copies the reports to /reports/ directory
+task everydayDependenciesGraph(type: Copy, dependsOn: 'projectDependencyGraph') {
+    group = 'Everyday'
+}

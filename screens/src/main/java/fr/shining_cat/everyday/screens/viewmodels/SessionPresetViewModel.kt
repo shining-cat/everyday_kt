@@ -59,7 +59,7 @@ class SessionPresetViewModel(
         ).getTitle(context)
         //
         val isAnAudioSession = (presetInput != null && presetInput.audioGuideSoundUriString.isNotBlank())
-        //attempt to retrieve fresh audio file metadata
+        // attempt to retrieve fresh audio file metadata
         val audioFileMetadata = if (isAnAudioSession) {
             presetInput as SessionPreset
             logger.d(LOG_TAG, "init::presetInput.audioGuideSoundUriString = ${presetInput.audioGuideSoundUriString}")
@@ -69,8 +69,7 @@ class SessionPresetViewModel(
                 context,
                 audioGuideSoundUri
             )
-        }
-        else null
+        } else null
         //
         val duration = if (audioFileMetadata != null) {
             when {
@@ -78,14 +77,13 @@ class SessionPresetViewModel(
                     audioFileMetadata.durationMs
                 }
                 presetInput?.duration != null -> {
-                    presetInput.duration //=> audio file duration could not be retrieved, but a duration was already saved (probably by the user) => we will treat this duration as if it came from the file metadata
+                    presetInput.duration // => audio file duration could not be retrieved, but a duration was already saved (probably by the user) => we will treat this duration as if it came from the file metadata
                 }
                 else -> {
-                    -1L //=> audio file duration could not be retrieved => we need the user to input it manually
+                    -1L // => audio file duration could not be retrieved => we need the user to input it manually
                 }
             }
-        }
-        else presetInput?.duration ?: Constants.DEFAULT_SESSION_DURATION_MILLIS
+        } else presetInput?.duration ?: Constants.DEFAULT_SESSION_DURATION_MILLIS
         //
         _sessionPresetUpdatedLiveData.value = SessionPreset(
             id = presetInput?.id ?: -1L,
@@ -93,27 +91,23 @@ class SessionPresetViewModel(
             startAndEndSoundUriString = presetInput?.startAndEndSoundUriString ?: deviceDefaultRingtoneUriString,
             startAndEndSoundName = presetInput?.startAndEndSoundName ?: deviceDefaultRingtoneName,
             intermediateIntervalLength = if (isAnAudioSession) {
-                INTERVAL_LENGTH_IS_NONE_FOR_AUDIO_SESSION //audio session  => no intermediate interval
-            }
-            else {
+                INTERVAL_LENGTH_IS_NONE_FOR_AUDIO_SESSION // audio session  => no intermediate interval
+            } else {
                 presetInput?.intermediateIntervalLength ?: 0L
             },
             intermediateIntervalRandom = if (isAnAudioSession) {
-                false //audio session  => no intermediate interval
-            }
-            else {
+                false // audio session  => no intermediate interval
+            } else {
                 presetInput?.intermediateIntervalRandom ?: false
             },
             intermediateIntervalSoundUriString = if (isAnAudioSession) {
-                "" //audio session  => no intermediate interval "" is equivalent for "silence" here
-            }
-            else {
+                "" // audio session  => no intermediate interval "" is equivalent for "silence" here
+            } else {
                 presetInput?.intermediateIntervalSoundUriString ?: deviceDefaultRingtoneUriString
             },
             intermediateIntervalSoundName = if (isAnAudioSession) {
-                "" //audio session  => no intermediate interval "" is not equivalent for "silence" here
-            }
-            else {
+                "" // audio session  => no intermediate interval "" is not equivalent for "silence" here
+            } else {
                 presetInput?.intermediateIntervalSoundName ?: deviceDefaultRingtoneName
             },
             duration = duration,
@@ -171,8 +165,7 @@ class SessionPresetViewModel(
                 context,
                 audioGuideSoundUri
             )
-        }
-        else null
+        } else null
         _sessionPresetUpdatedLiveData.value = _sessionPresetUpdatedLiveData.value?.copy(
             audioGuideSoundUriString = inputAudioGuideSoundUriString,
             audioGuideSoundArtistName = audioFileMetadata?.artistName ?: "",

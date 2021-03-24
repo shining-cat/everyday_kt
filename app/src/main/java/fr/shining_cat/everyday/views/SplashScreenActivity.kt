@@ -18,7 +18,6 @@
 package fr.shining_cat.everyday.views
 
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.ui.views.AbstractActivity
 import fr.shining_cat.everyday.databinding.ActivitySplashscreenBinding

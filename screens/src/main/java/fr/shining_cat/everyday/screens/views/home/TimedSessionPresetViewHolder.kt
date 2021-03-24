@@ -20,7 +20,7 @@ class TimedSessionPresetViewHolder(
     override fun bindView(sessionPreset: SessionPreset) {
         val resources = itemView.resources
 //        itemTimedSessionPresetViewHolderBinding.timedSessionDurationValue.text = sessionPreset.duration.formatDurationMsAsHhMmSsString(resources.getString(R.string.hms_duration_format_short))
-        itemTimedSessionPresetViewHolderBinding.timedSessionDurationValue.text =  sessionPreset.duration.autoFormatDurationMsAsSmallestHhMmSsString(
+        itemTimedSessionPresetViewHolderBinding.timedSessionDurationValue.text = sessionPreset.duration.autoFormatDurationMsAsSmallestHhMmSsString(
             resources.getString(R.string.hms_duration_format_short),
             resources.getString(R.string.ms_duration_format_short),
             resources.getString(R.string.s_duration_format_short)
@@ -28,8 +28,7 @@ class TimedSessionPresetViewHolder(
         //
         itemTimedSessionPresetViewHolderBinding.timedSessionIntervalValue.text = if (sessionPreset.intermediateIntervalLength == 0L) {
             resources.getString(R.string.generic_string_NONE)
-        }
-        else {
+        } else {
             sessionPreset.intermediateIntervalLength.formatDurationMsAsHhMmSsString(resources.getString(R.string.hms_duration_format_short))
             sessionPreset.intermediateIntervalLength.autoFormatDurationMsAsSmallestHhMmSsString(
                 resources.getString(R.string.hms_duration_format_short),
@@ -38,5 +37,4 @@ class TimedSessionPresetViewHolder(
             )
         }
     }
-
 }

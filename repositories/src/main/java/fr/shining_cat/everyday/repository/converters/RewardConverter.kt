@@ -65,14 +65,12 @@ class RewardConverter(
     suspend fun convertEntitytoModel(rewardEntity: RewardEntity): Reward {
         val acquisitionDate = if (rewardEntity.acquisitionDate == RewardEntityConstants.NO_ACQUISITION_DATE) {
             RewardConstants.NO_ACQUISITION_DATE
-        }
-        else {
+        } else {
             rewardEntity.acquisitionDate
         }
         val escapingDate = if (rewardEntity.escapingDate == RewardEntityConstants.NO_ESCAPING_DATE) {
             RewardConstants.NO_ESCAPING_DATE
-        }
-        else {
+        } else {
             rewardEntity.escapingDate
         }
         return Reward(

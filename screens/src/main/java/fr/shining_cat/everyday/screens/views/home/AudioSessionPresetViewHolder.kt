@@ -30,5 +30,4 @@ class AudioSessionPresetViewHolder(
             resources.getString(R.string.s_duration_format_short)
         )
     }
-
 }

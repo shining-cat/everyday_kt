@@ -44,8 +44,8 @@ class InitDefaultPrefsValuesUseCaseTest {
         )
     }
 
-    ////////////////////////////////
-    //NOTIFICATION TEXT
+    // //////////////////////////////
+    // NOTIFICATION TEXT
     @Test
     fun `test checkNotificationTextInit no saved value sets default`() {
         val deviceDefaultRingtoneTitle = "mocked ringtone title"
@@ -92,8 +92,8 @@ class InitDefaultPrefsValuesUseCaseTest {
         }
     }
 
-    ////////////////////////////////
-    //NOTIFICATION SOUND URI
+    // //////////////////////////////
+    // NOTIFICATION SOUND URI
     @Test
     fun `test checkNotificationSoundDefaultUriSet no saved value sets default`() {
         val mockedString = "mocked ringtone Uri to string"
@@ -127,8 +127,8 @@ class InitDefaultPrefsValuesUseCaseTest {
         }
     }
 
-    ////////////////////////////////
-    //NOTIFICATION SOUND TITLE
+    // //////////////////////////////
+    // NOTIFICATION SOUND TITLE
     @Test
     fun `test checkNotificationSoundDefaultTitleSet no saved value sets default`() {
         val deviceDefaultRingtoneTitle = "mocked ringtone title"

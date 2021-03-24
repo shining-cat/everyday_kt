@@ -49,7 +49,7 @@ import fr.shining_cat.everyday.screens.views.ScreenActivity
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class HomeFragment: Fragment() {
+class HomeFragment : Fragment() {
 
     private val LOG_TAG = HomeFragment::class.java.name
 
@@ -79,18 +79,21 @@ class HomeFragment: Fragment() {
         return homeFragmentBinding.root
     }
 
-    ////////////////////////
+    // //////////////////////
     // OBSERVERS
     private fun setupObservers(homeFragmentBinding: FragmentHomeBinding) {
-        homeViewModel.errorLiveData.observe(viewLifecycleOwner,
+        homeViewModel.errorLiveData.observe(
+            viewLifecycleOwner,
             {
                 logger.e(
                     LOG_TAG,
                     "homeViewModel.errorLiveData::$it"
                 )
                 showErrorDialog(it)
-            })
-        homeViewModel.sessionPresetsLiveData.observe(viewLifecycleOwner,
+            }
+        )
+        homeViewModel.sessionPresetsLiveData.observe(
+            viewLifecycleOwner,
             {
                 logger.d(
                     LOG_TAG,
@@ -99,15 +102,15 @@ class HomeFragment: Fragment() {
                 if (it.isEmpty()) {
                     homeFragmentBinding.emptyListMessage.visibility = VISIBLE
                     sessionPresetsAdapter.submitList(it)
-                }
-                else {
+                } else {
                     homeFragmentBinding.emptyListMessage.visibility = GONE
                     sessionPresetsAdapter.submitList(it)
                 }
-            })
+            }
+        )
     }
 
-    ////////////////////////
+    // //////////////////////
     // ERROR DISPLAY
     private fun showErrorDialog(errorMessage: String) {
         val errorDialog = BottomDialogDismissibleErrorMessage.newInstance(
@@ -120,7 +123,7 @@ class HomeFragment: Fragment() {
         )
     }
 
-    ////////////////////////
+    // //////////////////////
     // TOOLBAR
     private fun setupToolbar(homeFragmentBinding: FragmentHomeBinding) {
         val toolbar: Toolbar = homeFragmentBinding.toolbar
@@ -145,12 +148,14 @@ class HomeFragment: Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.actionbar_settings -> {
-                startActivity(context?.let {
-                    Actions.openDestination(
-                        it,
-                        Destination.SettingsDestination()
-                    )
-                })
+                startActivity(
+                    context?.let {
+                        Actions.openDestination(
+                            it,
+                            Destination.SettingsDestination()
+                        )
+                    }
+                )
                 return true
             }
 
@@ -170,16 +175,15 @@ class HomeFragment: Fragment() {
         )
     }
 
-    ////////////////////
+    // //////////////////
     // FAB
     private fun setupAddSessionPresetFab(
         homeFragmentBinding: FragmentHomeBinding,
         active: Boolean
     ) {
         if (active) {
-            homeFragmentBinding.addSessionPresetFab.setOnClickListener {showSessionPresetDialog()}
-        }
-        else {
+            homeFragmentBinding.addSessionPresetFab.setOnClickListener { showSessionPresetDialog() }
+        } else {
             homeFragmentBinding.addSessionPresetFab.setOnClickListener(null)
         }
     }
@@ -195,7 +199,7 @@ class HomeFragment: Fragment() {
         ).addToBackStack(null).commit()
     }
 
-    private val sessionPresetDialogListener = object: SessionPresetDialog.SessionPresetDialogListener {
+    private val sessionPresetDialogListener = object : SessionPresetDialog.SessionPresetDialogListener {
         override fun onConfirmButtonClicked(sessionPreset: SessionPreset) {
             homeViewModel.saveSessionPreset(
                 sessionPreset,
@@ -211,12 +215,12 @@ class HomeFragment: Fragment() {
         }
 
         override fun onDismissButtonClicked() {
-            //force list refresh to get the swiped preset back
+            // force list refresh to get the swiped preset back
             sessionPresetsAdapter.notifyDataSetChanged()
         }
     }
 
-    ////////////////////
+    // //////////////////
     // SESSION PRESETS LIST
     private fun setUpSessionPresetsRecyclerView(homeFragmentBinding: FragmentHomeBinding) {
         val sessionPresetsLayoutManager = LinearLayoutManager(requireContext()).apply {
@@ -228,9 +232,9 @@ class HomeFragment: Fragment() {
             while (itemDecorationCount > 0) {
                 removeItemDecorationAt(0)
             }
-            addItemDecoration(SessionPresetItemDecoration(resources.getDimensionPixelSize(R.dimen.space_s)))
-            //listener on scroll state to hide/show the FAB, allowing for more legibility of underlying items
-            addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            addItemDecoration(SessionPresetItemDecoration(resources.getDimensionPixelSize(R.dimen.three_quarter_margin)))
+            // listener on scroll state to hide/show the FAB, allowing for more legibility of underlying items
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(
                     recyclerView: RecyclerView,
                     newState: Int
@@ -257,13 +261,13 @@ class HomeFragment: Fragment() {
                 }
             })
         }
-        //swipe left/right behaviour
-        context?.let {context ->
+        // swipe left/right behaviour
+        context?.let { context ->
             val itemTouchHelper = ItemTouchHelper(getSwipeHandler(context))
             itemTouchHelper.attachToRecyclerView(homeFragmentBinding.sessionPresetRecyclerView)
         }
-        //scroll to top of modified range in adapter
-        sessionPresetsAdapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
+        // scroll to top of modified range in adapter
+        sessionPresetsAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(
                 positionStart: Int,
                 itemCount: Int
@@ -285,7 +289,7 @@ class HomeFragment: Fragment() {
             context,
             R.drawable.ic_move_to_top
         )
-        return object: SwipeInRecyclerViewCallback(
+        return object : SwipeInRecyclerViewCallback(
             rightIcon = editIcon,
             leftIcon = moveToTopIcon,
             backgroundColor = null,
@@ -302,8 +306,7 @@ class HomeFragment: Fragment() {
                         LOG_TAG,
                         "onSwiped:: could not retrieve SessionPreset for position $position"
                     )
-                }
-                else {
+                } else {
                     when (direction) {
                         ItemTouchHelper.LEFT -> showSessionPresetDialog(swipedPreset)
                         ItemTouchHelper.RIGHT -> homeViewModel.moveSessionPresetToTop(
@@ -322,17 +325,16 @@ class HomeFragment: Fragment() {
     ) {
         if (showIt) {
             homeFragmentBinding.addSessionPresetFab.visibility = VISIBLE
-            //TODO: animation does not work :/
+            // TODO: animation does not work :/
 //            (homeFragmentBinding.addSessionPresetFab as View).animateAlpha(
 //                fromAlpha = 0f,
 //                toAlpha = 1f,
 //                duration = SLOW_ANIMATION_DURATION_MILLIS,
 //                onEnd = { setupAddSessionPresetFab(homeFragmentBinding, true) }
 //            )
-        }
-        else {
+        } else {
             homeFragmentBinding.addSessionPresetFab.visibility = GONE
-            //TODO: animation does not work :/
+            // TODO: animation does not work :/
 //            (homeFragmentBinding.addSessionPresetFab as View).animateAlpha(
 //                fromAlpha = 1f,
 //                toAlpha = 0f,

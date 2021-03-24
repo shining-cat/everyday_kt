@@ -70,7 +70,7 @@ class RewardRepositoryImplTest {
         coEvery { mockException.cause } returns mockThrowable
     }
 
-    ///////////////////////////////
+    // /////////////////////////////
     @Test
     fun insert() {
         coEvery { mockRewardConverter.convertModelsToEntities(any()) } returns listOf(
