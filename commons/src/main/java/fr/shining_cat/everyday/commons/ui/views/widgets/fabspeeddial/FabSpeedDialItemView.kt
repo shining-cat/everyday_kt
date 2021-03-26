@@ -24,7 +24,7 @@ import android.view.LayoutInflater
 import android.widget.RelativeLayout
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
-import fr.shining_cat.everyday.commons.Constants.Companion.FAST_ANIMATION_DURATION_MILLIS
+import fr.shining_cat.everyday.commons.Constants.Companion.SUPER_FAST_ANIMATION_DURATION_MILLIS
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.databinding.LayoutWidgetFabSpeedDialItemBinding
 import fr.shining_cat.everyday.commons.extensions.animateAlpha
@@ -42,7 +42,7 @@ class FabSpeedDialItemView @kotlin.jvm.JvmOverloads constructor(
 ) {
 
     private val LOG_TAG = FabSpeedDialItemView::class.java.name
-    private val animationDurationMillis = 10 * FAST_ANIMATION_DURATION_MILLIS
+    private val animationDurationMillis = SUPER_FAST_ANIMATION_DURATION_MILLIS
 
     fun interface FabSpeedDialItemAppear {
 
