@@ -20,9 +20,13 @@ package fr.shining_cat.everyday.repository.di
 import fr.shining_cat.everyday.repository.converters.RewardConverter
 import fr.shining_cat.everyday.repository.converters.SessionPresetConverter
 import fr.shining_cat.everyday.repository.converters.SessionRecordConverter
+import fr.shining_cat.everyday.repository.repo.CritterPartsRepository
 import fr.shining_cat.everyday.repository.repo.CritterPartsRepositoryImpl
+import fr.shining_cat.everyday.repository.repo.RewardRepository
 import fr.shining_cat.everyday.repository.repo.RewardRepositoryImpl
+import fr.shining_cat.everyday.repository.repo.SessionPresetRepository
 import fr.shining_cat.everyday.repository.repo.SessionPresetRepositoryImpl
+import fr.shining_cat.everyday.repository.repo.SessionRecordRepository
 import fr.shining_cat.everyday.repository.repo.SessionRecordRepositoryImpl
 import org.koin.dsl.module
 
@@ -34,23 +38,23 @@ val repositoriesModule = module {
     factory { SessionPresetConverter(get()) }
 
     // Repositories
-    factory { CritterPartsRepositoryImpl() }
+    factory { CritterPartsRepositoryImpl() as CritterPartsRepository}
     factory {
         RewardRepositoryImpl(
             get(),
             get()
-        )
+        ) as RewardRepository
     }
     factory {
         SessionRecordRepositoryImpl(
             get(),
             get()
-        )
+        ) as SessionRecordRepository
     }
     factory {
         SessionPresetRepositoryImpl(
             get(),
             get()
-        )
+        ) as SessionPresetRepository
     }
 }

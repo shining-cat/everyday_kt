@@ -47,6 +47,7 @@
   - [x] handle audio session preset: open file picker or smth similar, get the audio file uri and store along in SessionPreset, handle display in homefragment list
   - [x] pb when accessing files with uris. find the way to handle api <29 , api = 29, and api >29 -> ok now for session presets (persisting uri access grant needed to use the intent ACTION_OPEN_DOCUMENT and not ACTION_GET_CONTENT, only for immediate access)     
   - [ ] switch FAB action to speed dial behaviour. Options: "add free audio session preset", "add audio session preset", "add timed session preset", "add free timed session preset" => now the sessionpresetdialog will have 2 separate versions for each type
+    - [ ] create drawables for speed dial items
   - [ ] split session preset dialog into dedicated versions (audio vs timed)
   - [x] pb when deleting last preset: icon drawn be swipelistener is still present => find a way to reset canvas!
  

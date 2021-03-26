@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021. Shining-cat - Shiva Bernhard
+  ~ This file is part of Everyday.
+  ~
+  ~     Everyday is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, version 3 of the License.
+  ~
+  ~     Everyday is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with Everyday.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fab_container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/single_and_half_margin"
+    android:paddingTop="@dimen/eighth_margin"
+    android:paddingStart="@dimen/eighth_margin"
+    android:paddingEnd="@dimen/single_and_half_margin"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/fab"
+        style="@style/FloatingActionButton"
+        android:layout_width="@dimen/standard_fab_size"
+        android:layout_height="@dimen/standard_fab_size"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:icon="@drawable/plus" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
