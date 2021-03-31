@@ -21,28 +21,27 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.widget.RelativeLayout
 import androidx.annotation.DrawableRes
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import fr.shining_cat.everyday.commons.Constants.Companion.SUPER_FAST_ANIMATION_DURATION_MILLIS
+import fr.shining_cat.everyday.commons.Constants.Companion.FAST_ANIMATION_DURATION_MILLIS
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.databinding.LayoutWidgetFabSpeedDialItemBinding
 import fr.shining_cat.everyday.commons.extensions.animateAlpha
 
 class FabSpeedDialItemView @kotlin.jvm.JvmOverloads constructor(
-    fabSpeedDialItem: FabSpeedDialItem,
-    private val logger: Logger? = null,
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
-): RelativeLayout(
+): ConstraintLayout(
     context,
     attrs,
     defStyle
 ) {
 
     private val LOG_TAG = FabSpeedDialItemView::class.java.name
-    private val animationDurationMillis = SUPER_FAST_ANIMATION_DURATION_MILLIS
+    private var logger: Logger? = null
+    private var halfAnimationDurationMillis = FAST_ANIMATION_DURATION_MILLIS
 
     fun interface FabSpeedDialItemAppear {
 
@@ -73,26 +72,31 @@ class FabSpeedDialItemView @kotlin.jvm.JvmOverloads constructor(
     //this is used to prevent the dispatch of appear animation end to listener when it is canceled while running by a call to disappear()
     private var isDisappearing = false
 
-    private val layoutWidgetFabSpeedDialItemBinding: LayoutWidgetFabSpeedDialItemBinding =
-        LayoutWidgetFabSpeedDialItemBinding.inflate(LayoutInflater.from(context))
+    private val layoutWidgetFabSpeedDialItemBinding: LayoutWidgetFabSpeedDialItemBinding = LayoutWidgetFabSpeedDialItemBinding.inflate(
+        LayoutInflater.from(context),
+        this,
+        true
+    )
 
-    init {
-        addView(layoutWidgetFabSpeedDialItemBinding.root)
+    fun setup(
+        fabSpeedDialItem: FabSpeedDialItem,
+        animationDurationMillis: Long,
+        logger: Logger? = null
+    ) {
         setUpUi(
             fabSpeedDialItem.iconDrawable,
             fabSpeedDialItem.label
         )
-        this.setOnClickListener(fabSpeedDialItem.clickListener)
+        layoutWidgetFabSpeedDialItemBinding.root.setOnClickListener(fabSpeedDialItem.clickListener)
+        this.halfAnimationDurationMillis = animationDurationMillis
+        this.logger = logger
     }
 
     private fun setUpUi(
         @DrawableRes iconDrawable: Int,
         label: String = ""
     ) {
-        logger?.d(
-            LOG_TAG,
-            "setUpUi::label = $label"
-        )
+        val context = layoutWidgetFabSpeedDialItemBinding.root.context
         layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemIcon.icon = ContextCompat.getDrawable(
             context,
             iconDrawable
@@ -123,13 +127,13 @@ class FabSpeedDialItemView @kotlin.jvm.JvmOverloads constructor(
         currentAnimation =
             layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemIcon.animateAlpha(fromAlpha = layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemIcon.alpha,
                 toAlpha = 1f,
-                duration = animationDurationMillis,
+                duration = halfAnimationDurationMillis,
                 onStart = null,
                 onEnd = {
                     if (hasLabel) {
                         layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.animateAlpha(fromAlpha = layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.alpha,
                             toAlpha = 1f,
-                            duration = animationDurationMillis,
+                            duration = halfAnimationDurationMillis,
                             onStart = null,
                             onEnd = {
                                 isAppearing = false
@@ -156,13 +160,13 @@ class FabSpeedDialItemView @kotlin.jvm.JvmOverloads constructor(
         currentAnimation =
             layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemIcon.animateAlpha(fromAlpha = layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemIcon.alpha,
                 toAlpha = 0f,
-                duration = animationDurationMillis,
+                duration = halfAnimationDurationMillis,
                 onStart = null,
                 onEnd = {
                     if (hasLabel) {
                         layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.animateAlpha(fromAlpha = layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.alpha,
                             toAlpha = 0f,
-                            duration = animationDurationMillis,
+                            duration = halfAnimationDurationMillis,
                             onStart = null,
                             onEnd = {
                                 isDisappearing = false

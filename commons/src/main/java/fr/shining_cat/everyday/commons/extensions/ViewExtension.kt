@@ -5,7 +5,7 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.view.View
 
-fun View.animationToPositionX(
+fun View.animateToTranslationX(
     toPosition: Float,
     duration: Long = 0L,
     onStart: (() -> Unit)? = null,
@@ -16,8 +16,9 @@ fun View.animationToPositionX(
         "translationX",
         toPosition
     )
+
     translation.duration = duration
-    translation.addListener(object : Animator.AnimatorListener {
+    translation.addListener(object: Animator.AnimatorListener {
         override fun onAnimationRepeat(animation: Animator?) {}
 
         override fun onAnimationEnd(animation: Animator?) {
@@ -47,7 +48,7 @@ fun View.animateAlpha(
         toAlpha
     )
     fade.duration = duration
-    fade.addListener(object : Animator.AnimatorListener {
+    fade.addListener(object: Animator.AnimatorListener {
         override fun onAnimationRepeat(animation: Animator?) {}
 
         override fun onAnimationEnd(animation: Animator?) {
@@ -83,7 +84,7 @@ fun View.animateScale(
     scalingX.duration = duration
     scalingY.duration = duration
     val animatorSet = AnimatorSet()
-    animatorSet.addListener(object : Animator.AnimatorListener {
+    animatorSet.addListener(object: Animator.AnimatorListener {
         override fun onAnimationRepeat(animation: Animator?) {}
 
         override fun onAnimationEnd(animation: Animator?) {

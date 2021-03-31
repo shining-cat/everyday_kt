@@ -20,4 +20,4 @@
     android:valueFrom="90"
     android:valueTo="0"
     android:valueType="floatType"
-    android:duration="@android:integer/config_mediumAnimTime" />
+    android:duration="@android:integer/config_shortAnimTime" />
