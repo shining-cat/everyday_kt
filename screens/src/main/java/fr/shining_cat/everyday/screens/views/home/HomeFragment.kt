@@ -179,25 +179,25 @@ class HomeFragment: Fragment() {
 
     private fun buildHomeFabSpeedDials(): List<FabSpeedDialItem> {
         val createFreeTimedSession = FabSpeedDialItem(
-            R.drawable.bottombar_button_home, //TODO: create drawable and insert here
+            R.drawable.ic_timer,
             {openCreateFreeTimedSession()},
             getString(R.string.free_timed_session)
         )
         //
         val createTimedSession = FabSpeedDialItem(
-            R.drawable.bottombar_button_list, //TODO: create drawable and insert here
+            R.drawable.ic_hourglass,
             {openCreateTimedSession()},
             getString(R.string.timed_session)
         )
         //
         val createAudioSession = FabSpeedDialItem(
-            R.drawable.bottombar_button_stats, //TODO: create drawable and insert here
+            R.drawable.ic_audio_file,
             {openCreateAudioSession()},
             getString(R.string.audio_session)
         )
         //
         val createFreeAudioSession = FabSpeedDialItem(
-            R.drawable.bottombar_button_trophy, //TODO: create drawable and insert here
+            R.drawable.ic_audio_search,
             {openCreateFreeAudioSession()},
             getString(R.string.free_audio_session)
         )

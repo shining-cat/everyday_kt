@@ -42,7 +42,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/fab_speed_dial_item_icon"
-        style="@style/FloatingActionButton"
+        style="@style/MiniFloatingActionButton"
         android:layout_width="@dimen/mini_fab_size"
         android:layout_height="@dimen/mini_fab_size"
         android:layout_alignParentEnd="true"

@@ -39,6 +39,7 @@
     <dimen name="fab_speed_dial_item_height">48dp</dimen>
     <dimen name="fab_speed_dial_item_vertical_space">@dimen/single_margin</dimen>
     <dimen name="fab_right_padding">@dimen/single_and_half_margin</dimen>
+    <dimen name="mini_fab_icon_size">@dimen/double_margin</dimen>
 
 
 </resources>
