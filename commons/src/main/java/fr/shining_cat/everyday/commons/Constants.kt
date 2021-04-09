@@ -36,6 +36,7 @@ class Constants {
 
         // Constants
         const val SPLASH_MIN_DURATION_MILLIS = 1000L
+        const val SUPER_FAST_ANIMATION_DURATION_MILLIS = 20L
         const val FAST_ANIMATION_DURATION_MILLIS = 50L
         const val STANDARD_ANIMATION_DURATION_MILLIS = 100L
         const val SLOW_ANIMATION_DURATION_MILLIS = 200L

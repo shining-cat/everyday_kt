@@ -4,6 +4,13 @@
     <dimen name="standard_toolbar_height">56dp</dimen>
     <dimen name="toolbar_standard_title_size">18sp</dimen>
 
+    <!-- FAB -->
+    <dimen name="standard_fab_size">56dp</dimen>
+    <dimen name="mini_fab_size">40dp</dimen>
+    <dimen name="mini_fab_label_height">32dp</dimen>
+    <!-- mini fab must be horizontally center-aligned with main fab so margin is (standard_fab_size - mini_fab_size)/2  -->
+    <dimen name="mini_fab_end_margin">8dp</dimen>
+
     <!-- Standard TEXT sizes -->
     <dimen name="title_level_1_text_size">18sp</dimen>
     <dimen name="title_level_2_text_size">16sp</dimen>
@@ -27,6 +34,12 @@
     <dimen name="quarter_margin">4dp</dimen>
     <dimen name="eighth_margin">2dp</dimen>
     <dimen name="sixteenth_margin">1dp</dimen>
+
+    <!--Components-->
+    <dimen name="fab_speed_dial_item_height">48dp</dimen>
+    <dimen name="fab_speed_dial_item_vertical_space">@dimen/single_margin</dimen>
+    <dimen name="fab_right_padding">@dimen/single_and_half_margin</dimen>
+    <dimen name="mini_fab_icon_size">@dimen/double_margin</dimen>
 
 
 </resources>

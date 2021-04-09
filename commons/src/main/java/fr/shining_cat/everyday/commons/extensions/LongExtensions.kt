@@ -1,54 +1,94 @@
 package fr.shining_cat.everyday.commons.extensions
 
-import fr.shining_cat.everyday.commons.Constants
+import java.util.MissingFormatArgumentException
 import java.util.concurrent.TimeUnit
 
-// TODO: write tests for these extensions
+/**
+ * format a Long duration in Milliseconds to a HMS String
+ * no leading zero, zero smallest units are removed
+ * examples of formatting:
+ * 5000L -> 5s / 05
+ * 32000L -> 32s / 32
+ * 180000L -> 3mn / 03:00
+ * 780000L -> 13mn / 13:00
+ * 124000L -> 2mn04s / 02:04
+ * 103000L -> 1mn43s / 01:43
+ * 3600000L -> 1h / 01:00:00
+ * 57600000L -> 16h / 16:00:00
+ * 7380000L -> 2h03mn / 02:03:00
+ * 13500000L-> 3h45mn / 03:45:00
+ * 11045000L -> 3h04mn05s / 03:04:05
+ * arguments all have default values leading to the basic Hh:Mm:Ss formatting
+ * using the default formatting will not remove leading 0 and the zero smallest units
+ * @param  formatStringHoursMinutesSeconds: String
+ * @param  formatStringHoursMinutesNoSeconds: String
+ * @param  formatStringHoursNoMinutesNoSeconds: String
+ * @param  formatStringMinutesSeconds: String
+ * @param  formatStringMinutesNoSeconds: String
+ * @param  formatStringSeconds: String
+ */
 fun Long.autoFormatDurationMsAsSmallestHhMmSsString(
-    formatStringFull: String = "%1\$02d:%2\$02d:%3\$02d",
-    formatStringNoHours: String = "%1\$02d:%2\$02ds",
-    formatStringNoHoursNoMinutes: String = "%02d"
+    formatStringHoursMinutesSeconds: String = "%1\$02d:%2\$02d:%3\$02d",
+    formatStringHoursMinutesNoSeconds: String = "%1\$02d:%2\$02d:%3\$02d",
+    formatStringHoursNoMinutesNoSeconds: String = "%1\$02d:%2\$02d:%3\$02d",
+    formatStringMinutesSeconds: String = "%1\$02d:%2\$02d",
+    formatStringMinutesNoSeconds: String = "%1\$02d:%2\$02d",
+    formatStringSeconds: String = "%02d"
 ): String {
+    val hours = TimeUnit.MILLISECONDS.toHours(this) % 24
+    val minutes = TimeUnit.MILLISECONDS.toMinutes(this) % 60
+    val seconds = TimeUnit.MILLISECONDS.toSeconds(this) % 60
+
     return when {
-        this < Constants.ONE_MINUTE_AS_MS -> {
-            this.formatDurationMsAsSsString(formatStringNoHoursNoMinutes)
+        //ex: 5s / 32s
+        hours == 0L && minutes == 0L -> formatStringSeconds.format(seconds)
+        //
+        hours == 0L && minutes > 0L -> when (seconds) {
+            //ex: 3mn / 13mn
+            0L -> try {
+                formatStringMinutesNoSeconds.format(
+                    minutes
+                )
+            }
+            //the default String needs the 0 seconds argument to be formatted
+            catch (mae: MissingFormatArgumentException) {
+                formatStringMinutesNoSeconds.format(
+                    minutes,
+                    seconds
+                )
+            }
+            //ex: 2mn04s / 1mn43s / 23mn52s
+            else -> formatStringMinutesSeconds.format(
+                minutes,
+                seconds
+            )
         }
-
-        this < Constants.ONE_HOUR_AS_MS -> {
-            this.formatDurationMsAsMmSsString(formatStringNoHours)
-        }
-
-        else -> {
-            this.formatDurationMsAsHhMmSsString(formatStringFull)
+        else -> when (seconds) {
+            0L -> try {
+                when (minutes) {
+                    //ex: 1h / 23h
+                    0L -> formatStringHoursNoMinutesNoSeconds.format(hours)
+                    //ex: 2h03mn / 3h45mn
+                    else -> formatStringHoursMinutesNoSeconds.format(
+                        hours,
+                        minutes
+                    )
+                }
+            }
+            //the default String needs the 0 minutes & 0 seconds arguments to be formatted
+            catch (mae: MissingFormatArgumentException) {
+                formatStringHoursMinutesSeconds.format(
+                    hours,
+                    minutes,
+                    seconds
+                )
+            }
+            //ex: 3h04mn05s / 4h12mn34s / 12h34mn56s
+            else -> formatStringHoursMinutesSeconds.format(
+                hours,
+                minutes,
+                seconds
+            )
         }
     }
-}
-
-// TODO: build the rests of each unit with a modulo rather than the chain of subtraction : val restOfMinutes = minutes % 60
-fun Long.formatDurationMsAsHhMmSsString(formatString: String = "%02d:%02d:%02d"): String {
-    val initialLengthHours = TimeUnit.MILLISECONDS.toHours(this)
-    val initialLengthMinutes = TimeUnit.MILLISECONDS.toMinutes(this)
-    val initialLengthSeconds = TimeUnit.MILLISECONDS.toSeconds(this)
-    val resultMinutes = (initialLengthMinutes - TimeUnit.HOURS.toMinutes(initialLengthHours))
-    val resultSeconds = (initialLengthSeconds - (TimeUnit.HOURS.toSeconds(initialLengthHours) + TimeUnit.MINUTES.toSeconds(resultMinutes)))
-    return formatString.format(
-        initialLengthHours,
-        resultMinutes,
-        resultSeconds
-    )
-}
-
-fun Long.formatDurationMsAsMmSsString(formatString: String = "%02d:%02d"): String {
-    val initialLengthMinutes = TimeUnit.MILLISECONDS.toMinutes(this)
-    val initialLengthSeconds = TimeUnit.MILLISECONDS.toSeconds(this)
-    val resultSeconds = (initialLengthSeconds - TimeUnit.MINUTES.toSeconds(initialLengthMinutes))
-    return formatString.format(
-        initialLengthMinutes,
-        resultSeconds
-    )
-}
-
-fun Long.formatDurationMsAsSsString(formatString: String = "%02d"): String {
-    val resultSeconds = TimeUnit.MILLISECONDS.toSeconds(this)
-    return formatString.format(resultSeconds)
 }

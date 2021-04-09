@@ -56,15 +56,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_session_preset_fab"
-        android:layout_width="@dimen/fab_size"
-        android:layout_height="@dimen/fab_size"
-        android:src="@drawable/add_sign"
-        android:layout_marginEnd="@dimen/single_and_half_margin"
-        android:layout_marginBottom="@dimen/single_and_half_margin"
+    <fr.shining_cat.everyday.commons.ui.views.widgets.fabspeeddial.FabWithSpeedDial
+        android:id="@+id/add_session_preset_fab_speed_dial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="@string/content_description_add_new_preset" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

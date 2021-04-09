@@ -44,4 +44,23 @@
         <item name="itemTextAppearance">?attr/textAppearanceBody2</item>
     </style>
 
+    <!--FAB SPEED DIAL-->
+    <style name="FloatingActionButton" parent="android:Widget.Material.Button">
+        <item name="android:background">@drawable/fab_background</item>
+        <item name="backgroundTint">?attr/colorAccent</item> <!-- material button background color is color primary, we want color accent for a fab -->
+        <item name="android:stateListAnimator">@animator/fab_state_list_animator</item>
+        <item name="android:padding">@dimen/no_margin</item>
+        <item name="iconPadding">@dimen/no_margin</item>
+        <item name="iconGravity">textStart</item>
+    </style>
+    <style name="MiniFloatingActionButton" parent="android:Widget.Material.Button">
+        <item name="android:background">@drawable/fab_background</item>
+        <item name="backgroundTint">?attr/colorAccent</item> <!-- material button background color is color primary, we want color accent for a fab -->
+        <item name="android:stateListAnimator">@animator/fab_state_list_animator</item>
+        <item name="iconSize">@dimen/mini_fab_icon_size</item>
+        <item name="android:padding">@dimen/no_margin</item>
+        <item name="iconPadding">@dimen/no_margin</item>
+        <item name="iconGravity">textStart</item>
+    </style>
+
 </resources>
