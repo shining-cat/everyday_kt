@@ -47,9 +47,12 @@
     <string name="generic_string_PASS" translatable="true">Passer</string>
     <string name="generic_string_NONE" translatable="true">Aucun</string>
 
-    <string name="hms_duration_format_short" translatable="true">%1$02dh %2$02dmn %3$02ds</string>
-    <string name="ms_duration_format_short" translatable="true">%1$02dmn %2$02ds</string>
-    <string name="s_duration_format_short" translatable="true">%02ds</string>
+    <string name="duration_format_hours_minutes_seconds_short" translatable="true">%1$dh %2$02dmn %3$02ds</string>
+    <string name="duration_format_hours_minutes_no_seconds_short" translatable="true">%1$dh %2$02dmn</string>
+    <string name="duration_format_hours_no_minutes_no_seconds_short" translatable="true">%1$dh</string>
+    <string name="duration_format_minutes_seconds_short" translatable="true">%1$02dmn %2$02ds</string>
+    <string name="duration_format_minutes_no_seconds_short" translatable="true">%1$02dmn</string>
+    <string name="duration_format_seconds_short" translatable="true">%02ds</string>
 
     <string name="notificationsPreferences_notification_text_default_text" translatable="true">C\'est l\'heure de pratiquer!</string>
     <string name="content_description_close_button" translatable="true">bouton fermeture de la fenêtre</string>

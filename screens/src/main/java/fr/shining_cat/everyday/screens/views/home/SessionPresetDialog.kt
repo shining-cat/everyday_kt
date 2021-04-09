@@ -494,9 +494,12 @@ class SessionPresetDialog : DialogFragment() {
     // ///////////////
     private fun formatDurationMsToString(duration: Long): String {
         return duration.autoFormatDurationMsAsSmallestHhMmSsString(
-            getString(R.string.hms_duration_format_short),
-            getString(R.string.ms_duration_format_short),
-            getString(R.string.s_duration_format_short)
+            resources.getString(R.string.duration_format_hours_minutes_seconds_short),
+            resources.getString(R.string.duration_format_hours_minutes_no_seconds_short),
+            resources.getString(R.string.duration_format_hours_no_minutes_no_seconds_short),
+            resources.getString(R.string.duration_format_minutes_seconds_short),
+            resources.getString(R.string.duration_format_minutes_no_seconds_short),
+            resources.getString(R.string.duration_format_seconds_short)
         )
     }
 }
