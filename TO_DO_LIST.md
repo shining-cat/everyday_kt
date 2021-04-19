@@ -14,7 +14,9 @@
 - [x] missing failing test cases in repositories in repositories, incomplete error output and exception error output
 - [ ] build launch icon from rewards assets, insert as vector adaptive icon (see https://medium.com/androiddevelopers/vectordrawable-adaptive-icons-3fed3d3205b5)
 - [x] build about dialog
-- [ ] tests on LongExtensions
+- [x] upgrade LongExtensions duration formatting
+- [x] tests on LongExtensions
+- [x] modification on LongExtensions duration parsing: remove modulo on 24 hours, allow forms like 127h 23mn 07s.update tests, simplify params with identical default values...
 - [ ] tests on HomeViewModel
 - [ ] write about text
 - [ ] add custom rules to detekt to put else, catch, finally on new line => this seems quite heavy work, we may skip this, but the pb is that ktlint rules contradict our own
@@ -46,11 +48,10 @@
       - [x] when audio file is selected, if duration is -1L (= could not retrieve) we need user duration selection, maybe set duration to 0s and prevent dialog validation, deactivate toast on duration clicked in this case
   - [x] handle audio session preset: open file picker or smth similar, get the audio file uri and store along in SessionPreset, handle display in homefragment list
   - [x] pb when accessing files with uris. find the way to handle api <29 , api = 29, and api >29 -> ok now for session presets (persisting uri access grant needed to use the intent ACTION_OPEN_DOCUMENT and not ACTION_GET_CONTENT, only for immediate access)     
-  - [ ] switch FAB action to speed dial behaviour. Options: "add free audio session preset", "add audio session preset", "add timed session preset", "add free timed session preset" => now the sessionpresetdialog will have 2 separate versions for each type
-    - [ ] create drawables for speed dial items
+  - [x] switch FAB action to speed dial behaviour. Options: "add free audio session preset", "add audio session preset", "add timed session preset", "add free timed session preset" => now the sessionpresetdialog will have 2 separate versions for each type
+    - [x] create drawables for speed dial items
   - [ ] split session preset dialog into dedicated versions (audio vs timed)
   - [x] pb when deleting last preset: icon drawn be swipelistener is still present => find a way to reset canvas!
- 
   - [ ] find a way to animate hide/show "add session preset" fab when scroll detected, show again on release, for now it only works without animation
 
 ### launch session

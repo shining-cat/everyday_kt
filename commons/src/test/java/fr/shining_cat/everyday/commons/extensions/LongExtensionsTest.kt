@@ -36,6 +36,7 @@ class LongExtensionsTest {
     13500000L-> 3h 45mn / 03:45:00
     11045000L -> 3h 04mn 05s / 03:04:05
     11096000L -> 3h 04mn 56s / 03:04:56
+    443096000L -> 123h 04mn 56s / 123:04:56
      */
     private val formatStringHoursMinutesSeconds = "%1\$dh %2\$02dmn %3\$02ds"
     private val formatStringHoursMinutesNoSeconds = "%1\$dh %2\$02dmn"
@@ -385,6 +386,35 @@ class LongExtensionsTest {
     fun `test 3h04mn56s default format string`() {
         val raw = 11096000L
         val expectedFormatted = "03:04:56"
+        val result = raw.autoFormatDurationMsAsSmallestHhMmSsString()
+        assertEquals(
+            expectedFormatted,
+            result
+        )
+    }
+
+    @Test
+    fun `test 123h04mn56s`() {
+        val raw = 443096000L
+        val expectedFormatted = "123h 04mn 56s"
+        val result = raw.autoFormatDurationMsAsSmallestHhMmSsString(
+            formatStringHoursMinutesSeconds,
+            formatStringHoursMinutesNoSeconds,
+            formatStringHoursNoMinutesNoSeconds,
+            formatStringMinutesSeconds,
+            formatStringMinutesNoSeconds,
+            formatStringSeconds
+        )
+        assertEquals(
+            expectedFormatted,
+            result
+        )
+    }
+
+    @Test
+    fun `test 123h04mn56s default format string`() {
+        val raw = 443096000L
+        val expectedFormatted = "123:04:56"
         val result = raw.autoFormatDurationMsAsSmallestHhMmSsString()
         assertEquals(
             expectedFormatted,
