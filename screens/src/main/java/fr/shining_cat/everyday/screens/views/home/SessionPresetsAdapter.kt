@@ -8,6 +8,9 @@ import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.models.SessionPreset
 import fr.shining_cat.everyday.screens.databinding.ItemAudioSessionPresetViewHolderBinding
 import fr.shining_cat.everyday.screens.databinding.ItemTimedSessionPresetViewHolderBinding
+import fr.shining_cat.everyday.screens.views.home.sessionpresetviewholders.AbstractSessionPresetViewHolder
+import fr.shining_cat.everyday.screens.views.home.sessionpresetviewholders.AudioSessionPresetViewHolder
+import fr.shining_cat.everyday.screens.views.home.sessionpresetviewholders.TimedSessionPresetViewHolder
 import java.security.InvalidParameterException
 
 class SessionPresetsAdapter(

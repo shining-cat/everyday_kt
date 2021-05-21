@@ -47,6 +47,7 @@ import fr.shining_cat.everyday.screens.R
 import fr.shining_cat.everyday.screens.databinding.FragmentHomeBinding
 import fr.shining_cat.everyday.screens.viewmodels.HomeViewModel
 import fr.shining_cat.everyday.screens.views.ScreenActivity
+import fr.shining_cat.everyday.screens.views.home.sessionpresetdialogs.SessionPresetDialog
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
 

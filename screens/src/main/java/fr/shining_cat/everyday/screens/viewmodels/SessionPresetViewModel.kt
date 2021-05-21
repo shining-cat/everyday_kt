@@ -34,7 +34,7 @@ class SessionPresetViewModel(
     appDispatchers: AppDispatchers,
     private val metadataRetrieveUseCase: FileMetadataRetrieveUseCase,
     private val logger: Logger
-) : AbstractViewModels(appDispatchers) {
+): AbstractViewModels(appDispatchers) {
 
     private val LOG_TAG = SessionPresetViewModel::class.java.name
 
@@ -62,28 +62,38 @@ class SessionPresetViewModel(
         // attempt to retrieve fresh audio file metadata
         val audioFileMetadata = if (isAnAudioSession) {
             presetInput as SessionPreset
-            logger.d(LOG_TAG, "init::presetInput.audioGuideSoundUriString = ${presetInput.audioGuideSoundUriString}")
+            logger.d(
+                LOG_TAG,
+                "init::presetInput.audioGuideSoundUriString = ${presetInput.audioGuideSoundUriString}"
+            )
             val audioGuideSoundUri = Uri.parse(presetInput.audioGuideSoundUriString)
-            logger.d(LOG_TAG, "init::audioGuideSoundUri = $audioGuideSoundUri")
+            logger.d(
+                LOG_TAG,
+                "init::audioGuideSoundUri = $audioGuideSoundUri"
+            )
             metadataRetrieveUseCase.execute(
                 context,
                 audioGuideSoundUri
             )
-        } else null
+        }
+        else null
         //
         val duration = if (audioFileMetadata != null) {
             when {
                 audioFileMetadata.durationMs != -1L -> {
                     audioFileMetadata.durationMs
                 }
+
                 presetInput?.duration != null -> {
                     presetInput.duration // => audio file duration could not be retrieved, but a duration was already saved (probably by the user) => we will treat this duration as if it came from the file metadata
                 }
+
                 else -> {
                     -1L // => audio file duration could not be retrieved => we need the user to input it manually
                 }
             }
-        } else presetInput?.duration ?: Constants.DEFAULT_SESSION_DURATION_MILLIS
+        }
+        else presetInput?.duration ?: Constants.DEFAULT_SESSION_DURATION_MILLIS
         //
         _sessionPresetUpdatedLiveData.value = SessionPreset(
             id = presetInput?.id ?: -1L,
@@ -92,22 +102,26 @@ class SessionPresetViewModel(
             startAndEndSoundName = presetInput?.startAndEndSoundName ?: deviceDefaultRingtoneName,
             intermediateIntervalLength = if (isAnAudioSession) {
                 INTERVAL_LENGTH_IS_NONE_FOR_AUDIO_SESSION // audio session  => no intermediate interval
-            } else {
+            }
+            else {
                 presetInput?.intermediateIntervalLength ?: 0L
             },
             intermediateIntervalRandom = if (isAnAudioSession) {
                 false // audio session  => no intermediate interval
-            } else {
+            }
+            else {
                 presetInput?.intermediateIntervalRandom ?: false
             },
             intermediateIntervalSoundUriString = if (isAnAudioSession) {
                 "" // audio session  => no intermediate interval "" is equivalent for "silence" here
-            } else {
+            }
+            else {
                 presetInput?.intermediateIntervalSoundUriString ?: deviceDefaultRingtoneUriString
             },
             intermediateIntervalSoundName = if (isAnAudioSession) {
                 "" // audio session  => no intermediate interval "" is not equivalent for "silence" here
-            } else {
+            }
+            else {
                 presetInput?.intermediateIntervalSoundName ?: deviceDefaultRingtoneName
             },
             duration = duration,
@@ -165,7 +179,8 @@ class SessionPresetViewModel(
                 context,
                 audioGuideSoundUri
             )
-        } else null
+        }
+        else null
         _sessionPresetUpdatedLiveData.value = _sessionPresetUpdatedLiveData.value?.copy(
             audioGuideSoundUriString = inputAudioGuideSoundUriString,
             audioGuideSoundArtistName = audioFileMetadata?.artistName ?: "",
