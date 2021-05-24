@@ -51,6 +51,7 @@
   - [x] switch FAB action to speed dial behaviour. Options: "add free audio session preset", "add audio session preset", "add timed session preset", "add free timed session preset" => now the sessionpresetdialog will have 2 separate versions for each type
     - [x] create drawables for speed dial items
   - [ ] split session preset dialog into dedicated versions (audio vs timed)
+  - [ ] maybe remove the duration field for audio guided sessions, we will probably rather measure the elapsed time between the start and end of the audio file...
   - [x] pb when deleting last preset: icon drawn be swipelistener is still present => find a way to reset canvas!
   - [ ] find a way to animate hide/show "add session preset" fab when scroll detected, show again on release, for now it only works without animation
 

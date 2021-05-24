@@ -16,19 +16,28 @@ class UpdateSessionPresetUseCase(
     suspend fun execute(
         sessionPreset: SessionPreset
     ): Result<Int> {
-        val output = sessionPresetRepository.update(sessionPreset.copy(lastEditTime = System.currentTimeMillis()))
+        val sessionPresetToUpdate = when (sessionPreset) {
+            is SessionPreset.AudioSessionPreset -> sessionPreset.copy(lastEditTime = System.currentTimeMillis())
+            is SessionPreset.AudioFreeSessionPreset -> sessionPreset.copy(lastEditTime = System.currentTimeMillis())
+            is SessionPreset.TimedSessionPreset -> sessionPreset.copy(lastEditTime = System.currentTimeMillis())
+            is SessionPreset.TimedFreeSessionPreset -> sessionPreset.copy(lastEditTime = System.currentTimeMillis())
+            else -> SessionPreset.UnknownSessionPreset()
+        }
+        val output = sessionPresetRepository.update(sessionPresetToUpdate)
         return if (output is Output.Success) {
             // this usecase only handle single item deletion
             if (output.result == 1) {
                 Result.Success(output.result)
-            } else {
+            }
+            else {
                 Result.Error(
                     ERROR_CODE_DATABASE_OPERATION_FAILED,
                     ERROR_MESSAGE_UPDATE_FAILED,
                     Exception(ERROR_MESSAGE_UPDATE_FAILED)
                 )
             }
-        } else {
+        }
+        else {
             output as Output.Error
             Result.Error(
                 output.errorCode,

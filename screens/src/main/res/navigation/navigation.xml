@@ -25,7 +25,64 @@
         android:id="@+id/navigation_home"
         android:name="fr.shining_cat.everyday.screens.views.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_session_preset_dialog_audio"
+            app:destination="@id/navigation_session_preset_dialog_audio" />
+        <action
+            android:id="@+id/action_navigation_home_to_session_preset_dialog_audio_free"
+            app:destination="@id/navigation_session_preset_dialog_audio_free" />
+        <action
+            android:id="@+id/action_navigation_home_to_session_preset_dialog_timed"
+            app:destination="@id/navigation_session_preset_dialog_timed" />
+        <action
+            android:id="@+id/action_navigation_home_to_session_preset_dialog_timed_free"
+            app:destination="@id/navigation_session_preset_dialog_timed_free" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/navigation_session_preset_dialog_audio"
+        android:name="fr.shining_cat.everyday.screens.views.home.sessionpresetdialogs.AudioSessionPresetDialog"
+        tools:layout="@layout/dialog_session_preset_audio" >
+        <argument
+            android:name="preset"
+            app:argType="fr.shining_cat.everyday.models.SessionPreset.AudioSessionPreset"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+    </dialog>
+
+    <dialog
+        android:id="@+id/navigation_session_preset_dialog_audio_free"
+        android:name="fr.shining_cat.everyday.screens.views.home.sessionpresetdialogs.AudioSessionPresetDialog"
+        tools:layout="@layout/dialog_session_preset_audio_free" >
+        <argument
+            android:name="preset"
+            app:argType="fr.shining_cat.everyday.models.SessionPreset.AudioFreeSessionPreset"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+    </dialog>
+
+    <dialog
+        android:id="@+id/navigation_session_preset_dialog_timed"
+        android:name="fr.shining_cat.everyday.screens.views.home.sessionpresetdialogs.AudioSessionPresetDialog"
+        tools:layout="@layout/dialog_session_preset_timed" >
+        <argument
+            android:name="preset"
+            app:argType="fr.shining_cat.everyday.models.SessionPreset.TimedSessionPreset"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+    </dialog>
+
+    <dialog
+        android:id="@+id/navigation_session_preset_dialog_timed_free"
+        android:name="fr.shining_cat.everyday.screens.views.home.sessionpresetdialogs.AudioSessionPresetDialog"
+        tools:layout="@layout/dialog_session_preset_timed_free" >
+        <argument
+            android:name="preset"
+            app:argType="fr.shining_cat.everyday.models.SessionPreset.TimedFreeSessionPreset"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+    </dialog>
 
     <fragment
         android:id="@+id/navigation_sessions"

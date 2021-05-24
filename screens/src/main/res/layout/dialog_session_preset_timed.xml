@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/dialog_session_preset_title_zone"
+            layout="@layout/dialog_fullscreen_title_zone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/audio_guide_zone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/double_margin"
+            android:layout_marginBottom="@dimen/single_and_quarter_margin"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/half_margin"
+            android:paddingBottom="@dimen/half_margin"
+            app:layout_constraintBottom_toTopOf="@+id/duration_zone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dialog_session_preset_title_zone">
+
+            <TextView
+                android:id="@+id/audio_guide_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/audio_guide"
+                android:textAlignment="center"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="@dimen/title_level_2_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/audio_guide_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="@dimen/normal_text_size"
+                tools:text="What shall we do with a drunken sailor?" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/duration_zone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/single_and_quarter_margin"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/half_margin"
+            android:paddingBottom="@dimen/half_margin"
+            app:layout_constraintBottom_toTopOf="@+id/start_end_sound_zone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/audio_guide_zone">
+
+            <TextView
+                android:id="@+id/duration_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/duration"
+                android:textAlignment="center"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="@dimen/title_level_2_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/duration_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="@dimen/normal_text_size"
+                tools:text="1h 25mn" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/start_end_sound_zone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/single_and_quarter_margin"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/half_margin"
+            android:paddingBottom="@dimen/half_margin"
+            app:layout_constraintBottom_toTopOf="@+id/countdown_zone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/duration_zone">
+
+            <TextView
+                android:id="@+id/start_end_sound_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/start_end_sound"
+                android:textAlignment="center"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="@dimen/title_level_2_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/start_end_sound_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="@dimen/normal_text_size"
+                tools:text="piti zoizos" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/countdown_zone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/single_and_quarter_margin"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/half_margin"
+            android:paddingBottom="@dimen/half_margin"
+            app:layout_constraintBottom_toTopOf="@+id/interval_length_zone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/start_end_sound_zone">
+
+            <TextView
+                android:id="@+id/countdown_length_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/countdown"
+                android:textAlignment="center"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="@dimen/title_level_2_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/countdown_length_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="@dimen/normal_text_size"
+                tools:text="13s" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/interval_length_zone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/single_and_quarter_margin"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/half_margin"
+            android:paddingBottom="@dimen/half_margin"
+            app:layout_constraintBottom_toTopOf="@+id/interval_sound_zone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/countdown_zone">
+
+            <TextView
+                android:id="@+id/interval_length_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/interval"
+                android:textAlignment="center"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="@dimen/title_level_2_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/interval_length_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="@dimen/normal_text_size"
+                tools:text="1mn" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/interval_sound_zone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/single_and_quarter_margin"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/half_margin"
+            android:paddingBottom="@dimen/half_margin"
+            app:layout_constraintBottom_toTopOf="@+id/vibration_zone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/interval_length_zone">
+
+            <TextView
+                android:id="@+id/interval_sound_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/interval_sound"
+                android:textAlignment="center"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="@dimen/title_level_2_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/interval_sound_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="@dimen/normal_text_size"
+                tools:text="pitite clocloche" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/vibration_zone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/single_and_quarter_margin"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/half_margin"
+            android:paddingBottom="@dimen/half_margin"
+            app:layout_constraintBottom_toTopOf="@id/session_preset_delete_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/interval_sound_zone">
+
+            <TextView
+                android:id="@+id/vibration_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/vibration"
+                android:textAlignment="center"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="@dimen/title_level_2_text_size"
+                android:textStyle="bold" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/vibration_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/session_preset_delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/double_margin"
+            android:backgroundTint="?attr/colorSecondary"
+            android:padding="@dimen/single_margin"
+            android:text="@string/generic_string_DELETE"
+            android:textColor="?attr/colorOnSecondary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vibration_zone" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
