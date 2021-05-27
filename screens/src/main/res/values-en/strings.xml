@@ -56,4 +56,7 @@
     <string name="timed_session">Session minutée</string>
     <string name="audio_session">Session audio fixe</string>
     <string name="free_audio_session">Session audio libre</string>
+    <string name="session_preset_audio_free_explanation">With this preset, chose an audio file for each session</string>
+    <string name="session_preset_timed_free_explanation">With this preset start a free timed session with no predefined duration</string>
+    <string name="interval_random">Irregular random interval</string>
 </resources>

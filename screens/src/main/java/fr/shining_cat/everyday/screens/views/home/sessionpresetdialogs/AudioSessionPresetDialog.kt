@@ -19,21 +19,20 @@ import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.models.SessionPreset
 import fr.shining_cat.everyday.screens.R
 import fr.shining_cat.everyday.screens.databinding.DialogSessionPresetAudioBinding
-import fr.shining_cat.everyday.screens.databinding.DialogSessionPresetBinding
 import fr.shining_cat.everyday.screens.viewmodels.sessionpresets.AbstractSessionPresetViewModel
 import fr.shining_cat.everyday.screens.viewmodels.sessionpresets.AudioSessionPresetViewModel
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class AudioSessionPresetDialog : AbstractSessionPresetDialog() {
-    
+class AudioSessionPresetDialog: AbstractSessionPresetDialog() {
+
     private val LOG_TAG = AudioSessionPresetDialog::class.java.name
 
     private val audioSessionPresetViewModel: AudioSessionPresetViewModel by viewModel()
     private val args: AudioSessionPresetDialogArgs by navArgs()
     private val logger: Logger = get()
-    private var audioSessionPresetDialogBinding:DialogSessionPresetAudioBinding? = null
-    
+    private var audioSessionPresetDialogBinding: DialogSessionPresetAudioBinding? = null
+
     override fun getSessionPresetViewModel(): AbstractSessionPresetViewModel {
         return audioSessionPresetViewModel
     }
@@ -121,7 +120,7 @@ class AudioSessionPresetDialog : AbstractSessionPresetDialog() {
         updateAudioZone(sessionPreset)
         updateDurationZone(sessionPreset)
     }
-    
+
     private fun updateAudioZone(sessionPreset: SessionPreset) {
         if (sessionPreset.audioGuideSoundUriString.isBlank()) {
             audioSessionPresetDialogBinding?.audioGuideValue?.text = getString(R.string.generic_NO_SELECTION)
@@ -166,7 +165,7 @@ class AudioSessionPresetDialog : AbstractSessionPresetDialog() {
     ) {
         if (requestCode == Constants.ACTIVITY_RESULT_SELECT_AUDIO_FILE && resultCode == Activity.RESULT_OK) {
             // The result data contains a URI for the document or directory that the user selected.
-            resultData?.data?.also { uri ->
+            resultData?.data?.also {uri ->
                 audioSessionPresetViewModel.updatePresetAudioGuideSoundUriString(
                     requireContext(),
                     uri.toString()
@@ -174,5 +173,4 @@ class AudioSessionPresetDialog : AbstractSessionPresetDialog() {
             }
         }
     }
-    
 }

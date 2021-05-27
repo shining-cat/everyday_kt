@@ -44,7 +44,7 @@ import fr.shining_cat.everyday.screens.databinding.DialogSessionPresetBinding
 import fr.shining_cat.everyday.screens.viewmodels.sessionpresets.AbstractSessionPresetViewModel
 import org.koin.android.ext.android.get
 
-abstract class AbstractSessionPresetDialog : DialogFragment() {
+abstract class AbstractSessionPresetDialog: DialogFragment() {
 
     private val LOG_TAG = AbstractSessionPresetDialog::class.java.name
 
@@ -168,7 +168,7 @@ abstract class AbstractSessionPresetDialog : DialogFragment() {
     protected fun updateCommonUi(sessionPreset: SessionPreset) {
         updateCountDownZone(sessionPreset)
         updateStartEndSoundZone(sessionPreset)
-        setUpVibrationZone(sessionPreset)
+        updateVibrationZone(sessionPreset)
     }
 
     private fun updateStartEndSoundZone(sessionPreset: SessionPreset) {
@@ -189,7 +189,7 @@ abstract class AbstractSessionPresetDialog : DialogFragment() {
             ringTonesAssetsNames = ringTonesAssets,
             ringTonesDisplayNames = ringTonesTitles
         )
-        soundPickerDialog.setBottomDialogDismissibleRingtonePickerListener { selectedRingtoneUri, selectedRingtoneName ->
+        soundPickerDialog.setBottomDialogDismissibleRingtonePickerListener {selectedRingtoneUri, selectedRingtoneName ->
             getSessionPresetViewModel().updatePresetStartAndEndSoundUriString(selectedRingtoneUri)
             getSessionPresetViewModel().updatePresetStartAndEndSoundName(selectedRingtoneName)
         }
@@ -199,14 +199,14 @@ abstract class AbstractSessionPresetDialog : DialogFragment() {
         )
     }
 
-    private fun setUpVibrationZone(sessionPreset: SessionPreset) {
+    private fun updateVibrationZone(sessionPreset: SessionPreset) {
         getVibrationZone()?.setOnClickListener(null) // unregister listener to avoid OnCheckedChangeListener trigger when updating value
         getVibrationSwitch()?.isChecked = sessionPreset.vibration
         // reset listener
         getVibrationZone()?.setOnClickListener {
             getVibrationSwitch()?.toggle()
         }
-        getVibrationSwitch()?.setOnCheckedChangeListener { _, p1 ->
+        getVibrationSwitch()?.setOnCheckedChangeListener {_, p1 ->
             getSessionPresetViewModel().updatePresetVibration(p1)
         }
     }
@@ -228,7 +228,7 @@ abstract class AbstractSessionPresetDialog : DialogFragment() {
             confirmButtonLabel = getString(R.string.generic_string_OK),
             initialLengthMs = sessionPreset.startCountdownLength
         )
-        countdownDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener { lengthMs ->
+        countdownDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener {lengthMs ->
             getCountdownLengthValue()?.text = formatDurationMsToString(lengthMs)
             getSessionPresetViewModel().updatePresetStartCountdownLength(lengthMs)
         }
@@ -246,26 +246,27 @@ abstract class AbstractSessionPresetDialog : DialogFragment() {
         )
         val durationZone = getDurationZone()
         val durationValue = getDurationValue()
-        durationValue?.setTextColor(durationValueNormalColor)
+        if (durationZone == null || durationValue == null) return
+        durationValue.setTextColor(durationValueNormalColor)
         val isAnAudioSession = sessionPreset is SessionPreset.AudioSessionPreset
         val audioSessionDurationUnknown = isAnAudioSession && sessionPreset.duration == -1L
         if (isAnAudioSession) {
             if (audioSessionDurationUnknown) { // we have an audio file for the session, but could not retrieve its duration through its metadata => we need the user to input it manually
-                durationZone?.alpha = ENABLED_ZONE_ALPHA
-                durationValue?.text = getString(R.string.unknown_audio_duration_fill_manually)
+                durationZone.alpha = ENABLED_ZONE_ALPHA
+                durationValue.text = getString(R.string.unknown_audio_duration_fill_manually)
                 val errorColor = ContextCompat.getColor(
                     requireContext(),
                     R.color.red_600
                 )
-                durationValue?.setTextColor(errorColor)
-                durationZone?.setOnClickListener {
+                durationValue.setTextColor(errorColor)
+                durationZone.setOnClickListener {
                     showBottomDurationSelector(0L)
                 }
             }
             else { // duration field is filled with duration retrieved from audio file metadata, and interaction is deactivated
-                durationZone?.alpha = DISABLED_ZONE_ALPHA
-                durationValue?.text = formatDurationMsToString(sessionPreset.duration)
-                durationZone?.setOnClickListener {
+                durationZone.alpha = DISABLED_ZONE_ALPHA
+                durationValue.text = formatDurationMsToString(sessionPreset.duration)
+                durationZone.setOnClickListener {
                     Toast.makeText(
                         context,
                         getString(R.string.session_duration_vs_audio_explanation),
@@ -274,11 +275,24 @@ abstract class AbstractSessionPresetDialog : DialogFragment() {
                 }
             }
         }
-        else { // timed session: duration is pre-filled with input value, or default duration, interaction is active
-            durationZone?.alpha = ENABLED_ZONE_ALPHA
-            durationValue?.text = formatDurationMsToString(sessionPreset.duration)
-            durationZone?.setOnClickListener {
-                showBottomDurationSelector(sessionPreset.duration)
+        else { // timed session:
+            if (sessionPreset.intermediateIntervalRandom) {//a random interval has been activated: duration is useless so disabled
+                durationZone.alpha = DISABLED_ZONE_ALPHA
+                durationValue.text = getString(R.string.interval_random)
+                durationZone.setOnClickListener {
+                    Toast.makeText(
+                        context,
+                        getString(R.string.session_duration_vs_audio_explanation),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            else {//duration is pre-filled with input value, or default duration, interaction is active
+                durationZone.alpha = ENABLED_ZONE_ALPHA
+                durationValue.text = formatDurationMsToString(sessionPreset.duration)
+                durationZone.setOnClickListener {
+                    showBottomDurationSelector(sessionPreset.duration)
+                }
             }
         }
     }
@@ -293,7 +307,7 @@ abstract class AbstractSessionPresetDialog : DialogFragment() {
             confirmButtonLabel = getString(R.string.generic_string_OK),
             initialLengthMs = initialDuration
         )
-        durationDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener { lengthMs ->
+        durationDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener {lengthMs ->
             getDurationValue()?.text = formatDurationMsToString(lengthMs)
             getSessionPresetViewModel().updatePresetDuration(lengthMs)
         }
@@ -333,7 +347,7 @@ abstract class AbstractSessionPresetDialog : DialogFragment() {
                     ringTonesAssetsNames = ringTonesAssets,
                     ringTonesDisplayNames = ringTonesTitles
                 )
-                soundPickerDialog.setBottomDialogDismissibleRingtonePickerListener { selectedRingtoneUri, selectedRingtoneName ->
+                soundPickerDialog.setBottomDialogDismissibleRingtonePickerListener {selectedRingtoneUri, selectedRingtoneName ->
                     getSessionPresetViewModel().updatePresetIntermediateIntervalSoundUriString(selectedRingtoneUri)
                     getSessionPresetViewModel().updatePresetIntermediateIntervalSoundName(selectedRingtoneName)
                 }

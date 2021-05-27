@@ -43,14 +43,14 @@ class FabSpeedDialItemView @kotlin.jvm.JvmOverloads constructor(
     private var logger: Logger? = null
     private var halfAnimationDurationMillis = FAST_ANIMATION_DURATION_MILLIS
 
-    fun interface FabSpeedDialItemAppear {
+    fun interface FabSpeedDialItemAppearListener {
 
         fun onAppearComplete()
     }
 
-    private var listenerAppear: FabSpeedDialItemAppear? = null
-    fun setListenerAppear(listener: FabSpeedDialItemAppear) {
-        this.listenerAppear = listener
+    private var listenerAppearListener: FabSpeedDialItemAppearListener? = null
+    fun setListenerAppear(listener: FabSpeedDialItemAppearListener) {
+        this.listenerAppearListener = listener
     }
 
     fun interface FabSpeedDialItemDisappear {
@@ -137,12 +137,12 @@ class FabSpeedDialItemView @kotlin.jvm.JvmOverloads constructor(
                             onStart = null,
                             onEnd = {
                                 isAppearing = false
-                                if (!isDisappearing) listenerAppear?.onAppearComplete()
+                                if (!isDisappearing) listenerAppearListener?.onAppearComplete()
                             }).start()
                     }
                     else {
                         isAppearing = false
-                        if (!isDisappearing) listenerAppear?.onAppearComplete()
+                        if (!isDisappearing) listenerAppearListener?.onAppearComplete()
                     }
                 })
         //launch appear animation

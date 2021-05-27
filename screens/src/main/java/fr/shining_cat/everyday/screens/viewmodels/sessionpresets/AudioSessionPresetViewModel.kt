@@ -30,21 +30,37 @@ class AudioSessionPresetViewModel(
     appDispatchers: AppDispatchers,
     private val metadataRetrieveUseCase: FileMetadataRetrieveUseCase,
     private val logger: Logger
-) : AbstractSessionPresetViewModel(appDispatchers, logger) {
+): AbstractSessionPresetViewModel(
+    appDispatchers,
+    logger
+) {
 
     private val LOG_TAG = AudioSessionPresetViewModel::class.java.name
 
-    override fun init(context: Context, presetInput: SessionPreset?, deviceDefaultRingtoneUriString: String, deviceDefaultRingtoneName: String) {
-        super.init(context, presetInput, deviceDefaultRingtoneUriString, deviceDefaultRingtoneName)
+    override fun init(
+        context: Context,
+        presetInput: SessionPreset?,
+        deviceDefaultRingtoneUriString: String,
+        deviceDefaultRingtoneName: String
+    ) {
         if (presetInput != null) {
-            initForEdition(context, presetInput)
+            initForEdition(
+                context,
+                presetInput
+            )
         }
         else {
-            initForCreation(deviceDefaultRingtoneUriString, deviceDefaultRingtoneName)
+            initForCreation(
+                deviceDefaultRingtoneUriString,
+                deviceDefaultRingtoneName
+            )
         }
     }
 
-    private fun initForCreation(deviceDefaultRingtoneUriString: String, deviceDefaultRingtoneName: String) {
+    private fun initForCreation(
+        deviceDefaultRingtoneUriString: String,
+        deviceDefaultRingtoneName: String
+    ) {
         _sessionPresetUpdatedLiveData.value = SessionPreset.AudioSessionPreset(
             id = -1L,
             startCountdownLength = Constants.DEFAULT_SESSION_COUNTDOWN_MILLIS,
@@ -65,52 +81,36 @@ class AudioSessionPresetViewModel(
         context: Context,
         presetInput: SessionPreset
     ) {
-        val audioGuideSoundUri = Uri.parse(presetInput.audioGuideSoundUriString)
-        logger.d(
-            LOG_TAG,
-            "init::audioGuideSoundUri = $audioGuideSoundUri"
-        )
-        val audioFileMetadata = metadataRetrieveUseCase.execute(
-            context,
-            audioGuideSoundUri
-        )
-        //
-        val duration: Long = when {
-            audioFileMetadata.durationMs != -1L -> {
-                audioFileMetadata.durationMs
-            }
-
-            presetInput.duration != -1L -> {
-                presetInput.duration // => audio file duration could not be retrieved, but a duration was already saved (probably by the user) => we will treat this duration as if it came from the file metadata
-            }
-
-            else -> {
-                -1L // => audio file duration could not be retrieved => we will need the user to input it manually
-            }
+        val audioGuideSoundUriString = presetInput.audioGuideSoundUriString // should never be blank at this stage
+        var audioGuideSoundArtistName = presetInput.audioGuideSoundArtistName// if empty, try to retrieve the info from the file metadata
+        var audioGuideSoundAlbumName = presetInput.audioGuideSoundAlbumName// if empty, try to retrieve the info from the file metadata
+        var audioGuideSoundTitle = presetInput.audioGuideSoundTitle// if empty, try to retrieve the info from the file metadata
+        var duration = presetInput.duration// if empty, try to retrieve the info from the file metadata
+        if (audioGuideSoundUriString.isNotBlank() && (audioGuideSoundArtistName.isBlank() || audioGuideSoundAlbumName.isBlank() || audioGuideSoundTitle.isBlank() || duration == -1L)) {
+            val audioGuideSoundUri = Uri.parse(presetInput.audioGuideSoundUriString)
+            val audioFileMetadata = metadataRetrieveUseCase.execute(
+                context,
+                audioGuideSoundUri
+            )
+            audioGuideSoundArtistName = audioFileMetadata.artistName
+            audioGuideSoundAlbumName = audioFileMetadata.albumName
+            audioGuideSoundTitle = audioFileMetadata.fileName
+            duration =
+                audioFileMetadata.durationMs // == -1L is duration could not be retrieved, this case will cause a request for a user input duration
         }
         //
-        _sessionPresetUpdatedLiveData.value = SessionPreset.AudioSessionPreset(
-            id = presetInput.id,
-            startCountdownLength = presetInput.startCountdownLength,
-            startAndEndSoundUriString = presetInput.startAndEndSoundUriString,
-            startAndEndSoundName = presetInput.startAndEndSoundName,
+        _sessionPresetUpdatedLiveData.value = (presetInput as SessionPreset.AudioSessionPreset).copy(
             duration = duration,
-            audioGuideSoundUriString = presetInput.audioGuideSoundUriString,
-            audioGuideSoundArtistName = audioFileMetadata.artistName,
-            audioGuideSoundAlbumName = audioFileMetadata.albumName,
-            audioGuideSoundTitle = audioFileMetadata.fileName,
-            vibration = false,
-            sessionTypeId = -1,
-            lastEditTime = -1L,
+            audioGuideSoundUriString = audioGuideSoundUriString,
+            audioGuideSoundArtistName = audioGuideSoundArtistName,
+            audioGuideSoundAlbumName = audioGuideSoundAlbumName,
+            audioGuideSoundTitle = audioGuideSoundTitle
         )
     }
 
     override fun isSessionPresetValid(): Boolean {
         val preset = (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.AudioSessionPreset>).value
-        return (preset != null &&
-            preset.audioGuideSoundUriString.isNotBlank() &&
-            preset.duration != -1L
-            )
+        return (preset != null && preset.audioGuideSoundUriString.isNotBlank() && preset.duration != -1L)
     }
 
     fun updatePresetAudioGuideSoundUriString(
@@ -168,5 +168,4 @@ class AudioSessionPresetViewModel(
     override fun updatePresetIntermediateIntervalLength(inputIntermediateIntervalLength: Long) {}
     override fun updatePresetIntermediateIntervalSoundUriString(inputIntermediateIntervalSoundUriString: String) {}
     override fun updatePresetIntermediateIntervalSoundName(inputIntermediateIntervalSoundName: String) {}
-
 }

@@ -110,7 +110,6 @@ class SessionPresetConverter(
                 startCountdownLength = sessionPresetEntity.startCountdownLength,
                 startAndEndSoundUriString = sessionPresetEntity.startAndEndSoundUri,
                 startAndEndSoundName = sessionPresetEntity.startAndEndSoundName,
-                duration = sessionPresetEntity.duration,
                 vibration = sessionPresetEntity.vibration,
                 sessionTypeId = sessionPresetEntity.sessionTypeId,
                 lastEditTime = sessionPresetEntity.lastEditTime
