@@ -19,7 +19,7 @@ package fr.shining_cat.everyday.screens.views.home.sessionpresetdialogs
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.View.INVISIBLE
+import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.Window.FEATURE_NO_TITLE
@@ -36,12 +36,16 @@ import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleR
 import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleSpinnersDurationAndConfirm
 import fr.shining_cat.everyday.models.SessionPreset
 import fr.shining_cat.everyday.screens.R
+import fr.shining_cat.everyday.screens.viewmodels.HomeViewModel
 import fr.shining_cat.everyday.screens.viewmodels.sessionpresets.AbstractSessionPresetViewModel
 import org.koin.android.ext.android.get
+import org.koin.android.viewmodel.ext.android.viewModel
 
 abstract class AbstractSessionPresetDialog: DialogFragment() {
 
     private val LOG_TAG = AbstractSessionPresetDialog::class.java.name
+
+    private val homeViewModel: HomeViewModel by viewModel()
 
     private val logger: Logger = get()
     private var listener: SessionPresetDialogListener? = null
@@ -95,7 +99,7 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
     private fun setUpDismissButton() {
         val dismissButton = getDismissButton()
         dismissButton?.setOnClickListener {
-            listener?.onDismissButtonClicked()
+            // listener?.onDismissButtonClicked()
             dismiss()
         }
     }
@@ -103,10 +107,16 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
     private fun setUpValidateButton() {
         val validateButton = getValidateButton()
         validateButton?.setOnClickListener {
+            logger.d(LOG_TAG, "validateButton::onClick")
             if (getSessionPresetViewModel().isSessionPresetValid()) {
                 val sessionPresetToSave = getSessionPresetViewModel().sessionPresetUpdatedLiveData.value
                 if (sessionPresetToSave != null) {
-                    listener?.onConfirmButtonClicked(sessionPresetToSave)
+                    logger.d(LOG_TAG, "validateButton::onClick::saving preset: ${sessionPresetToSave}")
+                    // listener?.onConfirmButtonClicked(sessionPresetToSave)
+                    homeViewModel.saveSessionPreset(
+                        sessionPresetToSave,
+                        resources
+                    )
                     dismiss()
                 }
                 else {
@@ -132,10 +142,13 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
     private fun setUpDeleteButton() {
         val deleteButton = getDeleteButton()
         val sessionPreset = getSessionPresetViewModel().sessionPresetUpdatedLiveData.value
+        // val layoutParams = deleteButton?.layoutParams as ConstraintLayout.LayoutParams
         if (sessionPreset == null || sessionPreset.id == -1L) {
-            deleteButton?.visibility = INVISIBLE
+            // layoutParams.height = 0
+            deleteButton?.visibility = GONE
         }
         else {
+            // layoutParams.height = WRAP_CONTENT
             deleteButton?.visibility = VISIBLE
             deleteButton?.setOnClickListener {
                 val confirmDeleteDialog = BottomDialogDismissibleBigButton.newInstance(
@@ -143,7 +156,11 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
                     getString(R.string.generic_string_DELETE)
                 )
                 confirmDeleteDialog.setBottomDialogDismissibleBigButtonListener {
-                    listener?.onDeletePresetConfirmed(sessionPreset)
+                    // listener?.onDeletePresetConfirmed(sessionPreset)
+                    homeViewModel.deleteSessionPreset(
+                        sessionPreset,
+                        resources
+                    )
                     confirmDeleteDialog.dismiss()
                     dismiss()
                 }

@@ -19,9 +19,12 @@
 
         <TextView
             android:id="@+id/dialog_session_preset_explanation"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/single_and_half_margin"
+            android:layout_marginEnd="@dimen/single_and_half_margin"
             android:text="@string/session_preset_timed_free_explanation"
+            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/dialog_session_preset_title_zone" />
@@ -34,6 +37,7 @@
             android:background="?attr/selectableItemBackground"
             android:gravity="center_horizontal"
             android:orientation="vertical"
+            android:layout_marginTop="@dimen/double_margin"
             android:paddingTop="@dimen/half_margin"
             android:paddingBottom="@dimen/half_margin"
             app:layout_constraintBottom_toTopOf="@+id/countdown_zone"

@@ -18,6 +18,7 @@
 package fr.shining_cat.everyday.screens.viewmodels.sessionpresets
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import fr.shining_cat.everyday.commons.Constants
 import fr.shining_cat.everyday.commons.Logger
@@ -33,6 +34,9 @@ class TimedSessionPresetViewModel(
 ) {
 
     private val LOG_TAG = TimedSessionPresetViewModel::class.java.name
+
+    private val _validDurationLiveData = MutableLiveData<Boolean>()
+    val invalidDurationLiveData: LiveData<Boolean> = _validDurationLiveData
 
     override fun init(
         context: Context,
@@ -76,7 +80,24 @@ class TimedSessionPresetViewModel(
     }
 
     override fun isSessionPresetValid(): Boolean {
-        return true //audio free session preset has nothing that could be invalid
+        val preset = (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedSessionPreset>).value
+        when {
+            preset == null -> {
+                logger.e(
+                    LOG_TAG,
+                    "isSessionPresetValid::preset should not be null at this point"
+                )
+            }
+
+            preset.duration <= 0L -> {
+                _validDurationLiveData.value = false
+            }
+
+            else -> {
+                return true
+            }
+        }
+        return false
     }
 
     override fun updatePresetStartAndEndSoundUriString(inputStartAndEndSoundUriString: String) {
@@ -110,6 +131,7 @@ class TimedSessionPresetViewModel(
     }
 
     override fun updatePresetDuration(inputDuration: Long) {
+        _validDurationLiveData.value = inputDuration > 0L
         _sessionPresetUpdatedLiveData.value =
             (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedSessionPreset>).value?.copy(duration = inputDuration)
     }

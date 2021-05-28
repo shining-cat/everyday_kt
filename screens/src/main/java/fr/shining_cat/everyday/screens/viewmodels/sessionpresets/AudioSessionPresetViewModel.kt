@@ -19,6 +19,7 @@ package fr.shining_cat.everyday.screens.viewmodels.sessionpresets
 
 import android.content.Context
 import android.net.Uri
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import fr.shining_cat.everyday.commons.Constants
 import fr.shining_cat.everyday.commons.Logger
@@ -36,6 +37,12 @@ class AudioSessionPresetViewModel(
 ) {
 
     private val LOG_TAG = AudioSessionPresetViewModel::class.java.name
+
+    private val _validAudioGuideLiveData = MutableLiveData<Boolean>()
+    val invalidAudioGuideLiveData: LiveData<Boolean> = _validAudioGuideLiveData
+
+    private val _validDurationLiveData = MutableLiveData<Boolean>()
+    val invalidDurationLiveData: LiveData<Boolean> = _validDurationLiveData
 
     override fun init(
         context: Context,
@@ -123,13 +130,34 @@ class AudioSessionPresetViewModel(
 
     override fun isSessionPresetValid(): Boolean {
         val preset = (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.AudioSessionPreset>).value
-        return (preset != null && preset.audioGuideSoundUriString.isNotBlank() && preset.duration != -1L)
+        when {
+            preset == null -> {
+                logger.e(
+                    LOG_TAG,
+                    "isSessionPresetValid::preset should not be null at this point"
+                )
+            }
+
+            preset.audioGuideSoundUriString.isBlank() -> {
+                _validAudioGuideLiveData.value = false
+            }
+
+            preset.duration <= 0L -> {
+                _validDurationLiveData.value = false
+            }
+
+            else -> {
+                return true
+            }
+        }
+        return false
     }
 
     fun updatePresetAudioGuideSoundUriString(
         context: Context,
         inputAudioGuideSoundUriString: String
     ) {
+        _validAudioGuideLiveData.value = inputAudioGuideSoundUriString.isNotBlank()
         val audioFileMetadata = if (inputAudioGuideSoundUriString.isNotBlank()) {
             val audioGuideSoundUri = Uri.parse(inputAudioGuideSoundUriString)
             metadataRetrieveUseCase.execute(
@@ -138,6 +166,7 @@ class AudioSessionPresetViewModel(
             )
         }
         else null
+        //
         _sessionPresetUpdatedLiveData.value = (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.AudioSessionPreset>).value?.copy(
             audioGuideSoundUriString = inputAudioGuideSoundUriString,
             audioGuideSoundArtistName = audioFileMetadata?.artistName ?: "",
@@ -148,6 +177,7 @@ class AudioSessionPresetViewModel(
     }
 
     override fun updatePresetDuration(inputDuration: Long) {
+        _validDurationLiveData.value = inputDuration > 0L
         _sessionPresetUpdatedLiveData.value =
             (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.AudioSessionPreset>).value?.copy(duration = inputDuration)
     }

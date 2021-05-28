@@ -75,7 +75,7 @@ class TimedFreeSessionPresetViewModel(
     }
 
     override fun isSessionPresetValid(): Boolean {
-        return true //audio free session preset has nothing that could be invalid
+        return true //timed free session preset has nothing that could be invalid
     }
 
     override fun updatePresetStartAndEndSoundUriString(inputStartAndEndSoundUriString: String) {

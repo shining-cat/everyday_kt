@@ -1,5 +1,6 @@
 package fr.shining_cat.everyday.screens.views.home.sessionpresetdialogs
 
+import android.graphics.Color
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Bundle
@@ -9,8 +10,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.switchmaterial.SwitchMaterial
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleRingtonePicker
@@ -86,6 +89,23 @@ class TimedSessionPresetDialog: AbstractSessionPresetDialog() {
             {
                 updateCommonUi(it)
                 updateSpecificUi(it)
+            })
+        timedSessionPresetViewModel.invalidDurationLiveData.observe(viewLifecycleOwner,
+            {
+                val textColor = if (it) {
+                    MaterialColors.getColor(
+                        requireContext(),
+                        R.attr.colorOnSurface,
+                        Color.BLACK
+                    )
+                }
+                else {
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.red_600
+                    )
+                }
+                timedSessionPresetDialogBinding?.durationValue?.setTextColor(textColor)
             })
         //
         val deviceDefaultRingtoneUriString = RingtoneManager.getActualDefaultRingtoneUri(

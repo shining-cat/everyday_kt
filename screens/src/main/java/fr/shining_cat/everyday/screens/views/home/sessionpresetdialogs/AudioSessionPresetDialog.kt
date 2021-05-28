@@ -95,6 +95,40 @@ class AudioSessionPresetDialog: AbstractSessionPresetDialog() {
                 updateCommonUi(it)
                 updateSpecificUi(it)
             })
+        audioSessionPresetViewModel.invalidAudioGuideLiveData.observe(viewLifecycleOwner,
+            {
+                val textColor = if (it) {
+                    MaterialColors.getColor(
+                        requireContext(),
+                        R.attr.colorOnSurface,
+                        Color.BLACK
+                    )
+                }
+                else {
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.red_600
+                    )
+                }
+                audioSessionPresetDialogBinding?.audioGuideValue?.setTextColor(textColor)
+            })
+        audioSessionPresetViewModel.invalidDurationLiveData.observe(viewLifecycleOwner,
+            {
+                val textColor = if (it) {
+                    MaterialColors.getColor(
+                        requireContext(),
+                        R.attr.colorOnSurface,
+                        Color.BLACK
+                    )
+                }
+                else {
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.red_600
+                    )
+                }
+                audioSessionPresetDialogBinding?.durationValue?.setTextColor(textColor)
+            })
         //
         val deviceDefaultRingtoneUriString = RingtoneManager.getActualDefaultRingtoneUri(
             context,

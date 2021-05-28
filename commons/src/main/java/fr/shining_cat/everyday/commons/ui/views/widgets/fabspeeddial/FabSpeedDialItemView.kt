@@ -21,7 +21,6 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import fr.shining_cat.everyday.commons.Constants.Companion.FAST_ANIMATION_DURATION_MILLIS
@@ -83,27 +82,24 @@ class FabSpeedDialItemView @kotlin.jvm.JvmOverloads constructor(
         animationDurationMillis: Long,
         logger: Logger? = null
     ) {
-        setUpUi(
-            fabSpeedDialItem.iconDrawable,
-            fabSpeedDialItem.label
-        )
+        setUpUi(fabSpeedDialItem)
         // layoutWidgetFabSpeedDialItemBinding.root.setOnClickListener(fabSpeedDialItem.clickListener)
         this.halfAnimationDurationMillis = animationDurationMillis
         this.logger = logger
     }
 
-    private fun setUpUi(
-        @DrawableRes iconDrawable: Int,
-        label: String = ""
-    ) {
+    private fun setUpUi(speedDialItem: FabSpeedDialItem) {
         val context = layoutWidgetFabSpeedDialItemBinding.root.context
+
+        layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemIcon.setOnClickListener {speedDialItem.clickListener.onClick(layoutWidgetFabSpeedDialItemBinding.root)}
         layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemIcon.icon = ContextCompat.getDrawable(
             context,
-            iconDrawable
+            speedDialItem.iconDrawable
         )
-        hasLabel = label.isNotBlank()
+        hasLabel = speedDialItem.label.isNotBlank()
         if (hasLabel) {
-            layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.text = label
+            layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.text = speedDialItem.label
+            layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.setOnClickListener {speedDialItem.clickListener.onClick(layoutWidgetFabSpeedDialItemBinding.root)}
             layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.visibility = VISIBLE
         }
         else {

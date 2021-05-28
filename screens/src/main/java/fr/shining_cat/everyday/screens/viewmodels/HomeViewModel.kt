@@ -56,6 +56,7 @@ class HomeViewModel(
     }
 
     private fun loadSessionPresets(resources: Resources) {
+        logger.d(LOG_TAG, "loadSessionPresets")
         mainScope.launch {
             val sessionPresetsResult = ioScope.async {
                 loadSessionPresetUseCase.execute()
