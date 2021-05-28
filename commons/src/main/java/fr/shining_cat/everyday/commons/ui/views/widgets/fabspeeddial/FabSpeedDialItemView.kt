@@ -87,7 +87,7 @@ class FabSpeedDialItemView @kotlin.jvm.JvmOverloads constructor(
             fabSpeedDialItem.iconDrawable,
             fabSpeedDialItem.label
         )
-        layoutWidgetFabSpeedDialItemBinding.root.setOnClickListener(fabSpeedDialItem.clickListener)
+        // layoutWidgetFabSpeedDialItemBinding.root.setOnClickListener(fabSpeedDialItem.clickListener)
         this.halfAnimationDurationMillis = animationDurationMillis
         this.logger = logger
     }

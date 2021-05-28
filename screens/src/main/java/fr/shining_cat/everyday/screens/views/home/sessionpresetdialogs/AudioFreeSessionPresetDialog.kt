@@ -63,14 +63,6 @@ class AudioFreeSessionPresetDialog: AbstractSessionPresetDialog() {
         return audioSessionPresetDialogBinding?.countdownLengthValue
     }
 
-    override fun getDurationZone(): ViewGroup? {
-        return null
-    }
-
-    override fun getDurationValue(): TextView? {
-        return null
-    }
-
     override fun getStartEndSoundZone(): ViewGroup? {
         return audioSessionPresetDialogBinding?.startEndSoundZone
     }

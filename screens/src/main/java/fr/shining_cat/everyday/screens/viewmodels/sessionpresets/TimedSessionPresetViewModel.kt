@@ -104,14 +104,28 @@ class TimedSessionPresetViewModel(
             (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedSessionPreset>).value?.copy(sessionTypeId = inputSessionTypeId)
     }
 
-
     override fun updatePresetIntermediateIntervalRandom(inputIntermediateIntervalRandom: Boolean) {
         _sessionPresetUpdatedLiveData.value =
             (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedSessionPreset>).value?.copy(intermediateIntervalRandom = inputIntermediateIntervalRandom)
     }
 
-    override fun updatePresetDuration(inputDuration: Long) {}
-    override fun updatePresetIntermediateIntervalLength(inputIntermediateIntervalLength: Long) {}
-    override fun updatePresetIntermediateIntervalSoundUriString(inputIntermediateIntervalSoundUriString: String) {}
-    override fun updatePresetIntermediateIntervalSoundName(inputIntermediateIntervalSoundName: String) {}
+    override fun updatePresetDuration(inputDuration: Long) {
+        _sessionPresetUpdatedLiveData.value =
+            (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedSessionPreset>).value?.copy(duration = inputDuration)
+    }
+
+    override fun updatePresetIntermediateIntervalLength(inputIntermediateIntervalLength: Long) {
+        _sessionPresetUpdatedLiveData.value =
+            (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedSessionPreset>).value?.copy(intermediateIntervalLength = inputIntermediateIntervalLength)
+    }
+
+    override fun updatePresetIntermediateIntervalSoundUriString(inputIntermediateIntervalSoundUriString: String) {
+        _sessionPresetUpdatedLiveData.value =
+            (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedSessionPreset>).value?.copy(intermediateIntervalSoundUriString = inputIntermediateIntervalSoundUriString)
+    }
+
+    override fun updatePresetIntermediateIntervalSoundName(inputIntermediateIntervalSoundName: String) {
+        _sessionPresetUpdatedLiveData.value =
+            (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedSessionPreset>).value?.copy(intermediateIntervalSoundName = inputIntermediateIntervalSoundName)
+    }
 }

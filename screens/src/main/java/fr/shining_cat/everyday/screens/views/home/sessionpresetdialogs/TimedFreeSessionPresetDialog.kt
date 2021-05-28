@@ -8,11 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.switchmaterial.SwitchMaterial
 import fr.shining_cat.everyday.commons.Logger
+import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleRingtonePicker
 import fr.shining_cat.everyday.models.SessionPreset
+import fr.shining_cat.everyday.screens.R
 import fr.shining_cat.everyday.screens.databinding.DialogSessionPresetTimedFreeBinding
 import fr.shining_cat.everyday.screens.viewmodels.sessionpresets.AbstractSessionPresetViewModel
 import fr.shining_cat.everyday.screens.viewmodels.sessionpresets.TimedFreeSessionPresetViewModel
@@ -64,14 +67,6 @@ class TimedFreeSessionPresetDialog: AbstractSessionPresetDialog() {
         return timedFreeSessionPresetDialogBinding?.countdownLengthValue
     }
 
-    override fun getDurationZone(): ViewGroup? {
-        return null
-    }
-
-    override fun getDurationValue(): TextView? {
-        return null
-    }
-
     override fun getStartEndSoundZone(): ViewGroup? {
         return timedFreeSessionPresetDialogBinding?.startEndSoundZone
     }
@@ -113,6 +108,8 @@ class TimedFreeSessionPresetDialog: AbstractSessionPresetDialog() {
 
     private fun updateSpecificUi(sessionPreset: SessionPreset) {
         updateRandomIntermediateInterval(sessionPreset.intermediateIntervalRandom)
+        updateIntermediateIntervalLength(sessionPreset)
+        updateIntermediateIntervalSound(sessionPreset)
     }
 
     private fun updateRandomIntermediateInterval(intermediateIntervalRandom: Boolean) {
@@ -124,6 +121,56 @@ class TimedFreeSessionPresetDialog: AbstractSessionPresetDialog() {
         }
         timedFreeSessionPresetDialogBinding?.intervalRandomSwitch?.setOnCheckedChangeListener {_, p1 ->
             getSessionPresetViewModel().updatePresetIntermediateIntervalRandom(p1)
+        }
+    }
+
+    private fun updateIntermediateIntervalLength(sessionPreset: SessionPreset) {
+        if (sessionPreset.intermediateIntervalRandom) {
+            timedFreeSessionPresetDialogBinding?.intervalLengthZone?.alpha = DISABLED_ZONE_ALPHA
+            timedFreeSessionPresetDialogBinding?.intervalLengthValue?.text = getString(R.string.interval_random)
+            timedFreeSessionPresetDialogBinding?.intervalLengthZone?.setOnClickListener {
+                Toast.makeText(
+                    context,
+                    getString(R.string.interval_random_explanation),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+        else {
+            timedFreeSessionPresetDialogBinding?.intervalLengthZone?.alpha = ENABLED_ZONE_ALPHA
+            timedFreeSessionPresetDialogBinding?.intervalLengthValue?.text = formatDurationMsToString(sessionPreset.intermediateIntervalLength)
+            timedFreeSessionPresetDialogBinding?.intervalLengthZone?.setOnClickListener {
+                showBottomIntervalLengthSelector(sessionPreset.intermediateIntervalLength)
+            }
+        }
+    }
+
+    private fun updateIntermediateIntervalSound(sessionPreset: SessionPreset) {
+        if (sessionPreset.intermediateIntervalSoundUriString.isBlank()) {
+            timedFreeSessionPresetDialogBinding?.intervalSoundValue?.text = getString(R.string.generic_string_NONE)
+        }
+        else {
+            timedFreeSessionPresetDialogBinding?.intervalSoundValue?.text = sessionPreset.intermediateIntervalSoundName
+            val ringTonesAssets = context?.resources?.getStringArray(fr.shining_cat.everyday.commons.R.array.ringtonesRawAssetsNames)
+            val ringTonesTitles = context?.resources?.getStringArray(fr.shining_cat.everyday.commons.R.array.ringtonesTitles)
+            timedFreeSessionPresetDialogBinding?.intervalSoundZone?.setOnClickListener {
+                val soundPickerDialog = BottomDialogDismissibleRingtonePicker.newInstance(
+                    title = getString(R.string.interval_sound),
+                    initialSelectionUri = sessionPreset.intermediateIntervalSoundUriString,
+                    confirmButtonLabel = getString(R.string.generic_string_OK),
+                    showSilenceChoice = true,
+                    ringTonesAssetsNames = ringTonesAssets,
+                    ringTonesDisplayNames = ringTonesTitles
+                )
+                soundPickerDialog.setBottomDialogDismissibleRingtonePickerListener {selectedRingtoneUri, selectedRingtoneName ->
+                    getSessionPresetViewModel().updatePresetIntermediateIntervalSoundUriString(selectedRingtoneUri)
+                    getSessionPresetViewModel().updatePresetIntermediateIntervalSoundName(selectedRingtoneName)
+                }
+                soundPickerDialog.show(
+                    childFragmentManager,
+                    "openIntervalSoundPickerDialog"
+                )
+            }
         }
     }
 }

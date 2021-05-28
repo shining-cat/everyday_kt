@@ -18,7 +18,6 @@
 package fr.shining_cat.everyday.screens.views.home.sessionpresetdialogs
 
 import android.app.Dialog
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
@@ -26,11 +25,8 @@ import android.view.ViewGroup
 import android.view.Window.FEATURE_NO_TITLE
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.color.MaterialColors
 import com.google.android.material.switchmaterial.SwitchMaterial
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.extensions.autoFormatDurationMsAsSmallestHhMmSsString
@@ -40,7 +36,6 @@ import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleR
 import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleSpinnersDurationAndConfirm
 import fr.shining_cat.everyday.models.SessionPreset
 import fr.shining_cat.everyday.screens.R
-import fr.shining_cat.everyday.screens.databinding.DialogSessionPresetBinding
 import fr.shining_cat.everyday.screens.viewmodels.sessionpresets.AbstractSessionPresetViewModel
 import org.koin.android.ext.android.get
 
@@ -51,8 +46,8 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
     private val logger: Logger = get()
     private var listener: SessionPresetDialogListener? = null
 
-    private val DISABLED_ZONE_ALPHA = 0.5f
-    private val ENABLED_ZONE_ALPHA = 1f
+    protected val DISABLED_ZONE_ALPHA = 0.5f
+    protected val ENABLED_ZONE_ALPHA = 1f
 
     abstract fun getSessionPresetViewModel(): AbstractSessionPresetViewModel
     abstract fun getTitleField(): TextView?
@@ -63,8 +58,6 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
     abstract fun getVibrationZone(): ViewGroup?
     abstract fun getCountdownZone(): ViewGroup?
     abstract fun getCountdownLengthValue(): TextView?
-    abstract fun getDurationZone(): ViewGroup?
-    abstract fun getDurationValue(): TextView?
     abstract fun getStartEndSoundZone(): ViewGroup?
     abstract fun getStartEndSoundValue(): TextView?
 
@@ -229,7 +222,6 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
             initialLengthMs = sessionPreset.startCountdownLength
         )
         countdownDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener {lengthMs ->
-            getCountdownLengthValue()?.text = formatDurationMsToString(lengthMs)
             getSessionPresetViewModel().updatePresetStartCountdownLength(lengthMs)
         }
         countdownDialog.show(
@@ -238,66 +230,7 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
         )
     }
 
-    protected fun updateDurationZone(sessionPreset: SessionPreset) {
-        val durationValueNormalColor = MaterialColors.getColor(
-            requireContext(),
-            R.attr.colorOnSurface,
-            Color.BLACK
-        )
-        val durationZone = getDurationZone()
-        val durationValue = getDurationValue()
-        if (durationZone == null || durationValue == null) return
-        durationValue.setTextColor(durationValueNormalColor)
-        val isAnAudioSession = sessionPreset is SessionPreset.AudioSessionPreset
-        val audioSessionDurationUnknown = isAnAudioSession && sessionPreset.duration == -1L
-        if (isAnAudioSession) {
-            if (audioSessionDurationUnknown) { // we have an audio file for the session, but could not retrieve its duration through its metadata => we need the user to input it manually
-                durationZone.alpha = ENABLED_ZONE_ALPHA
-                durationValue.text = getString(R.string.unknown_audio_duration_fill_manually)
-                val errorColor = ContextCompat.getColor(
-                    requireContext(),
-                    R.color.red_600
-                )
-                durationValue.setTextColor(errorColor)
-                durationZone.setOnClickListener {
-                    showBottomDurationSelector(0L)
-                }
-            }
-            else { // duration field is filled with duration retrieved from audio file metadata, and interaction is deactivated
-                durationZone.alpha = DISABLED_ZONE_ALPHA
-                durationValue.text = formatDurationMsToString(sessionPreset.duration)
-                durationZone.setOnClickListener {
-                    Toast.makeText(
-                        context,
-                        getString(R.string.session_duration_vs_audio_explanation),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-        }
-        else { // timed session:
-            if (sessionPreset.intermediateIntervalRandom) {//a random interval has been activated: duration is useless so disabled
-                durationZone.alpha = DISABLED_ZONE_ALPHA
-                durationValue.text = getString(R.string.interval_random)
-                durationZone.setOnClickListener {
-                    Toast.makeText(
-                        context,
-                        getString(R.string.session_duration_vs_audio_explanation),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-            else {//duration is pre-filled with input value, or default duration, interaction is active
-                durationZone.alpha = ENABLED_ZONE_ALPHA
-                durationValue.text = formatDurationMsToString(sessionPreset.duration)
-                durationZone.setOnClickListener {
-                    showBottomDurationSelector(sessionPreset.duration)
-                }
-            }
-        }
-    }
-
-    private fun showBottomDurationSelector(initialDuration: Long) {
+    protected fun showBottomDurationSelector(initialDuration: Long) {
         val durationDialog = BottomDialogDismissibleSpinnersDurationAndConfirm.newInstance(
             title = getString(R.string.duration),
             showHours = true,
@@ -308,7 +241,6 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
             initialLengthMs = initialDuration
         )
         durationDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener {lengthMs ->
-            getDurationValue()?.text = formatDurationMsToString(lengthMs)
             getSessionPresetViewModel().updatePresetDuration(lengthMs)
         }
         durationDialog.show(
@@ -317,50 +249,27 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
         )
     }
 
-    //TODO: remove field uiBindings and replace with adequate getter methods for Views
-    protected fun updateIntervalSoundZone(
-        sessionPreset: SessionPreset,
-        uiBindings: DialogSessionPresetBinding
-    ) {
-        if (sessionPreset.intermediateIntervalSoundName.isBlank()) { // this is an audio session
-            uiBindings.intervalSoundZone.alpha = DISABLED_ZONE_ALPHA
-            uiBindings.intervalSoundValue.text = getString(R.string.generic_string_NONE)
-            uiBindings.intervalSoundZone.setOnClickListener {
-                Toast.makeText(
-                    context,
-                    getString(R.string.session_interval_vs_audio_explanation),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+    protected fun showBottomIntervalLengthSelector(initialLength: Long) {
+        val durationDialog = BottomDialogDismissibleSpinnersDurationAndConfirm.newInstance(
+            title = getString(R.string.interval),
+            showHours = true,
+            showMinutes = true,
+            showSeconds = true,
+            explanationMessage = getString(R.string.session_interval_explanation),
+            confirmButtonLabel = getString(R.string.generic_string_OK),
+            initialLengthMs = initialLength
+        )
+        durationDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener {lengthMs ->
+            getSessionPresetViewModel().updatePresetIntermediateIntervalLength(lengthMs)
         }
-        else {
-            uiBindings.intervalSoundZone.alpha = ENABLED_ZONE_ALPHA
-            uiBindings.intervalSoundValue.text = sessionPreset.intermediateIntervalSoundName
-            val ringTonesAssets = context?.resources?.getStringArray(fr.shining_cat.everyday.commons.R.array.ringtonesRawAssetsNames)
-            val ringTonesTitles = context?.resources?.getStringArray(fr.shining_cat.everyday.commons.R.array.ringtonesTitles)
-            uiBindings.intervalSoundZone.setOnClickListener {
-                val soundPickerDialog = BottomDialogDismissibleRingtonePicker.newInstance(
-                    title = getString(R.string.interval_sound),
-                    initialSelectionUri = sessionPreset.intermediateIntervalSoundUriString,
-                    confirmButtonLabel = getString(R.string.generic_string_OK),
-                    showSilenceChoice = true,
-                    ringTonesAssetsNames = ringTonesAssets,
-                    ringTonesDisplayNames = ringTonesTitles
-                )
-                soundPickerDialog.setBottomDialogDismissibleRingtonePickerListener {selectedRingtoneUri, selectedRingtoneName ->
-                    getSessionPresetViewModel().updatePresetIntermediateIntervalSoundUriString(selectedRingtoneUri)
-                    getSessionPresetViewModel().updatePresetIntermediateIntervalSoundName(selectedRingtoneName)
-                }
-                soundPickerDialog.show(
-                    childFragmentManager,
-                    "openIntervalSoundPickerDialog"
-                )
-            }
-        }
+        durationDialog.show(
+            childFragmentManager,
+            "openDurationDialog"
+        )
     }
 
     /////////////////
-    private fun formatDurationMsToString(duration: Long): String {
+    protected fun formatDurationMsToString(duration: Long): String {
         return duration.autoFormatDurationMsAsSmallestHhMmSsString(
             resources.getString(R.string.duration_format_hours_minutes_seconds_short),
             resources.getString(R.string.duration_format_hours_minutes_no_seconds_short),

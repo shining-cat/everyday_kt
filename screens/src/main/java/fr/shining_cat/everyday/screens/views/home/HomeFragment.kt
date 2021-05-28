@@ -214,6 +214,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun openAudioFreeSessionPresetDialog(preset: SessionPreset.AudioFreeSessionPreset? = null) {
+        logger.d(LOG_TAG, "openAudioFreeSessionPresetDialog")
         val action = HomeFragmentDirections.actionNavigationHomeToSessionPresetDialogAudioFree(preset)
         findNavController().navigate(action)
     }

@@ -46,7 +46,9 @@ class AudioSessionPresetViewModel(
         if (presetInput != null) {
             initForEdition(
                 context,
-                presetInput
+                presetInput,
+                deviceDefaultRingtoneUriString,
+                deviceDefaultRingtoneName
             )
         }
         else {
@@ -79,33 +81,44 @@ class AudioSessionPresetViewModel(
 
     private fun initForEdition(
         context: Context,
-        presetInput: SessionPreset
+        presetInput: SessionPreset,
+        deviceDefaultRingtoneUriString: String,
+        deviceDefaultRingtoneName: String
     ) {
         val audioGuideSoundUriString = presetInput.audioGuideSoundUriString // should never be blank at this stage
-        var audioGuideSoundArtistName = presetInput.audioGuideSoundArtistName// if empty, try to retrieve the info from the file metadata
-        var audioGuideSoundAlbumName = presetInput.audioGuideSoundAlbumName// if empty, try to retrieve the info from the file metadata
-        var audioGuideSoundTitle = presetInput.audioGuideSoundTitle// if empty, try to retrieve the info from the file metadata
-        var duration = presetInput.duration// if empty, try to retrieve the info from the file metadata
-        if (audioGuideSoundUriString.isNotBlank() && (audioGuideSoundArtistName.isBlank() || audioGuideSoundAlbumName.isBlank() || audioGuideSoundTitle.isBlank() || duration == -1L)) {
+        if (audioGuideSoundUriString.isNotBlank()) {
             val audioGuideSoundUri = Uri.parse(presetInput.audioGuideSoundUriString)
             val audioFileMetadata = metadataRetrieveUseCase.execute(
                 context,
                 audioGuideSoundUri
             )
-            audioGuideSoundArtistName = audioFileMetadata.artistName
-            audioGuideSoundAlbumName = audioFileMetadata.albumName
-            audioGuideSoundTitle = audioFileMetadata.fileName
-            duration =
-                audioFileMetadata.durationMs // == -1L is duration could not be retrieved, this case will cause a request for a user input duration
+            //if one of these field is empty, try to retrieve it from the file metadata
+            val audioGuideSoundArtistName =
+                if (presetInput.audioGuideSoundArtistName.isBlank()) audioFileMetadata.artistName else presetInput.audioGuideSoundArtistName
+            val audioGuideSoundAlbumName =
+                if (presetInput.audioGuideSoundAlbumName.isBlank()) audioFileMetadata.albumName else presetInput.audioGuideSoundAlbumName
+            val audioGuideSoundTitle =
+                if (presetInput.audioGuideSoundTitle.isBlank()) audioFileMetadata.fileName else presetInput.audioGuideSoundTitle
+            val duration = if (presetInput.duration == -1L) audioFileMetadata.durationMs else presetInput.duration
+            //
+            _sessionPresetUpdatedLiveData.value = (presetInput as SessionPreset.AudioSessionPreset).copy(
+                duration = duration,
+                audioGuideSoundUriString = audioGuideSoundUriString,
+                audioGuideSoundArtistName = audioGuideSoundArtistName,
+                audioGuideSoundAlbumName = audioGuideSoundAlbumName,
+                audioGuideSoundTitle = audioGuideSoundTitle
+            )
         }
-        //
-        _sessionPresetUpdatedLiveData.value = (presetInput as SessionPreset.AudioSessionPreset).copy(
-            duration = duration,
-            audioGuideSoundUriString = audioGuideSoundUriString,
-            audioGuideSoundArtistName = audioGuideSoundArtistName,
-            audioGuideSoundAlbumName = audioGuideSoundAlbumName,
-            audioGuideSoundTitle = audioGuideSoundTitle
-        )
+        else {
+            logger.e(
+                LOG_TAG,
+                "initForEdition::should never get called with an empty audioGuideSoundUriString => creating NEW sessionPreset instead"
+            )
+            initForCreation(
+                deviceDefaultRingtoneUriString,
+                deviceDefaultRingtoneName
+            )
+        }
     }
 
     override fun isSessionPresetValid(): Boolean {

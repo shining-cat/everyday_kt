@@ -40,10 +40,10 @@
     <string name="interval_sound">Interval sound</string>
     <string name="audio_guide">Audio Guide</string>
     <string name="no_session_preset_found">No preset found, create a new one!</string>
-    <string name="session_duration_vs_audio_explanation">for an audio session, duration will be the audio file\'s duration.\nAn audio session can\'t be changed into a timed session.</string>
+    <string name="session_duration_vs_audio_explanation">for an audio session, duration will be the audio file\'s duration.</string>
     <string name="session_interval_vs_audio_explanation">for an audio session, there will be no intermediate interval</string>
     <string name="session_countdown_explanation">Start countdown length</string>
-    <string name="session_interval_explanation">Chose an interval at which a sound will be played</string>
+    <string name="session_interval_explanation">Chose an interval at which a sound will be played, choose 0 for none</string>
 
     <string name="content_description_add_new_preset">Add new session preset button</string>
     <string name="content_description_kiwi_logo">kiwi logo</string>
@@ -59,4 +59,5 @@
     <string name="session_preset_audio_free_explanation">With this preset, chose an audio file for each session</string>
     <string name="session_preset_timed_free_explanation">With this preset start a free timed session with no predefined duration</string>
     <string name="interval_random">Irregular random interval</string>
+    <string name="interval_random_explanation">Uncheck Random Interval to select a fixed interval</string>
 </resources>

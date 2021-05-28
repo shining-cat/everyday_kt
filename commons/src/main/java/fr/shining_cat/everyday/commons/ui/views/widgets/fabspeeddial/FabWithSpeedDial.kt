@@ -91,6 +91,11 @@ class FabWithSpeedDial @kotlin.jvm.JvmOverloads constructor(
                 FAST_ANIMATION_DURATION_MILLIS,
                 logger
             )
+            //interaction
+            speedDialItemView.setOnClickListener {
+                logger?.e(LOG_TAG, "buildSpeedDialItemViews::clicked on speedDial Item ${item.label} detected")
+                item.clickListener.onClick(it)
+            }
             //store
             speedDialItemViews.add(speedDialItemView)
         }

@@ -2,17 +2,23 @@ package fr.shining_cat.everyday.screens.views.home.sessionpresetdialogs
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.DocumentsContract
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.switchmaterial.SwitchMaterial
 import fr.shining_cat.everyday.commons.Constants
 import fr.shining_cat.everyday.commons.Logger
@@ -69,14 +75,6 @@ class AudioSessionPresetDialog: AbstractSessionPresetDialog() {
         return audioSessionPresetDialogBinding?.countdownLengthValue
     }
 
-    override fun getDurationZone(): ViewGroup? {
-        return audioSessionPresetDialogBinding?.durationZone
-    }
-
-    override fun getDurationValue(): TextView? {
-        return audioSessionPresetDialogBinding?.durationValue
-    }
-
     override fun getStartEndSoundZone(): ViewGroup? {
         return audioSessionPresetDialogBinding?.startEndSoundZone
     }
@@ -117,13 +115,9 @@ class AudioSessionPresetDialog: AbstractSessionPresetDialog() {
     }
 
     private fun updateSpecificUi(sessionPreset: SessionPreset) {
-        updateAudioZone(sessionPreset)
-        updateDurationZone(sessionPreset)
-    }
-
-    private fun updateAudioZone(sessionPreset: SessionPreset) {
         if (sessionPreset.audioGuideSoundUriString.isBlank()) {
             audioSessionPresetDialogBinding?.audioGuideValue?.text = getString(R.string.generic_NO_SELECTION)
+            audioSessionPresetDialogBinding?.durationZone?.visibility = GONE
         }
         else {
             audioSessionPresetDialogBinding?.audioGuideValue?.text = getString(
@@ -132,9 +126,47 @@ class AudioSessionPresetDialog: AbstractSessionPresetDialog() {
                 sessionPreset.audioGuideSoundArtistName,
                 sessionPreset.audioGuideSoundAlbumName
             )
+            updateDurationZone(sessionPreset)
         }
         audioSessionPresetDialogBinding?.audioGuideZone?.setOnClickListener {
             openSystemFilePicker(sessionPreset.audioGuideSoundUriString)
+        }
+    }
+
+    private fun updateDurationZone(sessionPreset: SessionPreset) {
+        audioSessionPresetDialogBinding?.durationZone?.visibility = VISIBLE
+        val durationValueNormalColor = MaterialColors.getColor(
+            requireContext(),
+            R.attr.colorOnSurface,
+            Color.BLACK
+        )
+        val durationZone = audioSessionPresetDialogBinding?.durationZone
+        val durationValue = audioSessionPresetDialogBinding?.durationValue
+        if (durationZone == null || durationValue == null) return
+        durationValue.setTextColor(durationValueNormalColor)
+        val audioSessionDurationUnknown = sessionPreset.duration == -1L
+        if (audioSessionDurationUnknown) { // we have an audio file for the session, but could not retrieve its duration through its metadata => we need the user to input it manually
+            durationZone.alpha = ENABLED_ZONE_ALPHA
+            durationValue.text = getString(R.string.unknown_audio_duration_fill_manually)
+            val errorColor = ContextCompat.getColor(
+                requireContext(),
+                R.color.red_600
+            )
+            durationValue.setTextColor(errorColor)
+            durationZone.setOnClickListener {
+                showBottomDurationSelector(0L)
+            }
+        }
+        else { // duration field is filled with duration retrieved from audio file metadata, and interaction is deactivated
+            durationZone.alpha = DISABLED_ZONE_ALPHA
+            durationValue.text = formatDurationMsToString(sessionPreset.duration)
+            durationZone.setOnClickListener {
+                Toast.makeText(
+                    context,
+                    getString(R.string.session_duration_vs_audio_explanation),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 

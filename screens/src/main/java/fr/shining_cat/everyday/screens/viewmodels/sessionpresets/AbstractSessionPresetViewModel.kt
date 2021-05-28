@@ -33,8 +33,7 @@ abstract class AbstractSessionPresetViewModel(
     private val LOG_TAG = AbstractSessionPresetViewModel::class.java.name
 
     protected val _sessionPresetUpdatedLiveData = MutableLiveData<SessionPreset>()
-    val sessionPresetUpdatedLiveData: LiveData<SessionPreset> = _sessionPresetUpdatedLiveData //getChildSessionPresetUpdatedLiveData()
-//    abstract fun getChildSessionPresetUpdatedLiveData(): LiveData<SessionPreset>
+    val sessionPresetUpdatedLiveData: LiveData<SessionPreset> = _sessionPresetUpdatedLiveData
 
     abstract fun isSessionPresetValid(): Boolean
 
