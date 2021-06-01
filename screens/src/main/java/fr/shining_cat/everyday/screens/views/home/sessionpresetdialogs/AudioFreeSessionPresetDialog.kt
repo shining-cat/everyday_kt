@@ -80,6 +80,10 @@ class AudioFreeSessionPresetDialog: AbstractSessionPresetDialog() {
         //
         audioFreeSessionPresetViewModel.sessionPresetUpdatedLiveData.observe(viewLifecycleOwner,
             {updateCommonUi(it)})
+        audioFreeSessionPresetViewModel.successLiveData.observe(viewLifecycleOwner,
+            {dismissOnSuccess()})
+        audioFreeSessionPresetViewModel.errorLiveData.observe(viewLifecycleOwner,
+            {showErrorDialog(it)})
         //
         val deviceDefaultRingtoneUriString = RingtoneManager.getActualDefaultRingtoneUri(
             context,
@@ -98,4 +102,5 @@ class AudioFreeSessionPresetDialog: AbstractSessionPresetDialog() {
         initUi()
         return audioSessionPresetDialogBinding!!.root
     }
+
 }

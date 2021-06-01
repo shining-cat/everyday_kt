@@ -35,8 +35,6 @@ val screensModule = module {
             get(),
             get(),
             get(),
-            get(),
-            get(),
             get()
         )
     }
@@ -62,11 +60,17 @@ val screensModule = module {
         AudioSessionPresetViewModel(
             get(),
             get(),
+            get(),
+            get(),
+            get(),
             get()
         )
     }
     viewModel {
         AudioFreeSessionPresetViewModel(
+            get(),
+            get(),
+            get(),
             get(),
             get()
         )
@@ -74,11 +78,17 @@ val screensModule = module {
     viewModel {
         TimedSessionPresetViewModel(
             get(),
+            get(),
+            get(),
+            get(),
             get()
         )
     }
     viewModel {
         TimedFreeSessionPresetViewModel(
+            get(),
+            get(),
+            get(),
             get(),
             get()
         )

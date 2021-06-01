@@ -54,6 +54,10 @@ class HomeFragment: Fragment() {
 
     private val LOG_TAG = HomeFragment::class.java.name
 
+    companion object {
+        val SESSION_PRESET_DIALOG_RETURN_KEY = "key for the return from a session preset Dialog"
+    }
+
     private val logger: Logger = get()
     private val homeViewModel: HomeViewModel by viewModel()
     private val sessionPresetsAdapter = SessionPresetsAdapter(logger)
@@ -63,6 +67,7 @@ class HomeFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        logger.d(LOG_TAG,"onCreateView")
         val homeFragmentBinding = FragmentHomeBinding.inflate(layoutInflater)
         //
         setupToolbar(homeFragmentBinding)
@@ -73,11 +78,53 @@ class HomeFragment: Fragment() {
         //
         setupObservers(homeFragmentBinding)
         //
-        homeViewModel.initViewModel(resources)
+        homeViewModel.fetchSessionPresets(resources.getString(R.string.no_session_preset_found))
         return homeFragmentBinding.root
     }
 
-    // //////////////////////
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        logger.d(LOG_TAG,"onCreate")
+    }
+
+    override fun onViewCreated(view: View,savedInstanceState: Bundle?) {
+        super.onViewCreated(view,savedInstanceState)
+        logger.d(LOG_TAG,"onViewCreated")
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(SESSION_PRESET_DIALOG_RETURN_KEY)?.observe(
+            viewLifecycleOwner) { result ->
+            if(result){
+                //session preset dialog has updated the DB
+                homeViewModel.fetchSessionPresets(resources.getString(R.string.no_session_preset_found))
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        logger.d(LOG_TAG,"onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        logger.d(LOG_TAG,"onPause")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        logger.d(LOG_TAG,"onStart")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        logger.d(LOG_TAG,"onStop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        logger.d(LOG_TAG,"onDestroy")
+    }
+
+    ////////////////////////
     // OBSERVERS
     private fun setupObservers(homeFragmentBinding: FragmentHomeBinding) {
         homeViewModel.errorLiveData.observe(viewLifecycleOwner,
@@ -88,6 +135,7 @@ class HomeFragment: Fragment() {
                 )
                 showErrorDialog(it)
             })
+        logger.e(LOG_TAG,"homeViewModel= ${homeViewModel}")
         homeViewModel.sessionPresetsLiveData.observe(viewLifecycleOwner,
             {
                 //TODO: pb here, livedata updating in viewmodel does not trigger this observer!
@@ -106,7 +154,7 @@ class HomeFragment: Fragment() {
             })
     }
 
-    // //////////////////////
+    ////////////////////////
     // ERROR DISPLAY
     private fun showErrorDialog(errorMessage: String) {
         val errorDialog = BottomDialogDismissibleErrorMessage.newInstance(
@@ -261,7 +309,8 @@ class HomeFragment: Fragment() {
                 removeItemDecorationAt(0)
             }
             addItemDecoration(SessionPresetItemDecoration(resources.getDimensionPixelSize(R.dimen.three_quarter_margin)))
-            // listener on scroll state to hide/show the FAB, allowing for more legibility of underlying items
+            //TODO: FAB has been heavily modified, build a new way to hide it when scrolling
+            //listener on scroll state to hide/show the FAB, allowing for more legibility of underlying items
             addOnScrollListener(object: RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(
                     recyclerView: RecyclerView,
@@ -273,17 +322,17 @@ class HomeFragment: Fragment() {
                     )
                     when (newState) {
                         SCROLL_STATE_IDLE -> {
-                            showHideAddSessionPresetButton(
-                                homeFragmentBinding,
-                                true
-                            )
+                            // showHideAddSessionPresetButton(
+                            //     homeFragmentBinding,
+                            //     true
+                            // )
                         }
 
                         SCROLL_STATE_DRAGGING -> {
-                            showHideAddSessionPresetButton(
-                                homeFragmentBinding,
-                                false
-                            )
+                            // showHideAddSessionPresetButton(
+                            //     homeFragmentBinding,
+                            //     false
+                            // )
                         }
                     }
                 }
@@ -340,7 +389,7 @@ class HomeFragment: Fragment() {
                         ItemTouchHelper.LEFT -> openEditSessionPresetDialog(swipedPreset)
                         ItemTouchHelper.RIGHT -> homeViewModel.moveSessionPresetToTop(
                             swipedPreset,
-                            resources
+                            resources.getString(R.string.no_session_preset_found)
                         )
                     }
                 }

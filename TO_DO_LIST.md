@@ -17,7 +17,6 @@
 - [x] upgrade LongExtensions duration formatting
 - [x] tests on LongExtensions
 - [x] modification on LongExtensions duration parsing: remove modulo on 24 hours, allow forms like 127h 23mn 07s.update tests, simplify params with identical default values...
-- [ ] tests on HomeViewModel
 - [ ] write about text
 - [ ] add custom rules to detekt to put else, catch, finally on new line => this seems quite heavy work, we may skip this, but the pb is that ktlint rules contradict our own
 - [ ] decide how to handle remaining errors reported by detekt (too many functions in SharedPrefsHelper is ok, too many parameters in method, etc.)
@@ -51,9 +50,14 @@
   - [x] switch FAB action to speed dial behaviour. Options: "add free audio session preset", "add audio session preset", "add timed session preset", "add free timed session preset" => now the sessionpresetdialog will have 2 separate versions for each type
     - [x] create drawables for speed dial items
   - [ ] split session preset dialog into dedicated versions (audio vs timed)
-  - [ ] maybe remove the duration field for audio guided sessions, we will probably rather measure the elapsed time between the start and end of the audio file...
+  - [ ] create corresponding dedicated sessionPresets viewholders
+  - [ ] include implementation AndroidLibraries.lifecycle_viewmodel_ktx and switch every mainScope.launch { ... ioscope.async{...}.await} to viewModelScope.launch{ ...withContext(Dispatchers.IO){..}}, and remove all appDispatchers
+  - [ ] move from livedata used as events to recommended observable objects now available in kotlin
+  - [ ] tests on HomeViewModel
+  - [ ] sessionpresets FAB chips background color is too close to the one of elements behind it, readability is bad
+  - [x] maybe remove the duration field for audio guided sessions, we will probably rather measure the elapsed time between the start and end of the audio file...
   - [x] pb when deleting last preset: icon drawn be swipelistener is still present => find a way to reset canvas!
-  - [ ] find a way to animate hide/show "add session preset" fab when scroll detected, show again on release, for now it only works without animation
+  - [ ] find a way to animate hide/show "add session preset" fab when scroll detected, show again on release
 
 ### launch session
   - [ ] launchSessionUseCase (SessionViewModel) => don't know yet how to do this: need something capable of running in the background whatever happens to process

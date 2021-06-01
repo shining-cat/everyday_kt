@@ -25,6 +25,7 @@ import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_INSERT_
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_NO_RESULT
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_READ_FAILED
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_MESSAGE_UPDATE_FAILED
+import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.locale.dao.RewardDao
 import fr.shining_cat.everyday.locale.entities.RewardEntity
 import fr.shining_cat.everyday.models.reward.Reward
@@ -54,8 +55,11 @@ interface RewardRepository {
 
 class RewardRepositoryImpl(
     private val rewardDao: RewardDao,
-    private val rewardConverter: RewardConverter
+    private val rewardConverter: RewardConverter,
+    private val logger: Logger
 ) : RewardRepository {
+
+    private val LOG_TAG = RewardRepositoryImpl::class.java.name
 
     private fun genericReadError(exception: Exception) = Output.Error(
         ERROR_CODE_DATABASE_OPERATION_FAILED,

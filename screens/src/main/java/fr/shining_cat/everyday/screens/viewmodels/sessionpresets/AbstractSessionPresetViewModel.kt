@@ -23,10 +23,19 @@ import androidx.lifecycle.MutableLiveData
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.viewmodels.AbstractViewModels
 import fr.shining_cat.everyday.commons.viewmodels.AppDispatchers
+import fr.shining_cat.everyday.domain.Result
+import fr.shining_cat.everyday.domain.sessionspresets.CreateSessionPresetUseCase
+import fr.shining_cat.everyday.domain.sessionspresets.DeleteSessionPresetUseCase
+import fr.shining_cat.everyday.domain.sessionspresets.UpdateSessionPresetUseCase
 import fr.shining_cat.everyday.models.SessionPreset
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 abstract class AbstractSessionPresetViewModel(
     appDispatchers: AppDispatchers,
+    private val createSessionPresetUseCase: CreateSessionPresetUseCase,
+    private val updateSessionPresetUseCase: UpdateSessionPresetUseCase,
+    private val deleteSessionPresetUseCase: DeleteSessionPresetUseCase,
     private val logger: Logger
 ) : AbstractViewModels(appDispatchers) {
 
@@ -34,6 +43,12 @@ abstract class AbstractSessionPresetViewModel(
 
     protected val _sessionPresetUpdatedLiveData = MutableLiveData<SessionPreset>()
     val sessionPresetUpdatedLiveData: LiveData<SessionPreset> = _sessionPresetUpdatedLiveData
+
+    private val _successLiveData = MutableLiveData<Boolean>()
+    val successLiveData: LiveData<Boolean> = _successLiveData
+
+    private val _errorLiveData = MutableLiveData<String>()
+    val errorLiveData: LiveData<String> = _errorLiveData
 
     abstract fun isSessionPresetValid(): Boolean
 
@@ -63,4 +78,40 @@ abstract class AbstractSessionPresetViewModel(
     abstract fun updatePresetVibration(inputVibration: Boolean)
 
     abstract fun updatePresetSessionTypeId(inputSessionTypeId: Int)
+
+    fun saveSessionPreset(sessionPreset: SessionPreset) {
+        mainScope.launch {
+            val recordSessionPresetResult = ioScope.async {
+                if (sessionPreset.id == -1L) {
+                    createSessionPresetUseCase.execute(sessionPreset)
+                }
+                else {
+                    updateSessionPresetUseCase.execute(sessionPreset)
+                }
+            }.await()
+            if (recordSessionPresetResult is Result.Success) {
+                _successLiveData.value = true
+            }
+            else {
+                recordSessionPresetResult as Result.Error
+                _errorLiveData.value = recordSessionPresetResult.errorResponse
+            }
+        }
+    }
+
+    fun deleteSessionPreset(sessionPreset: SessionPreset) {
+        mainScope.launch {
+            val deleteSessionPresetResult = ioScope.async {
+                deleteSessionPresetUseCase.execute(sessionPreset)
+            }.await()
+            if (deleteSessionPresetResult is Result.Success) {
+                _successLiveData.value = true
+            }
+            else {
+                deleteSessionPresetResult as Result.Error
+                _errorLiveData.value = deleteSessionPresetResult.errorResponse
+            }
+        }
+    }
+
 }

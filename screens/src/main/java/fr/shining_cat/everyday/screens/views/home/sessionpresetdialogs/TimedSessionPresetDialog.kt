@@ -90,6 +90,10 @@ class TimedSessionPresetDialog: AbstractSessionPresetDialog() {
                 updateCommonUi(it)
                 updateSpecificUi(it)
             })
+        timedSessionPresetViewModel.successLiveData.observe(viewLifecycleOwner,
+            {dismissOnSuccess()})
+        timedSessionPresetViewModel.errorLiveData.observe(viewLifecycleOwner,
+            {showErrorDialog(it)})
         timedSessionPresetViewModel.invalidDurationLiveData.observe(viewLifecycleOwner,
             {
                 val textColor = if (it) {

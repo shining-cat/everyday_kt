@@ -87,6 +87,10 @@ class TimedFreeSessionPresetDialog: AbstractSessionPresetDialog() {
                 updateCommonUi(it)
                 updateSpecificUi(it)
             })
+        timedFreeSessionPresetViewModel.successLiveData.observe(viewLifecycleOwner,
+            {dismissOnSuccess()})
+        timedFreeSessionPresetViewModel.errorLiveData.observe(viewLifecycleOwner,
+            {showErrorDialog(it)})
         //
         val deviceDefaultRingtoneUriString = RingtoneManager.getActualDefaultRingtoneUri(
             context,

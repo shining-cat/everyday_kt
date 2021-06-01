@@ -18,6 +18,7 @@
 package fr.shining_cat.everyday.repository.repo
 
 import fr.shining_cat.everyday.commons.Constants
+import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.locale.dao.SessionPresetDao
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntity
 import fr.shining_cat.everyday.models.SessionPreset
@@ -36,8 +37,11 @@ interface SessionPresetRepository {
 
 class SessionPresetRepositoryImpl(
     private val sessionPresetDao: SessionPresetDao,
-    private val sessionPresetConverter: SessionPresetConverter
+    private val sessionPresetConverter: SessionPresetConverter,
+    private val logger: Logger
 ) : SessionPresetRepository {
+
+    private val LOG_TAG = SessionPresetRepositoryImpl::class.java.name
 
     private fun genericReadError(exception: java.lang.Exception) = Output.Error(
         Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
@@ -55,6 +59,7 @@ class SessionPresetRepositoryImpl(
             if (inserted.size == sessionPresets.size) {
                 Output.Success(inserted)
             } else {
+                logger.e(LOG_TAG, "execute::result is not the right size")
                 Output.Error(
                     Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                     Constants.ERROR_MESSAGE_INSERT_FAILED,
@@ -62,6 +67,7 @@ class SessionPresetRepositoryImpl(
                 )
             }
         } catch (exception: Exception) {
+            logger.e(LOG_TAG, "insert::encountered an exception::${exception.toString()}")
             Output.Error(
                 Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                 Constants.ERROR_MESSAGE_INSERT_FAILED,

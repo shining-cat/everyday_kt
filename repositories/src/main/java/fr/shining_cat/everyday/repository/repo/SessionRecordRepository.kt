@@ -18,6 +18,7 @@
 package fr.shining_cat.everyday.repository.repo
 
 import fr.shining_cat.everyday.commons.Constants
+import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.locale.dao.SessionRecordDao
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntity
 import fr.shining_cat.everyday.models.sessionrecord.SessionRecord
@@ -45,8 +46,11 @@ interface SessionRecordRepository {
 
 class SessionRecordRepositoryImpl(
     private val sessionRecordDao: SessionRecordDao,
-    private val sessionRecordConverter: SessionRecordConverter
+    private val sessionRecordConverter: SessionRecordConverter,
+    private val logger: Logger
 ) : SessionRecordRepository {
+
+    private val LOG_TAG = SessionRecordRepositoryImpl::class.java.name
 
     private fun genericReadError(exception: java.lang.Exception) = Output.Error(
         Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,

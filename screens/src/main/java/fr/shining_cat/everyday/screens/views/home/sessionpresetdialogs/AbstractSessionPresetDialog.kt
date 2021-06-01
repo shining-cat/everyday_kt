@@ -26,6 +26,7 @@ import android.view.Window.FEATURE_NO_TITLE
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.switchmaterial.SwitchMaterial
 import fr.shining_cat.everyday.commons.Logger
@@ -36,19 +37,15 @@ import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleR
 import fr.shining_cat.everyday.commons.ui.views.dialogs.BottomDialogDismissibleSpinnersDurationAndConfirm
 import fr.shining_cat.everyday.models.SessionPreset
 import fr.shining_cat.everyday.screens.R
-import fr.shining_cat.everyday.screens.viewmodels.HomeViewModel
 import fr.shining_cat.everyday.screens.viewmodels.sessionpresets.AbstractSessionPresetViewModel
+import fr.shining_cat.everyday.screens.views.home.HomeFragment
 import org.koin.android.ext.android.get
-import org.koin.android.viewmodel.ext.android.viewModel
 
 abstract class AbstractSessionPresetDialog: DialogFragment() {
 
     private val LOG_TAG = AbstractSessionPresetDialog::class.java.name
 
-    private val homeViewModel: HomeViewModel by viewModel()
-
     private val logger: Logger = get()
-    private var listener: SessionPresetDialogListener? = null
 
     protected val DISABLED_ZONE_ALPHA = 0.5f
     protected val ENABLED_ZONE_ALPHA = 1f
@@ -64,10 +61,6 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
     abstract fun getCountdownLengthValue(): TextView?
     abstract fun getStartEndSoundZone(): ViewGroup?
     abstract fun getStartEndSoundValue(): TextView?
-
-    fun setSessionPresetDialogListener(listener: SessionPresetDialogListener) {
-        this.listener = listener
-    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
@@ -99,7 +92,10 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
     private fun setUpDismissButton() {
         val dismissButton = getDismissButton()
         dismissButton?.setOnClickListener {
-            // listener?.onDismissButtonClicked()
+            findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                HomeFragment.SESSION_PRESET_DIALOG_RETURN_KEY,
+                false
+            )
             dismiss()
         }
     }
@@ -107,17 +103,10 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
     private fun setUpValidateButton() {
         val validateButton = getValidateButton()
         validateButton?.setOnClickListener {
-            logger.d(LOG_TAG, "validateButton::onClick")
             if (getSessionPresetViewModel().isSessionPresetValid()) {
                 val sessionPresetToSave = getSessionPresetViewModel().sessionPresetUpdatedLiveData.value
                 if (sessionPresetToSave != null) {
-                    logger.d(LOG_TAG, "validateButton::onClick::saving preset: ${sessionPresetToSave}")
-                    // listener?.onConfirmButtonClicked(sessionPresetToSave)
-                    homeViewModel.saveSessionPreset(
-                        sessionPresetToSave,
-                        resources
-                    )
-                    dismiss()
+                    getSessionPresetViewModel().saveSessionPreset(sessionPresetToSave)
                 }
                 else {
                     logger.e(
@@ -142,13 +131,10 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
     private fun setUpDeleteButton() {
         val deleteButton = getDeleteButton()
         val sessionPreset = getSessionPresetViewModel().sessionPresetUpdatedLiveData.value
-        // val layoutParams = deleteButton?.layoutParams as ConstraintLayout.LayoutParams
         if (sessionPreset == null || sessionPreset.id == -1L) {
-            // layoutParams.height = 0
             deleteButton?.visibility = GONE
         }
         else {
-            // layoutParams.height = WRAP_CONTENT
             deleteButton?.visibility = VISIBLE
             deleteButton?.setOnClickListener {
                 val confirmDeleteDialog = BottomDialogDismissibleBigButton.newInstance(
@@ -156,13 +142,8 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
                     getString(R.string.generic_string_DELETE)
                 )
                 confirmDeleteDialog.setBottomDialogDismissibleBigButtonListener {
-                    // listener?.onDeletePresetConfirmed(sessionPreset)
-                    homeViewModel.deleteSessionPreset(
-                        sessionPreset,
-                        resources
-                    )
+                    getSessionPresetViewModel().deleteSessionPreset(sessionPreset)
                     confirmDeleteDialog.dismiss()
-                    dismiss()
                 }
                 confirmDeleteDialog.show(
                     childFragmentManager,
@@ -172,8 +153,15 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
         }
     }
 
+    protected fun dismissOnSuccess() {
+        findNavController().previousBackStackEntry?.savedStateHandle?.set(
+            HomeFragment.SESSION_PRESET_DIALOG_RETURN_KEY,
+            true
+        )
+        dismiss()
+    }
     //////////////////////////
-    //  COMMON UI elements update
+    //  COMMON UI elements
 
     protected fun updateCommonUi(sessionPreset: SessionPreset) {
         updateCountDownZone(sessionPreset)
@@ -186,6 +174,19 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
         getStartEndSoundZone()?.setOnClickListener {
             showBottomRingtonePicker(sessionPreset)
         }
+    }
+
+    // //////////////////////
+    // ERROR DISPLAY
+    protected fun showErrorDialog(errorMessage: String) {
+        val errorDialog = BottomDialogDismissibleErrorMessage.newInstance(
+            title = getString(R.string.generic_string_ERROR),
+            message = errorMessage
+        )
+        errorDialog.show(
+            childFragmentManager,
+            "openAboutDialog"
+        )
     }
 
     private fun showBottomRingtonePicker(sessionPreset: SessionPreset) {

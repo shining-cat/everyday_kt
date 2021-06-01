@@ -95,6 +95,10 @@ class AudioSessionPresetDialog: AbstractSessionPresetDialog() {
                 updateCommonUi(it)
                 updateSpecificUi(it)
             })
+        audioSessionPresetViewModel.successLiveData.observe(viewLifecycleOwner,
+            {dismissOnSuccess()})
+        audioSessionPresetViewModel.errorLiveData.observe(viewLifecycleOwner,
+            {showErrorDialog(it)})
         audioSessionPresetViewModel.invalidAudioGuideLiveData.observe(viewLifecycleOwner,
             {
                 val textColor = if (it) {

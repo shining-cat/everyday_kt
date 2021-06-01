@@ -22,13 +22,22 @@ import androidx.lifecycle.MutableLiveData
 import fr.shining_cat.everyday.commons.Constants
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.viewmodels.AppDispatchers
+import fr.shining_cat.everyday.domain.sessionspresets.CreateSessionPresetUseCase
+import fr.shining_cat.everyday.domain.sessionspresets.DeleteSessionPresetUseCase
+import fr.shining_cat.everyday.domain.sessionspresets.UpdateSessionPresetUseCase
 import fr.shining_cat.everyday.models.SessionPreset
 
 class TimedFreeSessionPresetViewModel(
     appDispatchers: AppDispatchers,
+    createSessionPresetUseCase: CreateSessionPresetUseCase,
+    updateSessionPresetUseCase: UpdateSessionPresetUseCase,
+    deleteSessionPresetUseCase: DeleteSessionPresetUseCase,
     private val logger: Logger
 ): AbstractSessionPresetViewModel(
     appDispatchers,
+    createSessionPresetUseCase,
+    updateSessionPresetUseCase,
+    deleteSessionPresetUseCase,
     logger
 ) {
 
