@@ -13,6 +13,7 @@
 - [x] implement detekt plugin
 - [x] missing failing test cases in repositories in repositories, incomplete error output and exception error output
 - [ ] build launch icon from rewards assets, insert as vector adaptive icon (see https://medium.com/androiddevelopers/vectordrawable-adaptive-icons-3fed3d3205b5)
+- [ ] use said icon to build a splashscreen, see: https://medium.com/geekculture/implementing-the-perfect-splash-screen-in-android-295de045a8dc
 - [x] build about dialog
 - [x] upgrade LongExtensions duration formatting
 - [x] tests on LongExtensions
@@ -47,16 +48,17 @@
       - [x] when audio file is selected, if duration is -1L (= could not retrieve) we need user duration selection, maybe set duration to 0s and prevent dialog validation, deactivate toast on duration clicked in this case
   - [x] handle audio session preset: open file picker or smth similar, get the audio file uri and store along in SessionPreset, handle display in homefragment list
   - [x] pb when accessing files with uris. find the way to handle api <29 , api = 29, and api >29 -> ok now for session presets (persisting uri access grant needed to use the intent ACTION_OPEN_DOCUMENT and not ACTION_GET_CONTENT, only for immediate access)     
-  - [x] switch FAB action to speed dial behaviour. Options: "add free audio session preset", "add audio session preset", "add timed session preset", "add free timed session preset" => now the sessionpresetdialog will have 2 separate versions for each type
-    - [x] create drawables for speed dial items
-  - [ ] split session preset dialog into dedicated versions (audio vs timed)
-  - [ ] create corresponding dedicated sessionPresets viewholders
-  - [ ] include implementation AndroidLibraries.lifecycle_viewmodel_ktx and switch every mainScope.launch { ... ioscope.async{...}.await} to viewModelScope.launch{ ...withContext(Dispatchers.IO){..}}, and remove all appDispatchers
-  - [ ] move from livedata used as events to recommended observable objects now available in kotlin
-  - [ ] tests on HomeViewModel
-  - [ ] sessionpresets FAB chips background color is too close to the one of elements behind it, readability is bad
   - [x] maybe remove the duration field for audio guided sessions, we will probably rather measure the elapsed time between the start and end of the audio file...
   - [x] pb when deleting last preset: icon drawn be swipelistener is still present => find a way to reset canvas!
+  - [x] switch FAB action to speed dial behaviour. Options: "add free audio session preset", "add audio session preset", "add timed session preset", "add free timed session preset" => now the sessionpresetdialog will have 2 separate versions for each type
+    - [x] create drawables for speed dial items
+  - [x] split session preset dialog into dedicated versions (audio vs timed)
+  - [ ] create corresponding dedicated sessionPresets viewholders
+  - [ ] bug when "editing" and "canceling" sessionpreset, item is not put back in place in the list
+  - [ ] sessionpresets FAB chips background color is too close to the one of elements behind it, readability is bad, explore solutions as: semi-opaque background on whole screen? morph main FAB into a background for the speeddials? add a border on chips?
+  - [ ] include implementation AndroidLibraries.lifecycle_viewmodel_ktx and switch every mainScope.launch { ... ioscope.async{...}.await} to viewModelScope.launch{ ...withContext(Dispatchers.IO){..}}, and remove all appDispatchers
+  - [ ] move from livedata used as events to recommended observable objects now available in kotlin
+  - [ ] tests on HomeViewModel, AbstractSessionPresetViewModel, AudioFreeSessionPresetViewModel, AudioSessionPresetViewModel, TimedFreeSessionPresetViewModel and TimedSessionPresetViewModel
   - [ ] find a way to animate hide/show "add session preset" fab when scroll detected, show again on release
 
 ### launch session

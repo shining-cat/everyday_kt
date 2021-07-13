@@ -21,10 +21,10 @@ import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.extensions.autoFormatDurationMsAsSmallestHhMmSsString
 import fr.shining_cat.everyday.models.SessionPreset
 import fr.shining_cat.everyday.screens.R
-import fr.shining_cat.everyday.screens.databinding.ItemAudioSessionPresetViewHolderBinding
+import fr.shining_cat.everyday.screens.databinding.ItemAudioFreeSessionPresetViewHolderBinding
 
 class AudioFreeSessionPresetViewHolder(
-    private val itemAudioSessionPresetViewHolderBinding: ItemAudioSessionPresetViewHolderBinding,
+    private val itemAudioSessionPresetViewHolderBinding: ItemAudioFreeSessionPresetViewHolderBinding,
     private val logger: Logger
 ) : AbstractSessionPresetViewHolder(
     itemAudioSessionPresetViewHolderBinding.root,

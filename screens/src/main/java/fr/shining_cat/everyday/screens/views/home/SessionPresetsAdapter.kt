@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.models.SessionPreset
+import fr.shining_cat.everyday.screens.databinding.ItemAudioFreeSessionPresetViewHolderBinding
 import fr.shining_cat.everyday.screens.databinding.ItemAudioSessionPresetViewHolderBinding
+import fr.shining_cat.everyday.screens.databinding.ItemTimedFreeSessionPresetViewHolderBinding
 import fr.shining_cat.everyday.screens.databinding.ItemTimedSessionPresetViewHolderBinding
 import fr.shining_cat.everyday.screens.databinding.ItemUnknownSessionPresetViewHolderBinding
 import fr.shining_cat.everyday.screens.views.home.sessionpresetviewholders.AbstractSessionPresetViewHolder
@@ -15,7 +17,6 @@ import fr.shining_cat.everyday.screens.views.home.sessionpresetviewholders.Audio
 import fr.shining_cat.everyday.screens.views.home.sessionpresetviewholders.TimedFreeSessionPresetViewHolder
 import fr.shining_cat.everyday.screens.views.home.sessionpresetviewholders.TimedSessionPresetViewHolder
 import fr.shining_cat.everyday.screens.views.home.sessionpresetviewholders.UnknownSessionPresetViewHolder
-import java.security.InvalidParameterException
 
 class SessionPresetsAdapter(
     private val logger: Logger
@@ -68,7 +69,7 @@ class SessionPresetsAdapter(
             }
             SessionPresetViewType.TIMED_FREE_SESSION.value -> {
                 TimedFreeSessionPresetViewHolder(
-                    ItemTimedSessionPresetViewHolderBinding.inflate(
+                    ItemTimedFreeSessionPresetViewHolderBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
                         false
@@ -78,7 +79,7 @@ class SessionPresetsAdapter(
             }
             SessionPresetViewType.AUDIO_FREE_SESSION.value -> {
                 AudioFreeSessionPresetViewHolder(
-                    ItemAudioSessionPresetViewHolderBinding.inflate(
+                    ItemAudioFreeSessionPresetViewHolderBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
                         false

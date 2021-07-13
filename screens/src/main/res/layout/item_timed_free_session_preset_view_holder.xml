@@ -29,7 +29,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/timed_session_preset_item_title"
+            android:id="@+id/timed_free_session_preset_item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/single_and_half_margin"
@@ -37,92 +37,44 @@
             android:textColor="?attr/colorOnSurface"
             android:textSize="@dimen/title_level_2_text_size"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/timed_session_duration_label"
+            app:layout_constraintBottom_toTopOf="@id/timed_free_session_interval_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/timed_session_duration_label"
+            android:id="@+id/timed_free_session_interval_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="0dp"
             android:layout_marginTop="@dimen/single_margin"
             android:layout_marginEnd="@dimen/quarter_margin"
             android:layout_marginBottom="@dimen/single_and_half_margin"
-            android:ellipsize="end"
-            android:text="@string/duration"
-            android:textAlignment="center"
-            android:textColor="?attr/colorOnSurface"
-            android:textSize="@dimen/normal_text_size"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/timed_session_duration_value"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/timed_session_preset_item_title" />
-
-        <TextView
-            android:id="@+id/timed_session_duration_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/quarter_margin"
-            android:layout_marginTop="@dimen/single_margin"
-            android:layout_marginEnd="0dp"
-            android:ellipsize="end"
-            android:textAlignment="center"
-            android:textColor="?attr/colorOnSurface"
-            android:textSize="@dimen/normal_text_size"
-            app:layout_constraintBottom_toBottomOf="@id/timed_session_duration_label"
-            app:layout_constraintEnd_toStartOf="@id/guideline_middle"
-            app:layout_constraintStart_toEndOf="@id/timed_session_duration_label"
-            app:layout_constraintTop_toBottomOf="@id/timed_session_preset_item_title"
-            tools:text="15mn 30s" />
-
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_middle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintGuide_percent="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/timed_session_interval_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="@dimen/single_margin"
-            android:layout_marginEnd="@dimen/quarter_margin"
             android:ellipsize="end"
             android:text="@string/interval"
             android:textAlignment="center"
             android:textColor="?attr/colorOnSurface"
             android:textSize="@dimen/normal_text_size"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/timed_session_duration_label"
-            app:layout_constraintEnd_toStartOf="@id/timed_session_interval_value"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/timed_free_session_interval_value"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toEndOf="@id/guideline_middle"
-            app:layout_constraintTop_toBottomOf="@id/timed_session_preset_item_title" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/timed_free_session_preset_item_title" />
 
         <TextView
-            android:id="@+id/timed_session_interval_value"
+            android:id="@+id/timed_free_session_interval_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/quarter_margin"
             android:layout_marginTop="@dimen/single_margin"
-            android:layout_marginEnd="0dp"
             android:ellipsize="end"
             android:textAlignment="center"
             android:textColor="?attr/colorOnSurface"
             android:textSize="@dimen/normal_text_size"
-            app:layout_constraintBottom_toBottomOf="@id/timed_session_duration_label"
+            app:layout_constraintBottom_toBottomOf="@id/timed_free_session_interval_label"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/timed_session_interval_label"
-            app:layout_constraintTop_toBottomOf="@id/timed_session_preset_item_title"
+            app:layout_constraintStart_toEndOf="@id/timed_free_session_interval_label"
+            app:layout_constraintTop_toBottomOf="@id/timed_free_session_preset_item_title"
             tools:text="30s" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
