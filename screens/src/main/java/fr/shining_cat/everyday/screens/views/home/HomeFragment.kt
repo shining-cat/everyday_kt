@@ -97,6 +97,10 @@ class HomeFragment : Fragment() {
                 // session preset dialog has updated the DB
                 homeViewModel.fetchSessionPresets(resources.getString(R.string.no_session_preset_found))
             }
+            else {
+                //edition was cancelled, force redraw to make swiped item reappears
+                sessionPresetsAdapter.notifyDataSetChanged()
+            }
         }
     }
 
@@ -142,7 +146,6 @@ class HomeFragment : Fragment() {
         homeViewModel.sessionPresetsLiveData.observe(
             viewLifecycleOwner,
             {
-                // TODO: pb here, livedata updating in viewmodel does not trigger this observer!
                 logger.d(
                     LOG_TAG,
                     "homeViewModel.sessionPresetsLiveData::${it.size}"
