@@ -80,34 +80,44 @@ class FabSpeedDialItemView @kotlin.jvm.JvmOverloads constructor(
     fun setup(
         fabSpeedDialItem: FabSpeedDialItem,
         animationDurationMillis: Long,
+        fabActionOnItemClick: (() -> Unit)? = null,
         logger: Logger? = null
     ) {
-        setUpUi(fabSpeedDialItem)
-        // layoutWidgetFabSpeedDialItemBinding.root.setOnClickListener(fabSpeedDialItem.clickListener)
+        setUpUi(fabSpeedDialItem, fabActionOnItemClick)
         this.halfAnimationDurationMillis = animationDurationMillis
         this.logger = logger
     }
 
-    private fun setUpUi(speedDialItem: FabSpeedDialItem) {
+    private fun setUpUi(speedDialItem: FabSpeedDialItem, fabActionOnItemClick: (() -> Unit)?) {
         val context = layoutWidgetFabSpeedDialItemBinding.root.context
-
+        //root
+        layoutWidgetFabSpeedDialItemBinding.root.setOnClickListener {
+            fabActionOnItemClick?.invoke()
+            speedDialItem.actionOnClick()
+        }
+        //icon
         layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemIcon.setOnClickListener {
-            speedDialItem.clickListener.onClick(layoutWidgetFabSpeedDialItemBinding.root)
+            fabActionOnItemClick?.invoke()
+            speedDialItem.actionOnClick()
         }
         layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemIcon.icon = ContextCompat.getDrawable(
             context,
             speedDialItem.iconDrawable
         )
+        //label
         hasLabel = speedDialItem.label.isNotBlank()
         if (hasLabel) {
             layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.text = speedDialItem.label
             layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.setOnClickListener {
-                speedDialItem.clickListener.onClick(layoutWidgetFabSpeedDialItemBinding.root)
+                fabActionOnItemClick?.invoke()
+                speedDialItem.actionOnClick()
             }
             layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.visibility = VISIBLE
-        } else {
+        }
+        else {
             layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.visibility = GONE
         }
+        //
         layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemIcon.alpha = 0f
         layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.alpha = 0f
     }
@@ -141,7 +151,8 @@ class FabSpeedDialItemView @kotlin.jvm.JvmOverloads constructor(
                                 if (!isDisappearing) listenerAppearListener?.onAppearComplete()
                             }
                         ).start()
-                    } else {
+                    }
+                    else {
                         isAppearing = false
                         if (!isDisappearing) listenerAppearListener?.onAppearComplete()
                     }
@@ -177,7 +188,8 @@ class FabSpeedDialItemView @kotlin.jvm.JvmOverloads constructor(
                                 if (!isAppearing) listenerDisappear?.onDisappearComplete()
                             }
                         ).start()
-                    } else {
+                    }
+                    else {
                         isDisappearing = false
                         if (!isAppearing) listenerDisappear?.onDisappearComplete()
                     }

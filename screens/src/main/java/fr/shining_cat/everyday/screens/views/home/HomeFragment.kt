@@ -89,13 +89,16 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        logger.d(LOG_TAG, "onViewCreated")
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(SESSION_PRESET_DIALOG_RETURN_KEY)?.observe(
             viewLifecycleOwner
         ) { result ->
             if (result) {
                 // session preset dialog has updated the DB
                 homeViewModel.fetchSessionPresets(resources.getString(R.string.no_session_preset_found))
+            }
+            else {
+                //edition was cancelled, force redraw to make swiped item reappears
+                sessionPresetsAdapter.notifyDataSetChanged()
             }
         }
     }
@@ -142,7 +145,6 @@ class HomeFragment : Fragment() {
         homeViewModel.sessionPresetsLiveData.observe(
             viewLifecycleOwner,
             {
-                // TODO: pb here, livedata updating in viewmodel does not trigger this observer!
                 logger.d(
                     LOG_TAG,
                     "homeViewModel.sessionPresetsLiveData::${it.size}"
@@ -150,7 +152,8 @@ class HomeFragment : Fragment() {
                 if (it.isEmpty()) {
                     homeFragmentBinding.emptyListMessage.visibility = VISIBLE
                     sessionPresetsAdapter.submitList(it)
-                } else {
+                }
+                else {
                     homeFragmentBinding.emptyListMessage.visibility = GONE
                     sessionPresetsAdapter.submitList(it)
                 }
@@ -389,7 +392,8 @@ class HomeFragment : Fragment() {
                         LOG_TAG,
                         "onSwiped:: could not retrieve SessionPreset for position $position"
                     )
-                } else {
+                }
+                else {
                     when (direction) {
                         ItemTouchHelper.LEFT -> openEditSessionPresetDialog(swipedPreset)
                         ItemTouchHelper.RIGHT -> homeViewModel.moveSessionPresetToTop(
@@ -408,7 +412,8 @@ class HomeFragment : Fragment() {
     ) {
         if (showIt) {
             homeFragmentBinding.addSessionPresetFabSpeedDial.appear()
-        } else {
+        }
+        else {
             homeFragmentBinding.addSessionPresetFabSpeedDial.disappear()
         }
     }

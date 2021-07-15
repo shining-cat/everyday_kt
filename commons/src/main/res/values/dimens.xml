@@ -2,6 +2,7 @@
 <resources>
 
     <dimen name="standard_toolbar_height">56dp</dimen>
+    <dimen name="standard_bottom_nav_bar_height">56dp</dimen>
     <dimen name="toolbar_standard_title_size">18sp</dimen>
 
     <!-- FAB -->
