@@ -23,6 +23,7 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import fr.shining_cat.everyday.commons.Constants.Companion.FAST_ANIMATION_DURATION_MILLIS
@@ -59,6 +60,10 @@ class FabWithSpeedDial @kotlin.jvm.JvmOverloads constructor(
     private var logger: Logger? = null
 
     init {
+        //set a "click outside" collapse
+        layoutWidgetFabSpeedDialBinding.root.setOnClickListener {
+            if (isExpandingOrExpanded) collapse()
+        }
         // set fab initial icon
         layoutWidgetFabSpeedDialBinding.fab.icon = ContextCompat.getDrawable(
             context,
@@ -229,6 +234,14 @@ class FabWithSpeedDial @kotlin.jvm.JvmOverloads constructor(
             R.drawable.animated_plus
         )
         animateFab()
+        //expand container to whole parent to capture touch events for the "click-outside" collapse
+        val layoutParams = layoutWidgetFabSpeedDialBinding.fabContainer.layoutParams
+        val bottomNavBarHeight = resources.getDimensionPixelSize(R.dimen.standard_bottom_nav_bar_height)
+        val topToolBarHeight = resources.getDimensionPixelSize(R.dimen.standard_toolbar_height)
+        val fabBottomMargin = resources.getDimensionPixelSize(R.dimen.fab_right_padding)
+        layoutParams.height = resources.displayMetrics.heightPixels - topToolBarHeight - bottomNavBarHeight - fabBottomMargin
+        layoutParams.width = resources.displayMetrics.widthPixels
+        layoutWidgetFabSpeedDialBinding.fabContainer.layoutParams = layoutParams
     }
 
     private fun launchAppearingCascade() {
@@ -253,6 +266,11 @@ class FabWithSpeedDial @kotlin.jvm.JvmOverloads constructor(
 
     private fun collapse() {
         isExpandingOrExpanded = false
+        //retract container
+        val layoutParams = layoutWidgetFabSpeedDialBinding.fabContainer.layoutParams
+        layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+        layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+        layoutWidgetFabSpeedDialBinding.fabContainer.layoutParams = layoutParams
         // the first item that should disappear is the top-most one
         if (speedDialVisibleItemViews.isNotEmpty()) {
             horizontalTranslationEffect(
