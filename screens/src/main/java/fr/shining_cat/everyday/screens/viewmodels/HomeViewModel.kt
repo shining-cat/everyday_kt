@@ -19,6 +19,7 @@ package fr.shining_cat.everyday.screens.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_CODE_NO_RESULT
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.viewmodels.AbstractViewModels
@@ -27,8 +28,10 @@ import fr.shining_cat.everyday.domain.Result
 import fr.shining_cat.everyday.domain.sessionspresets.LoadSessionPresetsUseCase
 import fr.shining_cat.everyday.domain.sessionspresets.UpdateSessionPresetUseCase
 import fr.shining_cat.everyday.models.SessionPreset
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomeViewModel(
     appDispatchers: AppDispatchers,
@@ -50,10 +53,10 @@ class HomeViewModel(
     }
 
     private fun loadSessionPresets(nothingFoundMessage: String) {
-        mainScope.launch {
-            val sessionPresetsResult = ioScope.async {
+        viewModelScope.launch {
+            val sessionPresetsResult = withContext(Dispatchers.IO) {
                 loadSessionPresetsUseCase.execute()
-            }.await()
+            }
             if (sessionPresetsResult is Result.Success) {
                 val sessionsList = sessionPresetsResult.result
                 logger.d(
@@ -107,10 +110,10 @@ class HomeViewModel(
         sessionPreset: SessionPreset,
         nothingFoundMessage: String
     ) {
-        mainScope.launch {
-            val recordSessionPresetResult = ioScope.async {
+        viewModelScope.launch {
+            val recordSessionPresetResult = withContext(Dispatchers.IO) {
                 updateSessionPresetUseCase.execute(sessionPreset)
-            }.await()
+            }
             if (recordSessionPresetResult is Result.Success) {
                 // reload complete session presets list, will trigger list update on UI side
                 loadSessionPresets(nothingFoundMessage)

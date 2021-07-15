@@ -20,6 +20,7 @@ package fr.shining_cat.everyday.screens.viewmodels.sessionpresets
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.viewmodels.AbstractViewModels
 import fr.shining_cat.everyday.commons.viewmodels.AppDispatchers
@@ -28,8 +29,10 @@ import fr.shining_cat.everyday.domain.sessionspresets.CreateSessionPresetUseCase
 import fr.shining_cat.everyday.domain.sessionspresets.DeleteSessionPresetUseCase
 import fr.shining_cat.everyday.domain.sessionspresets.UpdateSessionPresetUseCase
 import fr.shining_cat.everyday.models.SessionPreset
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 abstract class AbstractSessionPresetViewModel(
     appDispatchers: AppDispatchers,
@@ -80,14 +83,14 @@ abstract class AbstractSessionPresetViewModel(
     abstract fun updatePresetSessionTypeId(inputSessionTypeId: Int)
 
     fun saveSessionPreset(sessionPreset: SessionPreset) {
-        mainScope.launch {
-            val recordSessionPresetResult = ioScope.async {
+        viewModelScope.launch {
+            val recordSessionPresetResult = withContext(Dispatchers.IO){
                 if (sessionPreset.id == -1L) {
                     createSessionPresetUseCase.execute(sessionPreset)
                 } else {
                     updateSessionPresetUseCase.execute(sessionPreset)
                 }
-            }.await()
+            }
             if (recordSessionPresetResult is Result.Success) {
                 _successLiveData.value = true
             } else {
@@ -98,10 +101,10 @@ abstract class AbstractSessionPresetViewModel(
     }
 
     fun deleteSessionPreset(sessionPreset: SessionPreset) {
-        mainScope.launch {
-            val deleteSessionPresetResult = ioScope.async {
+        viewModelScope.launch {
+            val deleteSessionPresetResult =  withContext(Dispatchers.IO){
                 deleteSessionPresetUseCase.execute(sessionPreset)
-            }.await()
+            }
             if (deleteSessionPresetResult is Result.Success) {
                 _successLiveData.value = true
             } else {

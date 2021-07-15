@@ -12,12 +12,12 @@
 - [x] find a cleaner way to handle duration in BottomDialogDismissibleSpinnersDurationAndConfirm
 - [x] implement detekt plugin
 - [x] missing failing test cases in repositories in repositories, incomplete error output and exception error output
-- [ ] build launch icon from rewards assets, insert as vector adaptive icon (see https://medium.com/androiddevelopers/vectordrawable-adaptive-icons-3fed3d3205b5)
-- [ ] use said icon to build a splashscreen, see: https://medium.com/geekculture/implementing-the-perfect-splash-screen-in-android-295de045a8dc
 - [x] build about dialog
 - [x] upgrade LongExtensions duration formatting
 - [x] tests on LongExtensions
 - [x] modification on LongExtensions duration parsing: remove modulo on 24 hours, allow forms like 127h 23mn 07s.update tests, simplify params with identical default values...
+- [ ] use said icon to build a splashscreen, see: https://medium.com/geekculture/implementing-the-perfect-splash-screen-in-android-295de045a8dc 
+- [ ] build launch icon from rewards assets, insert as vector adaptive icon (see https://medium.com/androiddevelopers/vectordrawable-adaptive-icons-3fed3d3205b5)
 - [ ] write about text
 - [ ] add custom rules to detekt to put else, catch, finally on new line => this seems quite heavy work, we may skip this, but the pb is that ktlint rules contradict our own
 - [ ] decide how to handle remaining errors reported by detekt (too many functions in SharedPrefsHelper is ok, too many parameters in method, etc.)
@@ -57,9 +57,9 @@
   - [x] bug when "editing" and "canceling" sessionpreset, item is not put back in place in the list
   - [x] auto-close fab speed dial when session preset has been created (or maybe even when simply opening the dialog)
   - [x] sessionpresets FAB chips background color is too close to the one of elements behind it, readability is bad, explore solutions as: semi-opaque background on whole screen? morph main FAB into a background for the speeddials? add a border on chips?
-  - [ ] include implementation AndroidLibraries.lifecycle_viewmodel_ktx and switch every mainScope.launch { ... ioscope.async{...}.await} to viewModelScope.launch{ ...withContext(Dispatchers.IO){..}}, and remove all appDispatchers
-  - [ ] move from livedata used as events to recommended observable objects now available in kotlin
+  - [x] include implementation AndroidLibraries.lifecycle_viewmodel_ktx and switch every mainScope.launch { ... ioscope.async{...}.await} to viewModelScope.launch{ ...withContext(Dispatchers.IO){..}}, and remove all appDispatchers
   - [ ] tests on HomeViewModel, AbstractSessionPresetViewModel, AudioFreeSessionPresetViewModel, AudioSessionPresetViewModel, TimedFreeSessionPresetViewModel and TimedSessionPresetViewModel
+  - [ ] move from livedata used as events to recommended observable objects now available in kotlin
   - [ ] find a way to animate hide/show "add session preset" fab when scroll detected, show again on release
   - [ ] add language setting to allow change without following the OS language
 

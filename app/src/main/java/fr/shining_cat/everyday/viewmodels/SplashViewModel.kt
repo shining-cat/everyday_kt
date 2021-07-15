@@ -21,15 +21,18 @@ import android.content.Context
 import android.media.RingtoneManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import fr.shining_cat.everyday.commons.Constants
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.viewmodels.AbstractViewModels
 import fr.shining_cat.everyday.commons.viewmodels.AppDispatchers
 import fr.shining_cat.everyday.domain.InitDefaultPrefsValuesUseCase
 import fr.shining_cat.everyday.navigation.Destination
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SplashViewModel(
     appDispatchers: AppDispatchers,
@@ -47,17 +50,17 @@ class SplashViewModel(
             LOG_TAG,
             "loadConfInit"
         )
-        mainScope.launch {
+        viewModelScope.launch {
             // Add a minimum delay for the splash screen duration to
             // avoid a brutal transition
             logger.d(
                 LOG_TAG,
                 "loadConfInit:delayDeferred..."
             )
-            val delayDeferred = ioScope.async {
+            val delayDeferred = async {
                 delay(Constants.SPLASH_MIN_DURATION_MILLIS)
             }
-            ioScope.async {
+            withContext(Dispatchers.IO) {
                 val deviceDefaultRingtoneUri = RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_NOTIFICATION)
                 val deviceDefaultRingtoneTitle = RingtoneManager.getRingtone(context, deviceDefaultRingtoneUri).getTitle(context)
                 initDefaultPrefsValuesUseCase.execute(context, deviceDefaultRingtoneUri, deviceDefaultRingtoneTitle)

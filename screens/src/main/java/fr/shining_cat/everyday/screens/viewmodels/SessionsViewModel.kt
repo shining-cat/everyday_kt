@@ -19,6 +19,7 @@ package fr.shining_cat.everyday.screens.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.viewmodels.AbstractViewModels
 import fr.shining_cat.everyday.commons.viewmodels.AppDispatchers
@@ -39,7 +40,7 @@ class SessionsViewModel(
             LOG_TAG,
             "initViewModel"
         )
-        mainScope.launch {
+        viewModelScope.launch {
             _initReadyLiveData.value = LOG_TAG
         }
     }
