@@ -10,6 +10,8 @@ class InitDefaultPrefsValuesUseCase(
     private val logger: Logger
 ) {
 
+    private val LOG_TAG = InitDefaultPrefsValuesUseCase::class.java.name
+
     suspend fun execute(context: Context, deviceDefaultRingtoneUri: Uri, deviceDefaultRingtoneTitle: String) {
         checkNotificationTextInit(context)
         checkNotificationSoundDefaultUriSet(deviceDefaultRingtoneUri)
