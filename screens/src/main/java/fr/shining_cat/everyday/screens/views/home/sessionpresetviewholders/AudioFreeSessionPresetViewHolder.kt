@@ -18,9 +18,7 @@
 package fr.shining_cat.everyday.screens.views.home.sessionpresetviewholders
 
 import fr.shining_cat.everyday.commons.Logger
-import fr.shining_cat.everyday.commons.extensions.autoFormatDurationMsAsSmallestHhMmSsString
 import fr.shining_cat.everyday.models.SessionPreset
-import fr.shining_cat.everyday.screens.R
 import fr.shining_cat.everyday.screens.databinding.ItemAudioFreeSessionPresetViewHolderBinding
 
 class AudioFreeSessionPresetViewHolder(
@@ -34,6 +32,6 @@ class AudioFreeSessionPresetViewHolder(
     private val LOG_TAG = AudioFreeSessionPresetViewHolder::class.java.name
 
     override fun bindView(sessionPreset: SessionPreset) {
-        //we have nothing to bind here yet
+        // we have nothing to bind here yet
     }
 }

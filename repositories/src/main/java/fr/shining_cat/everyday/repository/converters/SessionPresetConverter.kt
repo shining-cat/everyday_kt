@@ -61,8 +61,7 @@ class SessionPresetConverter(
                 lastEditTime = sessionPreset.lastEditTime,
                 sessionPresetType = sessionPresetType
             )
-        }
-        else {
+        } else {
             SessionPresetEntity(
                 id = sessionPreset.id,
                 startCountdownLength = sessionPreset.startCountdownLength,

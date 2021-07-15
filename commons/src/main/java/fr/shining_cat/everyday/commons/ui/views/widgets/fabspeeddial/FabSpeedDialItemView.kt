@@ -32,7 +32,7 @@ class FabSpeedDialItemView @kotlin.jvm.JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
-): ConstraintLayout(
+) : ConstraintLayout(
     context,
     attrs,
     defStyle
@@ -65,10 +65,10 @@ class FabSpeedDialItemView @kotlin.jvm.JvmOverloads constructor(
     private var hasLabel = false
     private var currentAnimation: ObjectAnimator? = null
 
-    //this is used to prevent the dispatch of disappear animation end to listener when it is canceled while running by a call to appear()
+    // this is used to prevent the dispatch of disappear animation end to listener when it is canceled while running by a call to appear()
     private var isAppearing = false
 
-    //this is used to prevent the dispatch of appear animation end to listener when it is canceled while running by a call to disappear()
+    // this is used to prevent the dispatch of appear animation end to listener when it is canceled while running by a call to disappear()
     private var isDisappearing = false
 
     private val layoutWidgetFabSpeedDialItemBinding: LayoutWidgetFabSpeedDialItemBinding = LayoutWidgetFabSpeedDialItemBinding.inflate(
@@ -91,7 +91,9 @@ class FabSpeedDialItemView @kotlin.jvm.JvmOverloads constructor(
     private fun setUpUi(speedDialItem: FabSpeedDialItem) {
         val context = layoutWidgetFabSpeedDialItemBinding.root.context
 
-        layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemIcon.setOnClickListener {speedDialItem.clickListener.onClick(layoutWidgetFabSpeedDialItemBinding.root)}
+        layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemIcon.setOnClickListener {
+            speedDialItem.clickListener.onClick(layoutWidgetFabSpeedDialItemBinding.root)
+        }
         layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemIcon.icon = ContextCompat.getDrawable(
             context,
             speedDialItem.iconDrawable
@@ -99,10 +101,11 @@ class FabSpeedDialItemView @kotlin.jvm.JvmOverloads constructor(
         hasLabel = speedDialItem.label.isNotBlank()
         if (hasLabel) {
             layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.text = speedDialItem.label
-            layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.setOnClickListener {speedDialItem.clickListener.onClick(layoutWidgetFabSpeedDialItemBinding.root)}
+            layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.setOnClickListener {
+                speedDialItem.clickListener.onClick(layoutWidgetFabSpeedDialItemBinding.root)
+            }
             layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.visibility = VISIBLE
-        }
-        else {
+        } else {
             layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.visibility = GONE
         }
         layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemIcon.alpha = 0f
@@ -110,71 +113,77 @@ class FabSpeedDialItemView @kotlin.jvm.JvmOverloads constructor(
     }
 
     fun appear() {
-        //prevent cumulative call, if called again while running, do not accept new call, just let previous one complete normally
+        // prevent cumulative call, if called again while running, do not accept new call, just let previous one complete normally
         if (isAppearing) return
-        //this is used to prevent the dispatch of disappear animation end to listener when it is canceled below
+        // this is used to prevent the dispatch of disappear animation end to listener when it is canceled below
         isAppearing = true
-        //now if an animation is already running, it can only be disappear(), so we cancel it because this new call takes precedence
+        // now if an animation is already running, it can only be disappear(), so we cancel it because this new call takes precedence
         if (currentAnimation?.isRunning == true) currentAnimation?.cancel()
-        //start by hiding item to allow for appear animation
+        // start by hiding item to allow for appear animation
         layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemIcon.alpha = 0f
         layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.alpha = 0f
-        //build appear animation
+        // build appear animation
         currentAnimation =
-            layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemIcon.animateAlpha(fromAlpha = layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemIcon.alpha,
+            layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemIcon.animateAlpha(
+                fromAlpha = layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemIcon.alpha,
                 toAlpha = 1f,
                 duration = halfAnimationDurationMillis,
                 onStart = null,
                 onEnd = {
                     if (hasLabel) {
-                        layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.animateAlpha(fromAlpha = layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.alpha,
+                        layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.animateAlpha(
+                            fromAlpha = layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.alpha,
                             toAlpha = 1f,
                             duration = halfAnimationDurationMillis,
                             onStart = null,
                             onEnd = {
                                 isAppearing = false
                                 if (!isDisappearing) listenerAppearListener?.onAppearComplete()
-                            }).start()
-                    }
-                    else {
+                            }
+                        ).start()
+                    } else {
                         isAppearing = false
                         if (!isDisappearing) listenerAppearListener?.onAppearComplete()
                     }
-                })
-        //launch appear animation
+                }
+            )
+        // launch appear animation
         currentAnimation?.start()
     }
 
     fun disappear() {
-        //prevent cumulative call, if called again while running, do not accept new call, just let previous one complete normally
+        // prevent cumulative call, if called again while running, do not accept new call, just let previous one complete normally
         if (isDisappearing) return
-        //this is used to prevent the dispatch of appear animation end to listener when it is canceled below
+        // this is used to prevent the dispatch of appear animation end to listener when it is canceled below
         isDisappearing = true
-        //now if an animation is already running, it can only be appear(), so we cancel it because this new call takes precedence
+        // now if an animation is already running, it can only be appear(), so we cancel it because this new call takes precedence
         if (currentAnimation?.isRunning == true) currentAnimation?.cancel()
-        //build disappear animation
+        // build disappear animation
         currentAnimation =
-            layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemIcon.animateAlpha(fromAlpha = layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemIcon.alpha,
+            layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemIcon.animateAlpha(
+                fromAlpha = layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemIcon.alpha,
                 toAlpha = 0f,
                 duration = halfAnimationDurationMillis,
                 onStart = null,
                 onEnd = {
                     if (hasLabel) {
-                        layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.animateAlpha(fromAlpha = layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.alpha,
+                        layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.animateAlpha(
+                            fromAlpha = layoutWidgetFabSpeedDialItemBinding.fabSpeedDialItemLabel.alpha,
                             toAlpha = 0f,
                             duration = halfAnimationDurationMillis,
                             onStart = null,
                             onEnd = {
                                 isDisappearing = false
                                 if (!isAppearing) listenerDisappear?.onDisappearComplete()
-                            }).start()
-                    }
-                    else {
+                            }
+                        ).start()
+                    } else {
                         isDisappearing = false
                         if (!isAppearing) listenerDisappear?.onDisappearComplete()
                     }
-                })
-        //launch disappear animation
+                }
+            )
+        // launch disappear animation
         currentAnimation?.start()
     }
 }

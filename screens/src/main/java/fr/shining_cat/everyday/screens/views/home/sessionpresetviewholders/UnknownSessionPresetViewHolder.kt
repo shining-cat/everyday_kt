@@ -18,10 +18,7 @@
 package fr.shining_cat.everyday.screens.views.home.sessionpresetviewholders
 
 import fr.shining_cat.everyday.commons.Logger
-import fr.shining_cat.everyday.commons.extensions.autoFormatDurationMsAsSmallestHhMmSsString
 import fr.shining_cat.everyday.models.SessionPreset
-import fr.shining_cat.everyday.screens.R
-import fr.shining_cat.everyday.screens.databinding.ItemTimedSessionPresetViewHolderBinding
 import fr.shining_cat.everyday.screens.databinding.ItemUnknownSessionPresetViewHolderBinding
 
 class UnknownSessionPresetViewHolder(
@@ -35,6 +32,5 @@ class UnknownSessionPresetViewHolder(
     private val LOG_TAG = UnknownSessionPresetViewHolder::class.java.name
 
     override fun bindView(sessionPreset: SessionPreset) {
-
     }
 }

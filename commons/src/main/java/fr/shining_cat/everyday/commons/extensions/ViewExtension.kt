@@ -18,7 +18,7 @@ fun View.animateToTranslationX(
     )
 
     translation.duration = duration
-    translation.addListener(object: Animator.AnimatorListener {
+    translation.addListener(object : Animator.AnimatorListener {
         override fun onAnimationRepeat(animation: Animator?) {}
 
         override fun onAnimationEnd(animation: Animator?) {
@@ -48,7 +48,7 @@ fun View.animateAlpha(
         toAlpha
     )
     fade.duration = duration
-    fade.addListener(object: Animator.AnimatorListener {
+    fade.addListener(object : Animator.AnimatorListener {
         override fun onAnimationRepeat(animation: Animator?) {}
 
         override fun onAnimationEnd(animation: Animator?) {
@@ -84,7 +84,7 @@ fun View.animateScale(
     scalingX.duration = duration
     scalingY.duration = duration
     val animatorSet = AnimatorSet()
-    animatorSet.addListener(object: Animator.AnimatorListener {
+    animatorSet.addListener(object : Animator.AnimatorListener {
         override fun onAnimationRepeat(animation: Animator?) {}
 
         override fun onAnimationEnd(animation: Animator?) {

@@ -84,15 +84,13 @@ abstract class AbstractSessionPresetViewModel(
             val recordSessionPresetResult = ioScope.async {
                 if (sessionPreset.id == -1L) {
                     createSessionPresetUseCase.execute(sessionPreset)
-                }
-                else {
+                } else {
                     updateSessionPresetUseCase.execute(sessionPreset)
                 }
             }.await()
             if (recordSessionPresetResult is Result.Success) {
                 _successLiveData.value = true
-            }
-            else {
+            } else {
                 recordSessionPresetResult as Result.Error
                 _errorLiveData.value = recordSessionPresetResult.errorResponse
             }
@@ -106,12 +104,10 @@ abstract class AbstractSessionPresetViewModel(
             }.await()
             if (deleteSessionPresetResult is Result.Success) {
                 _successLiveData.value = true
-            }
-            else {
+            } else {
                 deleteSessionPresetResult as Result.Error
                 _errorLiveData.value = deleteSessionPresetResult.errorResponse
             }
         }
     }
-
 }

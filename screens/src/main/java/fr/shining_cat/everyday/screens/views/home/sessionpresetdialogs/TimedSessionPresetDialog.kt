@@ -25,7 +25,7 @@ import fr.shining_cat.everyday.screens.viewmodels.sessionpresets.TimedSessionPre
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class TimedSessionPresetDialog: AbstractSessionPresetDialog() {
+class TimedSessionPresetDialog : AbstractSessionPresetDialog() {
 
     private val LOG_TAG = TimedSessionPresetDialog::class.java.name
 
@@ -85,16 +85,23 @@ class TimedSessionPresetDialog: AbstractSessionPresetDialog() {
     ): View {
         timedSessionPresetDialogBinding = DialogSessionPresetTimedBinding.inflate(LayoutInflater.from(context))
         //
-        timedSessionPresetViewModel.sessionPresetUpdatedLiveData.observe(viewLifecycleOwner,
+        timedSessionPresetViewModel.sessionPresetUpdatedLiveData.observe(
+            viewLifecycleOwner,
             {
                 updateCommonUi(it)
                 updateSpecificUi(it)
-            })
-        timedSessionPresetViewModel.successLiveData.observe(viewLifecycleOwner,
-            {dismissOnSuccess()})
-        timedSessionPresetViewModel.errorLiveData.observe(viewLifecycleOwner,
-            {showErrorDialog(it)})
-        timedSessionPresetViewModel.invalidDurationLiveData.observe(viewLifecycleOwner,
+            }
+        )
+        timedSessionPresetViewModel.successLiveData.observe(
+            viewLifecycleOwner,
+            { dismissOnSuccess() }
+        )
+        timedSessionPresetViewModel.errorLiveData.observe(
+            viewLifecycleOwner,
+            { showErrorDialog(it) }
+        )
+        timedSessionPresetViewModel.invalidDurationLiveData.observe(
+            viewLifecycleOwner,
             {
                 val textColor = if (it) {
                     MaterialColors.getColor(
@@ -102,15 +109,15 @@ class TimedSessionPresetDialog: AbstractSessionPresetDialog() {
                         R.attr.colorOnSurface,
                         Color.BLACK
                     )
-                }
-                else {
+                } else {
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.red_600
                     )
                 }
                 timedSessionPresetDialogBinding?.durationValue?.setTextColor(textColor)
-            })
+            }
+        )
         //
         val deviceDefaultRingtoneUriString = RingtoneManager.getActualDefaultRingtoneUri(
             context,
@@ -148,13 +155,14 @@ class TimedSessionPresetDialog: AbstractSessionPresetDialog() {
     }
 
     private fun updateRandomIntermediateInterval(intermediateIntervalRandom: Boolean) {
-        timedSessionPresetDialogBinding?.intervalRandomZone?.setOnClickListener(null) // unregister listener to avoid OnCheckedChangeListener trigger when updating value
+        // unregister listener to avoid OnCheckedChangeListener trigger when updating value
+        timedSessionPresetDialogBinding?.intervalRandomZone?.setOnClickListener(null)
         timedSessionPresetDialogBinding?.intervalRandomSwitch?.isChecked = intermediateIntervalRandom
         // reset listener
         timedSessionPresetDialogBinding?.intervalRandomZone?.setOnClickListener {
             getVibrationSwitch()?.toggle()
         }
-        timedSessionPresetDialogBinding?.intervalRandomSwitch?.setOnCheckedChangeListener {_, p1 ->
+        timedSessionPresetDialogBinding?.intervalRandomSwitch?.setOnCheckedChangeListener { _, p1 ->
             getSessionPresetViewModel().updatePresetIntermediateIntervalRandom(p1)
         }
     }
@@ -171,8 +179,7 @@ class TimedSessionPresetDialog: AbstractSessionPresetDialog() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-        }
-        else {
+        } else {
             timedSessionPresetDialogBinding?.intervalLengthZone?.alpha = ENABLED_ZONE_ALPHA
             timedSessionPresetDialogBinding?.intervalLengthValue?.text = formatDurationMsToString(sessionPreset.intermediateIntervalLength)
             timedSessionPresetDialogBinding?.intervalLengthZone?.setOnClickListener {
@@ -184,8 +191,7 @@ class TimedSessionPresetDialog: AbstractSessionPresetDialog() {
     private fun updateIntermediateIntervalSound(sessionPreset: SessionPreset) {
         if (sessionPreset.intermediateIntervalSoundUriString.isBlank()) {
             timedSessionPresetDialogBinding?.intervalSoundValue?.text = getString(R.string.generic_string_NONE)
-        }
-        else {
+        } else {
             timedSessionPresetDialogBinding?.intervalSoundValue?.text = sessionPreset.intermediateIntervalSoundName
             val ringTonesAssets = context?.resources?.getStringArray(fr.shining_cat.everyday.commons.R.array.ringtonesRawAssetsNames)
             val ringTonesTitles = context?.resources?.getStringArray(fr.shining_cat.everyday.commons.R.array.ringtonesTitles)
@@ -198,7 +204,7 @@ class TimedSessionPresetDialog: AbstractSessionPresetDialog() {
                     ringTonesAssetsNames = ringTonesAssets,
                     ringTonesDisplayNames = ringTonesTitles
                 )
-                soundPickerDialog.setBottomDialogDismissibleRingtonePickerListener {selectedRingtoneUri, selectedRingtoneName ->
+                soundPickerDialog.setBottomDialogDismissibleRingtonePickerListener { selectedRingtoneUri, selectedRingtoneName ->
                     getSessionPresetViewModel().updatePresetIntermediateIntervalSoundUriString(selectedRingtoneUri)
                     getSessionPresetViewModel().updatePresetIntermediateIntervalSoundName(selectedRingtoneName)
                 }

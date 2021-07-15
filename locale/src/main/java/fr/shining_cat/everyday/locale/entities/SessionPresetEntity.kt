@@ -32,10 +32,10 @@ import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.IN
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.LAST_EDIT_DATE
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.SESSION_PRESET_ID
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.SESSION_PRESET_TYPE
+import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.SESSION_TYPE
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.START_AND_END_SOUND_NAME
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.START_AND_END_SOUND_URI
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.START_COUNTDOWN_LENGTH
-import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.SESSION_TYPE
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.VIBRATION
 import fr.shining_cat.everyday.locale.entities.SessionPresetTable.SESSION_PRESET_TABLE_NAME
 

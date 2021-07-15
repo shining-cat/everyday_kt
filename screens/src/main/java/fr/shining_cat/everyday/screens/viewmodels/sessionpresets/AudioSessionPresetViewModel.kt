@@ -37,7 +37,7 @@ class AudioSessionPresetViewModel(
     deleteSessionPresetUseCase: DeleteSessionPresetUseCase,
     private val metadataRetrieveUseCase: FileMetadataRetrieveUseCase,
     private val logger: Logger
-): AbstractSessionPresetViewModel(
+) : AbstractSessionPresetViewModel(
     appDispatchers,
     createSessionPresetUseCase,
     updateSessionPresetUseCase,
@@ -66,8 +66,7 @@ class AudioSessionPresetViewModel(
                 deviceDefaultRingtoneUriString,
                 deviceDefaultRingtoneName
             )
-        }
-        else {
+        } else {
             initForCreation(
                 deviceDefaultRingtoneUriString,
                 deviceDefaultRingtoneName
@@ -108,7 +107,7 @@ class AudioSessionPresetViewModel(
                 context,
                 audioGuideSoundUri
             )
-            //if one of these field is empty, try to retrieve it from the file metadata
+            // if one of these field is empty, try to retrieve it from the file metadata
             val audioGuideSoundArtistName =
                 if (presetInput.audioGuideSoundArtistName.isBlank()) audioFileMetadata.artistName else presetInput.audioGuideSoundArtistName
             val audioGuideSoundAlbumName =
@@ -124,8 +123,7 @@ class AudioSessionPresetViewModel(
                 audioGuideSoundAlbumName = audioGuideSoundAlbumName,
                 audioGuideSoundTitle = audioGuideSoundTitle
             )
-        }
-        else {
+        } else {
             logger.e(
                 LOG_TAG,
                 "initForEdition::should never get called with an empty audioGuideSoundUriString => creating NEW sessionPreset instead"
@@ -173,10 +171,10 @@ class AudioSessionPresetViewModel(
                 context,
                 audioGuideSoundUri
             )
-        }
-        else null
+        } else null
         //
-        _sessionPresetUpdatedLiveData.value = (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.AudioSessionPreset>).value?.copy(
+        val tempSessionPresetUpdatedLiveData = _sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.AudioSessionPreset>
+        _sessionPresetUpdatedLiveData.value = tempSessionPresetUpdatedLiveData.value?.copy(
             audioGuideSoundUriString = inputAudioGuideSoundUriString,
             audioGuideSoundArtistName = audioFileMetadata?.artistName ?: "",
             audioGuideSoundAlbumName = audioFileMetadata?.albumName ?: "",
@@ -186,34 +184,34 @@ class AudioSessionPresetViewModel(
     }
 
     override fun updatePresetDuration(inputDuration: Long) {
+        val tempSessionPresetUpdatedLiveData = _sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.AudioSessionPreset>
         _validDurationLiveData.value = inputDuration > 0L
-        _sessionPresetUpdatedLiveData.value =
-            (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.AudioSessionPreset>).value?.copy(duration = inputDuration)
+        _sessionPresetUpdatedLiveData.value = tempSessionPresetUpdatedLiveData.value?.copy(duration = inputDuration)
     }
 
     override fun updatePresetStartAndEndSoundUriString(inputStartAndEndSoundUriString: String) {
-        _sessionPresetUpdatedLiveData.value =
-            (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.AudioSessionPreset>).value?.copy(startAndEndSoundUriString = inputStartAndEndSoundUriString)
+        val tempSessionPresetUpdatedLiveData = _sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.AudioSessionPreset>
+        _sessionPresetUpdatedLiveData.value = tempSessionPresetUpdatedLiveData.value?.copy(startAndEndSoundUriString = inputStartAndEndSoundUriString)
     }
 
     override fun updatePresetStartAndEndSoundName(inputStartAndEndSoundName: String) {
-        _sessionPresetUpdatedLiveData.value =
-            (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.AudioSessionPreset>).value?.copy(startAndEndSoundName = inputStartAndEndSoundName)
+        val tempSessionPresetUpdatedLiveData = _sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.AudioSessionPreset>
+        _sessionPresetUpdatedLiveData.value = tempSessionPresetUpdatedLiveData.value?.copy(startAndEndSoundName = inputStartAndEndSoundName)
     }
 
     override fun updatePresetStartCountdownLength(inputStartCountdownLength: Long) {
-        _sessionPresetUpdatedLiveData.value =
-            (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.AudioSessionPreset>).value?.copy(startCountdownLength = inputStartCountdownLength)
+        val tempSessionPresetUpdatedLiveData = _sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.AudioSessionPreset>
+        _sessionPresetUpdatedLiveData.value = tempSessionPresetUpdatedLiveData.value?.copy(startCountdownLength = inputStartCountdownLength)
     }
 
     override fun updatePresetVibration(inputVibration: Boolean) {
-        _sessionPresetUpdatedLiveData.value =
-            (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.AudioSessionPreset>).value?.copy(vibration = inputVibration)
+        val tempSessionPresetUpdatedLiveData = _sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.AudioSessionPreset>
+        _sessionPresetUpdatedLiveData.value = tempSessionPresetUpdatedLiveData.value?.copy(vibration = inputVibration)
     }
 
     override fun updatePresetSessionTypeId(inputSessionTypeId: Int) {
-        _sessionPresetUpdatedLiveData.value =
-            (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.AudioSessionPreset>).value?.copy(sessionTypeId = inputSessionTypeId)
+        val tempSessionPresetUpdatedLiveData = _sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.AudioSessionPreset>
+        _sessionPresetUpdatedLiveData.value = tempSessionPresetUpdatedLiveData.value?.copy(sessionTypeId = inputSessionTypeId)
     }
 
     override fun updatePresetIntermediateIntervalRandom(inputIntermediateIntervalRandom: Boolean) {}

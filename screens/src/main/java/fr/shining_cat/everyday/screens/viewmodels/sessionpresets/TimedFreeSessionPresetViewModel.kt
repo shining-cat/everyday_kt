@@ -33,7 +33,7 @@ class TimedFreeSessionPresetViewModel(
     updateSessionPresetUseCase: UpdateSessionPresetUseCase,
     deleteSessionPresetUseCase: DeleteSessionPresetUseCase,
     private val logger: Logger
-): AbstractSessionPresetViewModel(
+) : AbstractSessionPresetViewModel(
     appDispatchers,
     createSessionPresetUseCase,
     updateSessionPresetUseCase,
@@ -51,8 +51,7 @@ class TimedFreeSessionPresetViewModel(
     ) {
         if (presetInput != null) {
             initForEdition(presetInput)
-        }
-        else {
+        } else {
             initForCreation(
                 deviceDefaultRingtoneUriString,
                 deviceDefaultRingtoneName
@@ -84,52 +83,56 @@ class TimedFreeSessionPresetViewModel(
     }
 
     override fun isSessionPresetValid(): Boolean {
-        return true //timed free session preset has nothing that could be invalid
+        return true // timed free session preset has nothing that could be invalid
     }
 
     override fun updatePresetStartAndEndSoundUriString(inputStartAndEndSoundUriString: String) {
-        _sessionPresetUpdatedLiveData.value =
-            (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedFreeSessionPreset>).value?.copy(startAndEndSoundUriString = inputStartAndEndSoundUriString)
+        val tempSessionPresetUpdatedLiveData = _sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedFreeSessionPreset>
+        _sessionPresetUpdatedLiveData.value = tempSessionPresetUpdatedLiveData.value?.copy(startAndEndSoundUriString = inputStartAndEndSoundUriString)
     }
 
     override fun updatePresetStartAndEndSoundName(inputStartAndEndSoundName: String) {
-        _sessionPresetUpdatedLiveData.value =
-            (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedFreeSessionPreset>).value?.copy(startAndEndSoundName = inputStartAndEndSoundName)
+        val tempSessionPresetUpdatedLiveData = _sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedFreeSessionPreset>
+        _sessionPresetUpdatedLiveData.value = tempSessionPresetUpdatedLiveData.value?.copy(startAndEndSoundName = inputStartAndEndSoundName)
     }
 
     override fun updatePresetStartCountdownLength(inputStartCountdownLength: Long) {
-        _sessionPresetUpdatedLiveData.value =
-            (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedFreeSessionPreset>).value?.copy(startCountdownLength = inputStartCountdownLength)
+        val tempSessionPresetUpdatedLiveData = _sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedFreeSessionPreset>
+        _sessionPresetUpdatedLiveData.value = tempSessionPresetUpdatedLiveData.value?.copy(startCountdownLength = inputStartCountdownLength)
     }
 
     override fun updatePresetVibration(inputVibration: Boolean) {
-        _sessionPresetUpdatedLiveData.value =
-            (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedFreeSessionPreset>).value?.copy(vibration = inputVibration)
+        val tempSessionPresetUpdatedLiveData = _sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedFreeSessionPreset>
+        _sessionPresetUpdatedLiveData.value = tempSessionPresetUpdatedLiveData.value?.copy(vibration = inputVibration)
     }
 
     override fun updatePresetSessionTypeId(inputSessionTypeId: Int) {
-        _sessionPresetUpdatedLiveData.value =
-            (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedFreeSessionPreset>).value?.copy(sessionTypeId = inputSessionTypeId)
+        val tempSessionPresetUpdatedLiveData = _sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedFreeSessionPreset>
+        _sessionPresetUpdatedLiveData.value = tempSessionPresetUpdatedLiveData.value?.copy(sessionTypeId = inputSessionTypeId)
     }
 
     override fun updatePresetIntermediateIntervalRandom(inputIntermediateIntervalRandom: Boolean) {
+        val tempSessionPresetUpdatedLiveData = _sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedFreeSessionPreset>
         _sessionPresetUpdatedLiveData.value =
-            (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedFreeSessionPreset>).value?.copy(intermediateIntervalRandom = inputIntermediateIntervalRandom)
+            tempSessionPresetUpdatedLiveData.value?.copy(intermediateIntervalRandom = inputIntermediateIntervalRandom)
     }
 
     override fun updatePresetIntermediateIntervalLength(inputIntermediateIntervalLength: Long) {
+        val tempSessionPresetUpdatedLiveData = _sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedFreeSessionPreset>
         _sessionPresetUpdatedLiveData.value =
-            (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedFreeSessionPreset>).value?.copy(intermediateIntervalLength = inputIntermediateIntervalLength)
+            tempSessionPresetUpdatedLiveData.value?.copy(intermediateIntervalLength = inputIntermediateIntervalLength)
     }
 
     override fun updatePresetIntermediateIntervalSoundUriString(inputIntermediateIntervalSoundUriString: String) {
+        val tempSessionPresetUpdatedLiveData = _sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedFreeSessionPreset>
         _sessionPresetUpdatedLiveData.value =
-            (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedFreeSessionPreset>).value?.copy(intermediateIntervalSoundUriString = inputIntermediateIntervalSoundUriString)
+            tempSessionPresetUpdatedLiveData.value?.copy(intermediateIntervalSoundUriString = inputIntermediateIntervalSoundUriString)
     }
 
     override fun updatePresetIntermediateIntervalSoundName(inputIntermediateIntervalSoundName: String) {
+        val tempSessionPresetUpdatedLiveData = _sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedFreeSessionPreset>
         _sessionPresetUpdatedLiveData.value =
-            (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedFreeSessionPreset>).value?.copy(intermediateIntervalSoundName = inputIntermediateIntervalSoundName)
+            tempSessionPresetUpdatedLiveData.value?.copy(intermediateIntervalSoundName = inputIntermediateIntervalSoundName)
     }
 
     override fun updatePresetDuration(inputDuration: Long) {}

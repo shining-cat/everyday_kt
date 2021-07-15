@@ -22,7 +22,7 @@ import fr.shining_cat.everyday.screens.viewmodels.sessionpresets.TimedFreeSessio
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class TimedFreeSessionPresetDialog: AbstractSessionPresetDialog() {
+class TimedFreeSessionPresetDialog : AbstractSessionPresetDialog() {
 
     private val LOG_TAG = TimedFreeSessionPresetDialog::class.java.name
 
@@ -82,15 +82,21 @@ class TimedFreeSessionPresetDialog: AbstractSessionPresetDialog() {
     ): View {
         timedFreeSessionPresetDialogBinding = DialogSessionPresetTimedFreeBinding.inflate(LayoutInflater.from(context))
         //
-        timedFreeSessionPresetViewModel.sessionPresetUpdatedLiveData.observe(viewLifecycleOwner,
+        timedFreeSessionPresetViewModel.sessionPresetUpdatedLiveData.observe(
+            viewLifecycleOwner,
             {
                 updateCommonUi(it)
                 updateSpecificUi(it)
-            })
-        timedFreeSessionPresetViewModel.successLiveData.observe(viewLifecycleOwner,
-            {dismissOnSuccess()})
-        timedFreeSessionPresetViewModel.errorLiveData.observe(viewLifecycleOwner,
-            {showErrorDialog(it)})
+            }
+        )
+        timedFreeSessionPresetViewModel.successLiveData.observe(
+            viewLifecycleOwner,
+            { dismissOnSuccess() }
+        )
+        timedFreeSessionPresetViewModel.errorLiveData.observe(
+            viewLifecycleOwner,
+            { showErrorDialog(it) }
+        )
         //
         val deviceDefaultRingtoneUriString = RingtoneManager.getActualDefaultRingtoneUri(
             context,
@@ -117,13 +123,14 @@ class TimedFreeSessionPresetDialog: AbstractSessionPresetDialog() {
     }
 
     private fun updateRandomIntermediateInterval(intermediateIntervalRandom: Boolean) {
-        timedFreeSessionPresetDialogBinding?.intervalRandomZone?.setOnClickListener(null) // unregister listener to avoid OnCheckedChangeListener trigger when updating value
+        // unregister listener to avoid OnCheckedChangeListener trigger when updating value
+        timedFreeSessionPresetDialogBinding?.intervalRandomZone?.setOnClickListener(null)
         timedFreeSessionPresetDialogBinding?.intervalRandomSwitch?.isChecked = intermediateIntervalRandom
         // reset listener
         timedFreeSessionPresetDialogBinding?.intervalRandomZone?.setOnClickListener {
             getVibrationSwitch()?.toggle()
         }
-        timedFreeSessionPresetDialogBinding?.intervalRandomSwitch?.setOnCheckedChangeListener {_, p1 ->
+        timedFreeSessionPresetDialogBinding?.intervalRandomSwitch?.setOnCheckedChangeListener { _, p1 ->
             getSessionPresetViewModel().updatePresetIntermediateIntervalRandom(p1)
         }
     }
@@ -139,8 +146,7 @@ class TimedFreeSessionPresetDialog: AbstractSessionPresetDialog() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-        }
-        else {
+        } else {
             timedFreeSessionPresetDialogBinding?.intervalLengthZone?.alpha = ENABLED_ZONE_ALPHA
             timedFreeSessionPresetDialogBinding?.intervalLengthValue?.text = formatDurationMsToString(sessionPreset.intermediateIntervalLength)
             timedFreeSessionPresetDialogBinding?.intervalLengthZone?.setOnClickListener {
@@ -152,8 +158,7 @@ class TimedFreeSessionPresetDialog: AbstractSessionPresetDialog() {
     private fun updateIntermediateIntervalSound(sessionPreset: SessionPreset) {
         if (sessionPreset.intermediateIntervalSoundUriString.isBlank()) {
             timedFreeSessionPresetDialogBinding?.intervalSoundValue?.text = getString(R.string.generic_string_NONE)
-        }
-        else {
+        } else {
             timedFreeSessionPresetDialogBinding?.intervalSoundValue?.text = sessionPreset.intermediateIntervalSoundName
             val ringTonesAssets = context?.resources?.getStringArray(fr.shining_cat.everyday.commons.R.array.ringtonesRawAssetsNames)
             val ringTonesTitles = context?.resources?.getStringArray(fr.shining_cat.everyday.commons.R.array.ringtonesTitles)
@@ -166,7 +171,7 @@ class TimedFreeSessionPresetDialog: AbstractSessionPresetDialog() {
                     ringTonesAssetsNames = ringTonesAssets,
                     ringTonesDisplayNames = ringTonesTitles
                 )
-                soundPickerDialog.setBottomDialogDismissibleRingtonePickerListener {selectedRingtoneUri, selectedRingtoneName ->
+                soundPickerDialog.setBottomDialogDismissibleRingtonePickerListener { selectedRingtoneUri, selectedRingtoneName ->
                     getSessionPresetViewModel().updatePresetIntermediateIntervalSoundUriString(selectedRingtoneUri)
                     getSessionPresetViewModel().updatePresetIntermediateIntervalSoundName(selectedRingtoneName)
                 }

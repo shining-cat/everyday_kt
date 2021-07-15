@@ -27,7 +27,7 @@ class TimedFreeSessionPresetViewHolder(
 
     private val itemTimedFreeSessionPresetViewHolderBinding: ItemTimedFreeSessionPresetViewHolderBinding,
     private val logger: Logger
-): AbstractSessionPresetViewHolder(
+) : AbstractSessionPresetViewHolder(
     itemTimedFreeSessionPresetViewHolderBinding.root, logger
 ) {
 
@@ -37,8 +37,7 @@ class TimedFreeSessionPresetViewHolder(
         val resources = itemView.resources
         itemTimedFreeSessionPresetViewHolderBinding.timedFreeSessionIntervalValue.text = if (sessionPreset.intermediateIntervalLength == 0L) {
             resources.getString(R.string.generic_string_NONE)
-        }
-        else {
+        } else {
             sessionPreset.intermediateIntervalLength.autoFormatDurationMsAsSmallestHhMmSsString(
                 resources.getString(R.string.duration_format_hours_minutes_seconds_short),
                 resources.getString(R.string.duration_format_hours_minutes_no_seconds_short),

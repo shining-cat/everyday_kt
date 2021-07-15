@@ -30,7 +30,7 @@ import fr.shining_cat.everyday.screens.viewmodels.sessionpresets.AudioSessionPre
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class AudioSessionPresetDialog: AbstractSessionPresetDialog() {
+class AudioSessionPresetDialog : AbstractSessionPresetDialog() {
 
     private val LOG_TAG = AudioSessionPresetDialog::class.java.name
 
@@ -90,16 +90,23 @@ class AudioSessionPresetDialog: AbstractSessionPresetDialog() {
     ): View {
         audioSessionPresetDialogBinding = DialogSessionPresetAudioBinding.inflate(LayoutInflater.from(context))
         //
-        audioSessionPresetViewModel.sessionPresetUpdatedLiveData.observe(viewLifecycleOwner,
+        audioSessionPresetViewModel.sessionPresetUpdatedLiveData.observe(
+            viewLifecycleOwner,
             {
                 updateCommonUi(it)
                 updateSpecificUi(it)
-            })
-        audioSessionPresetViewModel.successLiveData.observe(viewLifecycleOwner,
-            {dismissOnSuccess()})
-        audioSessionPresetViewModel.errorLiveData.observe(viewLifecycleOwner,
-            {showErrorDialog(it)})
-        audioSessionPresetViewModel.invalidAudioGuideLiveData.observe(viewLifecycleOwner,
+            }
+        )
+        audioSessionPresetViewModel.successLiveData.observe(
+            viewLifecycleOwner,
+            { dismissOnSuccess() }
+        )
+        audioSessionPresetViewModel.errorLiveData.observe(
+            viewLifecycleOwner,
+            { showErrorDialog(it) }
+        )
+        audioSessionPresetViewModel.invalidAudioGuideLiveData.observe(
+            viewLifecycleOwner,
             {
                 val textColor = if (it) {
                     MaterialColors.getColor(
@@ -107,16 +114,17 @@ class AudioSessionPresetDialog: AbstractSessionPresetDialog() {
                         R.attr.colorOnSurface,
                         Color.BLACK
                     )
-                }
-                else {
+                } else {
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.red_600
                     )
                 }
                 audioSessionPresetDialogBinding?.audioGuideValue?.setTextColor(textColor)
-            })
-        audioSessionPresetViewModel.invalidDurationLiveData.observe(viewLifecycleOwner,
+            }
+        )
+        audioSessionPresetViewModel.invalidDurationLiveData.observe(
+            viewLifecycleOwner,
             {
                 val textColor = if (it) {
                     MaterialColors.getColor(
@@ -124,15 +132,15 @@ class AudioSessionPresetDialog: AbstractSessionPresetDialog() {
                         R.attr.colorOnSurface,
                         Color.BLACK
                     )
-                }
-                else {
+                } else {
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.red_600
                     )
                 }
                 audioSessionPresetDialogBinding?.durationValue?.setTextColor(textColor)
-            })
+            }
+        )
         //
         val deviceDefaultRingtoneUriString = RingtoneManager.getActualDefaultRingtoneUri(
             context,
@@ -156,8 +164,7 @@ class AudioSessionPresetDialog: AbstractSessionPresetDialog() {
         if (sessionPreset.audioGuideSoundUriString.isBlank()) {
             audioSessionPresetDialogBinding?.audioGuideValue?.text = getString(R.string.generic_NO_SELECTION)
             audioSessionPresetDialogBinding?.durationZone?.visibility = GONE
-        }
-        else {
+        } else {
             audioSessionPresetDialogBinding?.audioGuideValue?.text = getString(
                 R.string.audio_file_display_info,
                 sessionPreset.audioGuideSoundTitle,
@@ -183,7 +190,8 @@ class AudioSessionPresetDialog: AbstractSessionPresetDialog() {
         if (durationZone == null || durationValue == null) return
         durationValue.setTextColor(durationValueNormalColor)
         val audioSessionDurationUnknown = sessionPreset.duration == -1L
-        if (audioSessionDurationUnknown) { // we have an audio file for the session, but could not retrieve its duration through its metadata => we need the user to input it manually
+        if (audioSessionDurationUnknown) {
+            // we have an audio file for the session, but could not retrieve its duration through its metadata => we need the user to input it manually
             durationZone.alpha = ENABLED_ZONE_ALPHA
             durationValue.text = getString(R.string.unknown_audio_duration_fill_manually)
             val errorColor = ContextCompat.getColor(
@@ -194,8 +202,7 @@ class AudioSessionPresetDialog: AbstractSessionPresetDialog() {
             durationZone.setOnClickListener {
                 showBottomDurationSelector(0L)
             }
-        }
-        else { // duration field is filled with duration retrieved from audio file metadata, and interaction is deactivated
+        } else { // duration field is filled with duration retrieved from audio file metadata, and interaction is deactivated
             durationZone.alpha = DISABLED_ZONE_ALPHA
             durationValue.text = formatDurationMsToString(sessionPreset.duration)
             durationZone.setOnClickListener {
@@ -235,7 +242,7 @@ class AudioSessionPresetDialog: AbstractSessionPresetDialog() {
     ) {
         if (requestCode == Constants.ACTIVITY_RESULT_SELECT_AUDIO_FILE && resultCode == Activity.RESULT_OK) {
             // The result data contains a URI for the document or directory that the user selected.
-            resultData?.data?.also {uri ->
+            resultData?.data?.also { uri ->
                 audioSessionPresetViewModel.updatePresetAudioGuideSoundUriString(
                     requireContext(),
                     uri.toString()

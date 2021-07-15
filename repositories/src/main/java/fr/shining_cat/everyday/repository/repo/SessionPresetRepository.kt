@@ -67,7 +67,7 @@ class SessionPresetRepositoryImpl(
                 )
             }
         } catch (exception: Exception) {
-            logger.e(LOG_TAG, "insert::encountered an exception::${exception.toString()}")
+            logger.e(LOG_TAG, "insert::encountered an exception::$exception")
             Output.Error(
                 Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                 Constants.ERROR_MESSAGE_INSERT_FAILED,

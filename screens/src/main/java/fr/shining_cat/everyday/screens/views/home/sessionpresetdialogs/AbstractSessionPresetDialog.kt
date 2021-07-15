@@ -41,7 +41,7 @@ import fr.shining_cat.everyday.screens.viewmodels.sessionpresets.AbstractSession
 import fr.shining_cat.everyday.screens.views.home.HomeFragment
 import org.koin.android.ext.android.get
 
-abstract class AbstractSessionPresetDialog: DialogFragment() {
+abstract class AbstractSessionPresetDialog : DialogFragment() {
 
     private val LOG_TAG = AbstractSessionPresetDialog::class.java.name
 
@@ -68,7 +68,7 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
         return dialog
     }
 
-    //////////////////////////
+    // ////////////////////////
     // static UI elements initialization
     protected fun initUi() {
         setUpTitle()
@@ -83,8 +83,7 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
         val isCreation = (sessionPreset == null || sessionPreset.id == -1L)
         titleField?.text = if (isCreation) {
             getString(R.string.session_preset_creation_dialog_title)
-        }
-        else {
+        } else {
             getString(R.string.session_preset_edition_dialog_title)
         }
     }
@@ -107,15 +106,13 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
                 val sessionPresetToSave = getSessionPresetViewModel().sessionPresetUpdatedLiveData.value
                 if (sessionPresetToSave != null) {
                     getSessionPresetViewModel().saveSessionPreset(sessionPresetToSave)
-                }
-                else {
+                } else {
                     logger.e(
                         LOG_TAG,
                         "validateButton::onClick:: no SessionPreset found to save"
                     )
                 }
-            }
-            else {
+            } else {
                 val presetInvalidDialog = BottomDialogDismissibleErrorMessage.newInstance(
                     getString(R.string.generic_string_ERROR),
                     getString(R.string.session_preset_invalid_preset)
@@ -133,8 +130,7 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
         val sessionPreset = getSessionPresetViewModel().sessionPresetUpdatedLiveData.value
         if (sessionPreset == null || sessionPreset.id == -1L) {
             deleteButton?.visibility = GONE
-        }
-        else {
+        } else {
             deleteButton?.visibility = VISIBLE
             deleteButton?.setOnClickListener {
                 val confirmDeleteDialog = BottomDialogDismissibleBigButton.newInstance(
@@ -160,7 +156,7 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
         )
         dismiss()
     }
-    //////////////////////////
+    // ////////////////////////
     //  COMMON UI elements
 
     protected fun updateCommonUi(sessionPreset: SessionPreset) {
@@ -200,7 +196,7 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
             ringTonesAssetsNames = ringTonesAssets,
             ringTonesDisplayNames = ringTonesTitles
         )
-        soundPickerDialog.setBottomDialogDismissibleRingtonePickerListener {selectedRingtoneUri, selectedRingtoneName ->
+        soundPickerDialog.setBottomDialogDismissibleRingtonePickerListener { selectedRingtoneUri, selectedRingtoneName ->
             getSessionPresetViewModel().updatePresetStartAndEndSoundUriString(selectedRingtoneUri)
             getSessionPresetViewModel().updatePresetStartAndEndSoundName(selectedRingtoneName)
         }
@@ -217,7 +213,7 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
         getVibrationZone()?.setOnClickListener {
             getVibrationSwitch()?.toggle()
         }
-        getVibrationSwitch()?.setOnCheckedChangeListener {_, p1 ->
+        getVibrationSwitch()?.setOnCheckedChangeListener { _, p1 ->
             getSessionPresetViewModel().updatePresetVibration(p1)
         }
     }
@@ -239,7 +235,7 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
             confirmButtonLabel = getString(R.string.generic_string_OK),
             initialLengthMs = sessionPreset.startCountdownLength
         )
-        countdownDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener {lengthMs ->
+        countdownDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener { lengthMs ->
             getSessionPresetViewModel().updatePresetStartCountdownLength(lengthMs)
         }
         countdownDialog.show(
@@ -258,7 +254,7 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
             confirmButtonLabel = getString(R.string.generic_string_OK),
             initialLengthMs = initialDuration
         )
-        durationDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener {lengthMs ->
+        durationDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener { lengthMs ->
             getSessionPresetViewModel().updatePresetDuration(lengthMs)
         }
         durationDialog.show(
@@ -277,7 +273,7 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
             confirmButtonLabel = getString(R.string.generic_string_OK),
             initialLengthMs = initialLength
         )
-        durationDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener {lengthMs ->
+        durationDialog.setBottomDialogDismissibleSpinnerSecondsAndConfirmListener { lengthMs ->
             getSessionPresetViewModel().updatePresetIntermediateIntervalLength(lengthMs)
         }
         durationDialog.show(
@@ -286,7 +282,7 @@ abstract class AbstractSessionPresetDialog: DialogFragment() {
         )
     }
 
-    /////////////////
+    // ///////////////
     protected fun formatDurationMsToString(duration: Long): String {
         return duration.autoFormatDurationMsAsSmallestHhMmSsString(
             resources.getString(R.string.duration_format_hours_minutes_seconds_short),

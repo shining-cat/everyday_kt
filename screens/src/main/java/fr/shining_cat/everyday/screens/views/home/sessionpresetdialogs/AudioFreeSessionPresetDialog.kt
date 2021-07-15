@@ -18,7 +18,7 @@ import fr.shining_cat.everyday.screens.viewmodels.sessionpresets.AudioFreeSessio
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class AudioFreeSessionPresetDialog: AbstractSessionPresetDialog() {
+class AudioFreeSessionPresetDialog : AbstractSessionPresetDialog() {
 
     private val LOG_TAG = AudioFreeSessionPresetDialog::class.java.name
 
@@ -78,12 +78,18 @@ class AudioFreeSessionPresetDialog: AbstractSessionPresetDialog() {
     ): View {
         audioSessionPresetDialogBinding = DialogSessionPresetAudioFreeBinding.inflate(LayoutInflater.from(context))
         //
-        audioFreeSessionPresetViewModel.sessionPresetUpdatedLiveData.observe(viewLifecycleOwner,
-            {updateCommonUi(it)})
-        audioFreeSessionPresetViewModel.successLiveData.observe(viewLifecycleOwner,
-            {dismissOnSuccess()})
-        audioFreeSessionPresetViewModel.errorLiveData.observe(viewLifecycleOwner,
-            {showErrorDialog(it)})
+        audioFreeSessionPresetViewModel.sessionPresetUpdatedLiveData.observe(
+            viewLifecycleOwner,
+            { updateCommonUi(it) }
+        )
+        audioFreeSessionPresetViewModel.successLiveData.observe(
+            viewLifecycleOwner,
+            { dismissOnSuccess() }
+        )
+        audioFreeSessionPresetViewModel.errorLiveData.observe(
+            viewLifecycleOwner,
+            { showErrorDialog(it) }
+        )
         //
         val deviceDefaultRingtoneUriString = RingtoneManager.getActualDefaultRingtoneUri(
             context,
@@ -102,5 +108,4 @@ class AudioFreeSessionPresetDialog: AbstractSessionPresetDialog() {
         initUi()
         return audioSessionPresetDialogBinding!!.root
     }
-
 }

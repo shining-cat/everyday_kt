@@ -31,16 +31,14 @@ class CreateSessionPresetUseCase(
             // this usecase only handles single item insertion
             if (output.result.size == 1) {
                 Result.Success(output.result[0])
-            }
-            else {
+            } else {
                 Result.Error(
                     ERROR_CODE_DATABASE_OPERATION_FAILED,
                     ERROR_MESSAGE_INSERT_FAILED,
                     Exception(ERROR_MESSAGE_INSERT_FAILED)
                 )
             }
-        }
-        else {
+        } else {
             output as Output.Error
             Result.Error(
                 output.errorCode,

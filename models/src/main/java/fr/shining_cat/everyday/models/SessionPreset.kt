@@ -39,7 +39,7 @@ sealed class SessionPreset(
     open val vibration: Boolean,
     open val sessionTypeId: Int,
     open val lastEditTime: Long
-): Parcelable {
+) : Parcelable {
 
     @Keep
     @Parcelize
@@ -56,7 +56,7 @@ sealed class SessionPreset(
         override val vibration: Boolean,
         override val sessionTypeId: Int,
         override val lastEditTime: Long
-    ): SessionPreset(
+    ) : SessionPreset(
         id = id,
         startCountdownLength = startCountdownLength,
         startAndEndSoundUriString = startAndEndSoundUriString,
@@ -85,7 +85,7 @@ sealed class SessionPreset(
         override val vibration: Boolean,
         override val sessionTypeId: Int,
         override val lastEditTime: Long
-    ): SessionPreset(
+    ) : SessionPreset(
         id = id,
         startCountdownLength = startCountdownLength,
         startAndEndSoundUriString = startAndEndSoundUriString,
@@ -119,7 +119,7 @@ sealed class SessionPreset(
         override val vibration: Boolean,
         override val sessionTypeId: Int,
         override val lastEditTime: Long
-    ): SessionPreset(
+    ) : SessionPreset(
         id = id,
         startCountdownLength = startCountdownLength,
         startAndEndSoundUriString = startAndEndSoundUriString,
@@ -152,7 +152,7 @@ sealed class SessionPreset(
         override val vibration: Boolean,
         override val sessionTypeId: Int,
         override val lastEditTime: Long
-    ): SessionPreset(
+    ) : SessionPreset(
         id = id,
         startCountdownLength = startCountdownLength,
         startAndEndSoundUriString = startAndEndSoundUriString,
@@ -173,7 +173,7 @@ sealed class SessionPreset(
 
     @Keep
     @Parcelize
-    class UnknownSessionPreset: SessionPreset(
+    class UnknownSessionPreset : SessionPreset(
         id = -1L,
         startCountdownLength = -1L,
         startAndEndSoundUriString = "",
