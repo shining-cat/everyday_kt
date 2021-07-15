@@ -15,16 +15,16 @@
   ~     along with Everyday.  If not, see <https://www.gnu.org/licenses/>.
   -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="@dimen/eighth_margin"
-    android:paddingStart="@dimen/eighth_margin"
-    android:paddingBottom="@dimen/single_margin"
-    android:paddingEnd="@dimen/fab_right_padding"
     android:clipChildren="false"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:paddingStart="@dimen/eighth_margin"
+    android:paddingTop="@dimen/eighth_margin"
+    android:paddingEnd="@dimen/fab_right_padding"
+    android:paddingBottom="@dimen/single_margin">
 
     <com.google.android.material.chip.Chip
         android:id="@+id/fab_speed_dial_item_label"

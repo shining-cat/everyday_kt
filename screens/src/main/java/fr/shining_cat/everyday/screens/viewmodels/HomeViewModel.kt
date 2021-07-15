@@ -23,22 +23,19 @@ import androidx.lifecycle.viewModelScope
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_CODE_NO_RESULT
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.viewmodels.AbstractViewModels
-import fr.shining_cat.everyday.commons.viewmodels.AppDispatchers
 import fr.shining_cat.everyday.domain.Result
 import fr.shining_cat.everyday.domain.sessionspresets.LoadSessionPresetsUseCase
 import fr.shining_cat.everyday.domain.sessionspresets.UpdateSessionPresetUseCase
 import fr.shining_cat.everyday.models.SessionPreset
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class HomeViewModel(
-    appDispatchers: AppDispatchers,
     private val loadSessionPresetsUseCase: LoadSessionPresetsUseCase,
     private val updateSessionPresetUseCase: UpdateSessionPresetUseCase,
     private val logger: Logger
-) : AbstractViewModels(appDispatchers) {
+) : AbstractViewModels() {
 
     private val LOG_TAG = HomeViewModel::class.java.name
 
@@ -64,13 +61,15 @@ class HomeViewModel(
                     "loadSessionPresets::success::sessionsList.size = ${sessionsList.size} => setting new value to _sessionPresetsLiveData"
                 )
                 _sessionPresetsLiveData.value = sessionsList
-            } else {
+            }
+            else {
                 sessionPresetsResult as Result.Error
                 // reset list
                 _sessionPresetsLiveData.value = listOf()
                 if (sessionPresetsResult.errorCode == ERROR_CODE_NO_RESULT) {
                     _errorLiveData.value = nothingFoundMessage
-                } else {
+                }
+                else {
                     _errorLiveData.value = sessionPresetsResult.errorResponse
                 }
             }
@@ -117,7 +116,8 @@ class HomeViewModel(
             if (recordSessionPresetResult is Result.Success) {
                 // reload complete session presets list, will trigger list update on UI side
                 loadSessionPresets(nothingFoundMessage)
-            } else {
+            }
+            else {
                 logger.e(
                     LOG_TAG,
                     "saveSessionPreset::ERROR}"

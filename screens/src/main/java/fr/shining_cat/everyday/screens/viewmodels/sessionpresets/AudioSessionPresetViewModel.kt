@@ -23,7 +23,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import fr.shining_cat.everyday.commons.Constants
 import fr.shining_cat.everyday.commons.Logger
-import fr.shining_cat.everyday.commons.viewmodels.AppDispatchers
 import fr.shining_cat.everyday.domain.FileMetadataRetrieveUseCase
 import fr.shining_cat.everyday.domain.sessionspresets.CreateSessionPresetUseCase
 import fr.shining_cat.everyday.domain.sessionspresets.DeleteSessionPresetUseCase
@@ -31,14 +30,12 @@ import fr.shining_cat.everyday.domain.sessionspresets.UpdateSessionPresetUseCase
 import fr.shining_cat.everyday.models.SessionPreset
 
 class AudioSessionPresetViewModel(
-    appDispatchers: AppDispatchers,
     createSessionPresetUseCase: CreateSessionPresetUseCase,
     updateSessionPresetUseCase: UpdateSessionPresetUseCase,
     deleteSessionPresetUseCase: DeleteSessionPresetUseCase,
     private val metadataRetrieveUseCase: FileMetadataRetrieveUseCase,
     private val logger: Logger
 ) : AbstractSessionPresetViewModel(
-    appDispatchers,
     createSessionPresetUseCase,
     updateSessionPresetUseCase,
     deleteSessionPresetUseCase,
@@ -66,7 +63,8 @@ class AudioSessionPresetViewModel(
                 deviceDefaultRingtoneUriString,
                 deviceDefaultRingtoneName
             )
-        } else {
+        }
+        else {
             initForCreation(
                 deviceDefaultRingtoneUriString,
                 deviceDefaultRingtoneName
@@ -123,7 +121,8 @@ class AudioSessionPresetViewModel(
                 audioGuideSoundAlbumName = audioGuideSoundAlbumName,
                 audioGuideSoundTitle = audioGuideSoundTitle
             )
-        } else {
+        }
+        else {
             logger.e(
                 LOG_TAG,
                 "initForEdition::should never get called with an empty audioGuideSoundUriString => creating NEW sessionPreset instead"
@@ -171,7 +170,8 @@ class AudioSessionPresetViewModel(
                 context,
                 audioGuideSoundUri
             )
-        } else null
+        }
+        else null
         //
         val tempSessionPresetUpdatedLiveData = _sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.AudioSessionPreset>
         _sessionPresetUpdatedLiveData.value = tempSessionPresetUpdatedLiveData.value?.copy(

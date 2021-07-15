@@ -15,7 +15,7 @@
  *     along with Everyday.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package fr.shining_cat.everyday.viewmodels
+package fr.shining_cat.everyday.app.viewmodels
 
 import android.content.Context
 import android.media.RingtoneManager
@@ -25,7 +25,6 @@ import androidx.lifecycle.viewModelScope
 import fr.shining_cat.everyday.commons.Constants
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.viewmodels.AbstractViewModels
-import fr.shining_cat.everyday.commons.viewmodels.AppDispatchers
 import fr.shining_cat.everyday.domain.InitDefaultPrefsValuesUseCase
 import fr.shining_cat.everyday.navigation.Destination
 import kotlinx.coroutines.Dispatchers
@@ -35,10 +34,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class SplashViewModel(
-    appDispatchers: AppDispatchers,
     private val initDefaultPrefsValuesUseCase: InitDefaultPrefsValuesUseCase,
     private val logger: Logger
-) : AbstractViewModels(appDispatchers) {
+) : AbstractViewModels() {
 
     private val LOG_TAG = SplashViewModel::class.java.name
 

@@ -83,7 +83,8 @@ abstract class AbstractSessionPresetDialog : DialogFragment() {
         val isCreation = (sessionPreset == null || sessionPreset.id == -1L)
         titleField?.text = if (isCreation) {
             getString(R.string.session_preset_creation_dialog_title)
-        } else {
+        }
+        else {
             getString(R.string.session_preset_edition_dialog_title)
         }
     }
@@ -106,13 +107,15 @@ abstract class AbstractSessionPresetDialog : DialogFragment() {
                 val sessionPresetToSave = getSessionPresetViewModel().sessionPresetUpdatedLiveData.value
                 if (sessionPresetToSave != null) {
                     getSessionPresetViewModel().saveSessionPreset(sessionPresetToSave)
-                } else {
+                }
+                else {
                     logger.e(
                         LOG_TAG,
                         "validateButton::onClick:: no SessionPreset found to save"
                     )
                 }
-            } else {
+            }
+            else {
                 val presetInvalidDialog = BottomDialogDismissibleErrorMessage.newInstance(
                     getString(R.string.generic_string_ERROR),
                     getString(R.string.session_preset_invalid_preset)
@@ -130,7 +133,8 @@ abstract class AbstractSessionPresetDialog : DialogFragment() {
         val sessionPreset = getSessionPresetViewModel().sessionPresetUpdatedLiveData.value
         if (sessionPreset == null || sessionPreset.id == -1L) {
             deleteButton?.visibility = GONE
-        } else {
+        }
+        else {
             deleteButton?.visibility = VISIBLE
             deleteButton?.setOnClickListener {
                 val confirmDeleteDialog = BottomDialogDismissibleBigButton.newInstance(

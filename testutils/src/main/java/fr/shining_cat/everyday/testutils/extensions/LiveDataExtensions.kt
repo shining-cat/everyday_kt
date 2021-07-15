@@ -52,7 +52,8 @@ inline fun <T> LiveData<T>.captureValues(block: LiveDataValueCapture<T>.() -> Un
     observeForever(observer)
     try {
         capture.block()
-    } finally {
+    }
+    finally {
         removeObserver(observer)
     }
 }

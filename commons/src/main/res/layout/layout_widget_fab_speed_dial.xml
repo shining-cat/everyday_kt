@@ -15,24 +15,24 @@
   ~     along with Everyday.  If not, see <https://www.gnu.org/licenses/>.
   -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fab_container"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingTop="@dimen/eighth_margin"
-    android:paddingStart="@dimen/eighth_margin"
-    android:paddingBottom="@dimen/single_and_half_margin"
     android:clipChildren="false"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:paddingStart="@dimen/eighth_margin"
+    android:paddingTop="@dimen/eighth_margin"
+    android:paddingBottom="@dimen/single_and_half_margin">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/fab"
         style="@style/FloatingActionButton"
         android:layout_width="@dimen/standard_fab_size"
         android:layout_height="@dimen/standard_fab_size"
-        android:visibility="visible"
         android:layout_marginEnd="@dimen/fab_right_padding"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:icon="@drawable/plus" />

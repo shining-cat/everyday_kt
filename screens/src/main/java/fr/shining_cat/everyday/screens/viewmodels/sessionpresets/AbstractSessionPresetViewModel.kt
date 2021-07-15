@@ -23,24 +23,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.viewmodels.AbstractViewModels
-import fr.shining_cat.everyday.commons.viewmodels.AppDispatchers
 import fr.shining_cat.everyday.domain.Result
 import fr.shining_cat.everyday.domain.sessionspresets.CreateSessionPresetUseCase
 import fr.shining_cat.everyday.domain.sessionspresets.DeleteSessionPresetUseCase
 import fr.shining_cat.everyday.domain.sessionspresets.UpdateSessionPresetUseCase
 import fr.shining_cat.everyday.models.SessionPreset
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 abstract class AbstractSessionPresetViewModel(
-    appDispatchers: AppDispatchers,
     private val createSessionPresetUseCase: CreateSessionPresetUseCase,
     private val updateSessionPresetUseCase: UpdateSessionPresetUseCase,
     private val deleteSessionPresetUseCase: DeleteSessionPresetUseCase,
     private val logger: Logger
-) : AbstractViewModels(appDispatchers) {
+) : AbstractViewModels() {
 
     private val LOG_TAG = AbstractSessionPresetViewModel::class.java.name
 
@@ -84,16 +81,18 @@ abstract class AbstractSessionPresetViewModel(
 
     fun saveSessionPreset(sessionPreset: SessionPreset) {
         viewModelScope.launch {
-            val recordSessionPresetResult = withContext(Dispatchers.IO){
+            val recordSessionPresetResult = withContext(Dispatchers.IO) {
                 if (sessionPreset.id == -1L) {
                     createSessionPresetUseCase.execute(sessionPreset)
-                } else {
+                }
+                else {
                     updateSessionPresetUseCase.execute(sessionPreset)
                 }
             }
             if (recordSessionPresetResult is Result.Success) {
                 _successLiveData.value = true
-            } else {
+            }
+            else {
                 recordSessionPresetResult as Result.Error
                 _errorLiveData.value = recordSessionPresetResult.errorResponse
             }
@@ -102,12 +101,13 @@ abstract class AbstractSessionPresetViewModel(
 
     fun deleteSessionPreset(sessionPreset: SessionPreset) {
         viewModelScope.launch {
-            val deleteSessionPresetResult =  withContext(Dispatchers.IO){
+            val deleteSessionPresetResult = withContext(Dispatchers.IO) {
                 deleteSessionPresetUseCase.execute(sessionPreset)
             }
             if (deleteSessionPresetResult is Result.Success) {
                 _successLiveData.value = true
-            } else {
+            }
+            else {
                 deleteSessionPresetResult as Result.Error
                 _errorLiveData.value = deleteSessionPresetResult.errorResponse
             }

@@ -26,16 +26,16 @@
         android:id="@+id/dialog_fullscreen_title_zone_dismiss_button"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="?attr/selectableItemBackground"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:clickable="true"
-        android:focusable="true"
-        android:padding="@dimen/single_and_quarter_margin"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        app:srcCompat="@drawable/ic_cross"
-        android:contentDescription="@string/content_description_close_button" />
+        android:adjustViewBounds="true"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:contentDescription="@string/content_description_close_button"
+        android:focusable="true"
+        android:padding="@dimen/single_and_quarter_margin"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/ic_cross" />
 
     <TextView
         android:id="@+id/dialog_fullscreen_title_zone_title"
@@ -44,8 +44,8 @@
         android:layout_centerInParent="true"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:textSize="@dimen/toolbar_standard_title_size"
         android:textColor="?attr/colorOnPrimary"
+        android:textSize="@dimen/toolbar_standard_title_size"
         android:textStyle="bold"
         tools:text="Session Preset Dialog" />
 
@@ -53,15 +53,15 @@
         android:id="@+id/dialog_fullscreen_title_zone_validate_button"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="?attr/selectableItemBackground"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:clickable="true"
-        android:focusable="true"
-        android:padding="@dimen/single_and_quarter_margin"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        app:srcCompat="@drawable/ic_check"
-        android:contentDescription="@string/content_description_validate_dialog" />
+        android:adjustViewBounds="true"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:contentDescription="@string/content_description_validate_dialog"
+        android:focusable="true"
+        android:padding="@dimen/single_and_quarter_margin"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/ic_check" />
 
 </RelativeLayout>

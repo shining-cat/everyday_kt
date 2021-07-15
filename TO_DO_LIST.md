@@ -58,13 +58,14 @@
   - [x] auto-close fab speed dial when session preset has been created (or maybe even when simply opening the dialog)
   - [x] sessionpresets FAB chips background color is too close to the one of elements behind it, readability is bad, explore solutions as: semi-opaque background on whole screen? morph main FAB into a background for the speeddials? add a border on chips?
   - [x] include implementation AndroidLibraries.lifecycle_viewmodel_ktx and switch every mainScope.launch { ... ioscope.async{...}.await} to viewModelScope.launch{ ...withContext(Dispatchers.IO){..}}, and remove all appDispatchers
-  - [ ] tests on HomeViewModel, AbstractSessionPresetViewModel, AudioFreeSessionPresetViewModel, AudioSessionPresetViewModel, TimedFreeSessionPresetViewModel and TimedSessionPresetViewModel
+  - [ ] tests on HomeViewModel, SplashScreenViewModel, AbstractSessionPresetViewModel, AudioFreeSessionPresetViewModel, AudioSessionPresetViewModel, TimedFreeSessionPresetViewModel and TimedSessionPresetViewModel
   - [ ] move from livedata used as events to recommended observable objects now available in kotlin
   - [ ] find a way to animate hide/show "add session preset" fab when scroll detected, show again on release
   - [ ] add language setting to allow change without following the OS language
 
 ### launch session
   - [ ] launchSessionUseCase (SessionViewModel) => don't know yet how to do this: need something capable of running in the background whatever happens to process
+  - [ ] launchSessionUseCase tests
   - [ ] recordStartMoodUseCase + start session mood input dialog -> temp save to sharedPrefs?
   - [ ] recordStartMoodUseCase tests
   - [ ] recordEndMoodUseCase + end session mood input dialog -> temp save to sharedPrefs?

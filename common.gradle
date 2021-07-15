@@ -86,11 +86,13 @@ dependencies {
     testImplementation TestLibraries.coroutines_test
     testImplementation TestLibraries.mockk
     testImplementation TestLibraries.robolectric
+    testImplementation project(Modules.testutils)
 
     // Instrumented Tests
     androidTestImplementation AndroidTestLibraries.runner
     androidTestImplementation AndroidTestLibraries.junit
     androidTestImplementation AndroidTestLibraries.espresso
     androidTestImplementation AndroidTestLibraries.core_testing
+    androidTestImplementation project(Modules.testutils)
 }
 

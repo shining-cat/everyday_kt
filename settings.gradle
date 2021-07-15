@@ -1,4 +1,3 @@
-include ':app'
 /*
  * Copyright (c) 2021. Shining-cat - Shiva Bernhard
  * This file is part of Everyday.
@@ -16,6 +15,7 @@ include ':app'
  *     along with Everyday.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+include ':app'
 //transverse modules
 include ':commons'
 include ':testutils'

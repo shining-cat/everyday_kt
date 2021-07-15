@@ -22,13 +22,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.viewmodels.AbstractViewModels
-import fr.shining_cat.everyday.commons.viewmodels.AppDispatchers
 import kotlinx.coroutines.launch
 
 class StatisticsViewModel(
-    appDispatchers: AppDispatchers,
     private val logger: Logger
-) : AbstractViewModels(appDispatchers) {
+) : AbstractViewModels() {
 
     private val LOG_TAG = StatisticsViewModel::class.java.name
 

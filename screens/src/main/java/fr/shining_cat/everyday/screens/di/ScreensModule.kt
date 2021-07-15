@@ -34,31 +34,26 @@ val screensModule = module {
         HomeViewModel(
             get(),
             get(),
-            get(),
             get()
         )
     }
     viewModel {
         StatisticsViewModel(
-            get(),
             get()
         )
     }
     viewModel {
         SessionsViewModel(
-            get(),
             get()
         )
     }
     viewModel {
         RewardsViewModel(
-            get(),
             get()
         )
     }
     viewModel {
         AudioSessionPresetViewModel(
-            get(),
             get(),
             get(),
             get(),
@@ -71,7 +66,6 @@ val screensModule = module {
             get(),
             get(),
             get(),
-            get(),
             get()
         )
     }
@@ -80,13 +74,11 @@ val screensModule = module {
             get(),
             get(),
             get(),
-            get(),
             get()
         )
     }
     viewModel {
         TimedFreeSessionPresetViewModel(
-            get(),
             get(),
             get(),
             get(),

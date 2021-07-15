@@ -109,7 +109,8 @@ class TimedSessionPresetDialog : AbstractSessionPresetDialog() {
                         R.attr.colorOnSurface,
                         Color.BLACK
                     )
-                } else {
+                }
+                else {
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.red_600
@@ -179,7 +180,8 @@ class TimedSessionPresetDialog : AbstractSessionPresetDialog() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-        } else {
+        }
+        else {
             timedSessionPresetDialogBinding?.intervalLengthZone?.alpha = ENABLED_ZONE_ALPHA
             timedSessionPresetDialogBinding?.intervalLengthValue?.text = formatDurationMsToString(sessionPreset.intermediateIntervalLength)
             timedSessionPresetDialogBinding?.intervalLengthZone?.setOnClickListener {
@@ -191,7 +193,8 @@ class TimedSessionPresetDialog : AbstractSessionPresetDialog() {
     private fun updateIntermediateIntervalSound(sessionPreset: SessionPreset) {
         if (sessionPreset.intermediateIntervalSoundUriString.isBlank()) {
             timedSessionPresetDialogBinding?.intervalSoundValue?.text = getString(R.string.generic_string_NONE)
-        } else {
+        }
+        else {
             timedSessionPresetDialogBinding?.intervalSoundValue?.text = sessionPreset.intermediateIntervalSoundName
             val ringTonesAssets = context?.resources?.getStringArray(fr.shining_cat.everyday.commons.R.array.ringtonesRawAssetsNames)
             val ringTonesTitles = context?.resources?.getStringArray(fr.shining_cat.everyday.commons.R.array.ringtonesTitles)

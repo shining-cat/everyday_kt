@@ -27,5 +27,6 @@ android {
 }
 
 dependencies {
-
+    implementation TestLibraries.junit
+    implementation TestLibraries.coroutines_test
 }

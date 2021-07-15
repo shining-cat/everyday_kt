@@ -40,5 +40,4 @@ dependencies {
     implementation project(Modules.domain)
     implementation project(Modules.interModulesNavigation)
 
-
 }

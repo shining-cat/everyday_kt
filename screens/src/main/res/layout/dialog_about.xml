@@ -76,9 +76,9 @@
         android:layout_marginTop="@dimen/half_margin"
         android:layout_marginEnd="@dimen/double_margin"
         android:text="@string/app_version"
+        app:layout_constraintBottom_toTopOf="@id/about_created_by"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/about_app_name"
-        app:layout_constraintBottom_toTopOf="@id/about_created_by" />
+        app:layout_constraintTop_toBottomOf="@+id/about_app_name" />
 
     <TextView
         android:id="@+id/about_created_by"
@@ -88,9 +88,9 @@
         android:layout_marginTop="@dimen/half_margin"
         android:layout_marginEnd="@dimen/double_margin"
         android:text="@string/app_made_by"
+        app:layout_constraintBottom_toTopOf="@id/about_created_name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/about_app_version"
-        app:layout_constraintBottom_toTopOf="@id/about_created_name" />
+        app:layout_constraintTop_toBottomOf="@+id/about_app_version" />
 
     <TextView
         android:id="@+id/about_created_name"
@@ -100,9 +100,9 @@
         android:layout_marginTop="@dimen/half_margin"
         android:layout_marginEnd="@dimen/double_margin"
         android:text="@string/app_made_name"
+        app:layout_constraintBottom_toTopOf="@id/about_website"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/about_created_by"
-        app:layout_constraintBottom_toTopOf="@id/about_website"/>
+        app:layout_constraintTop_toBottomOf="@+id/about_created_by" />
 
     <TextView
         android:id="@+id/about_website"
@@ -130,15 +130,15 @@
         android:layout_marginTop="@dimen/single_margin"
         android:layout_marginEnd="@dimen/double_margin"
         android:layout_marginBottom="@dimen/double_margin"
-        android:padding="@dimen/single_margin"
         android:adjustViewBounds="true"
         android:contentDescription="@string/content_description_kiwi_logo"
+        android:padding="@dimen/single_margin"
         android:scaleType="fitCenter"
         android:src="@drawable/kiwi"
-        app:tint="?attr/colorOnSurface"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/about_vertical_barrier"
-        app:layout_constraintTop_toBottomOf="@id/about_separator" />
+        app:layout_constraintTop_toBottomOf="@id/about_separator"
+        app:tint="?attr/colorOnSurface" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

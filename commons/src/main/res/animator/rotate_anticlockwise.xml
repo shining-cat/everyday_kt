@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2021. Shining-cat - Shiva Bernhard
   ~ This file is part of Everyday.
   ~
@@ -16,8 +15,8 @@
   ~     along with Everyday.  If not, see <https://www.gnu.org/licenses/>.
   -->
 <objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="@android:integer/config_shortAnimTime"
     android:propertyName="rotation"
     android:valueFrom="90"
     android:valueTo="0"
-    android:valueType="floatType"
-    android:duration="@android:integer/config_shortAnimTime" />
+    android:valueType="floatType" />
