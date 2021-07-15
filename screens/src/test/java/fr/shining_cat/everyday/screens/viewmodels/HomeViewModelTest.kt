@@ -45,9 +45,6 @@ class HomeViewModelTest {
     @MockK
     private lateinit var mockSessionPreset: SessionPreset
 
-    @MockK
-    private lateinit var mockSessionPresetCopied: SessionPreset
-
     private lateinit var homeViewModel: HomeViewModel
 
     @Before
