@@ -43,11 +43,11 @@ class PrefBottomDialogCountdownLengthPicker(
     private fun updateSummary() {
         summary =
             context.getString(R.string.startCountDownLengthPreference_explanation) +
-                ": " +
-                context.getString(R.string.startCountDownLengthPreference_value_display)
-                    .format(
-                        sharedPrefsHelper.getCountDownLength().toInt() / 1000
-                    )
+            ": " +
+            context.getString(R.string.startCountDownLengthPreference_value_display)
+                .format(
+                    sharedPrefsHelper.getCountDownLength().toInt() / 1000
+                )
     }
 
     override fun onClick() {

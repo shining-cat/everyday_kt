@@ -19,3 +19,10 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keep class fr.shining_cat.everyday.models.SessionPreset
+-keep class fr.shining_cat.everyday.models.SessionPreset$AudioSessionPreset
+-keep class fr.shining_cat.everyday.models.SessionPreset$AudioFreeSessionPreset
+-keep class fr.shining_cat.everyday.models.SessionPreset$TimedFreeSessionPreset
+-keep class fr.shining_cat.everyday.models.SessionPreset$TimedSessionPreset
+

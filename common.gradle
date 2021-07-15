@@ -28,7 +28,9 @@ android {
             testCoverageEnabled true
         }
         release {
-            minifyEnabled true
+            testCoverageEnabled false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     buildFeatures {
@@ -57,6 +59,7 @@ android {
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-parcelize'
+apply plugin: "androidx.navigation.safeargs.kotlin"
 apply from: "$project.rootDir/conf_plugin_jacoco.gradle"
 apply from: "$project.rootDir/conf_plugin_ben_manes_versions.gradle"
 apply from: "$project.rootDir/conf_plugin_detekt.gradle"

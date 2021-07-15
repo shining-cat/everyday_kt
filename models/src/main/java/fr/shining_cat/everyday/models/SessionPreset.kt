@@ -18,24 +18,177 @@
 package fr.shining_cat.everyday.models
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import kotlinx.parcelize.Parcelize
 
-@Parcelize
-data class SessionPreset(
-    val id: Long,
-    val startCountdownLength: Long,
-    val startAndEndSoundUriString: String,
-    val startAndEndSoundName: String,
-    val intermediateIntervalLength: Long,
-    val intermediateIntervalRandom: Boolean,
-    val intermediateIntervalSoundUriString: String,
-    val intermediateIntervalSoundName: String,
-    val duration: Long,
-    val audioGuideSoundUriString: String,
-    val audioGuideSoundArtistName: String,
-    val audioGuideSoundAlbumName: String,
-    val audioGuideSoundTitle: String,
-    val vibration: Boolean,
-    val sessionTypeId: Long,
-    val lastEditTime: Long
-) : Parcelable
+@Keep
+sealed class SessionPreset(
+    open val id: Long,
+    open val startCountdownLength: Long,
+    open val startAndEndSoundUriString: String,
+    open val startAndEndSoundName: String,
+    open val intermediateIntervalLength: Long,
+    open val intermediateIntervalRandom: Boolean,
+    open val intermediateIntervalSoundUriString: String,
+    open val intermediateIntervalSoundName: String,
+    open val duration: Long,
+    open val audioGuideSoundUriString: String,
+    open val audioGuideSoundArtistName: String,
+    open val audioGuideSoundAlbumName: String,
+    open val audioGuideSoundTitle: String,
+    open val vibration: Boolean,
+    open val sessionTypeId: Int,
+    open val lastEditTime: Long
+) : Parcelable {
+
+    @Keep
+    @Parcelize
+    data class AudioSessionPreset(
+        override val id: Long,
+        override val startCountdownLength: Long,
+        override val startAndEndSoundUriString: String,
+        override val startAndEndSoundName: String,
+        override val duration: Long,
+        override val audioGuideSoundUriString: String,
+        override val audioGuideSoundArtistName: String,
+        override val audioGuideSoundAlbumName: String,
+        override val audioGuideSoundTitle: String,
+        override val vibration: Boolean,
+        override val sessionTypeId: Int,
+        override val lastEditTime: Long
+    ) : SessionPreset(
+        id = id,
+        startCountdownLength = startCountdownLength,
+        startAndEndSoundUriString = startAndEndSoundUriString,
+        startAndEndSoundName = startAndEndSoundName,
+        intermediateIntervalLength = -1L,
+        intermediateIntervalRandom = false,
+        intermediateIntervalSoundUriString = "",
+        intermediateIntervalSoundName = "",
+        duration = duration,
+        audioGuideSoundUriString = audioGuideSoundUriString,
+        audioGuideSoundArtistName = audioGuideSoundArtistName,
+        audioGuideSoundAlbumName = audioGuideSoundAlbumName,
+        audioGuideSoundTitle = audioGuideSoundTitle,
+        vibration = vibration,
+        sessionTypeId = sessionTypeId,
+        lastEditTime = lastEditTime
+    )
+
+    @Keep
+    @Parcelize
+    data class AudioFreeSessionPreset(
+        override val id: Long,
+        override val startCountdownLength: Long,
+        override val startAndEndSoundUriString: String,
+        override val startAndEndSoundName: String,
+        override val vibration: Boolean,
+        override val sessionTypeId: Int,
+        override val lastEditTime: Long
+    ) : SessionPreset(
+        id = id,
+        startCountdownLength = startCountdownLength,
+        startAndEndSoundUriString = startAndEndSoundUriString,
+        startAndEndSoundName = startAndEndSoundName,
+        intermediateIntervalLength = -1L,
+        intermediateIntervalRandom = false,
+        intermediateIntervalSoundUriString = "",
+        intermediateIntervalSoundName = "",
+        duration = -1L,
+        audioGuideSoundUriString = "",
+        audioGuideSoundArtistName = "",
+        audioGuideSoundAlbumName = "",
+        audioGuideSoundTitle = "",
+        vibration = vibration,
+        sessionTypeId = sessionTypeId,
+        lastEditTime = lastEditTime
+    )
+
+    @Keep
+    @Parcelize
+    data class TimedSessionPreset(
+        override val id: Long,
+        override val startCountdownLength: Long,
+        override val startAndEndSoundUriString: String,
+        override val startAndEndSoundName: String,
+        override val intermediateIntervalLength: Long,
+        override val intermediateIntervalRandom: Boolean,
+        override val intermediateIntervalSoundUriString: String,
+        override val intermediateIntervalSoundName: String,
+        override val duration: Long,
+        override val vibration: Boolean,
+        override val sessionTypeId: Int,
+        override val lastEditTime: Long
+    ) : SessionPreset(
+        id = id,
+        startCountdownLength = startCountdownLength,
+        startAndEndSoundUriString = startAndEndSoundUriString,
+        startAndEndSoundName = startAndEndSoundName,
+        intermediateIntervalLength = intermediateIntervalLength,
+        intermediateIntervalRandom = intermediateIntervalRandom,
+        intermediateIntervalSoundUriString = intermediateIntervalSoundUriString,
+        intermediateIntervalSoundName = intermediateIntervalSoundName,
+        duration = duration,
+        audioGuideSoundUriString = "",
+        audioGuideSoundArtistName = "",
+        audioGuideSoundAlbumName = "",
+        audioGuideSoundTitle = "",
+        vibration = vibration,
+        sessionTypeId = sessionTypeId,
+        lastEditTime = lastEditTime
+    )
+
+    @Keep
+    @Parcelize
+    data class TimedFreeSessionPreset(
+        override val id: Long,
+        override val startCountdownLength: Long,
+        override val startAndEndSoundUriString: String,
+        override val startAndEndSoundName: String,
+        override val intermediateIntervalLength: Long,
+        override val intermediateIntervalRandom: Boolean,
+        override val intermediateIntervalSoundUriString: String,
+        override val intermediateIntervalSoundName: String,
+        override val vibration: Boolean,
+        override val sessionTypeId: Int,
+        override val lastEditTime: Long
+    ) : SessionPreset(
+        id = id,
+        startCountdownLength = startCountdownLength,
+        startAndEndSoundUriString = startAndEndSoundUriString,
+        startAndEndSoundName = startAndEndSoundName,
+        intermediateIntervalLength = intermediateIntervalLength,
+        intermediateIntervalRandom = intermediateIntervalRandom,
+        intermediateIntervalSoundUriString = intermediateIntervalSoundUriString,
+        intermediateIntervalSoundName = intermediateIntervalSoundName,
+        duration = -1L,
+        audioGuideSoundUriString = "",
+        audioGuideSoundArtistName = "",
+        audioGuideSoundAlbumName = "",
+        audioGuideSoundTitle = "",
+        vibration = vibration,
+        sessionTypeId = sessionTypeId,
+        lastEditTime = lastEditTime
+    )
+
+    @Keep
+    @Parcelize
+    class UnknownSessionPreset : SessionPreset(
+        id = -1L,
+        startCountdownLength = -1L,
+        startAndEndSoundUriString = "",
+        startAndEndSoundName = "",
+        intermediateIntervalLength = -1L,
+        intermediateIntervalRandom = false,
+        intermediateIntervalSoundUriString = "",
+        intermediateIntervalSoundName = "",
+        duration = -1L,
+        audioGuideSoundUriString = "",
+        audioGuideSoundArtistName = "",
+        audioGuideSoundAlbumName = "",
+        audioGuideSoundTitle = "",
+        vibration = false,
+        sessionTypeId = -1,
+        lastEditTime = -1L,
+    )
+}

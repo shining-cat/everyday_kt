@@ -25,7 +25,7 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import fr.shining_cat.everyday.commons.databinding.DialogBottomTimePickerAndConfirmBinding
 
-class BottomDialogDismissibleTimePicker: BottomSheetDialogFragment() {
+class BottomDialogDismissibleTimePicker : BottomSheetDialogFragment() {
 
     private val TITLE_ARG = "title_argument"
     private val HOUR_ARG = "hour_argument"
@@ -114,8 +114,7 @@ class BottomDialogDismissibleTimePicker: BottomSheetDialogFragment() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             timePicker.hour = hour
             timePicker.minute = minutes
-        }
-        else @Suppress("DEPRECATION") {
+        } else @Suppress("DEPRECATION") {
             timePicker.currentHour = hour
             timePicker.currentMinute = minutes
         }
@@ -132,8 +131,7 @@ class BottomDialogDismissibleTimePicker: BottomSheetDialogFragment() {
                     timePicker.hour,
                     timePicker.minute
                 )
-            }
-            else {
+            } else {
                 @Suppress("DEPRECATION") transmitSelectedTime(
                     timePicker.currentHour,
                     timePicker.currentMinute

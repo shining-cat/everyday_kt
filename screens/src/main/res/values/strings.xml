@@ -48,23 +48,29 @@
     <string name="countdown">Compte à rebours</string>
     <string name="start_end_sound">Son de début et fin</string>
     <string name="interval">Intervalle</string>
+    <string name="interval_random">Intervalle irrégulier aléatoire</string>
+    <string name="interval_random_explanation">Désactiver Intervalle irrégulier pour choisir un intervalle fixe</string>
     <string name="vibration">Vibration</string>
     <string name="interval_sound">Son d\'intervalle</string>
     <string name="audio_guide">Support Audio</string>
     <string name="no_session_preset_found">Aucun preset trouvé, créez-en un nouveau!</string>
-    <string name="session_duration_vs_audio_explanation">pour une session audio, la durée sera celle du fichier choisi.\nUne session Audio ne peut être transformée en session chronométrée</string>
+    <string name="session_duration_vs_audio_explanation">pour une session audio, la durée sera celle du fichier choisi.</string>
     <string name="session_interval_vs_audio_explanation">pour une session audio, il n\y aura pas d\'intervalles intermédiaires</string>
     <string name="session_countdown_explanation">longueur du compte à rebours avant le démarrage</string>
     <string name="session_interval_explanation">Intervalle auquel un son sera joué, choisir 0 pour aucun</string>
     <string name="audio_session_preset_title">Démarrer une session audio:</string>
-    <string name="timed_session_preset_title">Démarrer une session chronométrée</string>
-    <string name="unknown_audio_duration_fill_manually">durée inconnue, renseigner manuellement la durée du fichier audio sélectionnée</string>
+    <string name="audio_free_session_preset_title">Choisir un accompagnement audio pour une session libre…</string>
+    <string name="timed_session_preset_title">Démarrer une session minutée</string>
+    <string name="timed_free_session_preset_title">Démarrer une session chronométrée</string>
+    <string name="unknown_audio_duration_fill_manually">durée inconnue, renseigner manuellement la durée du fichier audio sélectionné</string>
     <string name="audio_file_display_info">%1$s - %2$s - %3$s</string>
     <string name="session_preset_invalid_preset">Le preset est invalide, corriger les champs indiqués</string>
     <string name="free_timed_session">Session chronométrée libre</string>
     <string name="timed_session">Session minutée</string>
     <string name="audio_session">Session audio fixe</string>
     <string name="free_audio_session">Session audio libre</string>
+    <string name="session_preset_audio_free_explanation">Avec ce preset, sélectionnez un fichier audio d\'accompagnement à chaque lancement</string>
+    <string name="session_preset_timed_free_explanation">Avec ce preset, chronométrez une session sans durée prédéfinie</string>
 
 
 </resources>

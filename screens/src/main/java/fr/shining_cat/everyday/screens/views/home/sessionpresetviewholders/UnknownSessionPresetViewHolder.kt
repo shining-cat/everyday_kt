@@ -15,28 +15,22 @@
  *     along with Everyday.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-buildscript {
-    repositories {
-        google()
-        jcenter()
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath AndroidLibraries.gradle
-        classpath KotlinLibraries.kotlinGradlePlugin
-        classpath Libraries.gradleVersionsPlugin
-        classpath Libraries.jacocoPlugin
-        classpath Libraries.detektPlugin
-        classpath AndroidLibraries.navigation_safe_args
-    }
-}
+package fr.shining_cat.everyday.screens.views.home.sessionpresetviewholders
 
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-    }
+import fr.shining_cat.everyday.commons.Logger
+import fr.shining_cat.everyday.models.SessionPreset
+import fr.shining_cat.everyday.screens.databinding.ItemUnknownSessionPresetViewHolderBinding
 
+class UnknownSessionPresetViewHolder(
+    private val itemUnknownSessionPresetViewHolderBinding: ItemUnknownSessionPresetViewHolderBinding,
+    private val logger: Logger
+) : AbstractSessionPresetViewHolder(
+    itemUnknownSessionPresetViewHolderBinding.root,
+    logger
+) {
+
+    private val LOG_TAG = UnknownSessionPresetViewHolder::class.java.name
+
+    override fun bindView(sessionPreset: SessionPreset) {
+    }
 }

@@ -22,12 +22,12 @@ import java.util.concurrent.TimeUnit
  * 443096000L -> 123h 04mn 56s / 123:04:56
  * arguments all have default values leading to the basic Hh:Mm:Ss formatting
  * using the default formatting will not remove leading 0 and the zero smallest units
- * @param  formatStringHoursMinutesSeconds: String
- * @param  formatStringHoursMinutesNoSeconds: String
- * @param  formatStringHoursNoMinutesNoSeconds: String
- * @param  formatStringMinutesSeconds: String
- * @param  formatStringMinutesNoSeconds: String
- * @param  formatStringSeconds: String
+ * @param formatStringHoursMinutesSeconds: String
+ * @param formatStringHoursMinutesNoSeconds: String
+ * @param formatStringHoursNoMinutesNoSeconds: String
+ * @param formatStringMinutesSeconds: String
+ * @param formatStringMinutesNoSeconds: String
+ * @param formatStringSeconds: String
  */
 fun Long.autoFormatDurationMsAsSmallestHhMmSsString(
     formatStringHoursMinutesSeconds: String = "%1\$02d:%2\$02d:%3\$02d",
@@ -42,24 +42,24 @@ fun Long.autoFormatDurationMsAsSmallestHhMmSsString(
     val seconds = TimeUnit.MILLISECONDS.toSeconds(this) % 60
 
     return when {
-        //ex: 5s / 32s
+        // ex: 5s / 32s
         hours == 0L && minutes == 0L -> formatStringSeconds.format(seconds)
         //
         hours == 0L && minutes > 0L -> when (seconds) {
-            //ex: 3mn / 13mn
+            // ex: 3mn / 13mn
             0L -> try {
                 formatStringMinutesNoSeconds.format(
                     minutes
                 )
             }
-            //the default String needs the 0 seconds argument to be formatted
+            // the default String needs the 0 seconds argument to be formatted
             catch (mae: MissingFormatArgumentException) {
                 formatStringMinutesNoSeconds.format(
                     minutes,
                     seconds
                 )
             }
-            //ex: 2mn04s / 1mn43s / 23mn52s
+            // ex: 2mn04s / 1mn43s / 23mn52s
             else -> formatStringMinutesSeconds.format(
                 minutes,
                 seconds
@@ -68,16 +68,16 @@ fun Long.autoFormatDurationMsAsSmallestHhMmSsString(
         else -> when (seconds) {
             0L -> try {
                 when (minutes) {
-                    //ex: 1h / 23h
+                    // ex: 1h / 23h
                     0L -> formatStringHoursNoMinutesNoSeconds.format(hours)
-                    //ex: 2h03mn / 3h45mn
+                    // ex: 2h03mn / 3h45mn
                     else -> formatStringHoursMinutesNoSeconds.format(
                         hours,
                         minutes
                     )
                 }
             }
-            //the default String needs the 0 minutes & 0 seconds arguments to be formatted
+            // the default String needs the 0 minutes & 0 seconds arguments to be formatted
             catch (mae: MissingFormatArgumentException) {
                 formatStringHoursMinutesSeconds.format(
                     hours,
@@ -85,7 +85,7 @@ fun Long.autoFormatDurationMsAsSmallestHhMmSsString(
                     seconds
                 )
             }
-            //ex: 3h04mn05s / 4h12mn34s / 12h34mn56s
+            // ex: 3h04mn05s / 4h12mn34s / 12h34mn56s
             else -> formatStringHoursMinutesSeconds.format(
                 hours,
                 minutes,

@@ -30,7 +30,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -50,9 +50,13 @@ import fr.shining_cat.everyday.screens.views.ScreenActivity
 import org.koin.android.ext.android.get
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class HomeFragment: Fragment() {
+class HomeFragment : Fragment() {
 
     private val LOG_TAG = HomeFragment::class.java.name
+
+    companion object {
+        val SESSION_PRESET_DIALOG_RETURN_KEY = "key for the return from a session preset Dialog"
+    }
 
     private val logger: Logger = get()
     private val homeViewModel: HomeViewModel by viewModel()
@@ -63,6 +67,7 @@ class HomeFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        logger.d(LOG_TAG, "onCreateView")
         val homeFragmentBinding = FragmentHomeBinding.inflate(layoutInflater)
         //
         setupToolbar(homeFragmentBinding)
@@ -73,23 +78,71 @@ class HomeFragment: Fragment() {
         //
         setupObservers(homeFragmentBinding)
         //
-        homeViewModel.initViewModel(resources)
+        homeViewModel.fetchSessionPresets(resources.getString(R.string.no_session_preset_found))
         return homeFragmentBinding.root
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        logger.d(LOG_TAG, "onCreate")
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        logger.d(LOG_TAG, "onViewCreated")
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(SESSION_PRESET_DIALOG_RETURN_KEY)?.observe(
+            viewLifecycleOwner
+        ) { result ->
+            if (result) {
+                // session preset dialog has updated the DB
+                homeViewModel.fetchSessionPresets(resources.getString(R.string.no_session_preset_found))
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        logger.d(LOG_TAG, "onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        logger.d(LOG_TAG, "onPause")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        logger.d(LOG_TAG, "onStart")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        logger.d(LOG_TAG, "onStop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        logger.d(LOG_TAG, "onDestroy")
     }
 
     // //////////////////////
     // OBSERVERS
     private fun setupObservers(homeFragmentBinding: FragmentHomeBinding) {
-        homeViewModel.errorLiveData.observe(viewLifecycleOwner,
+        homeViewModel.errorLiveData.observe(
+            viewLifecycleOwner,
             {
                 logger.e(
                     LOG_TAG,
                     "homeViewModel.errorLiveData::$it"
                 )
                 showErrorDialog(it)
-            })
-        homeViewModel.sessionPresetsLiveData.observe(viewLifecycleOwner,
+            }
+        )
+        logger.e(LOG_TAG, "homeViewModel= $homeViewModel")
+        homeViewModel.sessionPresetsLiveData.observe(
+            viewLifecycleOwner,
             {
+                // TODO: pb here, livedata updating in viewmodel does not trigger this observer!
                 logger.d(
                     LOG_TAG,
                     "homeViewModel.sessionPresetsLiveData::${it.size}"
@@ -97,12 +150,12 @@ class HomeFragment: Fragment() {
                 if (it.isEmpty()) {
                     homeFragmentBinding.emptyListMessage.visibility = VISIBLE
                     sessionPresetsAdapter.submitList(it)
-                }
-                else {
+                } else {
                     homeFragmentBinding.emptyListMessage.visibility = GONE
                     sessionPresetsAdapter.submitList(it)
                 }
-            })
+            }
+        )
     }
 
     // //////////////////////
@@ -143,12 +196,14 @@ class HomeFragment: Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.actionbar_settings -> {
-                startActivity(context?.let {
-                    Actions.openDestination(
-                        it,
-                        Destination.SettingsDestination()
-                    )
-                })
+                startActivity(
+                    context?.let {
+                        Actions.openDestination(
+                            it,
+                            Destination.SettingsDestination()
+                        )
+                    }
+                )
                 return true
             }
 
@@ -168,7 +223,7 @@ class HomeFragment: Fragment() {
         )
     }
 
-    ////////////////////
+    // //////////////////
     // FAB
     private fun setupAddSessionPresetFab(homeFragmentBinding: FragmentHomeBinding) {
         homeFragmentBinding.addSessionPresetFabSpeedDial.setSpeedDialItems(
@@ -180,25 +235,25 @@ class HomeFragment: Fragment() {
     private fun buildHomeFabSpeedDials(): List<FabSpeedDialItem> {
         val createFreeTimedSession = FabSpeedDialItem(
             R.drawable.ic_timer,
-            {openCreateFreeTimedSession()},
+            { openTimedFreeSessionPresetDialog() },
             getString(R.string.free_timed_session)
         )
         //
         val createTimedSession = FabSpeedDialItem(
             R.drawable.ic_hourglass,
-            {openCreateTimedSession()},
+            { openTimedSessionPresetDialog() },
             getString(R.string.timed_session)
         )
         //
         val createAudioSession = FabSpeedDialItem(
             R.drawable.ic_audio_file,
-            {openCreateAudioSession()},
+            { openAudioSessionPresetDialog() },
             getString(R.string.audio_session)
         )
         //
         val createFreeAudioSession = FabSpeedDialItem(
             R.drawable.ic_audio_search,
-            {openCreateFreeAudioSession()},
+            { openAudioFreeSessionPresetDialog() },
             getString(R.string.free_audio_session)
         )
         //
@@ -210,51 +265,40 @@ class HomeFragment: Fragment() {
         )
     }
 
-    private fun openCreateFreeAudioSession() {
-        TODO("not implemented")
+    private fun openAudioFreeSessionPresetDialog(preset: SessionPreset.AudioFreeSessionPreset? = null) {
+        logger.d(
+            LOG_TAG,
+            "openAudioFreeSessionPresetDialog"
+        )
+        val action = HomeFragmentDirections.actionNavigationHomeToSessionPresetDialogAudioFree(preset)
+        findNavController().navigate(action)
     }
 
-    private fun openCreateAudioSession() {
-        TODO("not implemented")
+    private fun openAudioSessionPresetDialog(preset: SessionPreset.AudioSessionPreset? = null) {
+        val action = HomeFragmentDirections.actionNavigationHomeToSessionPresetDialogAudio(preset)
+        findNavController().navigate(action)
     }
 
-    private fun openCreateTimedSession() {
-        TODO("not implemented")
+    private fun openTimedSessionPresetDialog(preset: SessionPreset.TimedSessionPreset? = null) {
+        val action = HomeFragmentDirections.actionNavigationHomeToSessionPresetDialogTimed(preset)
+        findNavController().navigate(action)
     }
 
-    private fun openCreateFreeTimedSession() {
-        TODO("not implemented")
+    private fun openTimedFreeSessionPresetDialog(preset: SessionPreset.TimedFreeSessionPreset? = null) {
+        val action = HomeFragmentDirections.actionNavigationHomeToSessionPresetDialogTimedFree(preset)
+        findNavController().navigate(action)
     }
 
-    private fun showSessionPresetDialog(preset: SessionPreset? = null) {
-        val dialogFragment = SessionPresetDialog.newInstance(preset)
-        dialogFragment.setSessionPresetDialogListener(sessionPresetDialogListener)
-        val transaction: FragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-        transaction.add(
-            android.R.id.content,
-            dialogFragment
-        ).addToBackStack(null).commit()
-    }
-
-    private val sessionPresetDialogListener = object: SessionPresetDialog.SessionPresetDialogListener {
-        override fun onConfirmButtonClicked(sessionPreset: SessionPreset) {
-            homeViewModel.saveSessionPreset(
-                sessionPreset,
-                resources
+    private fun openEditSessionPresetDialog(preset: SessionPreset) {
+        when (preset) {
+            is SessionPreset.AudioFreeSessionPreset -> openAudioFreeSessionPresetDialog(preset)
+            is SessionPreset.AudioSessionPreset -> openAudioSessionPresetDialog(preset)
+            is SessionPreset.TimedSessionPreset -> openTimedSessionPresetDialog(preset)
+            is SessionPreset.TimedFreeSessionPreset -> openTimedFreeSessionPresetDialog(preset)
+            else -> logger.e(
+                LOG_TAG,
+                "openEditSessionPresetDialog::UNKNOWN SESSION PRESET TYPE => doing nothing"
             )
-        }
-
-        override fun onDeletePresetConfirmed(sessionPreset: SessionPreset) {
-            homeViewModel.deleteSessionPreset(
-                sessionPreset,
-                resources
-            )
-        }
-
-        override fun onDismissButtonClicked() {
-            // force list refresh to get the swiped preset back
-            sessionPresetsAdapter.notifyDataSetChanged()
         }
     }
 
@@ -271,8 +315,9 @@ class HomeFragment: Fragment() {
                 removeItemDecorationAt(0)
             }
             addItemDecoration(SessionPresetItemDecoration(resources.getDimensionPixelSize(R.dimen.three_quarter_margin)))
+            // TODO: FAB has been heavily modified, build a new way to hide it when scrolling
             // listener on scroll state to hide/show the FAB, allowing for more legibility of underlying items
-            addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(
                     recyclerView: RecyclerView,
                     newState: Int
@@ -283,29 +328,29 @@ class HomeFragment: Fragment() {
                     )
                     when (newState) {
                         SCROLL_STATE_IDLE -> {
-                            showHideAddSessionPresetButton(
-                                homeFragmentBinding,
-                                true
-                            )
+                            // showHideAddSessionPresetButton(
+                            //     homeFragmentBinding,
+                            //     true
+                            // )
                         }
 
                         SCROLL_STATE_DRAGGING -> {
-                            showHideAddSessionPresetButton(
-                                homeFragmentBinding,
-                                false
-                            )
+                            // showHideAddSessionPresetButton(
+                            //     homeFragmentBinding,
+                            //     false
+                            // )
                         }
                     }
                 }
             })
         }
         // swipe left/right behaviour
-        context?.let {context ->
+        context?.let { context ->
             val itemTouchHelper = ItemTouchHelper(getSwipeHandler(context))
             itemTouchHelper.attachToRecyclerView(homeFragmentBinding.sessionPresetRecyclerView)
         }
         // scroll to top of modified range in adapter
-        sessionPresetsAdapter.registerAdapterDataObserver(object: RecyclerView.AdapterDataObserver() {
+        sessionPresetsAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(
                 positionStart: Int,
                 itemCount: Int
@@ -327,7 +372,7 @@ class HomeFragment: Fragment() {
             context,
             R.drawable.ic_move_to_top
         )
-        return object: SwipeInRecyclerViewCallback(
+        return object : SwipeInRecyclerViewCallback(
             rightIcon = editIcon,
             leftIcon = moveToTopIcon,
             backgroundColor = null,
@@ -344,13 +389,12 @@ class HomeFragment: Fragment() {
                         LOG_TAG,
                         "onSwiped:: could not retrieve SessionPreset for position $position"
                     )
-                }
-                else {
+                } else {
                     when (direction) {
-                        ItemTouchHelper.LEFT -> showSessionPresetDialog(swipedPreset)
+                        ItemTouchHelper.LEFT -> openEditSessionPresetDialog(swipedPreset)
                         ItemTouchHelper.RIGHT -> homeViewModel.moveSessionPresetToTop(
                             swipedPreset,
-                            resources
+                            resources.getString(R.string.no_session_preset_found)
                         )
                     }
                 }
@@ -364,8 +408,7 @@ class HomeFragment: Fragment() {
     ) {
         if (showIt) {
             homeFragmentBinding.addSessionPresetFabSpeedDial.appear()
-        }
-        else {
+        } else {
             homeFragmentBinding.addSessionPresetFabSpeedDial.disappear()
         }
     }

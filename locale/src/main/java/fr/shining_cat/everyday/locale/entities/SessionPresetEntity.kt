@@ -31,10 +31,11 @@ import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.IN
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.INTERMEDIATE_SOUND_URI
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.LAST_EDIT_DATE
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.SESSION_PRESET_ID
+import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.SESSION_PRESET_TYPE
+import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.SESSION_TYPE
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.START_AND_END_SOUND_NAME
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.START_AND_END_SOUND_URI
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.START_COUNTDOWN_LENGTH
-import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.TYPE
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntityColumnNames.VIBRATION
 import fr.shining_cat.everyday.locale.entities.SessionPresetTable.SESSION_PRESET_TABLE_NAME
 
@@ -55,8 +56,9 @@ data class SessionPresetEntity(
     @ColumnInfo(name = AUDIO_GUIDE_ALBUM) val audioGuideSoundAlbumName: String,
     @ColumnInfo(name = AUDIO_GUIDE_TITLE) val audioGuideSoundTitle: String,
     @ColumnInfo(name = VIBRATION) val vibration: Boolean,
-    @ColumnInfo(name = TYPE) val sessionTypeId: Long,
-    @ColumnInfo(name = LAST_EDIT_DATE) val lastEditTime: Long
+    @ColumnInfo(name = SESSION_TYPE) val sessionTypeId: Int,
+    @ColumnInfo(name = LAST_EDIT_DATE) val lastEditTime: Long,
+    @ColumnInfo(name = SESSION_PRESET_TYPE) val sessionPresetType: String
 )
 
 object SessionPresetTable {
@@ -81,5 +83,6 @@ object SessionPresetEntityColumnNames {
     const val AUDIO_GUIDE_TITLE = "audioGuideTitle"
     const val VIBRATION = "vibration"
     const val LAST_EDIT_DATE = "lastEditDate"
-    const val TYPE = "type"
+    const val SESSION_TYPE = "sessionType"
+    const val SESSION_PRESET_TYPE = "sessionPresetType"
 }

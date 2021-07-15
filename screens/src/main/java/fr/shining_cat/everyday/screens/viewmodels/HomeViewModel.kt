@@ -17,7 +17,6 @@
 
 package fr.shining_cat.everyday.screens.viewmodels
 
-import android.content.res.Resources
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import fr.shining_cat.everyday.commons.Constants.Companion.ERROR_CODE_NO_RESULT
@@ -25,21 +24,16 @@ import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.viewmodels.AbstractViewModels
 import fr.shining_cat.everyday.commons.viewmodels.AppDispatchers
 import fr.shining_cat.everyday.domain.Result
-import fr.shining_cat.everyday.domain.sessionspresets.CreateSessionPresetUseCase
-import fr.shining_cat.everyday.domain.sessionspresets.DeleteSessionPresetUseCase
 import fr.shining_cat.everyday.domain.sessionspresets.LoadSessionPresetsUseCase
 import fr.shining_cat.everyday.domain.sessionspresets.UpdateSessionPresetUseCase
 import fr.shining_cat.everyday.models.SessionPreset
-import fr.shining_cat.everyday.screens.R
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
     appDispatchers: AppDispatchers,
-    private val loadSessionPresetUseCase: LoadSessionPresetsUseCase,
-    private val createSessionPresetUseCase: CreateSessionPresetUseCase,
+    private val loadSessionPresetsUseCase: LoadSessionPresetsUseCase,
     private val updateSessionPresetUseCase: UpdateSessionPresetUseCase,
-    private val deleteSessionPresetUseCase: DeleteSessionPresetUseCase,
     private val logger: Logger
 ) : AbstractViewModels(appDispatchers) {
 
@@ -51,24 +45,28 @@ class HomeViewModel(
     private val _errorLiveData = MutableLiveData<String>()
     val errorLiveData: LiveData<String> = _errorLiveData
 
-    fun initViewModel(resources: Resources) {
-        loadSessionPresets(resources)
+    fun fetchSessionPresets(nothingFoundMessage: String) {
+        loadSessionPresets(nothingFoundMessage)
     }
 
-    private fun loadSessionPresets(resources: Resources) {
+    private fun loadSessionPresets(nothingFoundMessage: String) {
         mainScope.launch {
             val sessionPresetsResult = ioScope.async {
-                loadSessionPresetUseCase.execute()
+                loadSessionPresetsUseCase.execute()
             }.await()
             if (sessionPresetsResult is Result.Success) {
                 val sessionsList = sessionPresetsResult.result
+                logger.d(
+                    LOG_TAG,
+                    "loadSessionPresets::success::sessionsList.size = ${sessionsList.size} => setting new value to _sessionPresetsLiveData"
+                )
                 _sessionPresetsLiveData.value = sessionsList
             } else {
                 sessionPresetsResult as Result.Error
                 // reset list
                 _sessionPresetsLiveData.value = listOf()
                 if (sessionPresetsResult.errorCode == ERROR_CODE_NO_RESULT) {
-                    _errorLiveData.value = resources.getString(R.string.no_session_preset_found)
+                    _errorLiveData.value = nothingFoundMessage
                 } else {
                     _errorLiveData.value = sessionPresetsResult.errorResponse
                 }
@@ -76,42 +74,54 @@ class HomeViewModel(
         }
     }
 
-    fun saveSessionPreset(sessionPreset: SessionPreset, resources: Resources) {
+    fun moveSessionPresetToTop(
+        sessionPreset: SessionPreset,
+        nothingFoundMessage: String
+    ) {
+        logger.d(
+            LOG_TAG,
+            "moveSessionPresetToTop"
+        )
+        val sessionPresetOut = when (sessionPreset) {
+            is SessionPreset.AudioSessionPreset -> sessionPreset.copy(lastEditTime = System.currentTimeMillis())
+            is SessionPreset.AudioFreeSessionPreset -> sessionPreset.copy(lastEditTime = System.currentTimeMillis())
+            is SessionPreset.TimedSessionPreset -> sessionPreset.copy(lastEditTime = System.currentTimeMillis())
+            is SessionPreset.TimedFreeSessionPreset -> sessionPreset.copy(lastEditTime = System.currentTimeMillis())
+
+            else -> {
+                logger.e(
+                    LOG_TAG,
+                    "moveSessionPresetToTop::UNKNOWN SESSION PRESET TYPE"
+                )
+                SessionPreset.UnknownSessionPreset()
+            }
+        }
+        updateSessionPreset(
+            sessionPresetOut,
+            nothingFoundMessage
+        )
+    }
+
+    //
+    private fun updateSessionPreset(
+        sessionPreset: SessionPreset,
+        nothingFoundMessage: String
+    ) {
         mainScope.launch {
             val recordSessionPresetResult = ioScope.async {
-                if (sessionPreset.id == -1L) {
-                    createSessionPresetUseCase.execute(sessionPreset)
-                } else {
-                    updateSessionPresetUseCase.execute(sessionPreset)
-                }
+                updateSessionPresetUseCase.execute(sessionPreset)
             }.await()
             if (recordSessionPresetResult is Result.Success) {
                 // reload complete session presets list, will trigger list update on UI side
-                loadSessionPresets(resources)
+                loadSessionPresets(nothingFoundMessage)
             } else {
+                logger.e(
+                    LOG_TAG,
+                    "saveSessionPreset::ERROR}"
+                )
                 recordSessionPresetResult as Result.Error
                 _errorLiveData.value = recordSessionPresetResult.errorResponse
             }
         }
-    }
-
-    fun deleteSessionPreset(sessionPreset: SessionPreset, resources: Resources) {
-        mainScope.launch {
-            val deleteSessionPresetResult = ioScope.async {
-                deleteSessionPresetUseCase.execute(sessionPreset)
-            }.await()
-            if (deleteSessionPresetResult is Result.Success) {
-                // reload complete session presets list, will trigger list update on UI side
-                loadSessionPresets(resources)
-            } else {
-                deleteSessionPresetResult as Result.Error
-                _errorLiveData.value = deleteSessionPresetResult.errorResponse
-            }
-        }
-    }
-
-    fun moveSessionPresetToTop(sessionPreset: SessionPreset, resources: Resources) {
-        val sessionPresetOut = sessionPreset.copy(lastEditTime = System.currentTimeMillis())
-        saveSessionPreset(sessionPresetOut, resources)
     }
 }

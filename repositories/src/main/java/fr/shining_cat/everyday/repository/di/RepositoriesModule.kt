@@ -38,9 +38,10 @@ val repositoriesModule = module {
     factory { SessionPresetConverter(get()) }
 
     // Repositories
-    factory { CritterPartsRepositoryImpl() as CritterPartsRepository}
+    factory { CritterPartsRepositoryImpl() as CritterPartsRepository }
     factory {
         RewardRepositoryImpl(
+            get(),
             get(),
             get()
         ) as RewardRepository
@@ -48,11 +49,13 @@ val repositoriesModule = module {
     factory {
         SessionRecordRepositoryImpl(
             get(),
+            get(),
             get()
         ) as SessionRecordRepository
     }
     factory {
         SessionPresetRepositoryImpl(
+            get(),
             get(),
             get()
         ) as SessionPresetRepository

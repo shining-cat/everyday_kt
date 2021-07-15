@@ -13,12 +13,22 @@ class CreateSessionPresetUseCase(
     private val logger: Logger
 ) {
 
+    private val LOG_TAG = CreateSessionPresetUseCase::class.java.name
+
     suspend fun execute(
         sessionPreset: SessionPreset
     ): Result<Long> {
-        val output = sessionPresetRepository.insert(listOf(sessionPreset.copy(lastEditTime = System.currentTimeMillis())))
+
+        val sessionPresetToInsert = when (sessionPreset) {
+            is SessionPreset.AudioSessionPreset -> sessionPreset.copy(lastEditTime = System.currentTimeMillis())
+            is SessionPreset.AudioFreeSessionPreset -> sessionPreset.copy(lastEditTime = System.currentTimeMillis())
+            is SessionPreset.TimedSessionPreset -> sessionPreset.copy(lastEditTime = System.currentTimeMillis())
+            is SessionPreset.TimedFreeSessionPreset -> sessionPreset.copy(lastEditTime = System.currentTimeMillis())
+            else -> SessionPreset.UnknownSessionPreset()
+        }
+        val output = sessionPresetRepository.insert(listOf(sessionPresetToInsert))
         return if (output is Output.Success) {
-            // this usecase only handle single item insertion
+            // this usecase only handles single item insertion
             if (output.result.size == 1) {
                 Result.Success(output.result[0])
             } else {
