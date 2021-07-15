@@ -34,20 +34,6 @@ class AudioFreeSessionPresetViewHolder(
     private val LOG_TAG = AudioFreeSessionPresetViewHolder::class.java.name
 
     override fun bindView(sessionPreset: SessionPreset) {
-        val resources = itemView.resources
-        itemAudioSessionPresetViewHolderBinding.audioSessionPresetFileDescription.text = resources.getString(
-            R.string.audio_file_display_info,
-            sessionPreset.audioGuideSoundTitle,
-            sessionPreset.audioGuideSoundArtistName,
-            sessionPreset.audioGuideSoundAlbumName
-        )
-        itemAudioSessionPresetViewHolderBinding.audioSessionDurationValue.text = sessionPreset.duration.autoFormatDurationMsAsSmallestHhMmSsString(
-            resources.getString(R.string.duration_format_hours_minutes_seconds_short),
-            resources.getString(R.string.duration_format_hours_minutes_no_seconds_short),
-            resources.getString(R.string.duration_format_hours_no_minutes_no_seconds_short),
-            resources.getString(R.string.duration_format_minutes_seconds_short),
-            resources.getString(R.string.duration_format_minutes_no_seconds_short),
-            resources.getString(R.string.duration_format_seconds_short)
-        )
+        //we have nothing to bind here yet
     }
 }

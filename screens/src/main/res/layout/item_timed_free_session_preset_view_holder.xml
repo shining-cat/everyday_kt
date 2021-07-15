@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/single_and_half_margin"
-            android:text="@string/timed_session_preset_title"
+            android:text="@string/timed_free_session_preset_title"
             android:textColor="?attr/colorOnSurface"
             android:textSize="@dimen/title_level_2_text_size"
             android:textStyle="bold"
