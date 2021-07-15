@@ -93,12 +93,10 @@ class FabWithSpeedDial @kotlin.jvm.JvmOverloads constructor(
             speedDialItemView.setup(
                 item,
                 FAST_ANIMATION_DURATION_MILLIS,
+                //auto-collapse SpeedDial when clicking on any item
+                { collapse() },
                 logger
             )
-            // interaction
-            speedDialItemView.setOnClickListener {
-                item.clickListener.onClick(it)
-            }
             // store
             speedDialItemViews.add(speedDialItemView)
         }
@@ -126,7 +124,8 @@ class FabWithSpeedDial @kotlin.jvm.JvmOverloads constructor(
                     )
                     precedingItem.disappear()
                 }
-            } else {
+            }
+            else {
                 // plug listener to last disappearing item
                 item.setListenerDisappear { onSpeedDialItemViewDisappearComplete(item) }
             }
@@ -168,12 +167,14 @@ class FabWithSpeedDial @kotlin.jvm.JvmOverloads constructor(
         val itemPosX = item.translationX
         val startEffectAt = if (targetIsRealTranslationX) {
             itemPosX + 100F
-        } else {
+        }
+        else {
             itemPosX
         }
         val endEffectAt = if (targetIsRealTranslationX) {
             itemPosX
-        } else {
+        }
+        else {
             itemPosX + 100F
         }
         item.animateToTranslationX(
@@ -238,7 +239,8 @@ class FabWithSpeedDial @kotlin.jvm.JvmOverloads constructor(
         )
         val referentViewForVerticalPosition = if (startingIndex == 0) {
             layoutWidgetFabSpeedDialBinding.fab // start up positioning reference is the main fab
-        } else {
+        }
+        else {
             speedDialItemViews[startingIndex - 1]
         }
         if (startingIndex < speedDialItemViews.size) {

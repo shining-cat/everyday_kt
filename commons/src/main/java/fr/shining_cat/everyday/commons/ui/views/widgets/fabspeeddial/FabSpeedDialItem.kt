@@ -17,11 +17,10 @@
 
 package fr.shining_cat.everyday.commons.ui.views.widgets.fabspeeddial
 
-import android.view.View
 import androidx.annotation.DrawableRes
 
 data class FabSpeedDialItem(
     @DrawableRes val iconDrawable: Int,
-    val clickListener: View.OnClickListener,
+    val actionOnClick: () -> Unit,
     val label: String = ""
 )

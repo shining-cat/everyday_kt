@@ -150,7 +150,8 @@ class HomeFragment : Fragment() {
                 if (it.isEmpty()) {
                     homeFragmentBinding.emptyListMessage.visibility = VISIBLE
                     sessionPresetsAdapter.submitList(it)
-                } else {
+                }
+                else {
                     homeFragmentBinding.emptyListMessage.visibility = GONE
                     sessionPresetsAdapter.submitList(it)
                 }
@@ -389,7 +390,8 @@ class HomeFragment : Fragment() {
                         LOG_TAG,
                         "onSwiped:: could not retrieve SessionPreset for position $position"
                     )
-                } else {
+                }
+                else {
                     when (direction) {
                         ItemTouchHelper.LEFT -> openEditSessionPresetDialog(swipedPreset)
                         ItemTouchHelper.RIGHT -> homeViewModel.moveSessionPresetToTop(
@@ -408,7 +410,8 @@ class HomeFragment : Fragment() {
     ) {
         if (showIt) {
             homeFragmentBinding.addSessionPresetFabSpeedDial.appear()
-        } else {
+        }
+        else {
             homeFragmentBinding.addSessionPresetFabSpeedDial.disappear()
         }
     }
