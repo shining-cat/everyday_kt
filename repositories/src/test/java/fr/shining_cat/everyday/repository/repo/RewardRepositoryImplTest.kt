@@ -18,6 +18,7 @@
 package fr.shining_cat.everyday.repository.repo
 
 import fr.shining_cat.everyday.commons.Constants
+import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.locale.dao.RewardDao
 import fr.shining_cat.everyday.locale.entities.RewardEntity
 import fr.shining_cat.everyday.models.reward.Reward
@@ -35,6 +36,9 @@ import org.junit.Before
 import org.junit.Test
 
 class RewardRepositoryImplTest {
+
+    @MockK
+    private lateinit var mockLogger: Logger
 
     @MockK
     private lateinit var mockRewardDao: RewardDao
@@ -65,8 +69,11 @@ class RewardRepositoryImplTest {
         Assert.assertNotNull(mockRewardConverter)
         rewardRepo = RewardRepositoryImpl(
             mockRewardDao,
-            mockRewardConverter
+            mockRewardConverter,
+            mockLogger
         )
+        coEvery { mockLogger.d(any(), any()) } answers {}
+        coEvery { mockLogger.e(any(), any()) } answers {}
         coEvery { mockException.cause } returns mockThrowable
     }
 

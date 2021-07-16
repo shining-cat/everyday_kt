@@ -36,7 +36,7 @@ class AudioFreeSessionPresetViewModelTest {
     val coroutineScope = MainCoroutineScopeRule()
 
     @MockK
-    private lateinit var mocklogger: Logger
+    private lateinit var mockLogger: Logger
 
     @MockK
     private lateinit var mockCreateSessionPresetUseCase: CreateSessionPresetUseCase
@@ -59,14 +59,14 @@ class AudioFreeSessionPresetViewModelTest {
     fun setUp() {
         MockKAnnotations.init(this)
 
-        coEvery { mocklogger.d(any(), any()) } answers {}
-        coEvery { mocklogger.e(any(), any()) } answers {}
+        coEvery { mockLogger.d(any(), any()) } answers {}
+        coEvery { mockLogger.e(any(), any()) } answers {}
 
         audioFreeSessionPresetViewModel = AudioFreeSessionPresetViewModel(
             mockCreateSessionPresetUseCase,
             mockUpdateSessionPresetUseCase,
             mockDeleteSessionPresetUseCase,
-            mocklogger
+            mockLogger
         )
     }
 

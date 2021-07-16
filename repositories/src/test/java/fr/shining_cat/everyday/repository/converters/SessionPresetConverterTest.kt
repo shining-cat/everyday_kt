@@ -27,6 +27,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
+import kotlin.math.exp
 
 class SessionPresetConverterTest {
 
@@ -42,124 +43,694 @@ class SessionPresetConverterTest {
         sessionPresetConverter = SessionPresetConverter(mockLogger)
     }
 
-    private val sessionPreset = SessionPreset(
-        id = 123L,
-        startCountdownLength = 456L,
-        startAndEndSoundUriString = "startAndEndSoundUri",
-        startAndEndSoundName = "startAndEndSoundName",
-        intermediateIntervalLength = 345L,
-        intermediateIntervalRandom = true,
-        intermediateIntervalSoundUriString = "intermediateIntervalSoundUri",
-        intermediateIntervalSoundName = "intermediateIntervalSoundName",
-        duration = 234L,
-        audioGuideSoundUriString = "audioGuideSoundUri",
-        audioGuideSoundArtistName = "audioGuideSoundArtistName",
-        audioGuideSoundAlbumName = "audioGuideSoundAlbumName",
-        audioGuideSoundTitle = "audioGuideSoundFileName",
-        vibration = true,
-        sessionTypeId = 678L,
-        lastEditTime = 567L
-    )
-
-    private val sessionPresetEntity = SessionPresetEntity(
-        id = 123L,
-        startCountdownLength = 456L,
-        startAndEndSoundUri = "startAndEndSoundUri",
-        startAndEndSoundName = "startAndEndSoundName",
-        intermediateIntervalLength = 345L,
-        intermediateIntervalRandom = true,
-        intermediateIntervalSoundUri = "intermediateIntervalSoundUri",
-        intermediateIntervalSoundName = "intermediateIntervalSoundName",
-        duration = 234L,
-        audioGuideSoundUri = "audioGuideSoundUri",
-        audioGuideSoundArtistName = "audioGuideSoundArtistName",
-        audioGuideSoundAlbumName = "audioGuideSoundAlbumName",
-        audioGuideSoundTitle = "audioGuideSoundFileName",
-        vibration = true,
-        sessionTypeId = 678L,
-        lastEditTime = 567L
-    )
-
-    private val sessionPresetNoId = SessionPreset(
-        id = -1L,
-        startCountdownLength = 456L,
-        startAndEndSoundUriString = "startAndEndSoundUri",
-        startAndEndSoundName = "startAndEndSoundName",
-        intermediateIntervalLength = 345L,
-        intermediateIntervalRandom = true,
-        intermediateIntervalSoundUriString = "intermediateIntervalSoundUri",
-        intermediateIntervalSoundName = "intermediateIntervalSoundName",
-        duration = 234L,
-        audioGuideSoundUriString = "audioGuideSoundUri",
-        audioGuideSoundArtistName = "audioGuideSoundArtistName",
-        audioGuideSoundAlbumName = "audioGuideSoundAlbumName",
-        audioGuideSoundTitle = "audioGuideSoundFileName",
-        vibration = true,
-        sessionTypeId = 678L,
-        lastEditTime = 567L
-    )
-
-    private val sessionPresetEntityNoId = SessionPresetEntity(
-        id = null,
-        startCountdownLength = 456L,
-        startAndEndSoundUri = "startAndEndSoundUri",
-        startAndEndSoundName = "startAndEndSoundName",
-        intermediateIntervalLength = 345L,
-        intermediateIntervalRandom = true,
-        intermediateIntervalSoundUri = "intermediateIntervalSoundUri",
-        intermediateIntervalSoundName = "intermediateIntervalSoundName",
-        duration = 234L,
-        audioGuideSoundUri = "audioGuideSoundUri",
-        audioGuideSoundArtistName = "audioGuideSoundArtistName",
-        audioGuideSoundAlbumName = "audioGuideSoundAlbumName",
-        audioGuideSoundTitle = "audioGuideSoundFileName",
-        vibration = true,
-        sessionTypeId = 678L,
-        lastEditTime = 567L
-    )
-
-    // ////////////////////////////////
+    ////////////////////////
+    // testing AudioSessionPreset conversions
     @Test
-    fun convertModelToEntity() {
+    fun `convertModelToEntity audio`() {
+        val model = SessionPreset.AudioSessionPreset(
+            id = 123L,
+            startCountdownLength = 456L,
+            startAndEndSoundUriString = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            duration = 234L,
+            audioGuideSoundUriString = "audioGuideSoundUri",
+            audioGuideSoundArtistName = "audioGuideSoundArtistName",
+            audioGuideSoundAlbumName = "audioGuideSoundAlbumName",
+            audioGuideSoundTitle = "audioGuideSoundFileName",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L
+        )
         val convertedModel = runBlocking {
-            sessionPresetConverter.convertModelToEntity(sessionPreset)
+            sessionPresetConverter.convertModelToEntity(model)
         }
+        val expectedEntity = SessionPresetEntity(
+            id = 123L,
+            startCountdownLength = 456L,
+            startAndEndSoundUri = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            intermediateIntervalLength = -1L,
+            intermediateIntervalRandom = false,
+            intermediateIntervalSoundUri = "",
+            intermediateIntervalSoundName = "",
+            duration = 234L,
+            audioGuideSoundUri = "audioGuideSoundUri",
+            audioGuideSoundArtistName = "audioGuideSoundArtistName",
+            audioGuideSoundAlbumName = "audioGuideSoundAlbumName",
+            audioGuideSoundTitle = "audioGuideSoundFileName",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L,
+            sessionPresetType = SessionPresetConverter.SessionPresetType.AUDIO.name
+        )
         assertEquals(
-            sessionPresetEntity,
+            expectedEntity,
             convertedModel
         )
     }
 
     @Test
-    fun convertModelToEntityNoId() {
-
+    fun `convertModelToEntity No Id audio`() {
+        val model = SessionPreset.AudioSessionPreset(
+            id = -1L,
+            startCountdownLength = 456L,
+            startAndEndSoundUriString = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            duration = 234L,
+            audioGuideSoundUriString = "audioGuideSoundUri",
+            audioGuideSoundArtistName = "audioGuideSoundArtistName",
+            audioGuideSoundAlbumName = "audioGuideSoundAlbumName",
+            audioGuideSoundTitle = "audioGuideSoundFileName",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L
+        )
         val convertedModel = runBlocking {
-            sessionPresetConverter.convertModelToEntity(sessionPresetNoId)
+            sessionPresetConverter.convertModelToEntity(model)
         }
+        val expectedEntity = SessionPresetEntity(
+            id = null,
+            startCountdownLength = 456L,
+            startAndEndSoundUri = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            intermediateIntervalLength = -1L,
+            intermediateIntervalRandom = false,
+            intermediateIntervalSoundUri = "",
+            intermediateIntervalSoundName = "",
+            duration = 234L,
+            audioGuideSoundUri = "audioGuideSoundUri",
+            audioGuideSoundArtistName = "audioGuideSoundArtistName",
+            audioGuideSoundAlbumName = "audioGuideSoundAlbumName",
+            audioGuideSoundTitle = "audioGuideSoundFileName",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L,
+            sessionPresetType = SessionPresetConverter.SessionPresetType.AUDIO.name
+        )
         assertEquals(
-            sessionPresetEntityNoId,
+            expectedEntity,
             convertedModel
         )
     }
 
     @Test
-    fun convertEntitytoModel() {
+    fun `convertEntitytoModel audio`() {
+        val entity = SessionPresetEntity(
+            id = 123L,
+            startCountdownLength = 456L,
+            startAndEndSoundUri = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            intermediateIntervalLength = -1L,
+            intermediateIntervalRandom = false,
+            intermediateIntervalSoundUri = "",
+            intermediateIntervalSoundName = "",
+            duration = 234L,
+            audioGuideSoundUri = "audioGuideSoundUri",
+            audioGuideSoundArtistName = "audioGuideSoundArtistName",
+            audioGuideSoundAlbumName = "audioGuideSoundAlbumName",
+            audioGuideSoundTitle = "audioGuideSoundFileName",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L,
+            sessionPresetType = SessionPresetConverter.SessionPresetType.AUDIO.name
+        )
         val convertedEntity = runBlocking {
-            sessionPresetConverter.convertEntityToModel(sessionPresetEntity)
+            sessionPresetConverter.convertEntityToModel(entity)
         }
+        val expectedModel = SessionPreset.AudioSessionPreset(
+            id = 123L,
+            startCountdownLength = 456L,
+            startAndEndSoundUriString = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            duration = 234L,
+            audioGuideSoundUriString = "audioGuideSoundUri",
+            audioGuideSoundArtistName = "audioGuideSoundArtistName",
+            audioGuideSoundAlbumName = "audioGuideSoundAlbumName",
+            audioGuideSoundTitle = "audioGuideSoundFileName",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L
+        )
         assertEquals(
-            sessionPreset,
+            expectedModel,
             convertedEntity
         )
     }
 
     @Test
-    fun convertEntitytoModelNoId() {
+    fun `convertEntitytoModel No Id audio`() {
+        val entity = SessionPresetEntity(
+            id = null,
+            startCountdownLength = 456L,
+            startAndEndSoundUri = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            intermediateIntervalLength = -1L,
+            intermediateIntervalRandom = false,
+            intermediateIntervalSoundUri = "",
+            intermediateIntervalSoundName = "",
+            duration = 234L,
+            audioGuideSoundUri = "audioGuideSoundUri",
+            audioGuideSoundArtistName = "audioGuideSoundArtistName",
+            audioGuideSoundAlbumName = "audioGuideSoundAlbumName",
+            audioGuideSoundTitle = "audioGuideSoundFileName",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L,
+            sessionPresetType = SessionPresetConverter.SessionPresetType.AUDIO.name
+        )
         val convertedEntity = runBlocking {
-            sessionPresetConverter.convertEntityToModel(sessionPresetEntityNoId)
+            sessionPresetConverter.convertEntityToModel(entity)
         }
+        val expectedModel = SessionPreset.AudioSessionPreset(
+            id = -1L,
+            startCountdownLength = 456L,
+            startAndEndSoundUriString = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            duration = 234L,
+            audioGuideSoundUriString = "audioGuideSoundUri",
+            audioGuideSoundArtistName = "audioGuideSoundArtistName",
+            audioGuideSoundAlbumName = "audioGuideSoundAlbumName",
+            audioGuideSoundTitle = "audioGuideSoundFileName",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L
+        )
         assertEquals(
-            sessionPresetNoId,
+            expectedModel,
+            convertedEntity
+        )
+    }
+
+    ////////////////////////
+    // testing AudioFreeSessionPreset conversions
+    @Test
+    fun `convertModelToEntity audio free`() {
+        val model = SessionPreset.AudioFreeSessionPreset(
+            id = 123L,
+            startCountdownLength = 456L,
+            startAndEndSoundUriString = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L
+        )
+        val convertedModel = runBlocking {
+            sessionPresetConverter.convertModelToEntity(model)
+        }
+        val expectedEntity = SessionPresetEntity(
+            id = 123L,
+            startCountdownLength = 456L,
+            startAndEndSoundUri = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            intermediateIntervalLength = -1L,
+            intermediateIntervalRandom = false,
+            intermediateIntervalSoundUri = "",
+            intermediateIntervalSoundName = "",
+            duration = -1L,
+            audioGuideSoundUri = "",
+            audioGuideSoundArtistName = "",
+            audioGuideSoundAlbumName = "",
+            audioGuideSoundTitle = "",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L,
+            sessionPresetType = SessionPresetConverter.SessionPresetType.AUDIO_FREE.name
+        )
+        assertEquals(
+            expectedEntity,
+            convertedModel
+        )
+    }
+
+    @Test
+    fun `convertModelToEntity No Id audio free`() {
+        val model = SessionPreset.AudioFreeSessionPreset(
+            id = -1L,
+            startCountdownLength = 456L,
+            startAndEndSoundUriString = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L
+        )
+        val convertedModel = runBlocking {
+            sessionPresetConverter.convertModelToEntity(model)
+        }
+        val expectedEntity = SessionPresetEntity(
+            id = null,
+            startCountdownLength = 456L,
+            startAndEndSoundUri = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            intermediateIntervalLength = -1L,
+            intermediateIntervalRandom = false,
+            intermediateIntervalSoundUri = "",
+            intermediateIntervalSoundName = "",
+            duration = -1L,
+            audioGuideSoundUri = "",
+            audioGuideSoundArtistName = "",
+            audioGuideSoundAlbumName = "",
+            audioGuideSoundTitle = "",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L,
+            sessionPresetType = SessionPresetConverter.SessionPresetType.AUDIO_FREE.name
+        )
+        assertEquals(
+            expectedEntity,
+            convertedModel
+        )
+    }
+
+    @Test
+    fun `convertEntitytoModel audio free`() {
+        val entity = SessionPresetEntity(
+            id = 123L,
+            startCountdownLength = 456L,
+            startAndEndSoundUri = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            intermediateIntervalLength = -1L,
+            intermediateIntervalRandom = false,
+            intermediateIntervalSoundUri = "",
+            intermediateIntervalSoundName = "",
+            duration = -1L,
+            audioGuideSoundUri = "",
+            audioGuideSoundArtistName = "",
+            audioGuideSoundAlbumName = "",
+            audioGuideSoundTitle = "",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L,
+            sessionPresetType = SessionPresetConverter.SessionPresetType.AUDIO_FREE.name
+        )
+        val convertedEntity = runBlocking {
+            sessionPresetConverter.convertEntityToModel(entity)
+        }
+        val expectedModel = SessionPreset.AudioFreeSessionPreset(
+            id = 123L,
+            startCountdownLength = 456L,
+            startAndEndSoundUriString = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L
+        )
+        assertEquals(
+            expectedModel,
+            convertedEntity
+        )
+    }
+
+    @Test
+    fun `convertEntitytoModel No Id audio free`() {
+        val entity = SessionPresetEntity(
+            id = null,
+            startCountdownLength = 456L,
+            startAndEndSoundUri = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            intermediateIntervalLength = -1L,
+            intermediateIntervalRandom = false,
+            intermediateIntervalSoundUri = "",
+            intermediateIntervalSoundName = "",
+            duration = -1L,
+            audioGuideSoundUri = "",
+            audioGuideSoundArtistName = "",
+            audioGuideSoundAlbumName = "",
+            audioGuideSoundTitle = "",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L,
+            sessionPresetType = SessionPresetConverter.SessionPresetType.AUDIO_FREE.name
+        )
+        val convertedEntity = runBlocking {
+            sessionPresetConverter.convertEntityToModel(entity)
+        }
+        val expectedModel = SessionPreset.AudioFreeSessionPreset(
+            id = -1L,
+            startCountdownLength = 456L,
+            startAndEndSoundUriString = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L
+        )
+        assertEquals(
+            expectedModel,
+            convertedEntity
+        )
+    }
+
+    ////////////////////////
+    // testing AudioFreeSessionPreset conversions
+    @Test
+    fun `convertModelToEntity timed`() {
+        val model = SessionPreset.TimedSessionPreset(
+            id = 123L,
+            startCountdownLength = 456L,
+            startAndEndSoundUriString = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            intermediateIntervalLength = 345L,
+            intermediateIntervalRandom = true,
+            intermediateIntervalSoundUriString = "intermediateIntervalSoundUri",
+            intermediateIntervalSoundName = "intermediateIntervalSoundName",
+            duration = 234L,
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L
+        )
+        val convertedModel = runBlocking {
+            sessionPresetConverter.convertModelToEntity(model)
+        }
+        val expectedEntity = SessionPresetEntity(
+            id = 123L,
+            startCountdownLength = 456L,
+            startAndEndSoundUri = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            intermediateIntervalLength = 345L,
+            intermediateIntervalRandom = true,
+            intermediateIntervalSoundUri = "intermediateIntervalSoundUri",
+            intermediateIntervalSoundName = "intermediateIntervalSoundName",
+            duration = 234L,
+            audioGuideSoundUri = "",
+            audioGuideSoundArtistName = "",
+            audioGuideSoundAlbumName = "",
+            audioGuideSoundTitle = "",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L,
+            sessionPresetType = SessionPresetConverter.SessionPresetType.TIMED.name
+        )
+        assertEquals(
+            expectedEntity,
+            convertedModel
+        )
+    }
+
+    @Test
+    fun `convertModelToEntity No Id timed`() {
+        val model = SessionPreset.TimedSessionPreset(
+            id = -1L,
+            startCountdownLength = 456L,
+            startAndEndSoundUriString = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            intermediateIntervalLength = 345L,
+            intermediateIntervalRandom = true,
+            intermediateIntervalSoundUriString = "intermediateIntervalSoundUri",
+            intermediateIntervalSoundName = "intermediateIntervalSoundName",
+            duration = 234L,
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L
+        )
+        val convertedModel = runBlocking {
+            sessionPresetConverter.convertModelToEntity(model)
+        }
+        val expectedEntity = SessionPresetEntity(
+            id = null,
+            startCountdownLength = 456L,
+            startAndEndSoundUri = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            intermediateIntervalLength = 345L,
+            intermediateIntervalRandom = true,
+            intermediateIntervalSoundUri = "intermediateIntervalSoundUri",
+            intermediateIntervalSoundName = "intermediateIntervalSoundName",
+            duration = 234L,
+            audioGuideSoundUri = "",
+            audioGuideSoundArtistName = "",
+            audioGuideSoundAlbumName = "",
+            audioGuideSoundTitle = "",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L,
+            sessionPresetType = SessionPresetConverter.SessionPresetType.TIMED.name
+        )
+        assertEquals(
+            expectedEntity,
+            convertedModel
+        )
+    }
+
+    @Test
+    fun `convertEntitytoModel timed`() {
+        val entity = SessionPresetEntity(
+            id = 123L,
+            startCountdownLength = 456L,
+            startAndEndSoundUri = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            intermediateIntervalLength = 345L,
+            intermediateIntervalRandom = true,
+            intermediateIntervalSoundUri = "intermediateIntervalSoundUri",
+            intermediateIntervalSoundName = "intermediateIntervalSoundName",
+            duration = 234L,
+            audioGuideSoundUri = "",
+            audioGuideSoundArtistName = "",
+            audioGuideSoundAlbumName = "",
+            audioGuideSoundTitle = "",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L,
+            sessionPresetType = SessionPresetConverter.SessionPresetType.TIMED.name
+        )
+        val convertedEntity = runBlocking {
+            sessionPresetConverter.convertEntityToModel(entity)
+        }
+        val expectedModel = SessionPreset.TimedSessionPreset(
+            id = 123L,
+            startCountdownLength = 456L,
+            startAndEndSoundUriString = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            intermediateIntervalLength = 345L,
+            intermediateIntervalRandom = true,
+            intermediateIntervalSoundUriString = "intermediateIntervalSoundUri",
+            intermediateIntervalSoundName = "intermediateIntervalSoundName",
+            duration = 234L,
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L
+        )
+        assertEquals(
+            expectedModel,
+            convertedEntity
+        )
+    }
+
+    @Test
+    fun `convertEntitytoModel No Id timed`() {
+        val entity = SessionPresetEntity(
+            id = null,
+            startCountdownLength = 456L,
+            startAndEndSoundUri = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            intermediateIntervalLength = 345L,
+            intermediateIntervalRandom = true,
+            intermediateIntervalSoundUri = "intermediateIntervalSoundUri",
+            intermediateIntervalSoundName = "intermediateIntervalSoundName",
+            duration = 234L,
+            audioGuideSoundUri = "",
+            audioGuideSoundArtistName = "",
+            audioGuideSoundAlbumName = "",
+            audioGuideSoundTitle = "",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L,
+            sessionPresetType = SessionPresetConverter.SessionPresetType.TIMED.name
+        )
+        val convertedEntity = runBlocking {
+            sessionPresetConverter.convertEntityToModel(entity)
+        }
+        val expectedModel = SessionPreset.TimedSessionPreset(
+            id = -1L,
+            startCountdownLength = 456L,
+            startAndEndSoundUriString = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            intermediateIntervalLength = 345L,
+            intermediateIntervalRandom = true,
+            intermediateIntervalSoundUriString = "intermediateIntervalSoundUri",
+            intermediateIntervalSoundName = "intermediateIntervalSoundName",
+            duration = 234L,
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L
+        )
+        assertEquals(
+            expectedModel,
+            convertedEntity
+        )
+    }
+
+    ////////////////////////
+    // testing AudioFreeSessionPreset conversions
+    @Test
+    fun `convertModelToEntity timed free`() {
+        val model = SessionPreset.TimedFreeSessionPreset(
+            id = 123L,
+            startCountdownLength = 456L,
+            startAndEndSoundUriString = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            intermediateIntervalLength = 345L,
+            intermediateIntervalRandom = true,
+            intermediateIntervalSoundUriString = "intermediateIntervalSoundUri",
+            intermediateIntervalSoundName = "intermediateIntervalSoundName",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L
+        )
+
+        val convertedModel = runBlocking {
+            sessionPresetConverter.convertModelToEntity(model)
+        }
+        val expectedEntity = SessionPresetEntity(
+            id = 123L,
+            startCountdownLength = 456L,
+            startAndEndSoundUri = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            intermediateIntervalLength = 345L,
+            intermediateIntervalRandom = true,
+            intermediateIntervalSoundUri = "intermediateIntervalSoundUri",
+            intermediateIntervalSoundName = "intermediateIntervalSoundName",
+            duration = -1L,
+            audioGuideSoundUri = "",
+            audioGuideSoundArtistName = "",
+            audioGuideSoundAlbumName = "",
+            audioGuideSoundTitle = "",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L,
+            sessionPresetType = SessionPresetConverter.SessionPresetType.TIMED_FREE.name
+        )
+        assertEquals(
+            expectedEntity,
+            convertedModel
+        )
+    }
+
+    @Test
+    fun `convertModelToEntity No Id timed free`() {
+        val model = SessionPreset.TimedFreeSessionPreset(
+            id = -1L,
+            startCountdownLength = 456L,
+            startAndEndSoundUriString = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            intermediateIntervalLength = 345L,
+            intermediateIntervalRandom = true,
+            intermediateIntervalSoundUriString = "intermediateIntervalSoundUri",
+            intermediateIntervalSoundName = "intermediateIntervalSoundName",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L
+        )
+
+        val convertedModel = runBlocking {
+            sessionPresetConverter.convertModelToEntity(model)
+        }
+        val expectedEntity = SessionPresetEntity(
+            id = null,
+            startCountdownLength = 456L,
+            startAndEndSoundUri = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            intermediateIntervalLength = 345L,
+            intermediateIntervalRandom = true,
+            intermediateIntervalSoundUri = "intermediateIntervalSoundUri",
+            intermediateIntervalSoundName = "intermediateIntervalSoundName",
+            duration = -1L,
+            audioGuideSoundUri = "",
+            audioGuideSoundArtistName = "",
+            audioGuideSoundAlbumName = "",
+            audioGuideSoundTitle = "",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L,
+            sessionPresetType = SessionPresetConverter.SessionPresetType.TIMED_FREE.name
+        )
+        assertEquals(
+            expectedEntity,
+            convertedModel
+        )
+    }
+
+    @Test
+    fun `convertEntitytoModel timed free`() {
+        val entity = SessionPresetEntity(
+            id = 123L,
+            startCountdownLength = 456L,
+            startAndEndSoundUri = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            intermediateIntervalLength = 345L,
+            intermediateIntervalRandom = true,
+            intermediateIntervalSoundUri = "intermediateIntervalSoundUri",
+            intermediateIntervalSoundName = "intermediateIntervalSoundName",
+            duration = -1L,
+            audioGuideSoundUri = "",
+            audioGuideSoundArtistName = "",
+            audioGuideSoundAlbumName = "",
+            audioGuideSoundTitle = "",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L,
+            sessionPresetType = SessionPresetConverter.SessionPresetType.TIMED_FREE.name
+        )
+        val convertedEntity = runBlocking {
+            sessionPresetConverter.convertEntityToModel(entity)
+        }
+        val expectedModel = SessionPreset.TimedFreeSessionPreset(
+            id = 123L,
+            startCountdownLength = 456L,
+            startAndEndSoundUriString = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            intermediateIntervalLength = 345L,
+            intermediateIntervalRandom = true,
+            intermediateIntervalSoundUriString = "intermediateIntervalSoundUri",
+            intermediateIntervalSoundName = "intermediateIntervalSoundName",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L
+        )
+
+        assertEquals(
+            expectedModel,
+            convertedEntity
+        )
+    }
+
+    @Test
+    fun `convertEntitytoModel No Id timed free`() {
+        val entity = SessionPresetEntity(
+            id = null,
+            startCountdownLength = 456L,
+            startAndEndSoundUri = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            intermediateIntervalLength = 345L,
+            intermediateIntervalRandom = true,
+            intermediateIntervalSoundUri = "intermediateIntervalSoundUri",
+            intermediateIntervalSoundName = "intermediateIntervalSoundName",
+            duration = -1L,
+            audioGuideSoundUri = "",
+            audioGuideSoundArtistName = "",
+            audioGuideSoundAlbumName = "",
+            audioGuideSoundTitle = "",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L,
+            sessionPresetType = SessionPresetConverter.SessionPresetType.TIMED_FREE.name
+        )
+        val convertedEntity = runBlocking {
+            sessionPresetConverter.convertEntityToModel(entity)
+        }
+        val expectedModel = SessionPreset.TimedFreeSessionPreset(
+            id = -1L,
+            startCountdownLength = 456L,
+            startAndEndSoundUriString = "startAndEndSoundUri",
+            startAndEndSoundName = "startAndEndSoundName",
+            intermediateIntervalLength = 345L,
+            intermediateIntervalRandom = true,
+            intermediateIntervalSoundUriString = "intermediateIntervalSoundUri",
+            intermediateIntervalSoundName = "intermediateIntervalSoundName",
+            vibration = true,
+            sessionTypeId = 678,
+            lastEditTime = 567L
+        )
+
+        assertEquals(
+            expectedModel,
             convertedEntity
         )
     }

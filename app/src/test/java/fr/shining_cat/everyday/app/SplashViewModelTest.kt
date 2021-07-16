@@ -39,7 +39,7 @@ class SplashViewModelTest {
     val coroutineScope = MainCoroutineScopeRule()
 
     @MockK
-    private lateinit var mocklogger: Logger
+    private lateinit var mockLogger: Logger
 
     @MockK
     private lateinit var mockInitDefaultPrefsValuesUseCase: InitDefaultPrefsValuesUseCase
@@ -59,12 +59,12 @@ class SplashViewModelTest {
     fun setUp() {
         MockKAnnotations.init(this)
 
-        coEvery { mocklogger.d(any(), any()) } answers {}
-        coEvery { mocklogger.e(any(), any()) } answers {}
+        coEvery { mockLogger.d(any(), any()) } answers {}
+        coEvery { mockLogger.e(any(), any()) } answers {}
 
         splashViewModel = SplashViewModel(
             mockInitDefaultPrefsValuesUseCase,
-            mocklogger
+            mockLogger
         )
     }
 

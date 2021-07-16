@@ -58,6 +58,8 @@
   - [x] auto-close fab speed dial when session preset has been created (or maybe even when simply opening the dialog)
   - [x] sessionpresets FAB chips background color is too close to the one of elements behind it, readability is bad, explore solutions as: semi-opaque background on whole screen? morph main FAB into a background for the speeddials? add a border on chips?
   - [x] include implementation AndroidLibraries.lifecycle_viewmodel_ktx and switch every mainScope.launch { ... ioscope.async{...}.await} to viewModelScope.launch{ ...withContext(Dispatchers.IO){..}}, and remove all appDispatchers
+  - [x] fix tests broken by sessionPreset division into dedicated types: createSessionPresetUsecase, UpdateSessionPresetUsecase, RewardRepositoryImpl, SessionPresetRepositoryImpl, SessionPresetRepositoryImpl
+  - [ ] fix test in HomeViewModelTest not passing when running the whole jacoco testing gradle task, but passing individually
   - [ ] tests on 
          - [x] HomeViewModel
          - [x] SplashScreenViewModel
@@ -66,6 +68,7 @@
          - [ ] AudioSessionPresetViewModel
          - [ ] TimedFreeSessionPresetViewModel
          - [ ] TimedSessionPresetViewModel
+  - [ ] remove all classes related to sessionTypes (and the field sessionTypeId from SessionPreset), we have taken the path of fixed session types, this may be changed in the future, but it is confusing now
   - [ ] move from livedata used as events to recommended observable objects now available in kotlin
   - [ ] find a way to animate hide/show "add session preset" fab when scroll detected, show again on release
   - [ ] add language setting to allow change without following the OS language

@@ -18,6 +18,7 @@
 package fr.shining_cat.everyday.repository.repo
 
 import fr.shining_cat.everyday.commons.Constants
+import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.locale.dao.SessionPresetDao
 import fr.shining_cat.everyday.locale.entities.SessionPresetEntity
 import fr.shining_cat.everyday.models.SessionPreset
@@ -35,6 +36,9 @@ import org.junit.Before
 import org.junit.Test
 
 class SessionPresetRepositoryImplTest {
+
+    @MockK
+    private lateinit var mockLogger: Logger
 
     @MockK
     private lateinit var mockSessionPresetDao: SessionPresetDao
@@ -64,8 +68,12 @@ class SessionPresetRepositoryImplTest {
         assertNotNull(mockSessionPresetEntity)
         sessionPresetRepo = SessionPresetRepositoryImpl(
             mockSessionPresetDao,
-            mockSessionPresetConverter
+            mockSessionPresetConverter,
+            mockLogger
         )
+        coEvery { mockLogger.d(any(), any()) } answers {}
+        coEvery { mockLogger.e(any(), any()) } answers {}
+
         coEvery { mockSessionPresetConverter.convertModelsToEntities(any()) } returns listOf(mockSessionPresetEntity)
         coEvery { mockSessionPresetConverter.convertEntitiesToModels(any()) } returns listOf(mockSessionPreset)
         coEvery { mockSessionPresetConverter.convertModelToEntity(any()) } returns mockSessionPresetEntity

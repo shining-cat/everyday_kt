@@ -18,6 +18,7 @@
 package fr.shining_cat.everyday.repository.repo
 
 import fr.shining_cat.everyday.commons.Constants
+import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.locale.dao.SessionRecordDao
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntity
 import fr.shining_cat.everyday.models.sessionrecord.SessionRecord
@@ -35,6 +36,9 @@ import org.junit.Before
 import org.junit.Test
 
 class SessionRecordRepositoryImplTest {
+
+    @MockK
+    private lateinit var mockLogger: Logger
 
     @MockK
     private lateinit var mockSessionRecordDao: SessionRecordDao
@@ -64,8 +68,12 @@ class SessionRecordRepositoryImplTest {
         assertNotNull(mockSessionRecordEntity)
         sessionRecordRepo = SessionRecordRepositoryImpl(
             mockSessionRecordDao,
-            mockSessionRecordConverter
+            mockSessionRecordConverter,
+            mockLogger
         )
+        coEvery { mockLogger.d(any(), any()) } answers {}
+        coEvery { mockLogger.e(any(), any()) } answers {}
+
         coEvery { mockSessionRecordConverter.convertModelsToEntities(any()) } returns listOf(
             mockSessionRecordEntity
         )
