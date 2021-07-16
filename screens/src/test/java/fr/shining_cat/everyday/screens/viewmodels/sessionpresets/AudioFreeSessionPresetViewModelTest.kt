@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import fr.shining_cat.everyday.commons.Constants
 import fr.shining_cat.everyday.commons.Logger
+import fr.shining_cat.everyday.domain.Result
 import fr.shining_cat.everyday.domain.sessionspresets.CreateSessionPresetUseCase
 import fr.shining_cat.everyday.domain.sessionspresets.DeleteSessionPresetUseCase
 import fr.shining_cat.everyday.domain.sessionspresets.UpdateSessionPresetUseCase
@@ -12,6 +13,7 @@ import fr.shining_cat.everyday.testutils.MainCoroutineScopeRule
 import fr.shining_cat.everyday.testutils.extensions.getValueForTest
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -313,6 +315,149 @@ class AudioFreeSessionPresetViewModelTest {
         )
         //checking
         assertEquals(expectedModifiedSessionPreset, audioFreeSessionPresetViewModel.sessionPresetUpdatedLiveData.getValueForTest())
+    }
+
+    /////////////////////////
+    // tests on saveSessionPreset
+    @Test
+    fun `test saveSessionPreset new sessionPreset success`() {
+        coEvery { mockCreateSessionPresetUseCase.execute(any()) } returns Result.Success(45L)
+        val inputSessionPreset = SessionPreset.AudioFreeSessionPreset(
+            id = -1L,
+            startCountdownLength = 345L,
+            startAndEndSoundUriString = "specific uri string",
+            startAndEndSoundName = "specific sound name",
+            vibration = true,
+            sessionTypeId = 345,
+            lastEditTime = 4567L,
+        )
+        runBlocking {
+            audioFreeSessionPresetViewModel.saveSessionPreset(inputSessionPreset)
+        }
+
+        //checking
+        coVerify(exactly = 1) { mockCreateSessionPresetUseCase.execute(inputSessionPreset) }
+        assertEquals(true, audioFreeSessionPresetViewModel.successLiveData.getValueForTest())
+    }
+
+    @Test
+    fun `test saveSessionPreset new sessionPreset failure`() {
+        coEvery { mockCreateSessionPresetUseCase.execute(any()) } returns Result.Error(
+            123,
+            "error message",
+            Exception("exception")
+        )
+        val inputSessionPreset = SessionPreset.AudioFreeSessionPreset(
+            id = -1L,
+            startCountdownLength = 345L,
+            startAndEndSoundUriString = "specific uri string",
+            startAndEndSoundName = "specific sound name",
+            vibration = true,
+            sessionTypeId = 345,
+            lastEditTime = 4567L,
+        )
+        runBlocking {
+            audioFreeSessionPresetViewModel.saveSessionPreset(inputSessionPreset)
+        }
+
+        //checking
+        coVerify(exactly = 1) { mockCreateSessionPresetUseCase.execute(inputSessionPreset) }
+        assertEquals("error message", audioFreeSessionPresetViewModel.errorLiveData.getValueForTest())
+    }
+
+    @Test
+    fun `test saveSessionPreset existing sessionPreset success`() {
+        coEvery { mockUpdateSessionPresetUseCase.execute(any()) } returns Result.Success(45)
+        val inputSessionPreset = SessionPreset.AudioFreeSessionPreset(
+            id = 1234L,
+            startCountdownLength = 345L,
+            startAndEndSoundUriString = "specific uri string",
+            startAndEndSoundName = "specific sound name",
+            vibration = true,
+            sessionTypeId = 345,
+            lastEditTime = 4567L,
+        )
+        runBlocking {
+            audioFreeSessionPresetViewModel.saveSessionPreset(inputSessionPreset)
+        }
+
+        //checking
+        coVerify(exactly = 1) { mockUpdateSessionPresetUseCase.execute(inputSessionPreset) }
+        assertEquals(true, audioFreeSessionPresetViewModel.successLiveData.getValueForTest())
+    }
+
+    @Test
+    fun `test saveSessionPreset existing sessionPreset failure`() {
+        coEvery { mockUpdateSessionPresetUseCase.execute(any()) } returns Result.Error(
+            123,
+            "error message",
+            Exception("exception")
+        )
+        val inputSessionPreset = SessionPreset.AudioFreeSessionPreset(
+            id = 1234L,
+            startCountdownLength = 345L,
+            startAndEndSoundUriString = "specific uri string",
+            startAndEndSoundName = "specific sound name",
+            vibration = true,
+            sessionTypeId = 345,
+            lastEditTime = 4567L,
+        )
+        runBlocking {
+            audioFreeSessionPresetViewModel.saveSessionPreset(inputSessionPreset)
+        }
+
+        //checking
+        coVerify(exactly = 1) { mockUpdateSessionPresetUseCase.execute(inputSessionPreset) }
+        assertEquals("error message", audioFreeSessionPresetViewModel.errorLiveData.getValueForTest())
+    }
+
+
+    /////////////////////////
+    // tests on deleteSessionPreset
+    @Test
+    fun `test deleteSessionPreset success`() {
+        coEvery { mockDeleteSessionPresetUseCase.execute(any()) } returns Result.Success(45)
+        val inputSessionPreset = SessionPreset.AudioFreeSessionPreset(
+            id = 1234L,
+            startCountdownLength = 345L,
+            startAndEndSoundUriString = "specific uri string",
+            startAndEndSoundName = "specific sound name",
+            vibration = true,
+            sessionTypeId = 345,
+            lastEditTime = 4567L,
+        )
+        runBlocking {
+            audioFreeSessionPresetViewModel.deleteSessionPreset(inputSessionPreset)
+        }
+
+        //checking
+        coVerify(exactly = 1) { mockDeleteSessionPresetUseCase.execute(inputSessionPreset) }
+        assertEquals(true, audioFreeSessionPresetViewModel.successLiveData.getValueForTest())
+    }
+
+    @Test
+    fun `test deleteSessionPreset failure`() {
+        coEvery { mockDeleteSessionPresetUseCase.execute(any()) } returns Result.Error(
+            123,
+            "error message",
+            Exception("exception")
+        )
+        val inputSessionPreset = SessionPreset.AudioFreeSessionPreset(
+            id = 1234L,
+            startCountdownLength = 345L,
+            startAndEndSoundUriString = "specific uri string",
+            startAndEndSoundName = "specific sound name",
+            vibration = true,
+            sessionTypeId = 345,
+            lastEditTime = 4567L,
+        )
+        runBlocking {
+            audioFreeSessionPresetViewModel.deleteSessionPreset(inputSessionPreset)
+        }
+
+        //checking
+        coVerify(exactly = 1) { mockDeleteSessionPresetUseCase.execute(inputSessionPreset) }
+        assertEquals("error message", audioFreeSessionPresetViewModel.errorLiveData.getValueForTest())
     }
 
     /////////////////////////
