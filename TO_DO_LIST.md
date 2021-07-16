@@ -61,7 +61,7 @@
   - [ ] tests on 
          - [x] HomeViewModel
          - [x] SplashScreenViewModel
-         - [ ] AbstractSessionPresetViewModel
+         - [-] AbstractSessionPresetViewModel => no, test concrete methods of this abstract class inside each of its concrete implementation, this will ensure that the end-of-the-line implementation is tested
          - [ ] AudioFreeSessionPresetViewModel
          - [ ] AudioSessionPresetViewModel
          - [ ] TimedFreeSessionPresetViewModel
