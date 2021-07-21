@@ -80,7 +80,7 @@ class TimedFreeSessionPresetViewModel(
         _sessionPresetUpdatedLiveData.value = (presetInput as SessionPreset.TimedFreeSessionPreset).copy()
     }
 
-    override fun isSessionPresetValid(): Boolean {
+    override fun verifyPresetValidity(): Boolean {
         return true // timed free session preset has nothing that could be invalid
     }
 

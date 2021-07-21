@@ -76,7 +76,7 @@ class AudioFreeSessionPresetViewModel(
         _sessionPresetUpdatedLiveData.value = (presetInput as SessionPreset.AudioFreeSessionPreset).copy()
     }
 
-    override fun isSessionPresetValid(): Boolean {
+    override fun verifyPresetValidity(): Boolean {
         return true // audio free session preset has nothing that could be invalid
     }
 

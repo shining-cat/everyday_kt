@@ -85,7 +85,7 @@ class TimedSessionPresetViewModel(
         _sessionPresetUpdatedLiveData.value = (presetInput as SessionPreset.TimedSessionPreset).copy()
     }
 
-    override fun isSessionPresetValid(): Boolean {
+    override fun verifyPresetValidity(): Boolean {
         val preset = (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedSessionPreset>).value
         when {
             preset == null -> {

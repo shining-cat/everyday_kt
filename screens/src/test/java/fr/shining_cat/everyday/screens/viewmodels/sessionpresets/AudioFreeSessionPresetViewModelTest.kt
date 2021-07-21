@@ -117,10 +117,10 @@ class AudioFreeSessionPresetViewModelTest {
     }
 
     /////////////////////////
-    // tests on init
+    // tests on isSessionPresetValid
     @Test
-    fun `test isSessionPresetValid`() {
-        assertEquals(true, audioFreeSessionPresetViewModel.isSessionPresetValid())
+    fun `test verifyPresetValidity`() {
+        assertEquals(true, audioFreeSessionPresetViewModel.verifyPresetValidity())
     }
 
     /////////////////////////
@@ -411,7 +411,6 @@ class AudioFreeSessionPresetViewModelTest {
         assertEquals("error message", audioFreeSessionPresetViewModel.errorLiveData.getValueForTest())
     }
 
-
     /////////////////////////
     // tests on deleteSessionPreset
     @Test
@@ -605,6 +604,5 @@ class AudioFreeSessionPresetViewModelTest {
         //checking
         assertEquals(newSessionPreset, audioFreeSessionPresetViewModel.sessionPresetUpdatedLiveData.getValueForTest())
     }
-
 
 }

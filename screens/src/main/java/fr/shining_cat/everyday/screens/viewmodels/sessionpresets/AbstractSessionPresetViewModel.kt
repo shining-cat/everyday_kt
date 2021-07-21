@@ -50,7 +50,7 @@ abstract class AbstractSessionPresetViewModel(
     private val _errorLiveData = MutableLiveData<String>()
     val errorLiveData: LiveData<String> = _errorLiveData
 
-    abstract fun isSessionPresetValid(): Boolean
+    abstract fun verifyPresetValidity(): Boolean
 
     abstract fun init(
         context: Context,

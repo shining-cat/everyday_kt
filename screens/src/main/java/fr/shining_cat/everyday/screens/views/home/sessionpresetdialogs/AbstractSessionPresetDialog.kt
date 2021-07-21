@@ -103,7 +103,7 @@ abstract class AbstractSessionPresetDialog : DialogFragment() {
     private fun setUpValidateButton() {
         val validateButton = getValidateButton()
         validateButton?.setOnClickListener {
-            if (getSessionPresetViewModel().isSessionPresetValid()) {
+            if (getSessionPresetViewModel().verifyPresetValidity()) {
                 val sessionPresetToSave = getSessionPresetViewModel().sessionPresetUpdatedLiveData.value
                 if (sessionPresetToSave != null) {
                     getSessionPresetViewModel().saveSessionPreset(sessionPresetToSave)
