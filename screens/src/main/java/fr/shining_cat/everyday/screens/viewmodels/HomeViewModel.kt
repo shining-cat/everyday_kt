@@ -49,6 +49,7 @@ class HomeViewModel(
     init {
         System.out.println("init HomeViewModel")
     }
+
     fun fetchSessionPresets(nothingFoundMessage: String) {
         loadSessionPresets(nothingFoundMessage)
     }

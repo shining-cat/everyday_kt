@@ -150,6 +150,7 @@ class HomeViewModelTest {
         coVerify(exactly = 1) { mockLoadSessionPresetsUseCase.execute() }
         assertEquals(listOf(mockPreset), homeViewModel.sessionPresetsLiveData.getValueForTest())
     }
+
     @Test
     fun `test moveSessionPresetToTop update failed`() {
         coEvery { mockPreset.id } returns 123L
