@@ -13,8 +13,8 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -34,7 +34,7 @@ class HomeViewModelTest {
     val coroutineScope = MainCoroutineScopeRule()
 
     @MockK
-    private lateinit var mocklogger: Logger
+    private lateinit var mockLogger: Logger
 
     @MockK
     private lateinit var mockLoadSessionPresetsUseCase: LoadSessionPresetsUseCase
@@ -45,19 +45,25 @@ class HomeViewModelTest {
     @MockK
     private lateinit var mockSessionPreset: SessionPreset
 
+    @MockK
+    private lateinit var mockPreset: SessionPreset.AudioFreeSessionPreset
+
+    @MockK
+    private lateinit var mockPresetCopied: SessionPreset.AudioFreeSessionPreset
+
     private lateinit var homeViewModel: HomeViewModel
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
 
-        coEvery { mocklogger.d(any(), any()) } answers {}
-        coEvery { mocklogger.e(any(), any()) } answers {}
+        coEvery { mockLogger.d(any(), any()) } answers {}
+        coEvery { mockLogger.e(any(), any()) } answers {}
 
         homeViewModel = HomeViewModel(
             mockLoadSessionPresetsUseCase,
             mockUpdateSessionPresetUseCase,
-            mocklogger
+            mockLogger
         )
     }
 
@@ -114,7 +120,6 @@ class HomeViewModelTest {
     // tests on moveSessionPresetToTop
     @Test
     fun `test moveSessionPresetToTop`() {
-        val mockPreset = mockk<SessionPreset.AudioFreeSessionPreset>()
         coEvery { mockPreset.id } returns 123L
         coEvery { mockPreset.startCountdownLength } returns 234L
         coEvery { mockPreset.startAndEndSoundUriString } returns "startAndEndSoundUriString"
@@ -122,7 +127,6 @@ class HomeViewModelTest {
         coEvery { mockPreset.vibration } returns false
         coEvery { mockPreset.sessionTypeId } returns 345
         coEvery { mockPreset.lastEditTime } returns 456L
-        val mockPresetCopied = mockk<SessionPreset.AudioFreeSessionPreset>()
         coEvery {
             mockPreset.copy(
                 id = any(),
@@ -134,21 +138,20 @@ class HomeViewModelTest {
                 lastEditTime = any()
             )
         } returns mockPresetCopied
-        coEvery { mockUpdateSessionPresetUseCase.execute(any()) } returns Result.Success(1)
-        coEvery { mockLoadSessionPresetsUseCase.execute() } returns Result.Success(listOf(mockSessionPreset))
-
+        coEvery { mockUpdateSessionPresetUseCase.execute(mockPresetCopied) } returns Result.Success(1)
+        coEvery { mockLoadSessionPresetsUseCase.execute() } returns Result.Success(listOf(mockPreset))
+        //
         runBlocking {
             homeViewModel.moveSessionPresetToTop(mockPreset, "nothing found!")
+            delay(500L)
         }
-
+        //
         coVerify(exactly = 1) { mockUpdateSessionPresetUseCase.execute(mockPresetCopied) }
         coVerify(exactly = 1) { mockLoadSessionPresetsUseCase.execute() }
-        assertEquals(listOf(mockSessionPreset), homeViewModel.sessionPresetsLiveData.getValueForTest())
+        assertEquals(listOf(mockPreset), homeViewModel.sessionPresetsLiveData.getValueForTest())
     }
-
     @Test
     fun `test moveSessionPresetToTop update failed`() {
-        val mockPreset = mockk<SessionPreset.AudioFreeSessionPreset>()
         coEvery { mockPreset.id } returns 123L
         coEvery { mockPreset.startCountdownLength } returns 234L
         coEvery { mockPreset.startAndEndSoundUriString } returns "startAndEndSoundUriString"
@@ -156,7 +159,6 @@ class HomeViewModelTest {
         coEvery { mockPreset.vibration } returns false
         coEvery { mockPreset.sessionTypeId } returns 345
         coEvery { mockPreset.lastEditTime } returns 456L
-        val mockPresetCopied = mockk<SessionPreset.AudioFreeSessionPreset>()
         coEvery {
             mockPreset.copy(
                 id = any(),
@@ -168,17 +170,17 @@ class HomeViewModelTest {
                 lastEditTime = any()
             )
         } returns mockPresetCopied
-        coEvery { mockUpdateSessionPresetUseCase.execute(any()) } returns Result.Error(
+        coEvery { mockUpdateSessionPresetUseCase.execute(mockPresetCopied) } returns Result.Error(
             123,
             "an update error occurred",
             Exception()
         )
-        coEvery { mockLoadSessionPresetsUseCase.execute() } returns Result.Success(listOf(mockSessionPreset))
-
+        //
         runBlocking {
             homeViewModel.moveSessionPresetToTop(mockPreset, "nothing found!")
+            delay(500L)
         }
-
+        //
         coVerify(exactly = 1) { mockUpdateSessionPresetUseCase.execute(mockPresetCopied) }
         coVerify(exactly = 0) { mockLoadSessionPresetsUseCase.execute() }
         assertEquals("an update error occurred", homeViewModel.errorLiveData.getValueForTest())

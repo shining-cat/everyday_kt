@@ -60,7 +60,7 @@
   - [x] include implementation AndroidLibraries.lifecycle_viewmodel_ktx and switch every mainScope.launch { ... ioscope.async{...}.await} to viewModelScope.launch{ ...withContext(Dispatchers.IO){..}}, and remove all appDispatchers
   - [x] fix tests broken by sessionPreset division into dedicated types: createSessionPresetUsecase, UpdateSessionPresetUsecase, RewardRepositoryImpl, SessionPresetRepositoryImpl, SessionPresetRepositoryImpl
   - [ ] fix test in HomeViewModelTest not passing when running the whole jacoco testing gradle task, but passing individually
-  - [ ] tests on 
+  - [ ] tests on
          - [x] HomeViewModel
          - [x] SplashScreenViewModel
          - [-] AbstractSessionPresetViewModel => no, test concrete methods of this abstract class inside each of its concrete implementation, this will ensure that the end-of-the-line implementation is tested

@@ -76,7 +76,6 @@ dependencies {
 
     // Lifecycle
     implementation AndroidLibraries.lifecycle_commons_java8
-    implementation AndroidLibraries.lifecycle_viewmodel
     implementation AndroidLibraries.lifecycle_livedata
     implementation AndroidLibraries.lifecycle_viewmodel_ktx
 

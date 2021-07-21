@@ -45,15 +45,23 @@ class HomeViewModel(
     private val _errorLiveData = MutableLiveData<String>()
     val errorLiveData: LiveData<String> = _errorLiveData
 
+
+    init {
+        System.out.println("init HomeViewModel")
+    }
     fun fetchSessionPresets(nothingFoundMessage: String) {
         loadSessionPresets(nothingFoundMessage)
     }
 
     private fun loadSessionPresets(nothingFoundMessage: String) {
+        System.out.println("loadSessionPresets")
         viewModelScope.launch {
             val sessionPresetsResult = withContext(Dispatchers.IO) {
+                System.out.println("calling loadSessionPresetsUseCase.execute()")
                 loadSessionPresetsUseCase.execute()
             }
+
+            System.out.println("sessionPresetsResult= $sessionPresetsResult")
             if (sessionPresetsResult is Result.Success) {
                 val sessionsList = sessionPresetsResult.result
                 logger.d(
@@ -109,12 +117,16 @@ class HomeViewModel(
         sessionPreset: SessionPreset,
         nothingFoundMessage: String
     ) {
+        System.out.println("updateSessionPreset")
         viewModelScope.launch {
-            val recordSessionPresetResult = withContext(Dispatchers.IO) {
+            val updateSessionPresetResult = withContext(Dispatchers.IO) {
+                System.out.println("calling updateSessionPresetUseCase.execute")
                 updateSessionPresetUseCase.execute(sessionPreset)
             }
-            if (recordSessionPresetResult is Result.Success) {
+            System.out.println("updateSessionPresetResult = $updateSessionPresetResult")
+            if (updateSessionPresetResult is Result.Success) {
                 // reload complete session presets list, will trigger list update on UI side
+                System.out.println("calling loadSessionPresets")
                 loadSessionPresets(nothingFoundMessage)
             }
             else {
@@ -122,8 +134,9 @@ class HomeViewModel(
                     LOG_TAG,
                     "saveSessionPreset::ERROR}"
                 )
-                recordSessionPresetResult as Result.Error
-                _errorLiveData.value = recordSessionPresetResult.errorResponse
+                System.out.println("NOT calling loadSessionPresets because update result was an error")
+                updateSessionPresetResult as Result.Error
+                _errorLiveData.value = updateSessionPresetResult.errorResponse
             }
         }
     }
