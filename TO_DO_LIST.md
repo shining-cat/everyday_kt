@@ -68,6 +68,7 @@
          - [ ] AudioSessionPresetViewModel
          - [ ] TimedFreeSessionPresetViewModel
          - [ ] TimedSessionPresetViewModel
+  - [ ] update gradle files, eventually switch to dsl
   - [ ] remove all classes related to sessionTypes (and the field sessionTypeId from SessionPreset), we have taken the path of fixed session types, this may be changed in the future, but it is confusing now
   - [ ] move from livedata used as events to recommended observable objects now available in kotlin (SingleLiveEvent) or even move completely from livedata to StateFlow + ShareFlow?
   - [ ] find a way to animate hide/show "add session preset" fab when scroll detected, show again on release

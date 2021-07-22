@@ -38,8 +38,8 @@ object Libraries {
     const val detektPlugin = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${Versions.detekt}"
 
     //koin
-    const val koin = "org.koin:koin-android:${Versions.koin}"
-    const val koin_viewmodel = "org.koin:koin-android-viewmodel:${Versions.koin}"
+    const val koin = "io.insert-koin:koin-android:${Versions.koin}"
+    const val koin_viewmodel = "io.insert-koin:koin-android-viewmodel:${Versions.koin}"
 
     //debugging stetho
     const val stetho = "com.facebook.stetho:stetho:1.5.1"
