@@ -69,7 +69,7 @@
          - [ ] TimedFreeSessionPresetViewModel
          - [ ] TimedSessionPresetViewModel
   - [ ] update gradle files, eventually switch to dsl
-  - [ ] remove all classes related to sessionTypes (and the field sessionTypeId from SessionPreset), we have taken the path of fixed session types, this may be changed in the future, but it is confusing now
+  - [ ] prevent buildconfig generation for all modules except App: https://medium.com/dipien/stop-generating-the-buildconfig-on-your-android-modules-7d82dd7f20f1
   - [ ] move from livedata used as events to recommended observable objects now available in kotlin (SingleLiveEvent) or even move completely from livedata to StateFlow + ShareFlow?
   - [ ] find a way to animate hide/show "add session preset" fab when scroll detected, show again on release
   - [ ] add language setting to allow change without following the OS language
