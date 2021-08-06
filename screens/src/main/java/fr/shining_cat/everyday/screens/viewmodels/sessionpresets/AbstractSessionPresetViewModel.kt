@@ -77,7 +77,7 @@ abstract class AbstractSessionPresetViewModel(
 
     abstract fun updatePresetVibration(inputVibration: Boolean)
 
-    abstract fun updatePresetSessionTypeId(inputSessionTypeId: Int)
+    abstract fun updatePresetSessionTypeId(inputSessionTypeId: Long)
 
     fun saveSessionPreset(sessionPreset: SessionPreset) {
         viewModelScope.launch {

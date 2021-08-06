@@ -856,7 +856,7 @@ class AudioSessionPresetViewModelTest {
         )
         assertEquals(startSessionPreset, audioSessionPresetViewModel.sessionPresetUpdatedLiveData.getValueForTest())
         //modifying
-        audioSessionPresetViewModel.updatePresetSessionTypeId(234)
+        audioSessionPresetViewModel.updatePresetSessionTypeId(234L)
         //checking
         val updatedSessionPreset = SessionPreset.AudioSessionPreset(
             id = -1L,

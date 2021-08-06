@@ -80,7 +80,13 @@ class SessionPresetDaoTest {
         desiredAudioGuideSoundUri: String = "audio guide sound",
         desiredVibration: Boolean = false,
         desiredLastEditTime: Long = 890L,
-        sessionTypeId: Long = 901L
+        sessionTypeId: Long = 901L,
+        sessionPresetType: String = "session preset default type",
+        startAndEndSoundName: String = "start and end sound name default",
+        audioGuideSoundAlbumName: String = "sound album name default",
+        audioGuideSoundArtistName: String = "sound artist name default",
+        audioGuideSoundTitle: String = "sound title name default",
+        intermediateIntervalSoundName: String = "interval sound name default",
     ): SessionPresetEntity {
         val returnEntity = if (desiredId != -1L) {
             SessionPresetEntity(
@@ -94,9 +100,16 @@ class SessionPresetDaoTest {
                 audioGuideSoundUri = desiredAudioGuideSoundUri,
                 vibration = desiredVibration,
                 lastEditTime = desiredLastEditTime,
-                sessionTypeId = sessionTypeId
+                sessionTypeId = sessionTypeId,
+                sessionPresetType = sessionPresetType,
+                startAndEndSoundName = startAndEndSoundName,
+                audioGuideSoundAlbumName = audioGuideSoundAlbumName,
+                audioGuideSoundArtistName = audioGuideSoundArtistName,
+                audioGuideSoundTitle = audioGuideSoundTitle,
+                intermediateIntervalSoundName = intermediateIntervalSoundName
             )
-        } else {
+        }
+        else {
             SessionPresetEntity(
                 duration = desiredDuration,
                 startAndEndSoundUri = desiredStartAndEndSoundUri,
@@ -107,7 +120,13 @@ class SessionPresetDaoTest {
                 audioGuideSoundUri = desiredAudioGuideSoundUri,
                 vibration = desiredVibration,
                 lastEditTime = desiredLastEditTime,
-                sessionTypeId = sessionTypeId
+                sessionTypeId = sessionTypeId,
+                sessionPresetType = sessionPresetType,
+                startAndEndSoundName = startAndEndSoundName,
+                audioGuideSoundAlbumName = audioGuideSoundAlbumName,
+                audioGuideSoundArtistName = audioGuideSoundArtistName,
+                audioGuideSoundTitle = audioGuideSoundTitle,
+                intermediateIntervalSoundName = intermediateIntervalSoundName
             )
         }
         return returnEntity
@@ -375,24 +394,21 @@ class SessionPresetDaoTest {
         assertEquals(1, numberOfUpdatedItems)
         assertTableSize(54)
         val sessionPresetEntityUpdated = runBlocking {
-            sessionPresetDao.getAllSessionPresetsLastEditTimeDesc().filter { it.id == 43L }[0]
+            sessionPresetDao.getAllSessionPresetsLastEditTimeDesc().filter {it.id == 43L}[0]
         }
         Assert.assertNotNull(sessionPresetEntityUpdated)
         assertEquals(4321L, sessionPresetEntityUpdated.duration)
         assertEquals(
-            "after update desiredStartAndEndSoundUri",
-            sessionPresetEntityUpdated.startAndEndSoundUri
+            "after update desiredStartAndEndSoundUri", sessionPresetEntityUpdated.startAndEndSoundUri
         )
         assertEquals(5432L, sessionPresetEntityUpdated.intermediateIntervalLength)
         assertEquals(6543L, sessionPresetEntityUpdated.startCountdownLength)
         assertEquals(false, sessionPresetEntityUpdated.intermediateIntervalRandom)
         assertEquals(
-            "after update desiredIntermediateIntervalSoundUri",
-            sessionPresetEntityUpdated.intermediateIntervalSoundUri
+            "after update desiredIntermediateIntervalSoundUri", sessionPresetEntityUpdated.intermediateIntervalSoundUri
         )
         assertEquals(
-            "after update desiredAudioGuideSoundUri",
-            sessionPresetEntityUpdated.audioGuideSoundUri
+            "after update desiredAudioGuideSoundUri", sessionPresetEntityUpdated.audioGuideSoundUri
         )
         assertEquals(true, sessionPresetEntityUpdated.vibration)
         assertEquals(74L, sessionPresetEntityUpdated.lastEditTime)

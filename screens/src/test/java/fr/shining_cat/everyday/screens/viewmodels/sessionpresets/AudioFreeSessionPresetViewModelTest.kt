@@ -24,7 +24,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
-
 @ExperimentalCoroutinesApi
 @RunWith(JUnit4::class)
 class AudioFreeSessionPresetViewModelTest {
@@ -59,14 +58,11 @@ class AudioFreeSessionPresetViewModelTest {
     fun setUp() {
         MockKAnnotations.init(this)
 
-        coEvery { mockLogger.d(any(), any()) } answers {}
-        coEvery { mockLogger.e(any(), any()) } answers {}
+        coEvery {mockLogger.d(any(), any())} answers {}
+        coEvery {mockLogger.e(any(), any())} answers {}
 
         audioFreeSessionPresetViewModel = AudioFreeSessionPresetViewModel(
-            mockCreateSessionPresetUseCase,
-            mockUpdateSessionPresetUseCase,
-            mockDeleteSessionPresetUseCase,
-            mockLogger
+            mockCreateSessionPresetUseCase, mockUpdateSessionPresetUseCase, mockDeleteSessionPresetUseCase, mockLogger
         )
     }
 
@@ -76,10 +72,7 @@ class AudioFreeSessionPresetViewModelTest {
     fun `test init for creation`() {
         runBlocking {
             audioFreeSessionPresetViewModel.init(
-                mockContext,
-                null,
-                deviceDefaultRingtoneUriString,
-                deviceDefaultRingtoneName
+                mockContext, null, deviceDefaultRingtoneUriString, deviceDefaultRingtoneName
             )
         }
         val newSessionPreset = SessionPreset.AudioFreeSessionPreset(
@@ -107,10 +100,7 @@ class AudioFreeSessionPresetViewModelTest {
         )
         runBlocking {
             audioFreeSessionPresetViewModel.init(
-                mockContext,
-                inputSessionPreset,
-                deviceDefaultRingtoneUriString,
-                deviceDefaultRingtoneName
+                mockContext, inputSessionPreset, deviceDefaultRingtoneUriString, deviceDefaultRingtoneName
             )
         }
         assertEquals(inputSessionPreset, audioFreeSessionPresetViewModel.sessionPresetUpdatedLiveData.getValueForTest())
@@ -130,10 +120,7 @@ class AudioFreeSessionPresetViewModelTest {
         //initializing with a raw SessionPreset
         runBlocking {
             audioFreeSessionPresetViewModel.init(
-                mockContext,
-                null,
-                deviceDefaultRingtoneUriString,
-                deviceDefaultRingtoneName
+                mockContext, null, deviceDefaultRingtoneUriString, deviceDefaultRingtoneName
             )
         }
         val newSessionPreset = SessionPreset.AudioFreeSessionPreset(
@@ -169,10 +156,7 @@ class AudioFreeSessionPresetViewModelTest {
         //initializing with a raw SessionPreset
         runBlocking {
             audioFreeSessionPresetViewModel.init(
-                mockContext,
-                null,
-                deviceDefaultRingtoneUriString,
-                deviceDefaultRingtoneName
+                mockContext, null, deviceDefaultRingtoneUriString, deviceDefaultRingtoneName
             )
         }
         val newSessionPreset = SessionPreset.AudioFreeSessionPreset(
@@ -208,10 +192,7 @@ class AudioFreeSessionPresetViewModelTest {
         //initializing with a raw SessionPreset
         runBlocking {
             audioFreeSessionPresetViewModel.init(
-                mockContext,
-                null,
-                deviceDefaultRingtoneUriString,
-                deviceDefaultRingtoneName
+                mockContext, null, deviceDefaultRingtoneUriString, deviceDefaultRingtoneName
             )
         }
         val newSessionPreset = SessionPreset.AudioFreeSessionPreset(
@@ -247,10 +228,7 @@ class AudioFreeSessionPresetViewModelTest {
         //initializing with a raw SessionPreset
         runBlocking {
             audioFreeSessionPresetViewModel.init(
-                mockContext,
-                null,
-                deviceDefaultRingtoneUriString,
-                deviceDefaultRingtoneName
+                mockContext, null, deviceDefaultRingtoneUriString, deviceDefaultRingtoneName
             )
         }
         val newSessionPreset = SessionPreset.AudioFreeSessionPreset(
@@ -285,10 +263,7 @@ class AudioFreeSessionPresetViewModelTest {
         //initializing with a raw SessionPreset
         runBlocking {
             audioFreeSessionPresetViewModel.init(
-                mockContext,
-                null,
-                deviceDefaultRingtoneUriString,
-                deviceDefaultRingtoneName
+                mockContext, null, deviceDefaultRingtoneUriString, deviceDefaultRingtoneName
             )
         }
         val newSessionPreset = SessionPreset.AudioFreeSessionPreset(
@@ -302,7 +277,7 @@ class AudioFreeSessionPresetViewModelTest {
         )
         assertEquals(newSessionPreset, audioFreeSessionPresetViewModel.sessionPresetUpdatedLiveData.getValueForTest())
         //modifying
-        val newSessionTypeId = 1234
+        val newSessionTypeId = 1234L
         audioFreeSessionPresetViewModel.updatePresetSessionTypeId(newSessionTypeId)
         val expectedModifiedSessionPreset = SessionPreset.AudioFreeSessionPreset(
             id = -1L,
@@ -321,7 +296,7 @@ class AudioFreeSessionPresetViewModelTest {
     // tests on saveSessionPreset
     @Test
     fun `test saveSessionPreset new sessionPreset success`() {
-        coEvery { mockCreateSessionPresetUseCase.execute(any()) } returns Result.Success(45L)
+        coEvery {mockCreateSessionPresetUseCase.execute(any())} returns Result.Success(45L)
         val inputSessionPreset = SessionPreset.AudioFreeSessionPreset(
             id = -1L,
             startCountdownLength = 345L,
@@ -336,16 +311,14 @@ class AudioFreeSessionPresetViewModelTest {
         }
 
         //checking
-        coVerify(exactly = 1) { mockCreateSessionPresetUseCase.execute(inputSessionPreset) }
+        coVerify(exactly = 1) {mockCreateSessionPresetUseCase.execute(inputSessionPreset)}
         assertEquals(true, audioFreeSessionPresetViewModel.successLiveData.getValueForTest())
     }
 
     @Test
     fun `test saveSessionPreset new sessionPreset failure`() {
-        coEvery { mockCreateSessionPresetUseCase.execute(any()) } returns Result.Error(
-            123,
-            "error message",
-            Exception("exception")
+        coEvery {mockCreateSessionPresetUseCase.execute(any())} returns Result.Error(
+            123, "error message", Exception("exception")
         )
         val inputSessionPreset = SessionPreset.AudioFreeSessionPreset(
             id = -1L,
@@ -361,13 +334,13 @@ class AudioFreeSessionPresetViewModelTest {
         }
 
         //checking
-        coVerify(exactly = 1) { mockCreateSessionPresetUseCase.execute(inputSessionPreset) }
+        coVerify(exactly = 1) {mockCreateSessionPresetUseCase.execute(inputSessionPreset)}
         assertEquals("error message", audioFreeSessionPresetViewModel.errorLiveData.getValueForTest())
     }
 
     @Test
     fun `test saveSessionPreset existing sessionPreset success`() {
-        coEvery { mockUpdateSessionPresetUseCase.execute(any()) } returns Result.Success(45)
+        coEvery {mockUpdateSessionPresetUseCase.execute(any())} returns Result.Success(45)
         val inputSessionPreset = SessionPreset.AudioFreeSessionPreset(
             id = 1234L,
             startCountdownLength = 345L,
@@ -382,16 +355,14 @@ class AudioFreeSessionPresetViewModelTest {
         }
 
         //checking
-        coVerify(exactly = 1) { mockUpdateSessionPresetUseCase.execute(inputSessionPreset) }
+        coVerify(exactly = 1) {mockUpdateSessionPresetUseCase.execute(inputSessionPreset)}
         assertEquals(true, audioFreeSessionPresetViewModel.successLiveData.getValueForTest())
     }
 
     @Test
     fun `test saveSessionPreset existing sessionPreset failure`() {
-        coEvery { mockUpdateSessionPresetUseCase.execute(any()) } returns Result.Error(
-            123,
-            "error message",
-            Exception("exception")
+        coEvery {mockUpdateSessionPresetUseCase.execute(any())} returns Result.Error(
+            123, "error message", Exception("exception")
         )
         val inputSessionPreset = SessionPreset.AudioFreeSessionPreset(
             id = 1234L,
@@ -407,7 +378,7 @@ class AudioFreeSessionPresetViewModelTest {
         }
 
         //checking
-        coVerify(exactly = 1) { mockUpdateSessionPresetUseCase.execute(inputSessionPreset) }
+        coVerify(exactly = 1) {mockUpdateSessionPresetUseCase.execute(inputSessionPreset)}
         assertEquals("error message", audioFreeSessionPresetViewModel.errorLiveData.getValueForTest())
     }
 
@@ -415,7 +386,7 @@ class AudioFreeSessionPresetViewModelTest {
     // tests on deleteSessionPreset
     @Test
     fun `test deleteSessionPreset success`() {
-        coEvery { mockDeleteSessionPresetUseCase.execute(any()) } returns Result.Success(45)
+        coEvery {mockDeleteSessionPresetUseCase.execute(any())} returns Result.Success(45)
         val inputSessionPreset = SessionPreset.AudioFreeSessionPreset(
             id = 1234L,
             startCountdownLength = 345L,
@@ -430,16 +401,14 @@ class AudioFreeSessionPresetViewModelTest {
         }
 
         //checking
-        coVerify(exactly = 1) { mockDeleteSessionPresetUseCase.execute(inputSessionPreset) }
+        coVerify(exactly = 1) {mockDeleteSessionPresetUseCase.execute(inputSessionPreset)}
         assertEquals(true, audioFreeSessionPresetViewModel.successLiveData.getValueForTest())
     }
 
     @Test
     fun `test deleteSessionPreset failure`() {
-        coEvery { mockDeleteSessionPresetUseCase.execute(any()) } returns Result.Error(
-            123,
-            "error message",
-            Exception("exception")
+        coEvery {mockDeleteSessionPresetUseCase.execute(any())} returns Result.Error(
+            123, "error message", Exception("exception")
         )
         val inputSessionPreset = SessionPreset.AudioFreeSessionPreset(
             id = 1234L,
@@ -455,7 +424,7 @@ class AudioFreeSessionPresetViewModelTest {
         }
 
         //checking
-        coVerify(exactly = 1) { mockDeleteSessionPresetUseCase.execute(inputSessionPreset) }
+        coVerify(exactly = 1) {mockDeleteSessionPresetUseCase.execute(inputSessionPreset)}
         assertEquals("error message", audioFreeSessionPresetViewModel.errorLiveData.getValueForTest())
     }
 
@@ -466,10 +435,7 @@ class AudioFreeSessionPresetViewModelTest {
         //initializing with a raw SessionPreset
         runBlocking {
             audioFreeSessionPresetViewModel.init(
-                mockContext,
-                null,
-                deviceDefaultRingtoneUriString,
-                deviceDefaultRingtoneName
+                mockContext, null, deviceDefaultRingtoneUriString, deviceDefaultRingtoneName
             )
         }
         val newSessionPreset = SessionPreset.AudioFreeSessionPreset(
@@ -495,10 +461,7 @@ class AudioFreeSessionPresetViewModelTest {
         //initializing with a raw SessionPreset
         runBlocking {
             audioFreeSessionPresetViewModel.init(
-                mockContext,
-                null,
-                deviceDefaultRingtoneUriString,
-                deviceDefaultRingtoneName
+                mockContext, null, deviceDefaultRingtoneUriString, deviceDefaultRingtoneName
             )
         }
         val newSessionPreset = SessionPreset.AudioFreeSessionPreset(
@@ -524,10 +487,7 @@ class AudioFreeSessionPresetViewModelTest {
         //initializing with a raw SessionPreset
         runBlocking {
             audioFreeSessionPresetViewModel.init(
-                mockContext,
-                null,
-                deviceDefaultRingtoneUriString,
-                deviceDefaultRingtoneName
+                mockContext, null, deviceDefaultRingtoneUriString, deviceDefaultRingtoneName
             )
         }
         val newSessionPreset = SessionPreset.AudioFreeSessionPreset(
@@ -553,10 +513,7 @@ class AudioFreeSessionPresetViewModelTest {
         //initializing with a raw SessionPreset
         runBlocking {
             audioFreeSessionPresetViewModel.init(
-                mockContext,
-                null,
-                deviceDefaultRingtoneUriString,
-                deviceDefaultRingtoneName
+                mockContext, null, deviceDefaultRingtoneUriString, deviceDefaultRingtoneName
             )
         }
         val newSessionPreset = SessionPreset.AudioFreeSessionPreset(
@@ -575,7 +532,6 @@ class AudioFreeSessionPresetViewModelTest {
         assertEquals(newSessionPreset, audioFreeSessionPresetViewModel.sessionPresetUpdatedLiveData.getValueForTest())
     }
 
-
     /////////////////////////
     // tests on updatePresetIntermediateIntervalSoundName
     @Test
@@ -583,10 +539,7 @@ class AudioFreeSessionPresetViewModelTest {
         //initializing with a raw SessionPreset
         runBlocking {
             audioFreeSessionPresetViewModel.init(
-                mockContext,
-                null,
-                deviceDefaultRingtoneUriString,
-                deviceDefaultRingtoneName
+                mockContext, null, deviceDefaultRingtoneUriString, deviceDefaultRingtoneName
             )
         }
         val newSessionPreset = SessionPreset.AudioFreeSessionPreset(
@@ -604,5 +557,4 @@ class AudioFreeSessionPresetViewModelTest {
         //checking
         assertEquals(newSessionPreset, audioFreeSessionPresetViewModel.sessionPresetUpdatedLiveData.getValueForTest())
     }
-
 }

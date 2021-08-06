@@ -100,7 +100,7 @@ class AudioFreeSessionPresetViewModel(
         _sessionPresetUpdatedLiveData.value = tempSessionPresetUpdatedLiveData.value?.copy(vibration = inputVibration)
     }
 
-    override fun updatePresetSessionTypeId(inputSessionTypeId: Int) {
+    override fun updatePresetSessionTypeId(inputSessionTypeId: Long) {
         val tempSessionPresetUpdatedLiveData = _sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.AudioFreeSessionPreset>
         _sessionPresetUpdatedLiveData.value = tempSessionPresetUpdatedLiveData.value?.copy(sessionTypeId = inputSessionTypeId)
     }
