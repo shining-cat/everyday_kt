@@ -83,7 +83,6 @@ dependencies {
 
     // Koin
     implementation Libraries.koin
-    implementation Libraries.koin_viewmodel
 
     // Lifecycle
     implementation AndroidLibraries.lifecycle_commons_java8

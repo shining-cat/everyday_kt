@@ -18,7 +18,7 @@
 package fr.shining_cat.everyday.app.di
 
 import fr.shining_cat.everyday.app.viewmodels.SplashViewModel
-import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val appModule = module {

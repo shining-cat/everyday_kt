@@ -23,7 +23,7 @@ import fr.shining_cat.everyday.screens.databinding.DialogSessionPresetTimedBindi
 import fr.shining_cat.everyday.screens.viewmodels.sessionpresets.AbstractSessionPresetViewModel
 import fr.shining_cat.everyday.screens.viewmodels.sessionpresets.TimedSessionPresetViewModel
 import org.koin.android.ext.android.get
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TimedSessionPresetDialog : AbstractSessionPresetDialog() {
 

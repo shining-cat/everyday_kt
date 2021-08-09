@@ -48,7 +48,7 @@ import fr.shining_cat.everyday.screens.databinding.FragmentHomeBinding
 import fr.shining_cat.everyday.screens.viewmodels.HomeViewModel
 import fr.shining_cat.everyday.screens.views.ScreenActivity
 import org.koin.android.ext.android.get
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
 
