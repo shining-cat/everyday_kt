@@ -44,8 +44,9 @@ task everydayJacocoModulesTestReport(type: JacocoReport, dependsOn: ['testDebugU
 }
 
 // This task launches the tests and copies the reports to /reports/ directory
-task everydayJacocoGroupedReports(type: Copy, dependsOn: 'everydayJacocoModulesTestReport') {
+task unitTestsJacocoGroupedReports(type: Copy, dependsOn: 'everydayJacocoModulesTestReport') {
     group = 'Everyday'
+    description("This task will run unit tests from all modules, and copy the coverage reports in [project_root]/reports/[module_name]/jacoco/everydayUnitTestsJacocoGroupedReports/html.\nInstrumented tests ARE NOT run with this task")
     from "$buildDir/reports/"
     into "../reports/$project.name"
 }

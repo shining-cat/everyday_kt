@@ -13,6 +13,6 @@ dependencyUpdates {
     }
 }
 
-task everydayDependenciesUpdates(type: Copy, dependsOn: 'dependencyUpdates') {
+task externalDependenciesUpdates(type: Copy, dependsOn: 'dependencyUpdates') {
     group = 'Everyday'
 }
