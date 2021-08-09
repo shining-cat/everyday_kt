@@ -37,7 +37,7 @@ sealed class SessionPreset(
     open val audioGuideSoundAlbumName: String,
     open val audioGuideSoundTitle: String,
     open val vibration: Boolean,
-    open val sessionTypeId: Int,
+    open val sessionTypeId: Long,
     open val lastEditTime: Long
 ) : Parcelable {
 
@@ -54,7 +54,7 @@ sealed class SessionPreset(
         override val audioGuideSoundAlbumName: String,
         override val audioGuideSoundTitle: String,
         override val vibration: Boolean,
-        override val sessionTypeId: Int,
+        override val sessionTypeId: Long,
         override val lastEditTime: Long
     ) : SessionPreset(
         id = id,
@@ -83,7 +83,7 @@ sealed class SessionPreset(
         override val startAndEndSoundUriString: String,
         override val startAndEndSoundName: String,
         override val vibration: Boolean,
-        override val sessionTypeId: Int,
+        override val sessionTypeId: Long,
         override val lastEditTime: Long
     ) : SessionPreset(
         id = id,
@@ -117,7 +117,7 @@ sealed class SessionPreset(
         override val intermediateIntervalSoundName: String,
         override val duration: Long,
         override val vibration: Boolean,
-        override val sessionTypeId: Int,
+        override val sessionTypeId: Long,
         override val lastEditTime: Long
     ) : SessionPreset(
         id = id,
@@ -150,7 +150,7 @@ sealed class SessionPreset(
         override val intermediateIntervalSoundUriString: String,
         override val intermediateIntervalSoundName: String,
         override val vibration: Boolean,
-        override val sessionTypeId: Int,
+        override val sessionTypeId: Long,
         override val lastEditTime: Long
     ) : SessionPreset(
         id = id,

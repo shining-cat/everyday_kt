@@ -17,8 +17,8 @@
 
 object Versions {
 
-    const val koin = "2.2.2"
     const val kotlin = "1.4.32"
+    const val koin = "2.2.2"
     const val benManesVersionsPlugin = "0.36.0"
     const val jacoco = "0.8.6"
     const val room = "2.2.6"
