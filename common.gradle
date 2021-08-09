@@ -65,6 +65,10 @@ android {
         pickFirst "win32-x86-64/attach_hotspot_windows.dll"
         pickFirst "win32-x86/attach_hotspot_windows.dll"
     }
+    //excluding com.intellij:annotations because it causes duplicate classes errors as it contains the same classes as org.jetbrains:annotations
+    // the second seems to be included by the room library for version >= 2.3.0
+    //could not find where the first comes from but suspecting AndroidStudio
+    configurations { implementation.exclude group: 'com.intellij', module: 'annotations' }
 }
 
 apply plugin: 'kotlin-android'
@@ -73,7 +77,7 @@ apply plugin: 'kotlin-parcelize'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 apply from: "$project.rootDir/conf_plugin_jacoco.gradle"
 apply from: "$project.rootDir/conf_plugin_ben_manes_versions.gradle"
-apply from: "$project.rootDir/conf_plugin_detekt.gradle"
+//apply from: "$project.rootDir/conf_plugin_detekt.gradle"
 apply from: "$project.rootDir/conf_plugin_dependencies_graph.gradle"
 apply from: "$project.rootDir/conf_plugin_ktlint.gradle"
 

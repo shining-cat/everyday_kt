@@ -17,14 +17,14 @@
 
 object Versions {
 
-    const val kotlin = "1.4.32"
+    const val kotlin = "1.5.21"//stay at 1.4.32 ?
     const val koin = "3.1.2"
     const val jacoco = "0.8.7"
-    const val room = "2.2.6" //upgrading to 2.3.0 causes duplicate classes errors!
+    const val room = "2.3.0" //stay at 2.2.6 -> upgrading to 2.3.0 causes duplicate classes errors!
     const val lifecycle = "2.3.1"
     const val navigation = "2.3.5"
     const val ktlint = "0.42.1"
-    const val detekt = "1.1.1"
+    // const val detekt = "1.1.1"
 }
 
 object Libraries {
@@ -34,7 +34,7 @@ object Libraries {
 
     const val jacocoPlugin = "org.jacoco:org.jacoco.core:${Versions.jacoco}"
 
-    const val detektPlugin = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${Versions.detekt}"
+    // const val detektPlugin = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${Versions.detekt}"
 
     //koin
     const val koin = "io.insert-koin:koin-android:${Versions.koin}"
@@ -55,7 +55,7 @@ object KotlinLibraries {
 
 object AndroidLibraries {
 
-    const val gradle = "com.android.tools.build:gradle:4.0.2"//keep at 4.0.2, because 4.1.3 breaks jacoco tests reports task
+    const val gradle = "com.android.tools.build:gradle:7.0.0"//keep at 4.0.2, because 4.1.3 breaks jacoco tests reports task
 
     //
     const val core_ktx = "androidx.core:core-ktx:1.3.2"
@@ -95,7 +95,7 @@ object TestLibraries {
 
     const val mockk = "io.mockk:mockk:1.12.0"
     const val junit = "junit:junit:4.13.2"
-    const val coroutines_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3"
+    const val coroutines_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.1"
     const val robolectric = "org.robolectric:robolectric:4.6.1"
 }
 
