@@ -39,14 +39,12 @@ class SessionPresetRepositoryImpl(
     private val sessionPresetDao: SessionPresetDao,
     private val sessionPresetConverter: SessionPresetConverter,
     private val logger: Logger
-) : SessionPresetRepository {
+): SessionPresetRepository {
 
     private val LOG_TAG = SessionPresetRepositoryImpl::class.java.name
 
     private fun genericReadError(exception: java.lang.Exception) = Output.Error(
-        Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-        Constants.ERROR_MESSAGE_READ_FAILED,
-        exception
+        Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, Constants.ERROR_MESSAGE_READ_FAILED, exception
     )
 
     override suspend fun insert(sessionPresets: List<SessionPreset>): Output<Array<Long>> {
@@ -58,7 +56,8 @@ class SessionPresetRepositoryImpl(
             }
             if (inserted.size == sessionPresets.size) {
                 Output.Success(inserted)
-            } else {
+            }
+            else {
                 logger.e(LOG_TAG, "execute::result is not the right size")
                 Output.Error(
                     Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
@@ -69,9 +68,7 @@ class SessionPresetRepositoryImpl(
         } catch (exception: Exception) {
             logger.e(LOG_TAG, "insert::encountered an exception::$exception")
             Output.Error(
-                Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-                Constants.ERROR_MESSAGE_INSERT_FAILED,
-                exception
+                Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, Constants.ERROR_MESSAGE_INSERT_FAILED, exception
             )
         }
     }
@@ -85,7 +82,8 @@ class SessionPresetRepositoryImpl(
             }
             if (updated == 1) {
                 Output.Success(updated)
-            } else {
+            }
+            else {
                 Output.Error(
                     Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                     Constants.ERROR_MESSAGE_UPDATE_FAILED,
@@ -94,9 +92,7 @@ class SessionPresetRepositoryImpl(
             }
         } catch (exception: Exception) {
             Output.Error(
-                Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-                Constants.ERROR_MESSAGE_UPDATE_FAILED,
-                exception
+                Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, Constants.ERROR_MESSAGE_UPDATE_FAILED, exception
             )
         }
     }
@@ -110,7 +106,8 @@ class SessionPresetRepositoryImpl(
             }
             if (deleted == 1) {
                 Output.Success(deleted)
-            } else {
+            }
+            else {
                 Output.Error(
                     Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
                     Constants.ERROR_MESSAGE_DELETE_FAILED,
@@ -119,9 +116,7 @@ class SessionPresetRepositoryImpl(
             }
         } catch (exception: Exception) {
             Output.Error(
-                Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-                Constants.ERROR_MESSAGE_DELETE_FAILED,
-                exception
+                Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, Constants.ERROR_MESSAGE_DELETE_FAILED, exception
             )
         }
     }
@@ -140,16 +135,13 @@ class SessionPresetRepositoryImpl(
     private suspend fun handleQueryResult(sessionPresetEntities: List<SessionPresetEntity>): Output<List<SessionPreset>> {
         return if (sessionPresetEntities.isEmpty()) {
             Output.Error(
-                Constants.ERROR_CODE_NO_RESULT,
-                Constants.ERROR_MESSAGE_NO_RESULT,
-                NullPointerException(Constants.ERROR_MESSAGE_NO_RESULT)
+                Constants.ERROR_CODE_NO_RESULT, Constants.ERROR_MESSAGE_NO_RESULT, NullPointerException(Constants.ERROR_MESSAGE_NO_RESULT)
             )
-        } else {
-            Output.Success(
-                withContext(Dispatchers.Default) {
-                    sessionPresetConverter.convertEntitiesToModels(sessionPresetEntities)
-                }
-            )
+        }
+        else {
+            Output.Success(withContext(Dispatchers.Default) {
+                sessionPresetConverter.convertEntitiesToModels(sessionPresetEntities)
+            })
         }
     }
 }

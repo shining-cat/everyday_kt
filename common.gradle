@@ -52,6 +52,9 @@ android {
         }
     }
     compileOptions {
+        // Flag to enable support for the new language APIs
+        coreLibraryDesugaringEnabled = true
+        // Sets Java compatibility to Java 8
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -92,6 +95,9 @@ dependencies {
     implementation AndroidLibraries.lifecycle_commons_java8
     implementation AndroidLibraries.lifecycle_livedata
     implementation AndroidLibraries.lifecycle_viewmodel_ktx
+
+    //Java 8+ API desugaring support
+    coreLibraryDesugaring(AndroidLibraries.desugaring_support)
 
     // Unit Tests
     testImplementation TestLibraries.junit

@@ -25,12 +25,11 @@ class SessionPresetConverter(
     private val logger: Logger
 ) {
 
-    enum class SessionPresetType {
-        AUDIO, AUDIO_FREE, TIMED, TIMED_FREE, UNKNOWN
+    enum class SessionPresetType { AUDIO, AUDIO_FREE, TIMED, TIMED_FREE, UNKNOWN
     }
 
     suspend fun convertModelsToEntities(sessionPresets: List<SessionPreset>): List<SessionPresetEntity> {
-        return sessionPresets.map { sessionPreset -> convertModelToEntity(sessionPreset) }
+        return sessionPresets.map {sessionPreset -> convertModelToEntity(sessionPreset)}
     }
 
     suspend fun convertModelToEntity(sessionPreset: SessionPreset): SessionPresetEntity {
@@ -61,7 +60,8 @@ class SessionPresetConverter(
                 lastEditTime = sessionPreset.lastEditTime,
                 sessionPresetType = sessionPresetType
             )
-        } else {
+        }
+        else {
             SessionPresetEntity(
                 id = sessionPreset.id,
                 startCountdownLength = sessionPreset.startCountdownLength,
@@ -85,7 +85,7 @@ class SessionPresetConverter(
     }
 
     suspend fun convertEntitiesToModels(sessionPresetEntities: List<SessionPresetEntity>): List<SessionPreset> {
-        return sessionPresetEntities.map { sessionEntity -> convertEntityToModel(sessionEntity) }
+        return sessionPresetEntities.map {sessionEntity -> convertEntityToModel(sessionEntity)}
     }
 
     suspend fun convertEntityToModel(sessionPresetEntity: SessionPresetEntity): SessionPreset {

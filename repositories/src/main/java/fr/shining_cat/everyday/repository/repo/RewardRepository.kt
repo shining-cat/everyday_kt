@@ -57,20 +57,16 @@ class RewardRepositoryImpl(
     private val rewardDao: RewardDao,
     private val rewardConverter: RewardConverter,
     private val logger: Logger
-) : RewardRepository {
+): RewardRepository {
 
     private val LOG_TAG = RewardRepositoryImpl::class.java.name
 
     private fun genericReadError(exception: Exception) = Output.Error(
-        ERROR_CODE_DATABASE_OPERATION_FAILED,
-        ERROR_MESSAGE_READ_FAILED,
-        exception
+        ERROR_CODE_DATABASE_OPERATION_FAILED, ERROR_MESSAGE_READ_FAILED, exception
     )
 
     private fun genericCountError(exception: Exception) = Output.Error(
-        ERROR_CODE_DATABASE_OPERATION_FAILED,
-        ERROR_MESSAGE_COUNT_FAILED,
-        exception
+        ERROR_CODE_DATABASE_OPERATION_FAILED, ERROR_MESSAGE_COUNT_FAILED, exception
     )
 
     override suspend fun insert(rewards: List<Reward>): Output<Array<Long>> {
@@ -82,18 +78,15 @@ class RewardRepositoryImpl(
             }
             if (inserted.size == rewards.size) {
                 Output.Success(inserted)
-            } else {
+            }
+            else {
                 Output.Error(
-                    ERROR_CODE_DATABASE_OPERATION_FAILED,
-                    ERROR_MESSAGE_INSERT_FAILED,
-                    Exception(ERROR_MESSAGE_INSERT_FAILED)
+                    ERROR_CODE_DATABASE_OPERATION_FAILED, ERROR_MESSAGE_INSERT_FAILED, Exception(ERROR_MESSAGE_INSERT_FAILED)
                 )
             }
         } catch (exception: Exception) {
             Output.Error(
-                ERROR_CODE_DATABASE_OPERATION_FAILED,
-                ERROR_MESSAGE_INSERT_FAILED,
-                exception
+                ERROR_CODE_DATABASE_OPERATION_FAILED, ERROR_MESSAGE_INSERT_FAILED, exception
             )
         }
     }
@@ -107,50 +100,42 @@ class RewardRepositoryImpl(
             }
             if (updated == rewards.size) {
                 Output.Success(updated)
-            } else {
+            }
+            else {
                 Output.Error(
-                    ERROR_CODE_DATABASE_OPERATION_FAILED,
-                    ERROR_MESSAGE_UPDATE_FAILED,
-                    Exception(ERROR_MESSAGE_UPDATE_FAILED)
+                    ERROR_CODE_DATABASE_OPERATION_FAILED, ERROR_MESSAGE_UPDATE_FAILED, Exception(ERROR_MESSAGE_UPDATE_FAILED)
                 )
             }
         } catch (exception: Exception) {
             Output.Error(
-                ERROR_CODE_DATABASE_OPERATION_FAILED,
-                ERROR_MESSAGE_UPDATE_FAILED,
-                exception
+                ERROR_CODE_DATABASE_OPERATION_FAILED, ERROR_MESSAGE_UPDATE_FAILED, exception
             )
         }
     }
 
     override suspend fun deleteAllRewards(): Output<Int> {
         return try {
-            val deleted = withContext(Dispatchers.IO) { rewardDao.deleteAllRewards() }
+            val deleted = withContext(Dispatchers.IO) {rewardDao.deleteAllRewards()}
             Output.Success(deleted)
         } catch (exception: Exception) {
             Output.Error(
-                ERROR_CODE_DATABASE_OPERATION_FAILED,
-                ERROR_MESSAGE_DELETE_FAILED,
-                exception
+                ERROR_CODE_DATABASE_OPERATION_FAILED, ERROR_MESSAGE_DELETE_FAILED, exception
             )
         }
     }
 
     override suspend fun getReward(rewardId: Long): Output<Reward> {
         return try {
-            val rewardEntity = withContext(Dispatchers.IO) { rewardDao.getReward(rewardId) }
+            val rewardEntity = withContext(Dispatchers.IO) {rewardDao.getReward(rewardId)}
             if (rewardEntity == null) {
                 Output.Error(
-                    Constants.ERROR_CODE_NO_RESULT,
-                    ERROR_MESSAGE_NO_RESULT,
-                    NullPointerException(ERROR_MESSAGE_NO_RESULT)
+                    Constants.ERROR_CODE_NO_RESULT, ERROR_MESSAGE_NO_RESULT, NullPointerException(ERROR_MESSAGE_NO_RESULT)
                 )
-            } else {
-                Output.Success(
-                    withContext(Dispatchers.Default) {
-                        rewardConverter.convertEntitytoModel(rewardEntity)
-                    }
-                )
+            }
+            else {
+                Output.Success(withContext(Dispatchers.Default) {
+                    rewardConverter.convertEntitytoModel(rewardEntity)
+                })
             }
         } catch (exception: Exception) {
             genericReadError(exception)
@@ -289,16 +274,13 @@ class RewardRepositoryImpl(
     private suspend fun handleQueryResult(rewardEntities: List<RewardEntity>): Output<List<Reward>> {
         return if (rewardEntities.isEmpty()) {
             Output.Error(
-                Constants.ERROR_CODE_NO_RESULT,
-                ERROR_MESSAGE_NO_RESULT,
-                NullPointerException(ERROR_MESSAGE_NO_RESULT)
+                Constants.ERROR_CODE_NO_RESULT, ERROR_MESSAGE_NO_RESULT, NullPointerException(ERROR_MESSAGE_NO_RESULT)
             )
-        } else {
-            Output.Success(
-                withContext(Dispatchers.Default) {
-                    rewardConverter.convertEntitiesToModels(rewardEntities)
-                }
-            )
+        }
+        else {
+            Output.Success(withContext(Dispatchers.Default) {
+                rewardConverter.convertEntitiesToModels(rewardEntities)
+            })
         }
     }
 }

@@ -35,7 +35,7 @@ import fr.shining_cat.everyday.locale.entities.SessionTypeEntity
     version = 1,
     exportSchema = false
 )
-abstract class EveryDayRoomDatabase : RoomDatabase() {
+abstract class EveryDayRoomDatabase: RoomDatabase() {
 
     /**
      * Connects the database to the DAOs.
@@ -69,14 +69,12 @@ abstract class EveryDayRoomDatabase : RoomDatabase() {
                 if (instance == null) {
                     if (TEST_MODE) {
                         instance = Room.inMemoryDatabaseBuilder(
-                            context,
-                            EveryDayRoomDatabase::class.java
+                            context, EveryDayRoomDatabase::class.java
                         ).fallbackToDestructiveMigration().build()
-                    } else {
+                    }
+                    else {
                         instance = Room.databaseBuilder(
-                            context,
-                            EveryDayRoomDatabase::class.java,
-                            DATABASE_NAME
+                            context, EveryDayRoomDatabase::class.java, DATABASE_NAME
                         )
                             // TODO: handle migration:
                             // Wipes and rebuilds instead of migrating if no Migration object.

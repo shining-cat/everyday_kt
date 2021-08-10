@@ -78,18 +78,12 @@ class SessionTypeDaoTest {
     ): SessionTypeEntity {
         val returnEntity = if (desiredId != -1L) {
             SessionTypeEntity(
-                id = desiredId,
-                name = desiredName,
-                description = desiredDescription,
-                color = desiredColor,
-                lastEditTime = desiredLastEditTime
+                id = desiredId, name = desiredName, description = desiredDescription, color = desiredColor, lastEditTime = desiredLastEditTime
             )
-        } else {
+        }
+        else {
             SessionTypeEntity(
-                name = desiredName,
-                description = desiredDescription,
-                color = desiredColor,
-                lastEditTime = desiredLastEditTime
+                name = desiredName, description = desiredDescription, color = desiredColor, lastEditTime = desiredLastEditTime
             )
         }
         return returnEntity
@@ -339,24 +333,20 @@ class SessionTypeDaoTest {
         assertEquals(1, numberOfUpdatedItems)
         assertTableSize(54)
         val sessionTypeEntityUpdated = runBlocking {
-            sessionTypeDao.getAllSessionTypesLastEditTimeDesc().filter { it.id == 43L }[0]
+            sessionTypeDao.getAllSessionTypesLastEditTimeDesc().filter {it.id == 43L}[0]
         }
         Assert.assertNotNull(sessionTypeEntityUpdated)
         assertEquals(
-            43L,
-            sessionTypeEntityUpdated.id
+            43L, sessionTypeEntityUpdated.id
         )
         assertEquals(
-            "after update name",
-            sessionTypeEntityUpdated.name
+            "after update name", sessionTypeEntityUpdated.name
         )
         assertEquals(
-            "after update description",
-            sessionTypeEntityUpdated.description
+            "after update description", sessionTypeEntityUpdated.description
         )
         assertEquals(
-            "after update color",
-            sessionTypeEntityUpdated.color
+            "after update color", sessionTypeEntityUpdated.color
         )
         assertEquals(64L, sessionTypeEntityUpdated.lastEditTime)
     }

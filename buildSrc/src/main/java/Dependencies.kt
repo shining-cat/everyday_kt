@@ -89,6 +89,9 @@ object AndroidLibraries {
 
     //preferences
     const val jetpack_preferences = "androidx.preference:preference-ktx:1.1.1"
+
+    //Java 8+ API desugaring support
+    const val desugaring_support = "com.android.tools:desugar_jdk_libs:1.1.5"
 }
 
 object TestLibraries {
@@ -104,6 +107,6 @@ object AndroidTestLibraries {
     const val core_testing = "androidx.arch.core:core-testing:2.1.0"
     const val espresso = "androidx.test.espresso:espresso-core:3.4.0"
     const val junit = "androidx.test.ext:junit:1.1.3"
-    const val room_testing = "androidx.room:room-testing:2.2.1"
     const val runner = "androidx.test:runner:1.4.0"
+    const val room_testing = "androidx.room:room-testing:2.2.1"
 }

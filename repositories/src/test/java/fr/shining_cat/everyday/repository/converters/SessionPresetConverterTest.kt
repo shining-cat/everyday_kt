@@ -27,7 +27,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
-import kotlin.math.exp
 
 class SessionPresetConverterTest {
 
@@ -84,8 +83,7 @@ class SessionPresetConverterTest {
             sessionPresetType = SessionPresetConverter.SessionPresetType.AUDIO.name
         )
         assertEquals(
-            expectedEntity,
-            convertedModel
+            expectedEntity, convertedModel
         )
     }
 
@@ -128,8 +126,7 @@ class SessionPresetConverterTest {
             sessionPresetType = SessionPresetConverter.SessionPresetType.AUDIO.name
         )
         assertEquals(
-            expectedEntity,
-            convertedModel
+            expectedEntity, convertedModel
         )
     }
 
@@ -172,8 +169,7 @@ class SessionPresetConverterTest {
             lastEditTime = 567L
         )
         assertEquals(
-            expectedModel,
-            convertedEntity
+            expectedModel, convertedEntity
         )
     }
 
@@ -216,8 +212,7 @@ class SessionPresetConverterTest {
             lastEditTime = 567L
         )
         assertEquals(
-            expectedModel,
-            convertedEntity
+            expectedModel, convertedEntity
         )
     }
 
@@ -257,8 +252,7 @@ class SessionPresetConverterTest {
             sessionPresetType = SessionPresetConverter.SessionPresetType.AUDIO_FREE.name
         )
         assertEquals(
-            expectedEntity,
-            convertedModel
+            expectedEntity, convertedModel
         )
     }
 
@@ -296,8 +290,7 @@ class SessionPresetConverterTest {
             sessionPresetType = SessionPresetConverter.SessionPresetType.AUDIO_FREE.name
         )
         assertEquals(
-            expectedEntity,
-            convertedModel
+            expectedEntity, convertedModel
         )
     }
 
@@ -335,8 +328,7 @@ class SessionPresetConverterTest {
             lastEditTime = 567L
         )
         assertEquals(
-            expectedModel,
-            convertedEntity
+            expectedModel, convertedEntity
         )
     }
 
@@ -374,8 +366,7 @@ class SessionPresetConverterTest {
             lastEditTime = 567L
         )
         assertEquals(
-            expectedModel,
-            convertedEntity
+            expectedModel, convertedEntity
         )
     }
 
@@ -420,8 +411,7 @@ class SessionPresetConverterTest {
             sessionPresetType = SessionPresetConverter.SessionPresetType.TIMED.name
         )
         assertEquals(
-            expectedEntity,
-            convertedModel
+            expectedEntity, convertedModel
         )
     }
 
@@ -464,8 +454,7 @@ class SessionPresetConverterTest {
             sessionPresetType = SessionPresetConverter.SessionPresetType.TIMED.name
         )
         assertEquals(
-            expectedEntity,
-            convertedModel
+            expectedEntity, convertedModel
         )
     }
 
@@ -508,8 +497,7 @@ class SessionPresetConverterTest {
             lastEditTime = 567L
         )
         assertEquals(
-            expectedModel,
-            convertedEntity
+            expectedModel, convertedEntity
         )
     }
 
@@ -552,8 +540,7 @@ class SessionPresetConverterTest {
             lastEditTime = 567L
         )
         assertEquals(
-            expectedModel,
-            convertedEntity
+            expectedModel, convertedEntity
         )
     }
 
@@ -598,8 +585,7 @@ class SessionPresetConverterTest {
             sessionPresetType = SessionPresetConverter.SessionPresetType.TIMED_FREE.name
         )
         assertEquals(
-            expectedEntity,
-            convertedModel
+            expectedEntity, convertedModel
         )
     }
 
@@ -642,8 +628,7 @@ class SessionPresetConverterTest {
             sessionPresetType = SessionPresetConverter.SessionPresetType.TIMED_FREE.name
         )
         assertEquals(
-            expectedEntity,
-            convertedModel
+            expectedEntity, convertedModel
         )
     }
 
@@ -686,8 +671,7 @@ class SessionPresetConverterTest {
         )
 
         assertEquals(
-            expectedModel,
-            convertedEntity
+            expectedModel, convertedEntity
         )
     }
 
@@ -730,8 +714,7 @@ class SessionPresetConverterTest {
         )
 
         assertEquals(
-            expectedModel,
-            convertedEntity
+            expectedModel, convertedEntity
         )
     }
 }

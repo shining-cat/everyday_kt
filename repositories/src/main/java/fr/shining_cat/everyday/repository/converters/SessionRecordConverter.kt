@@ -23,8 +23,10 @@ import fr.shining_cat.everyday.models.sessionrecord.Mood
 import fr.shining_cat.everyday.models.sessionrecord.MoodValue
 import fr.shining_cat.everyday.models.sessionrecord.RealDurationVsPlanned
 import fr.shining_cat.everyday.models.sessionrecord.SessionRecord
-import java.text.SimpleDateFormat
-import java.util.Locale
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.concurrent.TimeUnit
 
 class SessionRecordConverter(
@@ -32,7 +34,7 @@ class SessionRecordConverter(
 ) {
 
     suspend fun convertModelsToEntities(sessionRecords: List<SessionRecord>): List<SessionRecordEntity> {
-        return sessionRecords.map { sessionRecord -> convertModelToEntity(sessionRecord) }
+        return sessionRecords.map {sessionRecord -> convertModelToEntity(sessionRecord)}
     }
 
     suspend fun convertModelToEntity(sessionRecord: SessionRecord): SessionRecordEntity {
@@ -64,37 +66,29 @@ class SessionRecordConverter(
     }
 
     suspend fun convertEntitiesToModels(sessionRecordEntities: List<SessionRecordEntity>): List<SessionRecord> {
-        return sessionRecordEntities.map { sessionEntity -> convertEntityToModel(sessionEntity) }
+        return sessionRecordEntities.map {sessionEntity -> convertEntityToModel(sessionEntity)}
     }
 
     suspend fun convertEntityToModel(sessionRecordEntity: SessionRecordEntity): SessionRecord {
         val startMoodRecord = Mood(
-            timeOfRecord = sessionRecordEntity.startTimeOfRecord,
-            bodyValue = MoodValue.fromKey(
+            timeOfRecord = sessionRecordEntity.startTimeOfRecord, bodyValue = MoodValue.fromKey(
                 sessionRecordEntity.startBodyValue
-            ),
-            thoughtsValue = MoodValue.fromKey(
+            ), thoughtsValue = MoodValue.fromKey(
                 sessionRecordEntity.startThoughtsValue
-            ),
-            feelingsValue = MoodValue.fromKey(
+            ), feelingsValue = MoodValue.fromKey(
                 sessionRecordEntity.startFeelingsValue
-            ),
-            globalValue = MoodValue.fromKey(
+            ), globalValue = MoodValue.fromKey(
                 sessionRecordEntity.startGlobalValue
             )
         )
         val endMoodRecord = Mood(
-            timeOfRecord = sessionRecordEntity.endTimeOfRecord,
-            bodyValue = MoodValue.fromKey(
+            timeOfRecord = sessionRecordEntity.endTimeOfRecord, bodyValue = MoodValue.fromKey(
                 sessionRecordEntity.endBodyValue
-            ),
-            thoughtsValue = MoodValue.fromKey(
+            ), thoughtsValue = MoodValue.fromKey(
                 sessionRecordEntity.endThoughtsValue
-            ),
-            feelingsValue = MoodValue.fromKey(
+            ), feelingsValue = MoodValue.fromKey(
                 sessionRecordEntity.endFeelingsValue
-            ),
-            globalValue = MoodValue.fromKey(
+            ), globalValue = MoodValue.fromKey(
                 sessionRecordEntity.endGlobalValue
             )
         )
@@ -115,10 +109,6 @@ class SessionRecordConverter(
 
     // this is used for the csv export
     suspend fun convertModelToStringArray(sessionRecord: SessionRecord): Array<String> {
-        val sdf = SimpleDateFormat(
-            "dd/MM/yyyy HH:mm",
-            Locale.getDefault()
-        )
         // 0 is for NOT SET so export it as such
         val startMoodRecord = sessionRecord.startMood
         val startBodyValue = startMoodRecord.bodyValue.name
@@ -132,9 +122,13 @@ class SessionRecordConverter(
         val endFeelingsValue = endMoodRecord.feelingsValue.name
         val endGlobalValue = endMoodRecord.globalValue.name
         //
+        val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+        val startFormatted = formatter.format(Instant.ofEpochMilli(startMoodRecord.timeOfRecord).atZone(ZoneId.systemDefault()))
+        val endFormatted = formatter.format(Instant.ofEpochMilli(endMoodRecord.timeOfRecord).atZone(ZoneId.systemDefault()))
+        //
         return arrayOf(
-            sdf.format(startMoodRecord.timeOfRecord),
-            sdf.format(endMoodRecord.timeOfRecord),
+            startFormatted,
+            endFormatted,
             (TimeUnit.MILLISECONDS.toMinutes(sessionRecord.realDuration)).toString() + "mn",
             sessionRecord.notes,
             startBodyValue,

@@ -29,7 +29,9 @@ import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import java.util.GregorianCalendar
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 
 class SessionRecordDaoTest {
 
@@ -77,8 +79,7 @@ class SessionRecordDaoTest {
         for (i in 0 until numberOfSessions) {
             returnList.add(
                 generateSessionRecordEntity(
-                    yearstart = yearStartInc,
-                    yearend = yearEndInc
+                    yearstart = yearStartInc, yearend = yearEndInc
                 )
             )
             yearStartInc++
@@ -118,63 +119,13 @@ class SessionRecordDaoTest {
     ): SessionRecordEntity {
         if (desiredId == -1L) {
             return SessionRecordEntity(
-                startTimeOfRecord = GregorianCalendar(
-                    yearstart,
-                    monthstart,
-                    dayOfMonthstart,
-                    hourOfDaystart,
-                    minutestart,
-                    secondstart
-                ).timeInMillis,
+                startTimeOfRecord = convertDateToMilliSinceEpoch(yearstart, monthstart, dayOfMonthstart, hourOfDaystart, minutestart, secondstart),
                 startBodyValue = startBodyValue,
                 startThoughtsValue = startThoughtsValue,
                 startFeelingsValue = startFeelingsValue,
                 startGlobalValue = startGlobalValue,
 
-                endTimeOfRecord = GregorianCalendar(
-                    yearend,
-                    monthend,
-                    dayOfMonthend,
-                    hourOfDayend,
-                    minuteend,
-                    secondend
-                ).timeInMillis,
-                endBodyValue = endBodyValue,
-                endThoughtsValue = endThoughtsValue,
-                endFeelingsValue = endFeelingsValue,
-                endGlobalValue = endGlobalValue,
-
-                notes = notes,
-                realDuration = realDuration,
-                pausesCount = pausesCount,
-                realDurationVsPlanned = realDurationVsPlanned,
-                guideMp3 = guideMp3,
-                sessionTypeId = sessionTypeId
-            )
-        } else {
-            return SessionRecordEntity(
-                id = desiredId,
-                startTimeOfRecord = GregorianCalendar(
-                    yearstart,
-                    monthstart,
-                    dayOfMonthstart,
-                    hourOfDaystart,
-                    minutestart,
-                    secondstart
-                ).timeInMillis,
-                startBodyValue = startBodyValue,
-                startThoughtsValue = startThoughtsValue,
-                startFeelingsValue = startFeelingsValue,
-                startGlobalValue = startGlobalValue,
-
-                endTimeOfRecord = GregorianCalendar(
-                    yearend,
-                    monthend,
-                    dayOfMonthend,
-                    hourOfDayend,
-                    minuteend,
-                    secondend
-                ).timeInMillis,
+                endTimeOfRecord = convertDateToMilliSinceEpoch(yearend, monthend, dayOfMonthend, hourOfDayend, minuteend, secondend),
                 endBodyValue = endBodyValue,
                 endThoughtsValue = endThoughtsValue,
                 endFeelingsValue = endFeelingsValue,
@@ -188,6 +139,47 @@ class SessionRecordDaoTest {
                 sessionTypeId = sessionTypeId
             )
         }
+        else {
+            return SessionRecordEntity(
+                id = desiredId,
+                startTimeOfRecord = convertDateToMilliSinceEpoch(yearstart, monthstart, dayOfMonthstart, hourOfDaystart, minutestart, secondstart),
+                startBodyValue = startBodyValue,
+                startThoughtsValue = startThoughtsValue,
+                startFeelingsValue = startFeelingsValue,
+                startGlobalValue = startGlobalValue,
+
+                endTimeOfRecord = convertDateToMilliSinceEpoch(yearend, monthend, dayOfMonthend, hourOfDayend, minuteend, secondend),
+                endBodyValue = endBodyValue,
+                endThoughtsValue = endThoughtsValue,
+                endFeelingsValue = endFeelingsValue,
+                endGlobalValue = endGlobalValue,
+
+                notes = notes,
+                realDuration = realDuration,
+                pausesCount = pausesCount,
+                realDurationVsPlanned = realDurationVsPlanned,
+                guideMp3 = guideMp3,
+                sessionTypeId = sessionTypeId
+            )
+        }
+    }
+
+    private fun convertDateToMilliSinceEpoch(
+        year: Int,
+        month: Int,
+        dayOfMonth: Int,
+        hourOfDay: Int,
+        minutes: Int,
+        seconds: Int
+    ): Long {
+        val zone = ZoneId.systemDefault()
+        val rules = zone.rules
+        val offset = rules.getOffset(Instant.now())
+
+        val dateAsLong = LocalDateTime.of(
+            year, month, dayOfMonth, hourOfDay, minutes, seconds
+        ).toInstant(offset).toEpochMilli()
+        return dateAsLong
     }
 
     // ///////////////////////////
@@ -377,16 +369,14 @@ class SessionRecordDaoTest {
         if (sessionRecordEntityExtracted != null) {
             assertEquals(73L, sessionRecordEntityExtracted.id)
             assertEquals(
-                GregorianCalendar(1623, 3, 5, 22, 21, 32).timeInMillis,
-                sessionRecordEntityExtracted.startTimeOfRecord
+                convertDateToMilliSinceEpoch(1623, 3, 5, 22, 21, 32), sessionRecordEntityExtracted.startTimeOfRecord
             )
             assertEquals(-1, sessionRecordEntityExtracted.startBodyValue)
             assertEquals(1, sessionRecordEntityExtracted.startThoughtsValue)
             assertEquals(2, sessionRecordEntityExtracted.startFeelingsValue)
             assertEquals(-2, sessionRecordEntityExtracted.startGlobalValue)
             assertEquals(
-                GregorianCalendar(2004, 2, 7, 15, 17, 51).timeInMillis,
-                sessionRecordEntityExtracted.endTimeOfRecord
+                convertDateToMilliSinceEpoch(2004, 2, 7, 15, 17, 51), sessionRecordEntityExtracted.endTimeOfRecord
             )
             assertEquals(1, sessionRecordEntityExtracted.endBodyValue)
             assertEquals(-2, sessionRecordEntityExtracted.endThoughtsValue)
@@ -504,16 +494,14 @@ class SessionRecordDaoTest {
         if (sessionRecordEntityExtracted != null) {
             assertEquals(73L, sessionRecordEntityExtracted.id)
             assertEquals(
-                GregorianCalendar(1923, 5, 22, 17, 12, 7).timeInMillis,
-                sessionRecordEntityExtracted.startTimeOfRecord
+                convertDateToMilliSinceEpoch(1923, 5, 22, 17, 12, 7), sessionRecordEntityExtracted.startTimeOfRecord
             )
             assertEquals(2, sessionRecordEntityExtracted.startBodyValue)
             assertEquals(1, sessionRecordEntityExtracted.startThoughtsValue)
             assertEquals(0, sessionRecordEntityExtracted.startFeelingsValue)
             assertEquals(-1, sessionRecordEntityExtracted.startGlobalValue)
             assertEquals(
-                GregorianCalendar(1975, 7, 14, 21, 13, 24).timeInMillis,
-                sessionRecordEntityExtracted.endTimeOfRecord
+                convertDateToMilliSinceEpoch(1975, 7, 14, 21, 13, 24), sessionRecordEntityExtracted.endTimeOfRecord
             )
             assertEquals(-1, sessionRecordEntityExtracted.endBodyValue)
             assertEquals(-1, sessionRecordEntityExtracted.endThoughtsValue)
@@ -543,7 +531,9 @@ class SessionRecordDaoTest {
     @Test
     fun getAllSessionsStartTimeAsc() {
         val sessionToInsertList = listOf(
-            generateSessionRecordEntity(yearstart = 1623),
+            generateSessionRecordEntity(
+                yearstart = 1623, monthstart = 2, dayOfMonthstart = 13, hourOfDaystart = 15, minutestart = 27, secondstart = 54
+            ),
             generateSessionRecordEntity(yearstart = 2013),
             generateSessionRecordEntity(yearstart = 1953),
             generateSessionRecordEntity(yearstart = 1733),
@@ -559,11 +549,11 @@ class SessionRecordDaoTest {
         }
         assertNotNull(sessionRecordEntitiesSorted)
         assertEquals(6, sessionRecordEntitiesSorted.size)
-        var date = 0L
+        var previousInstant = convertDateToMilliSinceEpoch(year = 1623, month = 2, dayOfMonth = 13, hourOfDay = 15, minutes = 27, seconds = 54)
         for (i in sessionRecordEntitiesSorted.indices) {
-            assert(sessionRecordEntitiesSorted[i].startTimeOfRecord >= date)
-            date = sessionRecordEntitiesSorted[i].startTimeOfRecord
-            assertEquals(date, sessionRecordEntitiesSorted[i].startTimeOfRecord)
+            assert(sessionRecordEntitiesSorted[i].startTimeOfRecord >= previousInstant)
+            previousInstant = sessionRecordEntitiesSorted[i].startTimeOfRecord
+            assertEquals(previousInstant, sessionRecordEntitiesSorted[i].startTimeOfRecord)
         }
     }
 
@@ -581,7 +571,9 @@ class SessionRecordDaoTest {
     fun getAllSessionsStartTimeDesc() {
         val sessionToInsertList = listOf(
             generateSessionRecordEntity(yearstart = 1623),
-            generateSessionRecordEntity(yearstart = 2013),
+            generateSessionRecordEntity(
+                yearstart = 2013, monthstart = 2, dayOfMonthstart = 13, hourOfDaystart = 15, minutestart = 27, secondstart = 54
+            ),
             generateSessionRecordEntity(yearstart = 1843),
             generateSessionRecordEntity(yearstart = 1953),
             generateSessionRecordEntity(yearstart = 1733),
@@ -597,12 +589,11 @@ class SessionRecordDaoTest {
         assertNotNull(sessionRecordEntitiesSorted)
 
         assertEquals(6, sessionRecordEntitiesSorted.size)
-        var date =
-            sessionRecordEntitiesSorted[sessionRecordEntitiesSorted.size - 1].startTimeOfRecord
-        for (i in 4 downTo 0) {
-            assert(sessionRecordEntitiesSorted[i].startTimeOfRecord <= date)
-            date = sessionRecordEntitiesSorted[i].startTimeOfRecord
-            assertEquals(date, sessionRecordEntitiesSorted[i].startTimeOfRecord)
+        var previousInstant = convertDateToMilliSinceEpoch(year = 2013, month = 2, dayOfMonth = 13, hourOfDay = 15, minutes = 27, seconds = 54)
+        for (i in sessionRecordEntitiesSorted.indices) {
+            assert(sessionRecordEntitiesSorted[i].startTimeOfRecord <= previousInstant)
+            previousInstant = sessionRecordEntitiesSorted[i].startTimeOfRecord
+            assertEquals(previousInstant, sessionRecordEntitiesSorted[i].startTimeOfRecord)
         }
     }
 
@@ -676,8 +667,7 @@ class SessionRecordDaoTest {
         assertNotNull(sessionRecordEntitiesSorted)
 
         assertEquals(6, sessionRecordEntitiesSorted.size)
-        var duration =
-            sessionRecordEntitiesSorted[sessionRecordEntitiesSorted.size - 1].realDuration
+        var duration = sessionRecordEntitiesSorted[sessionRecordEntitiesSorted.size - 1].realDuration
         for (i in 4 downTo 0) {
             assert(sessionRecordEntitiesSorted[i].realDuration <= duration)
             duration = sessionRecordEntitiesSorted[i].realDuration
@@ -869,7 +859,9 @@ class SessionRecordDaoTest {
     @Test
     fun getAllSessionsNotLiveStartTimeAsc() {
         val sessionToInsertList = listOf(
-            generateSessionRecordEntity(yearstart = 1623),
+            generateSessionRecordEntity(
+                yearstart = 1623, monthstart = 2, dayOfMonthstart = 13, hourOfDaystart = 15, minutestart = 27, secondstart = 54
+            ),
             generateSessionRecordEntity(yearstart = 2003),
             generateSessionRecordEntity(yearstart = 1733),
             generateSessionRecordEntity(yearstart = 1843),
@@ -886,11 +878,11 @@ class SessionRecordDaoTest {
         assertNotNull(sessionRecordEntitiesExtracted)
         if (sessionRecordEntitiesExtracted != null) {
             assertEquals(6, sessionRecordEntitiesExtracted.size)
-            var date = 0L
+            var previousInstant = convertDateToMilliSinceEpoch(year = 1623, month = 2, dayOfMonth = 13, hourOfDay = 15, minutes = 27, seconds = 54)
             for (i in sessionRecordEntitiesExtracted.indices) {
-                assert(sessionRecordEntitiesExtracted[i].startTimeOfRecord >= date)
-                date = sessionRecordEntitiesExtracted[i].startTimeOfRecord
-                assertEquals(date, sessionRecordEntitiesExtracted[i].startTimeOfRecord)
+                assert(sessionRecordEntitiesExtracted[i].startTimeOfRecord >= previousInstant)
+                previousInstant = sessionRecordEntitiesExtracted[i].startTimeOfRecord
+                assertEquals(previousInstant, sessionRecordEntitiesExtracted[i].startTimeOfRecord)
             }
         }
     }
@@ -908,52 +900,17 @@ class SessionRecordDaoTest {
     fun getMostRecentSessionRecordDate() {
         val sessionToInsertList = listOf(
             generateSessionRecordEntity(
-                yearstart = 1623,
-                monthstart = 3,
-                dayOfMonthstart = 5,
-                hourOfDaystart = 22,
-                minutestart = 21,
-                secondstart = 32
-            ),
-            generateSessionRecordEntity(
-                yearstart = 2013,
-                monthstart = 3,
-                dayOfMonthstart = 5,
-                hourOfDaystart = 22,
-                minutestart = 21,
-                secondstart = 32
-            ),
-            generateSessionRecordEntity(
-                yearstart = 1733,
-                monthstart = 3,
-                dayOfMonthstart = 5,
-                hourOfDaystart = 22,
-                minutestart = 21,
-                secondstart = 32
-            ),
-            generateSessionRecordEntity(
-                yearstart = 1953,
-                monthstart = 3,
-                dayOfMonthstart = 5,
-                hourOfDaystart = 22,
-                minutestart = 21,
-                secondstart = 32
-            ),
-            generateSessionRecordEntity(
-                yearstart = 2003,
-                monthstart = 3,
-                dayOfMonthstart = 5,
-                hourOfDaystart = 22,
-                minutestart = 21,
-                secondstart = 32
-            ),
-            generateSessionRecordEntity(
-                yearstart = 1843,
-                monthstart = 3,
-                dayOfMonthstart = 5,
-                hourOfDaystart = 22,
-                minutestart = 21,
-                secondstart = 32
+                yearstart = 1623, monthstart = 3, dayOfMonthstart = 5, hourOfDaystart = 22, minutestart = 21, secondstart = 32
+            ), generateSessionRecordEntity(
+                yearstart = 2013, monthstart = 3, dayOfMonthstart = 5, hourOfDaystart = 22, minutestart = 21, secondstart = 32
+            ), generateSessionRecordEntity(
+                yearstart = 1733, monthstart = 3, dayOfMonthstart = 5, hourOfDaystart = 22, minutestart = 21, secondstart = 32
+            ), generateSessionRecordEntity(
+                yearstart = 1953, monthstart = 3, dayOfMonthstart = 5, hourOfDaystart = 22, minutestart = 21, secondstart = 32
+            ), generateSessionRecordEntity(
+                yearstart = 2003, monthstart = 3, dayOfMonthstart = 5, hourOfDaystart = 22, minutestart = 21, secondstart = 32
+            ), generateSessionRecordEntity(
+                yearstart = 1843, monthstart = 3, dayOfMonthstart = 5, hourOfDaystart = 22, minutestart = 21, secondstart = 32
             )
         )
         runBlocking {
@@ -965,8 +922,7 @@ class SessionRecordDaoTest {
         }
         assertNotNull(latestRecordedSessionDate)
         assertEquals(
-            GregorianCalendar(2013, 3, 5, 22, 21, 32).timeInMillis,
-            latestRecordedSessionDate
+            convertDateToMilliSinceEpoch(2013, 3, 5, 22, 21, 32), latestRecordedSessionDate
         )
     }
 }

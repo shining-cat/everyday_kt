@@ -43,34 +43,18 @@ class SessionTypeConverterTest {
     }
 
     val sessionType = SessionType(
-        id = 123L,
-        name = "name",
-        description = "description",
-        color = "color",
-        lastEditTime = 234L
+        id = 123L, name = "name", description = "description", color = "color", lastEditTime = 234L
     )
 
     val sessionTypeEntity = SessionTypeEntity(
-        id = 123L,
-        name = "name",
-        description = "description",
-        color = "color",
-        lastEditTime = 234L
+        id = 123L, name = "name", description = "description", color = "color", lastEditTime = 234L
     )
     val sessionTypeNoId = SessionType(
-        id = -1L,
-        name = "name",
-        description = "description",
-        color = "color",
-        lastEditTime = 234L
+        id = -1L, name = "name", description = "description", color = "color", lastEditTime = 234L
     )
 
     val sessionTypeEntityNoId = SessionTypeEntity(
-        id = null,
-        name = "name",
-        description = "description",
-        color = "color",
-        lastEditTime = 234L
+        id = null, name = "name", description = "description", color = "color", lastEditTime = 234L
     )
 
     // ////////////////////////////////
@@ -80,8 +64,7 @@ class SessionTypeConverterTest {
             sessionTypeConverter.convertModelToEntity(sessionType)
         }
         assertEquals(
-            sessionTypeEntity,
-            convertedModel
+            sessionTypeEntity, convertedModel
         )
     }
 
@@ -91,8 +74,7 @@ class SessionTypeConverterTest {
             sessionTypeConverter.convertEntitytoModel(sessionTypeEntity)
         }
         assertEquals(
-            sessionType,
-            convertedEntity
+            sessionType, convertedEntity
         )
     }
 
@@ -102,8 +84,7 @@ class SessionTypeConverterTest {
             sessionTypeConverter.convertModelToEntity(sessionTypeNoId)
         }
         assertEquals(
-            sessionTypeEntityNoId,
-            convertedModel
+            sessionTypeEntityNoId, convertedModel
         )
     }
 
@@ -113,8 +94,7 @@ class SessionTypeConverterTest {
             sessionTypeConverter.convertEntitytoModel(sessionTypeEntityNoId)
         }
         assertEquals(
-            sessionTypeNoId,
-            convertedEntity
+            sessionTypeNoId, convertedEntity
         )
     }
 }
