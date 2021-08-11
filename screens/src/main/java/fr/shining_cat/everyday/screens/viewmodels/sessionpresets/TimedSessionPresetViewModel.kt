@@ -22,20 +22,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import fr.shining_cat.everyday.commons.Constants
 import fr.shining_cat.everyday.commons.Logger
-import fr.shining_cat.everyday.commons.viewmodels.AppDispatchers
 import fr.shining_cat.everyday.domain.sessionspresets.CreateSessionPresetUseCase
 import fr.shining_cat.everyday.domain.sessionspresets.DeleteSessionPresetUseCase
 import fr.shining_cat.everyday.domain.sessionspresets.UpdateSessionPresetUseCase
 import fr.shining_cat.everyday.models.SessionPreset
 
 class TimedSessionPresetViewModel(
-    appDispatchers: AppDispatchers,
     createSessionPresetUseCase: CreateSessionPresetUseCase,
     updateSessionPresetUseCase: UpdateSessionPresetUseCase,
     deleteSessionPresetUseCase: DeleteSessionPresetUseCase,
     private val logger: Logger
 ) : AbstractSessionPresetViewModel(
-    appDispatchers,
     createSessionPresetUseCase,
     updateSessionPresetUseCase,
     deleteSessionPresetUseCase,
@@ -55,7 +52,8 @@ class TimedSessionPresetViewModel(
     ) {
         if (presetInput != null) {
             initForEdition(presetInput)
-        } else {
+        }
+        else {
             initForCreation(
                 deviceDefaultRingtoneUriString,
                 deviceDefaultRingtoneName
@@ -87,7 +85,7 @@ class TimedSessionPresetViewModel(
         _sessionPresetUpdatedLiveData.value = (presetInput as SessionPreset.TimedSessionPreset).copy()
     }
 
-    override fun isSessionPresetValid(): Boolean {
+    override fun verifyPresetValidity(): Boolean {
         val preset = (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedSessionPreset>).value
         when {
             preset == null -> {
@@ -128,7 +126,7 @@ class TimedSessionPresetViewModel(
         _sessionPresetUpdatedLiveData.value = tempSessionPresetUpdatedLiveData.value?.copy(vibration = inputVibration)
     }
 
-    override fun updatePresetSessionTypeId(inputSessionTypeId: Int) {
+    override fun updatePresetSessionTypeId(inputSessionTypeId: Long) {
         val tempSessionPresetUpdatedLiveData = _sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.TimedSessionPreset>
         _sessionPresetUpdatedLiveData.value = tempSessionPresetUpdatedLiveData.value?.copy(sessionTypeId = inputSessionTypeId)
     }

@@ -31,9 +31,11 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
-import java.text.SimpleDateFormat
-import java.util.GregorianCalendar
-import java.util.Locale
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.concurrent.TimeUnit
 
 class SessionRecordConverterTest {
@@ -42,6 +44,8 @@ class SessionRecordConverterTest {
     private lateinit var mockLogger: Logger
 
     private lateinit var sessionRecordConverter: SessionRecordConverter
+
+    private val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
 
     @Before
     fun setUp() {
@@ -56,8 +60,7 @@ class SessionRecordConverterTest {
             sessionRecordConverter.convertModelToEntity(sessionRecord)
         }
         assertEquals(
-            sessionRecordEntity,
-            modeltranslated
+            sessionRecordEntity, modeltranslated
         )
     }
 
@@ -67,8 +70,7 @@ class SessionRecordConverterTest {
             sessionRecordConverter.convertEntityToModel(sessionRecordEntity)
         }
         assertEquals(
-            sessionRecord,
-            entityTranslated
+            sessionRecord, entityTranslated
         )
     }
 
@@ -78,8 +80,7 @@ class SessionRecordConverterTest {
             sessionRecordConverter.convertModelToEntity(sessionRecordNoId)
         }
         assertEquals(
-            sessionRecordEntityNoId,
-            modeltranslated
+            sessionRecordEntityNoId, modeltranslated
         )
     }
 
@@ -89,8 +90,7 @@ class SessionRecordConverterTest {
             sessionRecordConverter.convertEntityToModel(sessionRecordEntityNoId)
         }
         assertEquals(
-            sessionRecordNoId,
-            entityTranslated
+            sessionRecordNoId, entityTranslated
         )
     }
 
@@ -109,13 +109,12 @@ class SessionRecordConverterTest {
         val endFeelingsValue = endMoodRecord.feelingsValue.name
         val endGlobalValue = endMoodRecord.globalValue.name
         //
-        val sdf = SimpleDateFormat(
-            "dd/MM/yyyy HH:mm",
-            Locale.getDefault()
-        )
+        val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+        val startFormatted = formatter.format(Instant.ofEpochMilli(startMoodRecord.timeOfRecord).atZone(ZoneId.systemDefault()))
+        val endFormatted = formatter.format(Instant.ofEpochMilli(endMoodRecord.timeOfRecord).atZone(ZoneId.systemDefault()))
         val controlArray = arrayOf(
-            sdf.format(startMoodRecord.timeOfRecord),
-            sdf.format(endMoodRecord.timeOfRecord),
+            startFormatted,
+            endFormatted,
             (TimeUnit.MILLISECONDS.toMinutes(sessionRecord.realDuration)).toString() + "mn",
             sessionRecord.notes,
             startBodyValue,
@@ -134,36 +133,17 @@ class SessionRecordConverterTest {
             sessionRecordConverter.convertModelToStringArray(sessionRecord)
         }
         assertArrayEquals(
-            controlArray,
-            resultArray
+            controlArray, resultArray
         )
     }
 
     val sessionRecord = SessionRecord(
         id = 41,
         startMood = generateMood(
-            1980,
-            5,
-            2,
-            15,
-            27,
-            54,
-            MoodValue.WORST,
-            MoodValue.NOT_SET,
-            MoodValue.GOOD,
-            MoodValue.BEST
+            1980, 5, 2, 15, 27, 54, MoodValue.WORST, MoodValue.NOT_SET, MoodValue.GOOD, MoodValue.BEST
         ),
         endMood = generateMood(
-            1981,
-            6,
-            3,
-            17,
-            45,
-            3,
-            MoodValue.NOT_SET,
-            MoodValue.GOOD,
-            MoodValue.BAD,
-            MoodValue.WORST
+            1981, 6, 3, 17, 45, 3, MoodValue.NOT_SET, MoodValue.GOOD, MoodValue.BAD, MoodValue.WORST
         ),
         notes = "testing notes string",
         realDuration = 1500000,
@@ -175,26 +155,12 @@ class SessionRecordConverterTest {
 
     val sessionRecordEntity = SessionRecordEntity(
         id = 41,
-        startTimeOfRecord = GregorianCalendar(
-            1980,
-            5,
-            2,
-            15,
-            27,
-            54
-        ).timeInMillis,
+        startTimeOfRecord = convertDateToMilliSinceEpoch(1980, 5, 2, 15, 27, 54),
         startBodyValue = -2,
         startThoughtsValue = 0,
         startFeelingsValue = 1,
         startGlobalValue = 2,
-        endTimeOfRecord = GregorianCalendar(
-            1981,
-            6,
-            3,
-            17,
-            45,
-            3
-        ).timeInMillis,
+        endTimeOfRecord = convertDateToMilliSinceEpoch(1981, 6, 3, 17, 45, 3),
         endBodyValue = 0,
         endThoughtsValue = 1,
         endFeelingsValue = -1,
@@ -209,28 +175,10 @@ class SessionRecordConverterTest {
     val sessionRecordNoId = SessionRecord(
         id = -1L,
         startMood = generateMood(
-            1980,
-            5,
-            2,
-            15,
-            27,
-            54,
-            MoodValue.WORST,
-            MoodValue.NOT_SET,
-            MoodValue.GOOD,
-            MoodValue.BEST
+            1980, 5, 2, 15, 27, 54, MoodValue.WORST, MoodValue.NOT_SET, MoodValue.GOOD, MoodValue.BEST
         ),
         endMood = generateMood(
-            1981,
-            6,
-            3,
-            17,
-            45,
-            3,
-            MoodValue.NOT_SET,
-            MoodValue.GOOD,
-            MoodValue.BAD,
-            MoodValue.WORST
+            1981, 6, 3, 17, 45, 3, MoodValue.NOT_SET, MoodValue.GOOD, MoodValue.BAD, MoodValue.WORST
         ),
         notes = "testing notes string",
         realDuration = 1500000,
@@ -242,26 +190,12 @@ class SessionRecordConverterTest {
 
     val sessionRecordEntityNoId = SessionRecordEntity(
         id = null,
-        startTimeOfRecord = GregorianCalendar(
-            1980,
-            5,
-            2,
-            15,
-            27,
-            54
-        ).timeInMillis,
+        startTimeOfRecord = convertDateToMilliSinceEpoch(1980, 5, 2, 15, 27, 54),
         startBodyValue = -2,
         startThoughtsValue = 0,
         startFeelingsValue = 1,
         startGlobalValue = 2,
-        endTimeOfRecord = GregorianCalendar(
-            1981,
-            6,
-            3,
-            17,
-            45,
-            3
-        ).timeInMillis,
+        endTimeOfRecord = convertDateToMilliSinceEpoch(1981, 6, 3, 17, 45, 3),
         endBodyValue = 0,
         endThoughtsValue = 1,
         endFeelingsValue = -1,
@@ -274,7 +208,7 @@ class SessionRecordConverterTest {
         sessionTypeId = 5678L
     )
 
-    fun generateMood(
+    private fun generateMood(
         year: Int,
         month: Int,
         dayOfMonth: Int,
@@ -287,18 +221,29 @@ class SessionRecordConverterTest {
         globalValue: MoodValue = MoodValue.GOOD
     ): Mood {
         return Mood(
-            timeOfRecord = GregorianCalendar(
-                year,
-                month,
-                dayOfMonth,
-                hourOfDay,
-                minute,
-                second
-            ).timeInMillis,
+            timeOfRecord = convertDateToMilliSinceEpoch(year, month, dayOfMonth, hourOfDay, minute, second),
             bodyValue = bodyValue,
             thoughtsValue = thoughtsValue,
             feelingsValue = feelingsValue,
             globalValue = globalValue
         )
+    }
+
+    private fun convertDateToMilliSinceEpoch(
+        year: Int,
+        month: Int,
+        dayOfMonth: Int,
+        hourOfDay: Int,
+        minutes: Int,
+        seconds: Int
+    ): Long {
+        val zone = ZoneId.systemDefault()
+        val rules = zone.rules
+        val offset = rules.getOffset(Instant.now())
+
+        val dateAsLong = LocalDateTime.of(
+            year, month, dayOfMonth, hourOfDay, minutes, seconds
+        ).toInstant(offset).toEpochMilli()
+        return dateAsLong
     }
 }

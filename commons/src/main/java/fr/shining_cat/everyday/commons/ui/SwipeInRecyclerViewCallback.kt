@@ -96,7 +96,8 @@ abstract class SwipeInRecyclerViewCallback(
                 iconBottomBorder
             )
             leftIcon?.draw(c)
-        } else { // dragging to the left -> show icon on the right
+        }
+        else { // dragging to the left -> show icon on the right
             val iconLeftBorder = itemView.right - iconMargin - intrinsicWidth
             val iconRightBorder = itemView.right - iconMargin
             // apply right side icon bounds

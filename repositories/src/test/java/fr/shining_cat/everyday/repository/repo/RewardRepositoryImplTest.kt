@@ -18,6 +18,7 @@
 package fr.shining_cat.everyday.repository.repo
 
 import fr.shining_cat.everyday.commons.Constants
+import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.locale.dao.RewardDao
 import fr.shining_cat.everyday.locale.entities.RewardEntity
 import fr.shining_cat.everyday.models.reward.Reward
@@ -35,6 +36,9 @@ import org.junit.Before
 import org.junit.Test
 
 class RewardRepositoryImplTest {
+
+    @MockK
+    private lateinit var mockLogger: Logger
 
     @MockK
     private lateinit var mockRewardDao: RewardDao
@@ -64,243 +68,200 @@ class RewardRepositoryImplTest {
         Assert.assertNotNull(mockRewardEntity)
         Assert.assertNotNull(mockRewardConverter)
         rewardRepo = RewardRepositoryImpl(
-            mockRewardDao,
-            mockRewardConverter
+            mockRewardDao, mockRewardConverter, mockLogger
         )
-        coEvery { mockException.cause } returns mockThrowable
+        coEvery {mockLogger.d(any(), any())} answers {}
+        coEvery {mockLogger.e(any(), any())} answers {}
+        coEvery {mockException.cause} returns mockThrowable
     }
 
     // /////////////////////////////
     @Test
     fun insert() {
-        coEvery { mockRewardConverter.convertModelsToEntities(any()) } returns listOf(
-            mockRewardEntity,
-            mockRewardEntity,
-            mockRewardEntity
+        coEvery {mockRewardConverter.convertModelsToEntities(any())} returns listOf(
+            mockRewardEntity, mockRewardEntity, mockRewardEntity
         )
-        coEvery { mockRewardDao.insert(any()) } returns arrayOf(
-            1L,
-            2L,
-            3L
+        coEvery {mockRewardDao.insert(any())} returns arrayOf(
+            1L, 2L, 3L
         )
         val output = runBlocking {
             rewardRepo.insert(
                 listOf(
-                    mockReward,
-                    mockReward,
-                    mockReward
+                    mockReward, mockReward, mockReward
                 )
             )
         }
-        coVerify { mockRewardConverter.convertModelsToEntities(any()) }
-        coVerify { mockRewardDao.insert(any()) }
+        coVerify {mockRewardConverter.convertModelsToEntities(any())}
+        coVerify {mockRewardDao.insert(any())}
         assertTrue(output is Output.Success)
         assertEquals(
-            3,
-            (output as Output.Success).result.size
+            3, (output as Output.Success).result.size
         )
     }
 
     @Test
     fun `insert failed list size does not match`() {
-        coEvery { mockRewardConverter.convertModelsToEntities(any()) } returns listOf(
-            mockRewardEntity,
-            mockRewardEntity,
-            mockRewardEntity
+        coEvery {mockRewardConverter.convertModelsToEntities(any())} returns listOf(
+            mockRewardEntity, mockRewardEntity, mockRewardEntity
         )
-        coEvery { mockRewardDao.insert(any()) } returns arrayOf(1L, 2L)
+        coEvery {mockRewardDao.insert(any())} returns arrayOf(1L, 2L)
         val output = runBlocking {
             rewardRepo.insert(
                 listOf(
-                    mockReward,
-                    mockReward,
-                    mockReward
+                    mockReward, mockReward, mockReward
                 )
             )
         }
-        coVerify { mockRewardConverter.convertModelsToEntities(any()) }
-        coVerify { mockRewardDao.insert(any()) }
+        coVerify {mockRewardConverter.convertModelsToEntities(any())}
+        coVerify {mockRewardDao.insert(any())}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_INSERT_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_INSERT_FAILED, output.errorResponse
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_INSERT_FAILED,
-            output.exception?.message
+            Constants.ERROR_MESSAGE_INSERT_FAILED, output.exception?.message
         )
     }
 
     @Test
     fun `insert failed with exception`() {
-        coEvery { mockRewardConverter.convertModelsToEntities(any()) } returns listOf(
-            mockRewardEntity,
-            mockRewardEntity,
-            mockRewardEntity
+        coEvery {mockRewardConverter.convertModelsToEntities(any())} returns listOf(
+            mockRewardEntity, mockRewardEntity, mockRewardEntity
         )
-        coEvery { mockRewardDao.insert(any()) } throws mockException
+        coEvery {mockRewardDao.insert(any())} throws mockException
         val output = runBlocking {
             rewardRepo.insert(
                 listOf(
-                    mockReward,
-                    mockReward,
-                    mockReward
+                    mockReward, mockReward, mockReward
                 )
             )
         }
-        coVerify { mockRewardConverter.convertModelsToEntities(any()) }
-        coVerify { mockRewardDao.insert(any()) }
+        coVerify {mockRewardConverter.convertModelsToEntities(any())}
+        coVerify {mockRewardDao.insert(any())}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_INSERT_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_INSERT_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
     @Test
     fun updateRewards() {
-        coEvery { mockRewardConverter.convertModelsToEntities(any()) } returns listOf(
-            mockRewardEntity,
-            mockRewardEntity,
-            mockRewardEntity
+        coEvery {mockRewardConverter.convertModelsToEntities(any())} returns listOf(
+            mockRewardEntity, mockRewardEntity, mockRewardEntity
         )
-        coEvery { mockRewardDao.update(any()) } returns 3
+        coEvery {mockRewardDao.update(any())} returns 3
         val output = runBlocking {
             rewardRepo.update(
                 listOf(
-                    mockReward,
-                    mockReward,
-                    mockReward
+                    mockReward, mockReward, mockReward
                 )
             )
         }
-        coVerify { mockRewardConverter.convertModelsToEntities(any()) }
-        coVerify { mockRewardDao.update(any()) }
+        coVerify {mockRewardConverter.convertModelsToEntities(any())}
+        coVerify {mockRewardDao.update(any())}
         assertTrue(output is Output.Success)
         assertEquals(
-            3,
-            (output as Output.Success).result
+            3, (output as Output.Success).result
         )
     }
 
     @Test
     fun `update failed list size does not match`() {
-        coEvery { mockRewardConverter.convertModelsToEntities(any()) } returns listOf(
-            mockRewardEntity,
-            mockRewardEntity,
-            mockRewardEntity
+        coEvery {mockRewardConverter.convertModelsToEntities(any())} returns listOf(
+            mockRewardEntity, mockRewardEntity, mockRewardEntity
         )
-        coEvery { mockRewardDao.update(any()) } returns 2
+        coEvery {mockRewardDao.update(any())} returns 2
         val output = runBlocking {
             rewardRepo.update(
                 listOf(
-                    mockReward,
-                    mockReward,
-                    mockReward
+                    mockReward, mockReward, mockReward
                 )
             )
         }
-        coVerify { mockRewardConverter.convertModelsToEntities(any()) }
-        coVerify { mockRewardDao.update(any()) }
+        coVerify {mockRewardConverter.convertModelsToEntities(any())}
+        coVerify {mockRewardDao.update(any())}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_UPDATE_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_UPDATE_FAILED, output.errorResponse
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_UPDATE_FAILED,
-            output.exception?.message
+            Constants.ERROR_MESSAGE_UPDATE_FAILED, output.exception?.message
         )
     }
 
     @Test
     fun `update failed with exception`() {
-        coEvery { mockRewardConverter.convertModelsToEntities(any()) } returns listOf(
-            mockRewardEntity,
-            mockRewardEntity,
-            mockRewardEntity
+        coEvery {mockRewardConverter.convertModelsToEntities(any())} returns listOf(
+            mockRewardEntity, mockRewardEntity, mockRewardEntity
         )
-        coEvery { mockRewardDao.update(any()) } throws mockException
+        coEvery {mockRewardDao.update(any())} throws mockException
         val output = runBlocking {
             rewardRepo.update(
                 listOf(
-                    mockReward,
-                    mockReward,
-                    mockReward
+                    mockReward, mockReward, mockReward
                 )
             )
         }
-        coVerify { mockRewardConverter.convertModelsToEntities(any()) }
-        coVerify { mockRewardDao.update(any()) }
+        coVerify {mockRewardConverter.convertModelsToEntities(any())}
+        coVerify {mockRewardDao.update(any())}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_UPDATE_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_UPDATE_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
     @Test
     fun deleteAllRewards() {
-        coEvery { mockRewardDao.deleteAllRewards() } returns 7
+        coEvery {mockRewardDao.deleteAllRewards()} returns 7
         val output = runBlocking {
             rewardRepo.deleteAllRewards()
         }
-        coVerify { mockRewardDao.deleteAllRewards() }
+        coVerify {mockRewardDao.deleteAllRewards()}
         assertTrue(output is Output.Success)
         assertEquals(
-            7,
-            (output as Output.Success).result
+            7, (output as Output.Success).result
         )
     }
 
     @Test
     fun `delete all failed with exception`() {
-        coEvery { mockRewardDao.deleteAllRewards() } throws mockException
+        coEvery {mockRewardDao.deleteAllRewards()} throws mockException
         val output = runBlocking {
             rewardRepo.deleteAllRewards()
         }
-        coVerify { mockRewardDao.deleteAllRewards() }
+        coVerify {mockRewardDao.deleteAllRewards()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_DELETE_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_DELETE_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
@@ -308,583 +269,520 @@ class RewardRepositoryImplTest {
     // GETTERS
     @Test
     fun getSpecificReward() {
-        coEvery { mockRewardDao.getReward(8L) } returns mockRewardEntity
-        coEvery { mockRewardConverter.convertEntitytoModel(any()) } returns mockReward
+        coEvery {mockRewardDao.getReward(8L)} returns mockRewardEntity
+        coEvery {mockRewardConverter.convertEntitytoModel(any())} returns mockReward
         val output = runBlocking {
             rewardRepo.getReward(8L)
         }
-        coVerify { mockRewardDao.getReward(any()) }
-        coVerify { mockRewardConverter.convertEntitytoModel(any()) }
+        coVerify {mockRewardDao.getReward(any())}
+        coVerify {mockRewardConverter.convertEntitytoModel(any())}
         assertTrue(output is Output.Success)
         assertEquals(
-            mockReward,
-            (output as Output.Success).result
+            mockReward, (output as Output.Success).result
         )
     }
 
     @Test
     fun `getSpecificReward failed DAO returned null`() {
-        coEvery { mockRewardDao.getReward(8L) } returns null
+        coEvery {mockRewardDao.getReward(8L)} returns null
         val output = runBlocking {
             rewardRepo.getReward(8L)
         }
-        coVerify { mockRewardDao.getReward(any()) }
+        coVerify {mockRewardDao.getReward(any())}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_NO_RESULT,
-            output.errorCode
+            Constants.ERROR_CODE_NO_RESULT, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_NO_RESULT, output.errorResponse
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.exception?.message
+            Constants.ERROR_MESSAGE_NO_RESULT, output.exception?.message
         )
     }
 
     @Test
     fun `getSpecificReward failed with exception`() {
-        coEvery { mockRewardDao.getReward(8L) } throws mockException
+        coEvery {mockRewardDao.getReward(8L)} throws mockException
         val output = runBlocking {
             rewardRepo.getReward(8L)
         }
-        coVerify { mockRewardDao.getReward(any()) }
+        coVerify {mockRewardDao.getReward(any())}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_READ_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_READ_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
     //
     @Test
     fun rewardsActiveAcquisitionDateAsc() {
-        coEvery { mockRewardDao.getAllRewardsActiveAcquisitionDateAsc() } returns listOf(
+        coEvery {mockRewardDao.getAllRewardsActiveAcquisitionDateAsc()} returns listOf(
             mockRewardEntity
         )
-        coEvery { mockRewardConverter.convertEntitiesToModels(any()) } returns listOf(mockReward)
+        coEvery {mockRewardConverter.convertEntitiesToModels(any())} returns listOf(mockReward)
         val output = runBlocking {
             rewardRepo.rewardsActiveAcquisitionDateAsc()
         }
-        coVerify { mockRewardDao.getAllRewardsActiveAcquisitionDateAsc() }
-        coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
+        coVerify {mockRewardDao.getAllRewardsActiveAcquisitionDateAsc()}
+        coVerify {mockRewardConverter.convertEntitiesToModels(any())}
         assertTrue(output is Output.Success)
         assertEquals(
-            listOf(mockReward),
-            (output as Output.Success).result
+            listOf(mockReward), (output as Output.Success).result
         )
     }
 
     @Test
     fun `rewardsActiveAcquisitionDateAsc failed DAO returned empty result`() {
-        coEvery { mockRewardDao.getAllRewardsActiveAcquisitionDateAsc() } returns listOf()
+        coEvery {mockRewardDao.getAllRewardsActiveAcquisitionDateAsc()} returns listOf()
         val output = runBlocking {
             rewardRepo.rewardsActiveAcquisitionDateAsc()
         }
-        coVerify { mockRewardDao.getAllRewardsActiveAcquisitionDateAsc() }
+        coVerify {mockRewardDao.getAllRewardsActiveAcquisitionDateAsc()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_NO_RESULT,
-            output.errorCode
+            Constants.ERROR_CODE_NO_RESULT, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_NO_RESULT, output.errorResponse
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.exception?.message
+            Constants.ERROR_MESSAGE_NO_RESULT, output.exception?.message
         )
     }
 
     @Test
     fun `rewardsActiveAcquisitionDateAsc failed with exception`() {
-        coEvery { mockRewardDao.getAllRewardsActiveAcquisitionDateAsc() } throws mockException
+        coEvery {mockRewardDao.getAllRewardsActiveAcquisitionDateAsc()} throws mockException
         val output = runBlocking {
             rewardRepo.rewardsActiveAcquisitionDateAsc()
         }
-        coVerify { mockRewardDao.getAllRewardsActiveAcquisitionDateAsc() }
+        coVerify {mockRewardDao.getAllRewardsActiveAcquisitionDateAsc()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_READ_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_READ_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
     //
     @Test
     fun rewardsActiveAcquisitionDateDesc() {
-        coEvery { mockRewardDao.getAllRewardsActiveAcquisitionDateDesc() } returns listOf(
+        coEvery {mockRewardDao.getAllRewardsActiveAcquisitionDateDesc()} returns listOf(
             mockRewardEntity
         )
-        coEvery { mockRewardConverter.convertEntitiesToModels(any()) } returns listOf(mockReward)
+        coEvery {mockRewardConverter.convertEntitiesToModels(any())} returns listOf(mockReward)
         val output = runBlocking {
             rewardRepo.rewardsActiveAcquisitionDateDesc()
         }
-        coVerify { mockRewardDao.getAllRewardsActiveAcquisitionDateDesc() }
-        coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
+        coVerify {mockRewardDao.getAllRewardsActiveAcquisitionDateDesc()}
+        coVerify {mockRewardConverter.convertEntitiesToModels(any())}
         assertTrue(output is Output.Success)
         assertEquals(
-            listOf(mockReward),
-            (output as Output.Success).result
+            listOf(mockReward), (output as Output.Success).result
         )
     }
 
     @Test
     fun `rewardsActiveAcquisitionDateDesc failed DAO returned empty result`() {
-        coEvery { mockRewardDao.getAllRewardsActiveAcquisitionDateDesc() } returns listOf()
+        coEvery {mockRewardDao.getAllRewardsActiveAcquisitionDateDesc()} returns listOf()
         val output = runBlocking {
             rewardRepo.rewardsActiveAcquisitionDateDesc()
         }
-        coVerify { mockRewardDao.getAllRewardsActiveAcquisitionDateDesc() }
+        coVerify {mockRewardDao.getAllRewardsActiveAcquisitionDateDesc()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_NO_RESULT,
-            output.errorCode
+            Constants.ERROR_CODE_NO_RESULT, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_NO_RESULT, output.errorResponse
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.exception?.message
+            Constants.ERROR_MESSAGE_NO_RESULT, output.exception?.message
         )
     }
 
     @Test
     fun `rewardsActiveAcquisitionDateDesc failed with exception`() {
-        coEvery { mockRewardDao.getAllRewardsActiveAcquisitionDateDesc() } throws mockException
+        coEvery {mockRewardDao.getAllRewardsActiveAcquisitionDateDesc()} throws mockException
         val output = runBlocking {
             rewardRepo.rewardsActiveAcquisitionDateDesc()
         }
-        coVerify { mockRewardDao.getAllRewardsActiveAcquisitionDateDesc() }
+        coVerify {mockRewardDao.getAllRewardsActiveAcquisitionDateDesc()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_READ_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_READ_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
     //
     @Test
     fun rewardsActiveLevelAsc() {
-        coEvery { mockRewardDao.getAllRewardsActiveLevelAsc() } returns listOf(
+        coEvery {mockRewardDao.getAllRewardsActiveLevelAsc()} returns listOf(
             mockRewardEntity
         )
-        coEvery { mockRewardConverter.convertEntitiesToModels(any()) } returns listOf(mockReward)
+        coEvery {mockRewardConverter.convertEntitiesToModels(any())} returns listOf(mockReward)
         val output = runBlocking {
             rewardRepo.rewardsActiveLevelAsc()
         }
-        coVerify { mockRewardDao.getAllRewardsActiveLevelAsc() }
-        coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
+        coVerify {mockRewardDao.getAllRewardsActiveLevelAsc()}
+        coVerify {mockRewardConverter.convertEntitiesToModels(any())}
         assertTrue(output is Output.Success)
         assertEquals(
-            listOf(mockReward),
-            (output as Output.Success).result
+            listOf(mockReward), (output as Output.Success).result
         )
     }
 
     @Test
     fun `rewardsActiveLevelAsc failed DAO returned empty result`() {
-        coEvery { mockRewardDao.getAllRewardsActiveLevelAsc() } returns listOf()
+        coEvery {mockRewardDao.getAllRewardsActiveLevelAsc()} returns listOf()
         val output = runBlocking {
             rewardRepo.rewardsActiveLevelAsc()
         }
-        coVerify { mockRewardDao.getAllRewardsActiveLevelAsc() }
+        coVerify {mockRewardDao.getAllRewardsActiveLevelAsc()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_NO_RESULT,
-            output.errorCode
+            Constants.ERROR_CODE_NO_RESULT, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_NO_RESULT, output.errorResponse
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.exception?.message
+            Constants.ERROR_MESSAGE_NO_RESULT, output.exception?.message
         )
     }
 
     @Test
     fun `rewardsActiveLevelAsc failed with exception`() {
-        coEvery { mockRewardDao.getAllRewardsActiveLevelAsc() } throws mockException
+        coEvery {mockRewardDao.getAllRewardsActiveLevelAsc()} throws mockException
         val output = runBlocking {
             rewardRepo.rewardsActiveLevelAsc()
         }
-        coVerify { mockRewardDao.getAllRewardsActiveLevelAsc() }
+        coVerify {mockRewardDao.getAllRewardsActiveLevelAsc()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_READ_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_READ_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
     //
     @Test
     fun rewardsActiveLevelDesc() {
-        coEvery { mockRewardDao.getAllRewardsActiveLevelDesc() } returns listOf(
+        coEvery {mockRewardDao.getAllRewardsActiveLevelDesc()} returns listOf(
             mockRewardEntity
         )
-        coEvery { mockRewardConverter.convertEntitiesToModels(any()) } returns listOf(mockReward)
+        coEvery {mockRewardConverter.convertEntitiesToModels(any())} returns listOf(mockReward)
         val output = runBlocking {
             rewardRepo.rewardsActiveLevelDesc()
         }
-        coVerify { mockRewardDao.getAllRewardsActiveLevelDesc() }
-        coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
+        coVerify {mockRewardDao.getAllRewardsActiveLevelDesc()}
+        coVerify {mockRewardConverter.convertEntitiesToModels(any())}
         assertTrue(output is Output.Success)
         assertEquals(
-            listOf(mockReward),
-            (output as Output.Success).result
+            listOf(mockReward), (output as Output.Success).result
         )
     }
 
     @Test
     fun `rewardsActiveLevelDesc failed DAO returned empty result`() {
-        coEvery { mockRewardDao.getAllRewardsActiveLevelDesc() } returns listOf()
+        coEvery {mockRewardDao.getAllRewardsActiveLevelDesc()} returns listOf()
         val output = runBlocking {
             rewardRepo.rewardsActiveLevelDesc()
         }
-        coVerify { mockRewardDao.getAllRewardsActiveLevelDesc() }
+        coVerify {mockRewardDao.getAllRewardsActiveLevelDesc()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_NO_RESULT,
-            output.errorCode
+            Constants.ERROR_CODE_NO_RESULT, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_NO_RESULT, output.errorResponse
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.exception?.message
+            Constants.ERROR_MESSAGE_NO_RESULT, output.exception?.message
         )
     }
 
     @Test
     fun `rewardsActiveLevelDesc failed with exception`() {
-        coEvery { mockRewardDao.getAllRewardsActiveLevelDesc() } throws mockException
+        coEvery {mockRewardDao.getAllRewardsActiveLevelDesc()} throws mockException
         val output = runBlocking {
             rewardRepo.rewardsActiveLevelDesc()
         }
-        coVerify { mockRewardDao.getAllRewardsActiveLevelDesc() }
+        coVerify {mockRewardDao.getAllRewardsActiveLevelDesc()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_READ_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_READ_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
     //
     @Test
     fun rewardsNotEscapedAcquisitionDateDesc() {
-        coEvery { mockRewardDao.getAllRewardsNotEscapedAcquisitionDatDesc() } returns listOf(
+        coEvery {mockRewardDao.getAllRewardsNotEscapedAcquisitionDatDesc()} returns listOf(
             mockRewardEntity
         )
-        coEvery { mockRewardConverter.convertEntitiesToModels(any()) } returns listOf(mockReward)
+        coEvery {mockRewardConverter.convertEntitiesToModels(any())} returns listOf(mockReward)
         val output = runBlocking {
             rewardRepo.rewardsNotEscapedAcquisitionDateDesc()
         }
-        coVerify { mockRewardDao.getAllRewardsNotEscapedAcquisitionDatDesc() }
-        coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
+        coVerify {mockRewardDao.getAllRewardsNotEscapedAcquisitionDatDesc()}
+        coVerify {mockRewardConverter.convertEntitiesToModels(any())}
         assertTrue(output is Output.Success)
         assertEquals(
-            listOf(mockReward),
-            (output as Output.Success).result
+            listOf(mockReward), (output as Output.Success).result
         )
     }
 
     @Test
     fun `rewardsNotEscapedAcquisitionDateDesc failed DAO returned empty result`() {
-        coEvery { mockRewardDao.getAllRewardsNotEscapedAcquisitionDatDesc() } returns listOf()
+        coEvery {mockRewardDao.getAllRewardsNotEscapedAcquisitionDatDesc()} returns listOf()
         val output = runBlocking {
             rewardRepo.rewardsNotEscapedAcquisitionDateDesc()
         }
-        coVerify { mockRewardDao.getAllRewardsNotEscapedAcquisitionDatDesc() }
+        coVerify {mockRewardDao.getAllRewardsNotEscapedAcquisitionDatDesc()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_NO_RESULT,
-            output.errorCode
+            Constants.ERROR_CODE_NO_RESULT, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_NO_RESULT, output.errorResponse
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.exception?.message
+            Constants.ERROR_MESSAGE_NO_RESULT, output.exception?.message
         )
     }
 
     @Test
     fun `rewardsNotEscapedAcquisitionDateDesc failed with exception`() {
-        coEvery { mockRewardDao.getAllRewardsNotEscapedAcquisitionDatDesc() } throws mockException
+        coEvery {mockRewardDao.getAllRewardsNotEscapedAcquisitionDatDesc()} throws mockException
         val output = runBlocking {
             rewardRepo.rewardsNotEscapedAcquisitionDateDesc()
         }
-        coVerify { mockRewardDao.getAllRewardsNotEscapedAcquisitionDatDesc() }
+        coVerify {mockRewardDao.getAllRewardsNotEscapedAcquisitionDatDesc()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_READ_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_READ_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
     //
     @Test
     fun rewardsEscapedAcquisitionDateDesc() {
-        coEvery { mockRewardDao.getAllRewardsEscapedAcquisitionDateDesc() } returns listOf(
+        coEvery {mockRewardDao.getAllRewardsEscapedAcquisitionDateDesc()} returns listOf(
             mockRewardEntity
         )
-        coEvery { mockRewardConverter.convertEntitiesToModels(any()) } returns listOf(mockReward)
+        coEvery {mockRewardConverter.convertEntitiesToModels(any())} returns listOf(mockReward)
         val output = runBlocking {
             rewardRepo.rewardsEscapedAcquisitionDateDesc()
         }
-        coVerify { mockRewardDao.getAllRewardsEscapedAcquisitionDateDesc() }
-        coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
+        coVerify {mockRewardDao.getAllRewardsEscapedAcquisitionDateDesc()}
+        coVerify {mockRewardConverter.convertEntitiesToModels(any())}
         assertTrue(output is Output.Success)
         assertEquals(
-            listOf(mockReward),
-            (output as Output.Success).result
+            listOf(mockReward), (output as Output.Success).result
         )
     }
 
     @Test
     fun `rewardsEscapedAcquisitionDateDesc failed DAO returned empty result`() {
-        coEvery { mockRewardDao.getAllRewardsEscapedAcquisitionDateDesc() } returns listOf()
+        coEvery {mockRewardDao.getAllRewardsEscapedAcquisitionDateDesc()} returns listOf()
         val output = runBlocking {
             rewardRepo.rewardsEscapedAcquisitionDateDesc()
         }
-        coVerify { mockRewardDao.getAllRewardsEscapedAcquisitionDateDesc() }
+        coVerify {mockRewardDao.getAllRewardsEscapedAcquisitionDateDesc()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_NO_RESULT,
-            output.errorCode
+            Constants.ERROR_CODE_NO_RESULT, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_NO_RESULT, output.errorResponse
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.exception?.message
+            Constants.ERROR_MESSAGE_NO_RESULT, output.exception?.message
         )
     }
 
     @Test
     fun `rewardsEscapedAcquisitionDateDesc failed with exception`() {
-        coEvery { mockRewardDao.getAllRewardsEscapedAcquisitionDateDesc() } throws mockException
+        coEvery {mockRewardDao.getAllRewardsEscapedAcquisitionDateDesc()} throws mockException
         val output = runBlocking {
             rewardRepo.rewardsEscapedAcquisitionDateDesc()
         }
-        coVerify { mockRewardDao.getAllRewardsEscapedAcquisitionDateDesc() }
+        coVerify {mockRewardDao.getAllRewardsEscapedAcquisitionDateDesc()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_READ_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_READ_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
     //
     @Test
     fun rewardsOfSpecificLevelNotActive() {
-        coEvery { mockRewardDao.getAllRewardsOfSpecificLevelNotActive(any()) } returns listOf(
+        coEvery {mockRewardDao.getAllRewardsOfSpecificLevelNotActive(any())} returns listOf(
             mockRewardEntity
         )
-        coEvery { mockRewardConverter.convertEntitiesToModels(any()) } returns listOf(mockReward)
+        coEvery {mockRewardConverter.convertEntitiesToModels(any())} returns listOf(mockReward)
         val output = runBlocking {
             rewardRepo.rewardsOfSPecificLevelNotActive(3)
         }
-        coVerify { mockRewardDao.getAllRewardsOfSpecificLevelNotActive(any()) }
-        coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
+        coVerify {mockRewardDao.getAllRewardsOfSpecificLevelNotActive(any())}
+        coVerify {mockRewardConverter.convertEntitiesToModels(any())}
         assertTrue(output is Output.Success)
         assertEquals(
-            listOf(mockReward),
-            (output as Output.Success).result
+            listOf(mockReward), (output as Output.Success).result
         )
     }
 
     @Test
     fun `rewardsOfSpecificLevelNotActive failed DAO returned empty result`() {
-        coEvery { mockRewardDao.getAllRewardsOfSpecificLevelNotActive(any()) } returns listOf()
+        coEvery {mockRewardDao.getAllRewardsOfSpecificLevelNotActive(any())} returns listOf()
         val output = runBlocking {
             rewardRepo.rewardsOfSPecificLevelNotActive(3)
         }
-        coVerify { mockRewardDao.getAllRewardsOfSpecificLevelNotActive(3) }
+        coVerify {mockRewardDao.getAllRewardsOfSpecificLevelNotActive(3)}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_NO_RESULT,
-            output.errorCode
+            Constants.ERROR_CODE_NO_RESULT, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_NO_RESULT, output.errorResponse
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.exception?.message
+            Constants.ERROR_MESSAGE_NO_RESULT, output.exception?.message
         )
     }
 
     @Test
     fun `rewardsOfSpecificLevelNotActive failed with exception`() {
-        coEvery { mockRewardDao.getAllRewardsOfSpecificLevelNotActive(any()) } throws mockException
+        coEvery {mockRewardDao.getAllRewardsOfSpecificLevelNotActive(any())} throws mockException
         val output = runBlocking {
             rewardRepo.rewardsOfSPecificLevelNotActive(3)
         }
-        coVerify { mockRewardDao.getAllRewardsOfSpecificLevelNotActive(3) }
+        coVerify {mockRewardDao.getAllRewardsOfSpecificLevelNotActive(3)}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_READ_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_READ_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
     //
     @Test
     fun rewardsOfSPecificLevelNotActiveOrEscaped() {
-        coEvery { mockRewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(any()) } returns listOf(
+        coEvery {mockRewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(any())} returns listOf(
             mockRewardEntity
         )
-        coEvery { mockRewardConverter.convertEntitiesToModels(any()) } returns listOf(mockReward)
+        coEvery {mockRewardConverter.convertEntitiesToModels(any())} returns listOf(mockReward)
         val output = runBlocking {
             rewardRepo.rewardsOfSPecificLevelNotActiveOrEscaped(4)
         }
-        coVerify { mockRewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(any()) }
-        coVerify { mockRewardConverter.convertEntitiesToModels(any()) }
+        coVerify {mockRewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(any())}
+        coVerify {mockRewardConverter.convertEntitiesToModels(any())}
         assertTrue(output is Output.Success)
         assertEquals(
-            listOf(mockReward),
-            (output as Output.Success).result
+            listOf(mockReward), (output as Output.Success).result
         )
     }
 
     @Test
     fun `rewardsOfSPecificLevelNotActiveOrEscaped failed DAO returned empty result`() {
-        coEvery { mockRewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(any()) } returns listOf()
+        coEvery {mockRewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(any())} returns listOf()
         val output = runBlocking {
             rewardRepo.rewardsOfSPecificLevelNotActiveOrEscaped(5)
         }
-        coVerify { mockRewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(5) }
+        coVerify {mockRewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(5)}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_NO_RESULT,
-            output.errorCode
+            Constants.ERROR_CODE_NO_RESULT, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_NO_RESULT, output.errorResponse
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.exception?.message
+            Constants.ERROR_MESSAGE_NO_RESULT, output.exception?.message
         )
     }
 
     @Test
     fun `rewardsOfSPecificLevelNotActiveOrEscaped failed with exception`() {
-        coEvery { mockRewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(any()) } throws mockException
+        coEvery {mockRewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(any())} throws mockException
         val output = runBlocking {
             rewardRepo.rewardsOfSPecificLevelNotActiveOrEscaped(6)
         }
-        coVerify { mockRewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(6) }
+        coVerify {mockRewardDao.getAllRewardsOfSpecificLevelNotActiveOrEscaped(6)}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_READ_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_READ_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
@@ -892,114 +790,102 @@ class RewardRepositoryImplTest {
     // COUNTS
     @Test
     fun allRewardsCount() {
-        coEvery { mockRewardDao.getNumberOfRows() } returns 13
+        coEvery {mockRewardDao.getNumberOfRows()} returns 13
         val output = runBlocking {
             rewardRepo.countAllRewards()
         }
-        coVerify { mockRewardDao.getNumberOfRows() }
+        coVerify {mockRewardDao.getNumberOfRows()}
         assertTrue(output is Output.Success)
         assertEquals(
-            13,
-            (output as Output.Success).result
+            13, (output as Output.Success).result
         )
     }
 
     @Test
     fun `allRewardsCount failed with exception`() {
-        coEvery { mockRewardDao.getNumberOfRows() } throws mockException
+        coEvery {mockRewardDao.getNumberOfRows()} throws mockException
         val output = runBlocking {
             rewardRepo.countAllRewards()
         }
-        coVerify { mockRewardDao.getNumberOfRows() }
+        coVerify {mockRewardDao.getNumberOfRows()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_COUNT_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_COUNT_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
     //
     @Test
     fun activeNotEscapedRewardsForLevel() {
-        coEvery { mockRewardDao.getNumberOfActiveNotEscapedRewardsForLevel(4) } returns 7
+        coEvery {mockRewardDao.getNumberOfActiveNotEscapedRewardsForLevel(4)} returns 7
         val output4 = runBlocking {
             rewardRepo.countActiveNotEscapedRewardsForLevel(4)
         }
-        coVerify(exactly = 1) { mockRewardDao.getNumberOfActiveNotEscapedRewardsForLevel(any()) }
+        coVerify(exactly = 1) {mockRewardDao.getNumberOfActiveNotEscapedRewardsForLevel(any())}
         assertTrue(output4 is Output.Success)
         assertEquals(
-            7,
-            (output4 as Output.Success).result
+            7, (output4 as Output.Success).result
         )
     }
 
     @Test
     fun `activeNotEscapedRewardsForLevel failed with exception`() {
-        coEvery { mockRewardDao.getNumberOfActiveNotEscapedRewardsForLevel(any()) } throws mockException
+        coEvery {mockRewardDao.getNumberOfActiveNotEscapedRewardsForLevel(any())} throws mockException
         val output = runBlocking {
             rewardRepo.countActiveNotEscapedRewardsForLevel(4)
         }
-        coVerify(exactly = 1) { mockRewardDao.getNumberOfActiveNotEscapedRewardsForLevel(any()) }
+        coVerify(exactly = 1) {mockRewardDao.getNumberOfActiveNotEscapedRewardsForLevel(any())}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_COUNT_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_COUNT_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
     //
     @Test
     fun escapedRewardsForLevel() {
-        coEvery { mockRewardDao.getNumberOfEscapedRewardsForLevel(3) } returns 9
+        coEvery {mockRewardDao.getNumberOfEscapedRewardsForLevel(3)} returns 9
         val output3 = runBlocking {
             rewardRepo.countEscapedRewardsForLevel(3)
         }
-        coVerify(exactly = 1) { mockRewardDao.getNumberOfEscapedRewardsForLevel(any()) }
+        coVerify(exactly = 1) {mockRewardDao.getNumberOfEscapedRewardsForLevel(any())}
         assertTrue(output3 is Output.Success)
         assertEquals(
-            9,
-            (output3 as Output.Success).result
+            9, (output3 as Output.Success).result
         )
     }
 
     @Test
     fun `escapedRewardsForLevel failed with exception`() {
-        coEvery { mockRewardDao.getNumberOfEscapedRewardsForLevel(any()) } throws mockException
+        coEvery {mockRewardDao.getNumberOfEscapedRewardsForLevel(any())} throws mockException
         val output = runBlocking {
             rewardRepo.countEscapedRewardsForLevel(3)
         }
-        coVerify(exactly = 1) { mockRewardDao.getNumberOfEscapedRewardsForLevel(any()) }
+        coVerify(exactly = 1) {mockRewardDao.getNumberOfEscapedRewardsForLevel(any())}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_COUNT_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_COUNT_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 }

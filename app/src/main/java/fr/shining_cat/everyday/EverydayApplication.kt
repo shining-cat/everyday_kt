@@ -20,7 +20,7 @@ package fr.shining_cat.everyday
 import android.app.Application
 import com.facebook.stetho.Stetho
 import fr.shining_cat.everyday.commons.di.commonsModule
-import fr.shining_cat.everyday.di.appModule
+import fr.shining_cat.everyday.app.di.appModule
 import fr.shining_cat.everyday.domain.di.domainModule
 import fr.shining_cat.everyday.locale.di.localeModule
 import fr.shining_cat.everyday.models.di.modelsModule

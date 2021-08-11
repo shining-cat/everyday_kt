@@ -28,7 +28,9 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
-import java.util.GregorianCalendar
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 
 class RewardConverterTest {
 
@@ -53,16 +55,8 @@ class RewardConverterTest {
         eyesKey = 4,
         hornsKey = 5,
         level = Level.fromKey(3),
-        acquisitionDate = GregorianCalendar(
-            2000,
-            5,
-            13
-        ).timeInMillis,
-        escapingDate = GregorianCalendar(
-            2001,
-            6,
-            25
-        ).timeInMillis,
+        acquisitionDate = convertDateToMilliSinceEpoch(2000, 5, 13, 1, 2, 3),
+        escapingDate = convertDateToMilliSinceEpoch(2001, 6, 25, 1, 2, 3),
         isActive = true,
         isEscaped = false,
         name = "this is my name",
@@ -80,16 +74,8 @@ class RewardConverterTest {
         eyes = 4,
         horns = 5,
         level = 3,
-        acquisitionDate = GregorianCalendar(
-            2000,
-            5,
-            13
-        ).timeInMillis,
-        escapingDate = GregorianCalendar(
-            2001,
-            6,
-            25
-        ).timeInMillis,
+        acquisitionDate = convertDateToMilliSinceEpoch(2000, 5, 13, 1, 2, 3),
+        escapingDate = convertDateToMilliSinceEpoch(2001, 6, 25, 1, 2, 3),
         isActive = true,
         isEscaped = false,
         name = "this is my name",
@@ -107,16 +93,8 @@ class RewardConverterTest {
         eyesKey = 4,
         hornsKey = 5,
         level = Level.fromKey(3),
-        acquisitionDate = GregorianCalendar(
-            2000,
-            5,
-            13
-        ).timeInMillis,
-        escapingDate = GregorianCalendar(
-            2001,
-            6,
-            25
-        ).timeInMillis,
+        acquisitionDate = convertDateToMilliSinceEpoch(2000, 5, 13, 1, 2, 3),
+        escapingDate = convertDateToMilliSinceEpoch(2001, 6, 25, 1, 2, 3),
         isActive = true,
         isEscaped = false,
         name = "this is my name",
@@ -134,16 +112,8 @@ class RewardConverterTest {
         eyes = 4,
         horns = 5,
         level = 3,
-        acquisitionDate = GregorianCalendar(
-            2000,
-            5,
-            13
-        ).timeInMillis,
-        escapingDate = GregorianCalendar(
-            2001,
-            6,
-            25
-        ).timeInMillis,
+        acquisitionDate = convertDateToMilliSinceEpoch(2000, 5, 13, 1, 2, 3),
+        escapingDate = convertDateToMilliSinceEpoch(2001, 6, 25, 1, 2, 3),
         isActive = true,
         isEscaped = false,
         name = "this is my name",
@@ -159,8 +129,7 @@ class RewardConverterTest {
             rewardConverter.convertModelToEntity(reward)
         }
         assertEquals(
-            rewardEntity,
-            convertedModel
+            rewardEntity, convertedModel
         )
     }
 
@@ -170,8 +139,7 @@ class RewardConverterTest {
             rewardConverter.convertEntitytoModel(rewardEntity)
         }
         assertEquals(
-            reward,
-            convertedEntity
+            reward, convertedEntity
         )
     }
 
@@ -181,8 +149,7 @@ class RewardConverterTest {
             rewardConverter.convertModelToEntity(rewardNoId)
         }
         assertEquals(
-            rewardEntityNoId,
-            convertedModel
+            rewardEntityNoId, convertedModel
         )
     }
 
@@ -192,8 +159,25 @@ class RewardConverterTest {
             rewardConverter.convertEntitytoModel(rewardEntityNoId)
         }
         assertEquals(
-            rewardNoId,
-            convertedEntity
+            rewardNoId, convertedEntity
         )
+    }
+
+    private fun convertDateToMilliSinceEpoch(
+        year: Int,
+        month: Int,
+        dayOfMonth: Int,
+        hourOfDay: Int,
+        minutes: Int,
+        seconds: Int
+    ): Long {
+        val zone = ZoneId.systemDefault()
+        val rules = zone.rules
+        val offset = rules.getOffset(Instant.now())
+
+        val dateAsLong = LocalDateTime.of(
+            year, month, dayOfMonth, hourOfDay, minutes, seconds
+        ).toInstant(offset).toEpochMilli()
+        return dateAsLong
     }
 }

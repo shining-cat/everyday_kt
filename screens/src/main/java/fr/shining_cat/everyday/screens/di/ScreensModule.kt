@@ -25,7 +25,7 @@ import fr.shining_cat.everyday.screens.viewmodels.sessionpresets.AudioFreeSessio
 import fr.shining_cat.everyday.screens.viewmodels.sessionpresets.AudioSessionPresetViewModel
 import fr.shining_cat.everyday.screens.viewmodels.sessionpresets.TimedFreeSessionPresetViewModel
 import fr.shining_cat.everyday.screens.viewmodels.sessionpresets.TimedSessionPresetViewModel
-import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val screensModule = module {
@@ -34,31 +34,26 @@ val screensModule = module {
         HomeViewModel(
             get(),
             get(),
-            get(),
             get()
         )
     }
     viewModel {
         StatisticsViewModel(
-            get(),
             get()
         )
     }
     viewModel {
         SessionsViewModel(
-            get(),
             get()
         )
     }
     viewModel {
         RewardsViewModel(
-            get(),
             get()
         )
     }
     viewModel {
         AudioSessionPresetViewModel(
-            get(),
             get(),
             get(),
             get(),
@@ -71,7 +66,6 @@ val screensModule = module {
             get(),
             get(),
             get(),
-            get(),
             get()
         )
     }
@@ -80,13 +74,11 @@ val screensModule = module {
             get(),
             get(),
             get(),
-            get(),
             get()
         )
     }
     viewModel {
         TimedFreeSessionPresetViewModel(
-            get(),
             get(),
             get(),
             get(),

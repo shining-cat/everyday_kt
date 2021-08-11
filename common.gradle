@@ -21,6 +21,7 @@ android {
         targetSdkVersion ApplicationSpecs.targetSdk
         versionCode Releases.versionCode
         versionName Releases.versionName
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -51,9 +52,26 @@ android {
         }
     }
     compileOptions {
+        // Flag to enable support for the new language APIs
+        coreLibraryDesugaringEnabled = true
+        // Sets Java compatibility to Java 8
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    //workaround for compile error when running AndroidTests: https://github.com/Kotlin/kotlinx.coroutines/tree/master/kotlinx-coroutines-debug#debug-agent-and-android
+    packagingOptions {
+        // for JNA and JNA-platform
+        exclude "META-INF/AL2.0"
+        exclude "META-INF/LGPL2.1"
+        // for byte-buddy
+        exclude "META-INF/licenses/ASM"
+        pickFirst "win32-x86-64/attach_hotspot_windows.dll"
+        pickFirst "win32-x86/attach_hotspot_windows.dll"
+    }
+    //excluding com.intellij:annotations because it causes duplicate classes errors as it contains the same classes as org.jetbrains:annotations
+    // the second seems to be included by the room library for version >= 2.3.0
+    //could not find where the first comes from but suspecting AndroidStudio
+    configurations { implementation.exclude group: 'com.intellij', module: 'annotations' }
 }
 
 apply plugin: 'kotlin-android'
@@ -62,7 +80,7 @@ apply plugin: 'kotlin-parcelize'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 apply from: "$project.rootDir/conf_plugin_jacoco.gradle"
 apply from: "$project.rootDir/conf_plugin_ben_manes_versions.gradle"
-apply from: "$project.rootDir/conf_plugin_detekt.gradle"
+//apply from: "$project.rootDir/conf_plugin_detekt.gradle"
 apply from: "$project.rootDir/conf_plugin_dependencies_graph.gradle"
 apply from: "$project.rootDir/conf_plugin_ktlint.gradle"
 
@@ -72,13 +90,14 @@ dependencies {
 
     // Koin
     implementation Libraries.koin
-    implementation Libraries.koin_viewmodel
 
     // Lifecycle
     implementation AndroidLibraries.lifecycle_commons_java8
-    implementation AndroidLibraries.lifecycle_viewmodel
     implementation AndroidLibraries.lifecycle_livedata
     implementation AndroidLibraries.lifecycle_viewmodel_ktx
+
+    //Java 8+ API desugaring support
+    coreLibraryDesugaring(AndroidLibraries.desugaring_support)
 
     // Unit Tests
     testImplementation TestLibraries.junit
@@ -86,11 +105,13 @@ dependencies {
     testImplementation TestLibraries.coroutines_test
     testImplementation TestLibraries.mockk
     testImplementation TestLibraries.robolectric
+    testImplementation project(Modules.testutils)
 
     // Instrumented Tests
     androidTestImplementation AndroidTestLibraries.runner
     androidTestImplementation AndroidTestLibraries.junit
     androidTestImplementation AndroidTestLibraries.espresso
     androidTestImplementation AndroidTestLibraries.core_testing
+    androidTestImplementation project(Modules.testutils)
 }
 

@@ -30,7 +30,7 @@ interface CritterPartsRepository {
 }
 
 // returns from this repo are based on hard-coded objects, they will not be encapsulated inside Output objects because there is no failure possible retrieving them
-class CritterPartsRepositoryImpl : CritterPartsRepository {
+class CritterPartsRepositoryImpl: CritterPartsRepository {
 
     var armsHolder: CritterPartResourcesHolder? = null
     var eyesHolder: CritterPartResourcesHolder? = null

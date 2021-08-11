@@ -35,7 +35,10 @@ class CreateSessionPresetUseCaseTest {
     private lateinit var mockException: Exception
 
     @MockK
-    private lateinit var mockSessionPreset: SessionPreset
+    private lateinit var mockPreset: SessionPreset.AudioFreeSessionPreset
+
+    @MockK
+    private lateinit var mockPresetCopied: SessionPreset.AudioFreeSessionPreset
 
     private lateinit var createSessionPresetUseCase: CreateSessionPresetUseCase
 
@@ -48,26 +51,24 @@ class CreateSessionPresetUseCaseTest {
             mockSessionPresetRepository,
             mockLogger
         )
+        coEvery { mockPreset.id } returns 123L
+        coEvery { mockPreset.startCountdownLength } returns 234L
+        coEvery { mockPreset.startAndEndSoundUriString } returns "startAndEndSoundUriString"
+        coEvery { mockPreset.startAndEndSoundName } returns "startAndEndSoundName"
+        coEvery { mockPreset.vibration } returns false
+        coEvery { mockPreset.sessionTypeId } returns 345
+        coEvery { mockPreset.lastEditTime } returns 456L
         coEvery {
-            mockSessionPreset.copy(
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any()
+            mockPreset.copy(
+                id = any(),
+                startCountdownLength = any(),
+                startAndEndSoundUriString = any(),
+                startAndEndSoundName = any(),
+                vibration = any(),
+                sessionTypeId = any(),
+                lastEditTime = any()
             )
-        } returns mockSessionPreset
+        } returns mockPresetCopied
     }
 
     @Test
@@ -76,9 +77,9 @@ class CreateSessionPresetUseCaseTest {
         val success = arrayOf(3L)
         coEvery { mockOutputSuccess.result } returns success
         val output = runBlocking {
-            createSessionPresetUseCase.execute(mockSessionPreset)
+            createSessionPresetUseCase.execute(mockPreset)
         }
-        coVerify(exactly = 1) { mockSessionPresetRepository.insert(listOf(mockSessionPreset)) }
+        coVerify(exactly = 1) { mockSessionPresetRepository.insert(listOf(mockPresetCopied)) }
         assertTrue(output is Result.Success)
         output as Result.Success
         assertEquals(3L, output.result)
@@ -90,9 +91,9 @@ class CreateSessionPresetUseCaseTest {
         val success = arrayOf(3L, 7L, 9L)
         coEvery { mockOutputSuccess.result } returns success
         val result = runBlocking {
-            createSessionPresetUseCase.execute(mockSessionPreset)
+            createSessionPresetUseCase.execute(mockPreset)
         }
-        coVerify(exactly = 1) { mockSessionPresetRepository.insert(listOf(mockSessionPreset)) }
+        coVerify(exactly = 1) { mockSessionPresetRepository.insert(listOf(mockPresetCopied)) }
         assertTrue(result is Result.Error)
         assertTrue(result is Result.Error)
         result as Result.Error
@@ -108,9 +109,9 @@ class CreateSessionPresetUseCaseTest {
         coEvery { mockOutputError.errorResponse } returns "mocked error response message"
         coEvery { mockOutputError.exception } returns mockException
         val result = runBlocking {
-            createSessionPresetUseCase.execute(mockSessionPreset)
+            createSessionPresetUseCase.execute(mockPreset)
         }
-        coVerify(exactly = 1) { mockSessionPresetRepository.insert(listOf(mockSessionPreset)) }
+        coVerify(exactly = 1) { mockSessionPresetRepository.insert(listOf(mockPresetCopied)) }
         assertTrue(result is Result.Error)
         result as Result.Error
         assertEquals(123, result.errorCode)

@@ -32,7 +32,10 @@ class UpdateSessionPresetUseCaseTest {
     private lateinit var mockException: Exception
 
     @MockK
-    private lateinit var mockSessionPreset: SessionPreset
+    private lateinit var mockPreset: SessionPreset.AudioFreeSessionPreset
+
+    @MockK
+    private lateinit var mockPresetCopied: SessionPreset.AudioFreeSessionPreset
 
     private lateinit var updateSessionPresetUseCase: UpdateSessionPresetUseCase
 
@@ -45,35 +48,33 @@ class UpdateSessionPresetUseCaseTest {
             mockSessionPresetRepository,
             mockLogger
         )
+        coEvery { mockPreset.id } returns 123L
+        coEvery { mockPreset.startCountdownLength } returns 234L
+        coEvery { mockPreset.startAndEndSoundUriString } returns "startAndEndSoundUriString"
+        coEvery { mockPreset.startAndEndSoundName } returns "startAndEndSoundName"
+        coEvery { mockPreset.vibration } returns false
+        coEvery { mockPreset.sessionTypeId } returns 345
+        coEvery { mockPreset.lastEditTime } returns 456L
         coEvery {
-            mockSessionPreset.copy(
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any()
+            mockPreset.copy(
+                id = any(),
+                startCountdownLength = any(),
+                startAndEndSoundUriString = any(),
+                startAndEndSoundName = any(),
+                vibration = any(),
+                sessionTypeId = any(),
+                lastEditTime = any()
             )
-        } returns mockSessionPreset
+        } returns mockPresetCopied
     }
 
     @Test
     fun `test update succeeded`() {
         coEvery { mockSessionPresetRepository.update(any()) } returns Output.Success(1)
         val result = runBlocking {
-            updateSessionPresetUseCase.execute(mockSessionPreset)
+            updateSessionPresetUseCase.execute(mockPreset)
         }
-        coVerify(exactly = 1) { mockSessionPresetRepository.update(mockSessionPreset) }
+        coVerify(exactly = 1) { mockSessionPresetRepository.update(mockPresetCopied) }
         assertTrue(result is Result.Success)
         assertEquals(1, (result as Result.Success).result)
     }
@@ -82,9 +83,9 @@ class UpdateSessionPresetUseCaseTest {
     fun `test update failed with wrong number returned`() {
         coEvery { mockSessionPresetRepository.update(any()) } returns Output.Success(7)
         val result = runBlocking {
-            updateSessionPresetUseCase.execute(mockSessionPreset)
+            updateSessionPresetUseCase.execute(mockPreset)
         }
-        coVerify(exactly = 1) { mockSessionPresetRepository.update(mockSessionPreset) }
+        coVerify(exactly = 1) { mockSessionPresetRepository.update(mockPresetCopied) }
         assertTrue(result is Result.Error)
         result as Result.Error
         assertEquals(ERROR_CODE_DATABASE_OPERATION_FAILED, result.errorCode)
@@ -96,9 +97,9 @@ class UpdateSessionPresetUseCaseTest {
     fun `test update failed returned 0`() {
         coEvery { mockSessionPresetRepository.update(any()) } returns Output.Success(0)
         val result = runBlocking {
-            updateSessionPresetUseCase.execute(mockSessionPreset)
+            updateSessionPresetUseCase.execute(mockPreset)
         }
-        coVerify(exactly = 1) { mockSessionPresetRepository.update(mockSessionPreset) }
+        coVerify(exactly = 1) { mockSessionPresetRepository.update(mockPresetCopied) }
         assertTrue(result is Result.Error)
         result as Result.Error
         assertEquals(ERROR_CODE_DATABASE_OPERATION_FAILED, result.errorCode)
@@ -113,9 +114,9 @@ class UpdateSessionPresetUseCaseTest {
         coEvery { mockOutputError.errorResponse } returns "mocked error response message"
         coEvery { mockOutputError.exception } returns mockException
         val result = runBlocking {
-            updateSessionPresetUseCase.execute(mockSessionPreset)
+            updateSessionPresetUseCase.execute(mockPreset)
         }
-        coVerify(exactly = 1) { mockSessionPresetRepository.update(mockSessionPreset) }
+        coVerify(exactly = 1) { mockSessionPresetRepository.update(mockPresetCopied) }
         assertTrue(result is Result.Error)
         result as Result.Error
         assertEquals(123, result.errorCode)

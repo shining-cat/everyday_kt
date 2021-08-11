@@ -195,7 +195,8 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
     private fun buildCompleteRingTonesMap(): List<Pair<String, Uri>> {
         val silenceList = if (arguments?.getBoolean(SILENCE_ARG) == true) {
             getSilentRingtone()
-        } else {
+        }
+        else {
             listOf()
         }
         //
@@ -206,7 +207,8 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
                 ringTonesAssetsNames,
                 ringTonesDisplayNames
             )
-        } else {
+        }
+        else {
             logger.e(
                 LOG_TAG,
                 "buildCompleteRingTonesMap:: incompatible sources sizes"
@@ -287,7 +289,8 @@ class BottomDialogDismissibleRingtonePicker : BottomSheetDialogFragment() {
         ) ?: -1
         return if (resId != -1) {
             Uri.parse("android.resource://" + context.packageName + "/" + resId)
-        } else {
+        }
+        else {
             Uri.parse("")
         }
     }

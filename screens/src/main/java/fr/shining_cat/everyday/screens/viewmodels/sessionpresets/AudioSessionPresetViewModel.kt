@@ -23,7 +23,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import fr.shining_cat.everyday.commons.Constants
 import fr.shining_cat.everyday.commons.Logger
-import fr.shining_cat.everyday.commons.viewmodels.AppDispatchers
 import fr.shining_cat.everyday.domain.FileMetadataRetrieveUseCase
 import fr.shining_cat.everyday.domain.sessionspresets.CreateSessionPresetUseCase
 import fr.shining_cat.everyday.domain.sessionspresets.DeleteSessionPresetUseCase
@@ -31,14 +30,12 @@ import fr.shining_cat.everyday.domain.sessionspresets.UpdateSessionPresetUseCase
 import fr.shining_cat.everyday.models.SessionPreset
 
 class AudioSessionPresetViewModel(
-    appDispatchers: AppDispatchers,
     createSessionPresetUseCase: CreateSessionPresetUseCase,
     updateSessionPresetUseCase: UpdateSessionPresetUseCase,
     deleteSessionPresetUseCase: DeleteSessionPresetUseCase,
     private val metadataRetrieveUseCase: FileMetadataRetrieveUseCase,
     private val logger: Logger
 ) : AbstractSessionPresetViewModel(
-    appDispatchers,
     createSessionPresetUseCase,
     updateSessionPresetUseCase,
     deleteSessionPresetUseCase,
@@ -62,11 +59,10 @@ class AudioSessionPresetViewModel(
         if (presetInput != null) {
             initForEdition(
                 context,
-                presetInput,
-                deviceDefaultRingtoneUriString,
-                deviceDefaultRingtoneName
+                presetInput
             )
-        } else {
+        }
+        else {
             initForCreation(
                 deviceDefaultRingtoneUriString,
                 deviceDefaultRingtoneName
@@ -96,9 +92,7 @@ class AudioSessionPresetViewModel(
 
     private fun initForEdition(
         context: Context,
-        presetInput: SessionPreset,
-        deviceDefaultRingtoneUriString: String,
-        deviceDefaultRingtoneName: String
+        presetInput: SessionPreset
     ) {
         val audioGuideSoundUriString = presetInput.audioGuideSoundUriString // should never be blank at this stage
         if (audioGuideSoundUriString.isNotBlank()) {
@@ -123,41 +117,47 @@ class AudioSessionPresetViewModel(
                 audioGuideSoundAlbumName = audioGuideSoundAlbumName,
                 audioGuideSoundTitle = audioGuideSoundTitle
             )
-        } else {
+        }
+        else {
             logger.e(
                 LOG_TAG,
-                "initForEdition::should never get called with an empty audioGuideSoundUriString => creating NEW sessionPreset instead"
+                "initForEdition::should never get called with an empty audioGuideSoundUriString => keeping the same ID but resetting info related to audio, since preset seems corrupted"
             )
-            initForCreation(
-                deviceDefaultRingtoneUriString,
-                deviceDefaultRingtoneName
+            _sessionPresetUpdatedLiveData.value = (presetInput as SessionPreset.AudioSessionPreset).copy(
+                duration = -1L,
+                audioGuideSoundUriString = "",
+                audioGuideSoundArtistName = "",
+                audioGuideSoundAlbumName = "",
+                audioGuideSoundTitle = ""
             )
         }
     }
 
-    override fun isSessionPresetValid(): Boolean {
+    override fun verifyPresetValidity(): Boolean {
         val preset = (_sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.AudioSessionPreset>).value
-        when {
+        return when {
             preset == null -> {
                 logger.e(
                     LOG_TAG,
                     "isSessionPresetValid::preset should not be null at this point"
                 )
+                false
             }
 
             preset.audioGuideSoundUriString.isBlank() -> {
                 _validAudioGuideLiveData.value = false
+                false
             }
 
             preset.duration <= 0L -> {
                 _validDurationLiveData.value = false
+                false
             }
 
             else -> {
-                return true
+                true
             }
         }
-        return false
     }
 
     fun updatePresetAudioGuideSoundUriString(
@@ -171,7 +171,8 @@ class AudioSessionPresetViewModel(
                 context,
                 audioGuideSoundUri
             )
-        } else null
+        }
+        else null
         //
         val tempSessionPresetUpdatedLiveData = _sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.AudioSessionPreset>
         _sessionPresetUpdatedLiveData.value = tempSessionPresetUpdatedLiveData.value?.copy(
@@ -209,7 +210,7 @@ class AudioSessionPresetViewModel(
         _sessionPresetUpdatedLiveData.value = tempSessionPresetUpdatedLiveData.value?.copy(vibration = inputVibration)
     }
 
-    override fun updatePresetSessionTypeId(inputSessionTypeId: Int) {
+    override fun updatePresetSessionTypeId(inputSessionTypeId: Long) {
         val tempSessionPresetUpdatedLiveData = _sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.AudioSessionPreset>
         _sessionPresetUpdatedLiveData.value = tempSessionPresetUpdatedLiveData.value?.copy(sessionTypeId = inputSessionTypeId)
     }

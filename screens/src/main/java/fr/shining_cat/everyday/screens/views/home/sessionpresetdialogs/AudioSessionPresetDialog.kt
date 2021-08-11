@@ -28,7 +28,7 @@ import fr.shining_cat.everyday.screens.databinding.DialogSessionPresetAudioBindi
 import fr.shining_cat.everyday.screens.viewmodels.sessionpresets.AbstractSessionPresetViewModel
 import fr.shining_cat.everyday.screens.viewmodels.sessionpresets.AudioSessionPresetViewModel
 import org.koin.android.ext.android.get
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AudioSessionPresetDialog : AbstractSessionPresetDialog() {
 
@@ -114,7 +114,8 @@ class AudioSessionPresetDialog : AbstractSessionPresetDialog() {
                         R.attr.colorOnSurface,
                         Color.BLACK
                     )
-                } else {
+                }
+                else {
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.red_600
@@ -132,7 +133,8 @@ class AudioSessionPresetDialog : AbstractSessionPresetDialog() {
                         R.attr.colorOnSurface,
                         Color.BLACK
                     )
-                } else {
+                }
+                else {
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.red_600
@@ -164,7 +166,8 @@ class AudioSessionPresetDialog : AbstractSessionPresetDialog() {
         if (sessionPreset.audioGuideSoundUriString.isBlank()) {
             audioSessionPresetDialogBinding?.audioGuideValue?.text = getString(R.string.generic_NO_SELECTION)
             audioSessionPresetDialogBinding?.durationZone?.visibility = GONE
-        } else {
+        }
+        else {
             audioSessionPresetDialogBinding?.audioGuideValue?.text = getString(
                 R.string.audio_file_display_info,
                 sessionPreset.audioGuideSoundTitle,
@@ -202,7 +205,8 @@ class AudioSessionPresetDialog : AbstractSessionPresetDialog() {
             durationZone.setOnClickListener {
                 showBottomDurationSelector(0L)
             }
-        } else { // duration field is filled with duration retrieved from audio file metadata, and interaction is deactivated
+        }
+        else { // duration field is filled with duration retrieved from audio file metadata, and interaction is deactivated
             durationZone.alpha = DISABLED_ZONE_ALPHA
             durationValue.text = formatDurationMsToString(sessionPreset.duration)
             durationZone.setOnClickListener {

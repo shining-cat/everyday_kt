@@ -16,7 +16,7 @@ import fr.shining_cat.everyday.screens.databinding.DialogSessionPresetAudioFreeB
 import fr.shining_cat.everyday.screens.viewmodels.sessionpresets.AbstractSessionPresetViewModel
 import fr.shining_cat.everyday.screens.viewmodels.sessionpresets.AudioFreeSessionPresetViewModel
 import org.koin.android.ext.android.get
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AudioFreeSessionPresetDialog : AbstractSessionPresetDialog() {
 

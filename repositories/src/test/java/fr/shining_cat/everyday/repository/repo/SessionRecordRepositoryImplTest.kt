@@ -18,6 +18,7 @@
 package fr.shining_cat.everyday.repository.repo
 
 import fr.shining_cat.everyday.commons.Constants
+import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.locale.dao.SessionRecordDao
 import fr.shining_cat.everyday.locale.entities.SessionRecordEntity
 import fr.shining_cat.everyday.models.sessionrecord.SessionRecord
@@ -35,6 +36,9 @@ import org.junit.Before
 import org.junit.Test
 
 class SessionRecordRepositoryImplTest {
+
+    @MockK
+    private lateinit var mockLogger: Logger
 
     @MockK
     private lateinit var mockSessionRecordDao: SessionRecordDao
@@ -63,775 +67,689 @@ class SessionRecordRepositoryImplTest {
         assertNotNull(mockSessionRecord)
         assertNotNull(mockSessionRecordEntity)
         sessionRecordRepo = SessionRecordRepositoryImpl(
-            mockSessionRecordDao,
-            mockSessionRecordConverter
+            mockSessionRecordDao, mockSessionRecordConverter, mockLogger
         )
-        coEvery { mockSessionRecordConverter.convertModelsToEntities(any()) } returns listOf(
+        coEvery {mockLogger.d(any(), any())} answers {}
+        coEvery {mockLogger.e(any(), any())} answers {}
+
+        coEvery {mockSessionRecordConverter.convertModelsToEntities(any())} returns listOf(
             mockSessionRecordEntity
         )
-        coEvery { mockSessionRecordConverter.convertModelToEntity(any()) } returns mockSessionRecordEntity
-        coEvery { mockSessionRecordConverter.convertEntitiesToModels(any()) } returns listOf(
+        coEvery {mockSessionRecordConverter.convertModelToEntity(any())} returns mockSessionRecordEntity
+        coEvery {mockSessionRecordConverter.convertEntitiesToModels(any())} returns listOf(
             mockSessionRecord
         )
-        coEvery { mockSessionRecordConverter.convertEntityToModel(any()) } returns mockSessionRecord
-        coEvery { mockException.cause } returns mockThrowable
+        coEvery {mockSessionRecordConverter.convertEntityToModel(any())} returns mockSessionRecord
+        coEvery {mockException.cause} returns mockThrowable
     }
 
     @Test
     fun insert() {
-        coEvery { mockSessionRecordDao.insert(any()) } returns arrayOf(1L, 2L, 3L)
+        coEvery {mockSessionRecordDao.insert(any())} returns arrayOf(1L, 2L, 3L)
         val output = runBlocking {
             sessionRecordRepo.insert(
                 listOf(
-                    mockSessionRecord,
-                    mockSessionRecord,
-                    mockSessionRecord
+                    mockSessionRecord, mockSessionRecord, mockSessionRecord
                 )
             )
         }
-        coVerify { mockSessionRecordConverter.convertModelsToEntities(any()) }
-        coVerify { mockSessionRecordDao.insert(listOf(mockSessionRecordEntity)) }
+        coVerify {mockSessionRecordConverter.convertModelsToEntities(any())}
+        coVerify {mockSessionRecordDao.insert(listOf(mockSessionRecordEntity))}
         assertTrue(output is Output.Success)
         assertEquals(
-            3,
-            (output as Output.Success).result.size
+            3, (output as Output.Success).result.size
         )
     }
 
     @Test
     fun `insert failed list size does not match`() {
-        coEvery { mockSessionRecordDao.insert(any()) } returns arrayOf(1L, 2L)
+        coEvery {mockSessionRecordDao.insert(any())} returns arrayOf(1L, 2L)
         val output = runBlocking {
             sessionRecordRepo.insert(
                 listOf(
-                    mockSessionRecord,
-                    mockSessionRecord,
-                    mockSessionRecord
+                    mockSessionRecord, mockSessionRecord, mockSessionRecord
                 )
             )
         }
-        coVerify { mockSessionRecordConverter.convertModelsToEntities(any()) }
-        coVerify { mockSessionRecordDao.insert(listOf(mockSessionRecordEntity)) }
+        coVerify {mockSessionRecordConverter.convertModelsToEntities(any())}
+        coVerify {mockSessionRecordDao.insert(listOf(mockSessionRecordEntity))}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_INSERT_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_INSERT_FAILED, output.errorResponse
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_INSERT_FAILED,
-            output.exception?.message
+            Constants.ERROR_MESSAGE_INSERT_FAILED, output.exception?.message
         )
     }
 
     @Test
     fun `insert failed with exception`() {
-        coEvery { mockSessionRecordDao.insert(any()) } throws mockException
+        coEvery {mockSessionRecordDao.insert(any())} throws mockException
         val output = runBlocking {
             sessionRecordRepo.insert(
                 listOf(
-                    mockSessionRecord,
-                    mockSessionRecord,
-                    mockSessionRecord
+                    mockSessionRecord, mockSessionRecord, mockSessionRecord
                 )
             )
         }
-        coVerify { mockSessionRecordConverter.convertModelsToEntities(any()) }
-        coVerify { mockSessionRecordDao.insert(listOf(mockSessionRecordEntity)) }
+        coVerify {mockSessionRecordConverter.convertModelsToEntities(any())}
+        coVerify {mockSessionRecordDao.insert(listOf(mockSessionRecordEntity))}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_INSERT_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_INSERT_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
     //
     @Test
     fun update() {
-        coEvery { mockSessionRecordDao.update(any()) } returns 1
+        coEvery {mockSessionRecordDao.update(any())} returns 1
         val output = runBlocking {
             sessionRecordRepo.update(mockSessionRecord)
         }
-        coVerify { mockSessionRecordConverter.convertModelToEntity(any()) }
-        coVerify { mockSessionRecordDao.update(mockSessionRecordEntity) }
+        coVerify {mockSessionRecordConverter.convertModelToEntity(any())}
+        coVerify {mockSessionRecordDao.update(mockSessionRecordEntity)}
         assertTrue(output is Output.Success)
         assertEquals(
-            1,
-            (output as Output.Success).result
+            1, (output as Output.Success).result
         )
     }
 
     @Test
     fun `update failed count does not match`() {
-        coEvery { mockSessionRecordDao.update(any()) } returns 0
+        coEvery {mockSessionRecordDao.update(any())} returns 0
         val output = runBlocking {
             sessionRecordRepo.update(mockSessionRecord)
         }
-        coVerify { mockSessionRecordConverter.convertModelToEntity(any()) }
-        coVerify { mockSessionRecordDao.update(mockSessionRecordEntity) }
+        coVerify {mockSessionRecordConverter.convertModelToEntity(any())}
+        coVerify {mockSessionRecordDao.update(mockSessionRecordEntity)}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_UPDATE_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_UPDATE_FAILED, output.errorResponse
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_UPDATE_FAILED,
-            output.exception?.message
+            Constants.ERROR_MESSAGE_UPDATE_FAILED, output.exception?.message
         )
     }
 
     @Test
     fun `update failed with exception`() {
-        coEvery { mockSessionRecordDao.update(any()) } throws mockException
+        coEvery {mockSessionRecordDao.update(any())} throws mockException
         val output = runBlocking {
             sessionRecordRepo.update(mockSessionRecord)
         }
-        coVerify { mockSessionRecordConverter.convertModelToEntity(any()) }
-        coVerify { mockSessionRecordDao.update(mockSessionRecordEntity) }
+        coVerify {mockSessionRecordConverter.convertModelToEntity(any())}
+        coVerify {mockSessionRecordDao.update(mockSessionRecordEntity)}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_UPDATE_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_UPDATE_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
     //
     @Test
     fun deleteSession() {
-        coEvery { mockSessionRecordDao.delete(any()) } returns 1
+        coEvery {mockSessionRecordDao.delete(any())} returns 1
         val output = runBlocking {
             sessionRecordRepo.delete(mockSessionRecord)
         }
-        coVerify { mockSessionRecordConverter.convertModelToEntity(any()) }
-        coVerify { mockSessionRecordDao.delete(mockSessionRecordEntity) }
+        coVerify {mockSessionRecordConverter.convertModelToEntity(any())}
+        coVerify {mockSessionRecordDao.delete(mockSessionRecordEntity)}
         assertTrue(output is Output.Success)
         assertEquals(
-            1,
-            (output as Output.Success).result
+            1, (output as Output.Success).result
         )
     }
 
     @Test
     fun `delete failed count does not match`() {
-        coEvery { mockSessionRecordDao.delete(any()) } returns 0
+        coEvery {mockSessionRecordDao.delete(any())} returns 0
         val output = runBlocking {
             sessionRecordRepo.delete(mockSessionRecord)
         }
-        coVerify { mockSessionRecordConverter.convertModelToEntity(any()) }
-        coVerify { mockSessionRecordDao.delete(mockSessionRecordEntity) }
+        coVerify {mockSessionRecordConverter.convertModelToEntity(any())}
+        coVerify {mockSessionRecordDao.delete(mockSessionRecordEntity)}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_DELETE_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_DELETE_FAILED, output.errorResponse
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_DELETE_FAILED,
-            output.exception?.message
+            Constants.ERROR_MESSAGE_DELETE_FAILED, output.exception?.message
         )
     }
 
     @Test
     fun `delete failed with exception`() {
-        coEvery { mockSessionRecordDao.delete(any()) } throws mockException
+        coEvery {mockSessionRecordDao.delete(any())} throws mockException
         val output = runBlocking {
             sessionRecordRepo.delete(mockSessionRecord)
         }
-        coVerify { mockSessionRecordConverter.convertModelToEntity(any()) }
-        coVerify { mockSessionRecordDao.delete(mockSessionRecordEntity) }
+        coVerify {mockSessionRecordConverter.convertModelToEntity(any())}
+        coVerify {mockSessionRecordDao.delete(mockSessionRecordEntity)}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_DELETE_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_DELETE_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
     //
     @Test
     fun deleteAllSessions() {
-        coEvery { mockSessionRecordDao.deleteAllSessions() } returns 17
+        coEvery {mockSessionRecordDao.deleteAllSessions()} returns 17
         val output = runBlocking {
             sessionRecordRepo.deleteAllSessions()
         }
-        coVerify { mockSessionRecordDao.deleteAllSessions() }
+        coVerify {mockSessionRecordDao.deleteAllSessions()}
         assertTrue(output is Output.Success)
         assertEquals(
-            17,
-            (output as Output.Success).result
+            17, (output as Output.Success).result
         )
     }
 
     @Test
     fun `delete all failed with exception`() {
-        coEvery { mockSessionRecordDao.deleteAllSessions() } throws mockException
+        coEvery {mockSessionRecordDao.deleteAllSessions()} throws mockException
         val output = runBlocking {
             sessionRecordRepo.deleteAllSessions()
         }
-        coVerify { mockSessionRecordDao.deleteAllSessions() }
+        coVerify {mockSessionRecordDao.deleteAllSessions()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_DELETE_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_DELETE_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
     //
     @Test
     fun getAllSessionsStartTimeAsc() {
-        coEvery { mockSessionRecordDao.getAllSessionsStartTimeAsc() } returns listOf(mockSessionRecordEntity)
+        coEvery {mockSessionRecordDao.getAllSessionsStartTimeAsc()} returns listOf(mockSessionRecordEntity)
         val output = runBlocking {
             sessionRecordRepo.getAllSessionsStartTimeAsc()
         }
-        coVerify { mockSessionRecordDao.getAllSessionsStartTimeAsc() }
-        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
+        coVerify {mockSessionRecordDao.getAllSessionsStartTimeAsc()}
+        coVerify {mockSessionRecordConverter.convertEntitiesToModels(any())}
         assertTrue(output is Output.Success)
         assertEquals(
-            listOf(mockSessionRecord),
-            (output as Output.Success).result
+            listOf(mockSessionRecord), (output as Output.Success).result
         )
     }
 
     @Test
     fun `rewardsActiveAcquisitionDateAsc failed DAO returned empty result`() {
-        coEvery { mockSessionRecordDao.getAllSessionsStartTimeAsc() } returns listOf()
+        coEvery {mockSessionRecordDao.getAllSessionsStartTimeAsc()} returns listOf()
         val output = runBlocking {
             sessionRecordRepo.getAllSessionsStartTimeAsc()
         }
-        coVerify { mockSessionRecordDao.getAllSessionsStartTimeAsc() }
+        coVerify {mockSessionRecordDao.getAllSessionsStartTimeAsc()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_NO_RESULT,
-            output.errorCode
+            Constants.ERROR_CODE_NO_RESULT, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_NO_RESULT, output.errorResponse
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.exception?.message
+            Constants.ERROR_MESSAGE_NO_RESULT, output.exception?.message
         )
     }
 
     @Test
     fun `rewardsActiveAcquisitionDateAsc failed with exception`() {
-        coEvery { mockSessionRecordDao.getAllSessionsStartTimeAsc() } throws mockException
+        coEvery {mockSessionRecordDao.getAllSessionsStartTimeAsc()} throws mockException
         val output = runBlocking {
             sessionRecordRepo.getAllSessionsStartTimeAsc()
         }
-        coVerify { mockSessionRecordDao.getAllSessionsStartTimeAsc() }
+        coVerify {mockSessionRecordDao.getAllSessionsStartTimeAsc()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_READ_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_READ_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
     //
     @Test
     fun getAllSessionsStartTimeDesc() {
-        coEvery { mockSessionRecordDao.getAllSessionsStartTimeDesc() } returns listOf(mockSessionRecordEntity)
+        coEvery {mockSessionRecordDao.getAllSessionsStartTimeDesc()} returns listOf(mockSessionRecordEntity)
         val output = runBlocking {
             sessionRecordRepo.getAllSessionsStartTimeDesc()
         }
-        coVerify { mockSessionRecordDao.getAllSessionsStartTimeDesc() }
-        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
+        coVerify {mockSessionRecordDao.getAllSessionsStartTimeDesc()}
+        coVerify {mockSessionRecordConverter.convertEntitiesToModels(any())}
         assertTrue(output is Output.Success)
         assertEquals(
-            listOf(mockSessionRecord),
-            (output as Output.Success).result
+            listOf(mockSessionRecord), (output as Output.Success).result
         )
     }
 
     @Test
     fun `getAllSessionsStartTimeDesc failed DAO returned empty result`() {
-        coEvery { mockSessionRecordDao.getAllSessionsStartTimeDesc() } returns listOf()
+        coEvery {mockSessionRecordDao.getAllSessionsStartTimeDesc()} returns listOf()
         val output = runBlocking {
             sessionRecordRepo.getAllSessionsStartTimeDesc()
         }
-        coVerify { mockSessionRecordDao.getAllSessionsStartTimeDesc() }
+        coVerify {mockSessionRecordDao.getAllSessionsStartTimeDesc()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_NO_RESULT,
-            output.errorCode
+            Constants.ERROR_CODE_NO_RESULT, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_NO_RESULT, output.errorResponse
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.exception?.message
+            Constants.ERROR_MESSAGE_NO_RESULT, output.exception?.message
         )
     }
 
     @Test
     fun `getAllSessionsStartTimeDesc failed with exception`() {
-        coEvery { mockSessionRecordDao.getAllSessionsStartTimeDesc() } throws mockException
+        coEvery {mockSessionRecordDao.getAllSessionsStartTimeDesc()} throws mockException
         val output = runBlocking {
             sessionRecordRepo.getAllSessionsStartTimeDesc()
         }
-        coVerify { mockSessionRecordDao.getAllSessionsStartTimeDesc() }
+        coVerify {mockSessionRecordDao.getAllSessionsStartTimeDesc()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_READ_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_READ_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
     //
     @Test
     fun getAllSessionsDurationAsc() {
-        coEvery { mockSessionRecordDao.getAllSessionsDurationAsc() } returns listOf(mockSessionRecordEntity)
+        coEvery {mockSessionRecordDao.getAllSessionsDurationAsc()} returns listOf(mockSessionRecordEntity)
         val output = runBlocking {
             sessionRecordRepo.getAllSessionsDurationAsc()
         }
-        coVerify { mockSessionRecordDao.getAllSessionsDurationAsc() }
-        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
+        coVerify {mockSessionRecordDao.getAllSessionsDurationAsc()}
+        coVerify {mockSessionRecordConverter.convertEntitiesToModels(any())}
         assertTrue(output is Output.Success)
         assertEquals(
-            listOf(mockSessionRecord),
-            (output as Output.Success).result
+            listOf(mockSessionRecord), (output as Output.Success).result
         )
     }
 
     @Test
     fun `getAllSessionsDurationAsc failed DAO returned empty result`() {
-        coEvery { mockSessionRecordDao.getAllSessionsDurationAsc() } returns listOf()
+        coEvery {mockSessionRecordDao.getAllSessionsDurationAsc()} returns listOf()
         val output = runBlocking {
             sessionRecordRepo.getAllSessionsDurationAsc()
         }
-        coVerify { mockSessionRecordDao.getAllSessionsDurationAsc() }
+        coVerify {mockSessionRecordDao.getAllSessionsDurationAsc()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_NO_RESULT,
-            output.errorCode
+            Constants.ERROR_CODE_NO_RESULT, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_NO_RESULT, output.errorResponse
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.exception?.message
+            Constants.ERROR_MESSAGE_NO_RESULT, output.exception?.message
         )
     }
 
     @Test
     fun `getAllSessionsDurationAsc failed with exception`() {
-        coEvery { mockSessionRecordDao.getAllSessionsDurationAsc() } throws mockException
+        coEvery {mockSessionRecordDao.getAllSessionsDurationAsc()} throws mockException
         val output = runBlocking {
             sessionRecordRepo.getAllSessionsDurationAsc()
         }
-        coVerify { mockSessionRecordDao.getAllSessionsDurationAsc() }
+        coVerify {mockSessionRecordDao.getAllSessionsDurationAsc()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_READ_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_READ_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
     //
     @Test
     fun getAllSessionsDurationDesc() {
-        coEvery { mockSessionRecordDao.getAllSessionsDurationDesc() } returns listOf(mockSessionRecordEntity)
+        coEvery {mockSessionRecordDao.getAllSessionsDurationDesc()} returns listOf(mockSessionRecordEntity)
         val output = runBlocking {
             sessionRecordRepo.getAllSessionsDurationDesc()
         }
-        coVerify { mockSessionRecordDao.getAllSessionsDurationDesc() }
-        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
+        coVerify {mockSessionRecordDao.getAllSessionsDurationDesc()}
+        coVerify {mockSessionRecordConverter.convertEntitiesToModels(any())}
         assertTrue(output is Output.Success)
         assertEquals(
-            listOf(mockSessionRecord),
-            (output as Output.Success).result
+            listOf(mockSessionRecord), (output as Output.Success).result
         )
     }
 
     @Test
     fun `getAllSessionsDurationDesc failed DAO returned empty result`() {
-        coEvery { mockSessionRecordDao.getAllSessionsDurationDesc() } returns listOf()
+        coEvery {mockSessionRecordDao.getAllSessionsDurationDesc()} returns listOf()
         val output = runBlocking {
             sessionRecordRepo.getAllSessionsDurationDesc()
         }
-        coVerify { mockSessionRecordDao.getAllSessionsDurationDesc() }
+        coVerify {mockSessionRecordDao.getAllSessionsDurationDesc()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_NO_RESULT,
-            output.errorCode
+            Constants.ERROR_CODE_NO_RESULT, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_NO_RESULT, output.errorResponse
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.exception?.message
+            Constants.ERROR_MESSAGE_NO_RESULT, output.exception?.message
         )
     }
 
     @Test
     fun `getAllSessionsDurationDesc failed with exception`() {
-        coEvery { mockSessionRecordDao.getAllSessionsDurationDesc() } throws mockException
+        coEvery {mockSessionRecordDao.getAllSessionsDurationDesc()} throws mockException
         val output = runBlocking {
             sessionRecordRepo.getAllSessionsDurationDesc()
         }
-        coVerify { mockSessionRecordDao.getAllSessionsDurationDesc() }
+        coVerify {mockSessionRecordDao.getAllSessionsDurationDesc()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_READ_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_READ_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
     //
     @Test
     fun getAllSessionsWithMp3() {
-        coEvery { mockSessionRecordDao.getAllSessionsWithMp3() } returns listOf(mockSessionRecordEntity)
+        coEvery {mockSessionRecordDao.getAllSessionsWithMp3()} returns listOf(mockSessionRecordEntity)
         val output = runBlocking {
             sessionRecordRepo.getAllSessionsWithMp3()
         }
-        coVerify { mockSessionRecordDao.getAllSessionsWithMp3() }
-        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
+        coVerify {mockSessionRecordDao.getAllSessionsWithMp3()}
+        coVerify {mockSessionRecordConverter.convertEntitiesToModels(any())}
         assertTrue(output is Output.Success)
         assertEquals(
-            listOf(mockSessionRecord),
-            (output as Output.Success).result
+            listOf(mockSessionRecord), (output as Output.Success).result
         )
     }
 
     @Test
     fun `getAllSessionsWithMp3 failed DAO returned empty result`() {
-        coEvery { mockSessionRecordDao.getAllSessionsWithMp3() } returns listOf()
+        coEvery {mockSessionRecordDao.getAllSessionsWithMp3()} returns listOf()
         val output = runBlocking {
             sessionRecordRepo.getAllSessionsWithMp3()
         }
-        coVerify { mockSessionRecordDao.getAllSessionsWithMp3() }
+        coVerify {mockSessionRecordDao.getAllSessionsWithMp3()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_NO_RESULT,
-            output.errorCode
+            Constants.ERROR_CODE_NO_RESULT, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_NO_RESULT, output.errorResponse
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.exception?.message
+            Constants.ERROR_MESSAGE_NO_RESULT, output.exception?.message
         )
     }
 
     @Test
     fun `getAllSessionsWithMp3 failed with exception`() {
-        coEvery { mockSessionRecordDao.getAllSessionsWithMp3() } throws mockException
+        coEvery {mockSessionRecordDao.getAllSessionsWithMp3()} throws mockException
         val output = runBlocking {
             sessionRecordRepo.getAllSessionsWithMp3()
         }
-        coVerify { mockSessionRecordDao.getAllSessionsWithMp3() }
+        coVerify {mockSessionRecordDao.getAllSessionsWithMp3()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_READ_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_READ_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
     //
     @Test
     fun getAllSessionsWithoutMp3() {
-        coEvery { mockSessionRecordDao.getAllSessionsWithoutMp3() } returns listOf(mockSessionRecordEntity)
+        coEvery {mockSessionRecordDao.getAllSessionsWithoutMp3()} returns listOf(mockSessionRecordEntity)
         val output = runBlocking {
             sessionRecordRepo.getAllSessionsWithoutMp3()
         }
-        coVerify { mockSessionRecordDao.getAllSessionsWithoutMp3() }
-        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
+        coVerify {mockSessionRecordDao.getAllSessionsWithoutMp3()}
+        coVerify {mockSessionRecordConverter.convertEntitiesToModels(any())}
         assertTrue(output is Output.Success)
         assertEquals(
-            listOf(mockSessionRecord),
-            (output as Output.Success).result
+            listOf(mockSessionRecord), (output as Output.Success).result
         )
     }
 
     @Test
     fun `getAllSessionsWithoutMp3 failed DAO returned empty result`() {
-        coEvery { mockSessionRecordDao.getAllSessionsWithoutMp3() } returns listOf()
+        coEvery {mockSessionRecordDao.getAllSessionsWithoutMp3()} returns listOf()
         val output = runBlocking {
             sessionRecordRepo.getAllSessionsWithoutMp3()
         }
-        coVerify { mockSessionRecordDao.getAllSessionsWithoutMp3() }
+        coVerify {mockSessionRecordDao.getAllSessionsWithoutMp3()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_NO_RESULT,
-            output.errorCode
+            Constants.ERROR_CODE_NO_RESULT, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_NO_RESULT, output.errorResponse
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.exception?.message
+            Constants.ERROR_MESSAGE_NO_RESULT, output.exception?.message
         )
     }
 
     @Test
     fun `getAllSessionsWithoutMp3 failed with exception`() {
-        coEvery { mockSessionRecordDao.getAllSessionsWithoutMp3() } throws mockException
+        coEvery {mockSessionRecordDao.getAllSessionsWithoutMp3()} throws mockException
         val output = runBlocking {
             sessionRecordRepo.getAllSessionsWithoutMp3()
         }
-        coVerify { mockSessionRecordDao.getAllSessionsWithoutMp3() }
+        coVerify {mockSessionRecordDao.getAllSessionsWithoutMp3()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_READ_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_READ_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
     //
     @Test
     fun getSessionsSearch() {
-        coEvery { mockSessionRecordDao.getSessionsSearch(any()) } returns listOf(mockSessionRecordEntity)
+        coEvery {mockSessionRecordDao.getSessionsSearch(any())} returns listOf(mockSessionRecordEntity)
         val output = runBlocking {
             sessionRecordRepo.getSessionsSearch("search request")
         }
-        coVerify { mockSessionRecordDao.getSessionsSearch(any()) }
-        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
+        coVerify {mockSessionRecordDao.getSessionsSearch(any())}
+        coVerify {mockSessionRecordConverter.convertEntitiesToModels(any())}
         assertTrue(output is Output.Success)
         assertEquals(
-            listOf(mockSessionRecord),
-            (output as Output.Success).result
+            listOf(mockSessionRecord), (output as Output.Success).result
         )
     }
 
     @Test
     fun `getSessionsSearch failed DAO returned empty result`() {
-        coEvery { mockSessionRecordDao.getSessionsSearch(any()) } returns listOf()
+        coEvery {mockSessionRecordDao.getSessionsSearch(any())} returns listOf()
         val output = runBlocking {
             sessionRecordRepo.getSessionsSearch("search request")
         }
-        coVerify { mockSessionRecordDao.getSessionsSearch(any()) }
+        coVerify {mockSessionRecordDao.getSessionsSearch(any())}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_NO_RESULT,
-            output.errorCode
+            Constants.ERROR_CODE_NO_RESULT, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_NO_RESULT, output.errorResponse
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.exception?.message
+            Constants.ERROR_MESSAGE_NO_RESULT, output.exception?.message
         )
     }
 
     @Test
     fun `getSessionsSearch failed with exception`() {
-        coEvery { mockSessionRecordDao.getSessionsSearch(any()) } throws mockException
+        coEvery {mockSessionRecordDao.getSessionsSearch(any())} throws mockException
         val output = runBlocking {
             sessionRecordRepo.getSessionsSearch("search request")
         }
-        coVerify { mockSessionRecordDao.getSessionsSearch(any()) }
+        coVerify {mockSessionRecordDao.getSessionsSearch(any())}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_READ_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_READ_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
     //
     @Test
     fun asyncGetAllSessionsStartTimeAsc() {
-        coEvery { mockSessionRecordDao.asyncGetAllSessionsStartTimeAsc() } returns listOf(mockSessionRecordEntity)
+        coEvery {mockSessionRecordDao.asyncGetAllSessionsStartTimeAsc()} returns listOf(mockSessionRecordEntity)
         val output = runBlocking {
             sessionRecordRepo.asyncGetAllSessionsStartTimeAsc()
         }
-        coVerify { mockSessionRecordDao.asyncGetAllSessionsStartTimeAsc() }
-        coVerify { mockSessionRecordConverter.convertEntitiesToModels(any()) }
+        coVerify {mockSessionRecordDao.asyncGetAllSessionsStartTimeAsc()}
+        coVerify {mockSessionRecordConverter.convertEntitiesToModels(any())}
         assertTrue(output is Output.Success)
         assertEquals(
-            listOf(mockSessionRecord),
-            (output as Output.Success).result
+            listOf(mockSessionRecord), (output as Output.Success).result
         )
     }
 
     @Test
     fun `asyncGetAllSessionsStartTimeAsc failed DAO returned empty result`() {
-        coEvery { mockSessionRecordDao.asyncGetAllSessionsStartTimeAsc() } returns listOf()
+        coEvery {mockSessionRecordDao.asyncGetAllSessionsStartTimeAsc()} returns listOf()
         val output = runBlocking {
             sessionRecordRepo.asyncGetAllSessionsStartTimeAsc()
         }
-        coVerify { mockSessionRecordDao.asyncGetAllSessionsStartTimeAsc() }
+        coVerify {mockSessionRecordDao.asyncGetAllSessionsStartTimeAsc()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_NO_RESULT,
-            output.errorCode
+            Constants.ERROR_CODE_NO_RESULT, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_NO_RESULT, output.errorResponse
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_NO_RESULT,
-            output.exception?.message
+            Constants.ERROR_MESSAGE_NO_RESULT, output.exception?.message
         )
     }
 
     @Test
     fun `asyncGetAllSessionsStartTimeAsc failed with exception`() {
-        coEvery { mockSessionRecordDao.asyncGetAllSessionsStartTimeAsc() } throws mockException
+        coEvery {mockSessionRecordDao.asyncGetAllSessionsStartTimeAsc()} throws mockException
         val output = runBlocking {
             sessionRecordRepo.asyncGetAllSessionsStartTimeAsc()
         }
-        coVerify { mockSessionRecordDao.asyncGetAllSessionsStartTimeAsc() }
+        coVerify {mockSessionRecordDao.asyncGetAllSessionsStartTimeAsc()}
         assertTrue(output is Output.Error)
         output as Output.Error
         assertEquals(
-            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED,
-            output.errorCode
+            Constants.ERROR_CODE_DATABASE_OPERATION_FAILED, output.errorCode
         )
         assertEquals(
-            Constants.ERROR_MESSAGE_READ_FAILED,
-            output.errorResponse
+            Constants.ERROR_MESSAGE_READ_FAILED, output.errorResponse
         )
         assertEquals(
-            mockException,
-            output.exception
+            mockException, output.exception
         )
     }
 
     //
     @Test
     fun getLatestRecordedSessionDate() {
-        coEvery { mockSessionRecordDao.getMostRecentSessionRecordDate() } returns 73L
+        coEvery {mockSessionRecordDao.getMostRecentSessionRecordDate()} returns 73L
         val output = runBlocking {
             sessionRecordRepo.getMostRecentSessionRecordDate()
         }
-        coVerify { mockSessionRecordDao.getMostRecentSessionRecordDate() }
+        coVerify {mockSessionRecordDao.getMostRecentSessionRecordDate()}
         assertTrue(output is Output.Success)
         assertEquals(
-            73L,
-            (output as Output.Success).result
+            73L, (output as Output.Success).result
         )
     }
 }

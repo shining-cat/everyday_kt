@@ -29,7 +29,7 @@ class RewardConverter(
 ) {
 
     suspend fun convertModelsToEntities(rewards: List<Reward>): List<RewardEntity> {
-        return rewards.map { rewardModel -> convertModelToEntity(rewardModel) }
+        return rewards.map {rewardModel -> convertModelToEntity(rewardModel)}
     }
 
     suspend fun convertModelToEntity(reward: Reward): RewardEntity {
@@ -59,18 +59,20 @@ class RewardConverter(
     }
 
     suspend fun convertEntitiesToModels(rewardEntities: List<RewardEntity>): List<Reward> {
-        return rewardEntities.map { convertEntitytoModel(it) }
+        return rewardEntities.map {convertEntitytoModel(it)}
     }
 
     suspend fun convertEntitytoModel(rewardEntity: RewardEntity): Reward {
         val acquisitionDate = if (rewardEntity.acquisitionDate == RewardEntityConstants.NO_ACQUISITION_DATE) {
             RewardConstants.NO_ACQUISITION_DATE
-        } else {
+        }
+        else {
             rewardEntity.acquisitionDate
         }
         val escapingDate = if (rewardEntity.escapingDate == RewardEntityConstants.NO_ESCAPING_DATE) {
             RewardConstants.NO_ESCAPING_DATE
-        } else {
+        }
+        else {
             rewardEntity.escapingDate
         }
         return Reward(

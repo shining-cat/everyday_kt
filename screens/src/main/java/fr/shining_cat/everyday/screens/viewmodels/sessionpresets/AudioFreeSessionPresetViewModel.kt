@@ -21,20 +21,17 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import fr.shining_cat.everyday.commons.Constants
 import fr.shining_cat.everyday.commons.Logger
-import fr.shining_cat.everyday.commons.viewmodels.AppDispatchers
 import fr.shining_cat.everyday.domain.sessionspresets.CreateSessionPresetUseCase
 import fr.shining_cat.everyday.domain.sessionspresets.DeleteSessionPresetUseCase
 import fr.shining_cat.everyday.domain.sessionspresets.UpdateSessionPresetUseCase
 import fr.shining_cat.everyday.models.SessionPreset
 
 class AudioFreeSessionPresetViewModel(
-    appDispatchers: AppDispatchers,
     createSessionPresetUseCase: CreateSessionPresetUseCase,
     updateSessionPresetUseCase: UpdateSessionPresetUseCase,
     deleteSessionPresetUseCase: DeleteSessionPresetUseCase,
     private val logger: Logger
 ) : AbstractSessionPresetViewModel(
-    appDispatchers,
     createSessionPresetUseCase,
     updateSessionPresetUseCase,
     deleteSessionPresetUseCase,
@@ -51,7 +48,8 @@ class AudioFreeSessionPresetViewModel(
     ) {
         if (presetInput != null) {
             initForEdition(presetInput)
-        } else {
+        }
+        else {
             initForCreation(
                 deviceDefaultRingtoneUriString,
                 deviceDefaultRingtoneName
@@ -78,7 +76,7 @@ class AudioFreeSessionPresetViewModel(
         _sessionPresetUpdatedLiveData.value = (presetInput as SessionPreset.AudioFreeSessionPreset).copy()
     }
 
-    override fun isSessionPresetValid(): Boolean {
+    override fun verifyPresetValidity(): Boolean {
         return true // audio free session preset has nothing that could be invalid
     }
 
@@ -102,7 +100,7 @@ class AudioFreeSessionPresetViewModel(
         _sessionPresetUpdatedLiveData.value = tempSessionPresetUpdatedLiveData.value?.copy(vibration = inputVibration)
     }
 
-    override fun updatePresetSessionTypeId(inputSessionTypeId: Int) {
+    override fun updatePresetSessionTypeId(inputSessionTypeId: Long) {
         val tempSessionPresetUpdatedLiveData = _sessionPresetUpdatedLiveData as MutableLiveData<SessionPreset.AudioFreeSessionPreset>
         _sessionPresetUpdatedLiveData.value = tempSessionPresetUpdatedLiveData.value?.copy(sessionTypeId = inputSessionTypeId)
     }

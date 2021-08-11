@@ -18,8 +18,5 @@
 package fr.shining_cat.everyday.commons.viewmodels
 
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
 
-abstract class AbstractViewModels(protected val appDispatchers: AppDispatchers) : ViewModel() {}
+abstract class AbstractViewModels() : ViewModel() {}

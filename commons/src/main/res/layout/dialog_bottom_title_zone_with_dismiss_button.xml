@@ -30,13 +30,13 @@
         android:layout_height="40dp"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
+        android:contentDescription="@string/content_description_close_button"
         android:focusable="true"
         android:padding="@dimen/three_quarter_margin"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_cross"
-        android:contentDescription="@string/content_description_close_button" />
+        app:srcCompat="@drawable/ic_cross" />
 
     <TextView
         android:id="@+id/dialog_bottom_title"

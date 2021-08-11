@@ -56,7 +56,7 @@ data class SessionPresetEntity(
     @ColumnInfo(name = AUDIO_GUIDE_ALBUM) val audioGuideSoundAlbumName: String,
     @ColumnInfo(name = AUDIO_GUIDE_TITLE) val audioGuideSoundTitle: String,
     @ColumnInfo(name = VIBRATION) val vibration: Boolean,
-    @ColumnInfo(name = SESSION_TYPE) val sessionTypeId: Int,
+    @ColumnInfo(name = SESSION_TYPE) val sessionTypeId: Long,
     @ColumnInfo(name = LAST_EDIT_DATE) val lastEditTime: Long,
     @ColumnInfo(name = SESSION_PRESET_TYPE) val sessionPresetType: String
 )

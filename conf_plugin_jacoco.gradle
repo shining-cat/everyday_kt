@@ -6,13 +6,14 @@ jacoco {
 
 tasks.withType(Test) {
     jacoco.includeNoLocationClasses = true
+    jacoco.excludes = ['jdk.internal.*']
 }
 
 //task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
 task everydayJacocoModulesTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
     //we don't need this task to be displayed in the tasks group with the others, as we will only ever launch the child everydayJacocoGroupedReports task
     reports {
-        xml.enabled = true
+        xml.enabled = false
         html.enabled = true
     }
 
@@ -43,8 +44,9 @@ task everydayJacocoModulesTestReport(type: JacocoReport, dependsOn: ['testDebugU
 }
 
 // This task launches the tests and copies the reports to /reports/ directory
-task everydayJacocoGroupedReports(type: Copy, dependsOn: 'everydayJacocoModulesTestReport') {
+task unitTestsJacocoGroupedReports(type: Copy, dependsOn: 'everydayJacocoModulesTestReport') {
     group = 'Everyday'
+    description("This task will run unit tests from all modules, and copy the coverage reports in [project_root]/reports/[module_name]/jacoco/everydayUnitTestsJacocoGroupedReports/html.\nInstrumented tests ARE NOT run with this task")
     from "$buildDir/reports/"
     into "../reports/$project.name"
 }

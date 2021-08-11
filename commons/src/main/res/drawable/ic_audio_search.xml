@@ -3,13 +3,13 @@
     android:height="48dp"
     android:viewportWidth="48"
     android:viewportHeight="48">
-  <path
-      android:fillColor="?attr/colorOnPrimary"
-      android:pathData="M39,35.5l-3.5,3.5l-8.3,-8.3l3.4,-3.5z"/>
-  <path
-      android:fillColor="?attr/colorOnPrimary"
-      android:pathData="M20.5,7c-7.5,0 -13.5,6 -13.5,13.5 0,7.5 6,13.5 13.5,13.5 7.5,0 13.5,-6 13.5,-13.5C34,13 28,7 20.5,7zM20.5,31c-5.8,0 -10.5,-4.7 -10.5,-10.5s4.7,-10.5 10.5,-10.5S31,14.7 31,20.5 26.3,31 20.5,31z"/>
-  <path
-      android:fillColor="?attr/colorOnPrimary"
-      android:pathData="M16,16.3l10.6,-2.9v10.2c0,1.5 -1.2,2.5 -2.6,2.5 -1.4,0 -2.6,-1.2 -2.6,-2.5s1.2,-2.5 2.6,-2.5c0.3,0 0.4,0 0.6,0.1v-3.3l-6.7,1.6v6.2c0,1.5 -1.2,2.5 -2.6,2.5 -1.4,0 -2.6,-1.2 -2.6,-2.5s1.2,-2.5 2.6,-2.5c0.2,0 0.4,0 0.6,0.1L15.9,16.3L16,16.3z"/>
+    <path
+        android:fillColor="?attr/colorOnPrimary"
+        android:pathData="M39,35.5l-3.5,3.5l-8.3,-8.3l3.4,-3.5z" />
+    <path
+        android:fillColor="?attr/colorOnPrimary"
+        android:pathData="M20.5,7c-7.5,0 -13.5,6 -13.5,13.5 0,7.5 6,13.5 13.5,13.5 7.5,0 13.5,-6 13.5,-13.5C34,13 28,7 20.5,7zM20.5,31c-5.8,0 -10.5,-4.7 -10.5,-10.5s4.7,-10.5 10.5,-10.5S31,14.7 31,20.5 26.3,31 20.5,31z" />
+    <path
+        android:fillColor="?attr/colorOnPrimary"
+        android:pathData="M16,16.3l10.6,-2.9v10.2c0,1.5 -1.2,2.5 -2.6,2.5 -1.4,0 -2.6,-1.2 -2.6,-2.5s1.2,-2.5 2.6,-2.5c0.3,0 0.4,0 0.6,0.1v-3.3l-6.7,1.6v6.2c0,1.5 -1.2,2.5 -2.6,2.5 -1.4,0 -2.6,-1.2 -2.6,-2.5s1.2,-2.5 2.6,-2.5c0.2,0 0.4,0 0.6,0.1L15.9,16.3L16,16.3z" />
 </vector>

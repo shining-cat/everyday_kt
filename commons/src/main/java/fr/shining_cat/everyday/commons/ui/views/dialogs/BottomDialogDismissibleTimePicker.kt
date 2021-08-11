@@ -114,7 +114,8 @@ class BottomDialogDismissibleTimePicker : BottomSheetDialogFragment() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             timePicker.hour = hour
             timePicker.minute = minutes
-        } else @Suppress("DEPRECATION") {
+        }
+        else @Suppress("DEPRECATION") {
             timePicker.currentHour = hour
             timePicker.currentMinute = minutes
         }
@@ -131,7 +132,8 @@ class BottomDialogDismissibleTimePicker : BottomSheetDialogFragment() {
                     timePicker.hour,
                     timePicker.minute
                 )
-            } else {
+            }
+            else {
                 @Suppress("DEPRECATION") transmitSelectedTime(
                     timePicker.currentHour,
                     timePicker.currentMinute

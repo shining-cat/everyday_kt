@@ -21,8 +21,6 @@ import android.content.Context
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelper
 import fr.shining_cat.everyday.commons.helpers.SharedPrefsHelperSettings
-import fr.shining_cat.everyday.commons.viewmodels.AppDispatchers
-import kotlinx.coroutines.Dispatchers
 import org.koin.dsl.module
 
 val commonsModule = module {
@@ -36,10 +34,4 @@ val commonsModule = module {
         )
     }
 
-    factory {
-        AppDispatchers(
-            Dispatchers.Main,
-            Dispatchers.IO
-        )
-    }
 }

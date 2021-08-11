@@ -20,7 +20,7 @@ import fr.shining_cat.everyday.screens.databinding.DialogSessionPresetTimedFreeB
 import fr.shining_cat.everyday.screens.viewmodels.sessionpresets.AbstractSessionPresetViewModel
 import fr.shining_cat.everyday.screens.viewmodels.sessionpresets.TimedFreeSessionPresetViewModel
 import org.koin.android.ext.android.get
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TimedFreeSessionPresetDialog : AbstractSessionPresetDialog() {
 
@@ -146,7 +146,8 @@ class TimedFreeSessionPresetDialog : AbstractSessionPresetDialog() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-        } else {
+        }
+        else {
             timedFreeSessionPresetDialogBinding?.intervalLengthZone?.alpha = ENABLED_ZONE_ALPHA
             timedFreeSessionPresetDialogBinding?.intervalLengthValue?.text = formatDurationMsToString(sessionPreset.intermediateIntervalLength)
             timedFreeSessionPresetDialogBinding?.intervalLengthZone?.setOnClickListener {
@@ -158,7 +159,8 @@ class TimedFreeSessionPresetDialog : AbstractSessionPresetDialog() {
     private fun updateIntermediateIntervalSound(sessionPreset: SessionPreset) {
         if (sessionPreset.intermediateIntervalSoundUriString.isBlank()) {
             timedFreeSessionPresetDialogBinding?.intervalSoundValue?.text = getString(R.string.generic_string_NONE)
-        } else {
+        }
+        else {
             timedFreeSessionPresetDialogBinding?.intervalSoundValue?.text = sessionPreset.intermediateIntervalSoundName
             val ringTonesAssets = context?.resources?.getStringArray(fr.shining_cat.everyday.commons.R.array.ringtonesRawAssetsNames)
             val ringTonesTitles = context?.resources?.getStringArray(fr.shining_cat.everyday.commons.R.array.ringtonesTitles)
