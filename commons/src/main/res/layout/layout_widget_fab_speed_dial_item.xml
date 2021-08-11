@@ -32,7 +32,7 @@
         android:layout_height="@dimen/mini_fab_label_height"
         android:layout_marginEnd="16dp"
         android:backgroundTint="?attr/colorAccent"
-        android:textColor="?attr/colorOnSurface"
+        android:textColor="?attr/colorOnSecondary"
         android:textSize="@dimen/normal_text_size"
         app:ensureMinTouchTargetSize="false"
         app:layout_constraintBottom_toBottomOf="@+id/fab_speed_dial_item_icon"

@@ -74,6 +74,7 @@
          - [x] TimedFreeSessionPresetViewModel
          - [x] TimedSessionPresetViewModel
   - [x] find a way to animate hide/show "add session preset" fab when scroll detected, show again on release
+  - [x] text and icons colors are not the dark grey expected in FAB and speedDial items
   - [ ] sessions presets viewholders do not display all specs of the preset, so they can look similar when they are in fact different... design a compact way to display the complete info for the preset
 
 ### launch session
