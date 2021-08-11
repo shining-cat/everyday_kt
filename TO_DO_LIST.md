@@ -73,7 +73,8 @@
          - [x] AudioSessionPresetViewModel
          - [x] TimedFreeSessionPresetViewModel
          - [x] TimedSessionPresetViewModel
-  - [ ] find a way to animate hide/show "add session preset" fab when scroll detected, show again on release
+  - [x] find a way to animate hide/show "add session preset" fab when scroll detected, show again on release
+  - [ ] sessions presets viewholders do not display all specs of the preset, so they can look similar when they are in fact different... design a compact way to display the complete info for the preset
 
 ### launch session
   - [ ] launchSessionUseCase (SessionViewModel) => don't know yet how to do this: need something capable of running in the background whatever happens to process
