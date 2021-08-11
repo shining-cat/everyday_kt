@@ -49,6 +49,7 @@
     <string name="start_end_sound">Son de début et fin</string>
     <string name="interval">Intervalle</string>
     <string name="interval_random">Intervalle irrégulier aléatoire</string>
+    <string name="interval_random_short">irrégulier aléatoire</string>
     <string name="interval_random_explanation">Désactiver Intervalle irrégulier pour choisir un intervalle fixe</string>
     <string name="vibration">Vibration</string>
     <string name="interval_sound">Son d\'intervalle</string>

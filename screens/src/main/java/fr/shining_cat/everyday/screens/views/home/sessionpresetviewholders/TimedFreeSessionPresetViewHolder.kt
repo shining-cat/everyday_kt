@@ -27,7 +27,7 @@ class TimedFreeSessionPresetViewHolder(
 
     private val itemTimedFreeSessionPresetViewHolderBinding: ItemTimedFreeSessionPresetViewHolderBinding,
     private val logger: Logger
-) : AbstractSessionPresetViewHolder(
+): AbstractSessionPresetViewHolder(
     itemTimedFreeSessionPresetViewHolderBinding.root, logger
 ) {
 
@@ -35,18 +35,25 @@ class TimedFreeSessionPresetViewHolder(
 
     override fun bindView(sessionPreset: SessionPreset) {
         val resources = itemView.resources
-        itemTimedFreeSessionPresetViewHolderBinding.timedFreeSessionIntervalValue.text = if (sessionPreset.intermediateIntervalLength == 0L) {
-            resources.getString(R.string.generic_string_NONE)
-        }
-        else {
-            sessionPreset.intermediateIntervalLength.autoFormatDurationMsAsSmallestHhMmSsString(
-                resources.getString(R.string.duration_format_hours_minutes_seconds_short),
-                resources.getString(R.string.duration_format_hours_minutes_no_seconds_short),
-                resources.getString(R.string.duration_format_hours_no_minutes_no_seconds_short),
-                resources.getString(R.string.duration_format_minutes_seconds_short),
-                resources.getString(R.string.duration_format_minutes_no_seconds_short),
-                resources.getString(R.string.duration_format_seconds_short)
-            )
+        itemTimedFreeSessionPresetViewHolderBinding.timedFreeSessionIntervalValue.text = when {
+            sessionPreset.intermediateIntervalRandom -> {
+                resources.getString(R.string.interval_random_short)
+            }
+
+            sessionPreset.intermediateIntervalLength == 0L -> {
+                resources.getString(R.string.generic_string_NONE)
+            }
+
+            else -> {
+                sessionPreset.intermediateIntervalLength.autoFormatDurationMsAsSmallestHhMmSsString(
+                    resources.getString(R.string.duration_format_hours_minutes_seconds_short),
+                    resources.getString(R.string.duration_format_hours_minutes_no_seconds_short),
+                    resources.getString(R.string.duration_format_hours_no_minutes_no_seconds_short),
+                    resources.getString(R.string.duration_format_minutes_seconds_short),
+                    resources.getString(R.string.duration_format_minutes_no_seconds_short),
+                    resources.getString(R.string.duration_format_seconds_short)
+                )
+            }
         }
     }
 }

@@ -60,6 +60,7 @@
     <string name="free_audio_session">Free audio session</string>
     <string name="session_preset_audio_free_explanation">With this preset, chose an audio file for each session</string>
     <string name="session_preset_timed_free_explanation">With this preset start a free timed session with no predefined duration</string>
-    <string name="interval_random">Irregular random interval</string>
+    <string name="interval_random">Random irregular interval</string>
+    <string name="interval_random_short">random irregular</string>
     <string name="interval_random_explanation">Uncheck Random Interval to select a fixed interval</string>
 </resources>

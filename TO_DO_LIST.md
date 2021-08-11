@@ -24,7 +24,7 @@
 - [ ] build launch icon from rewards assets, insert as vector adaptive icon (see https://medium.com/androiddevelopers/vectordrawable-adaptive-icons-3fed3d3205b5)
 - [ ] use launch icon to build a splashscreen, see: https://medium.com/geekculture/implementing-the-perfect-splash-screen-in-android-295de045a8dc
 - [ ] write about text
-- [ ] add custom rules to detekt to put else, catch, finally on new line => this seems quite heavy work, we may skip this, but the pb is that ktlint rules contradict our own
+- [ ] add custom rules to detekt to put else, catch, finally on new line => this seems quite heavy work, we may skip this, but the pb is that ktlint rules contradict ours
 - [ ] decide how to handle remaining errors reported by detekt (too many functions in SharedPrefsHelper is ok, too many parameters in method, etc.)
 - [ ] find info on building optional feature: rewards mechanism and statistics will only be added as a feature later, in order to be able to build a working version faster => we may have to split the screens module up to dissociate "bonus" features from "core" features, question is where to put the associated models, dto, repos, if not in the corresponding modules?
 - [ ] check if possible to set github actions up, have some kind of simple CI/CD running maybe? (see: https://medium.com/google-developer-experts/github-actions-for-android-developers-6b54c8a32f55)
@@ -73,7 +73,8 @@
          - [x] AudioSessionPresetViewModel
          - [x] TimedFreeSessionPresetViewModel
          - [x] TimedSessionPresetViewModel
-  - [ ] find a way to animate hide/show "add session preset" fab when scroll detected, show again on release
+  - [x] find a way to animate hide/show "add session preset" fab when scroll detected, show again on release
+  - [ ] sessions presets viewholders do not display all specs of the preset, so they can look similar when they are in fact different... design a compact way to display the complete info for the preset
 
 ### launch session
   - [ ] launchSessionUseCase (SessionViewModel) => don't know yet how to do this: need something capable of running in the background whatever happens to process
