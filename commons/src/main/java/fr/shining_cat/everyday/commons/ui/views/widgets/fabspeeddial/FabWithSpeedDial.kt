@@ -31,7 +31,6 @@ import fr.shining_cat.everyday.commons.Constants.Companion.SUPER_FAST_ANIMATION_
 import fr.shining_cat.everyday.commons.Logger
 import fr.shining_cat.everyday.commons.R
 import fr.shining_cat.everyday.commons.databinding.LayoutWidgetFabSpeedDialBinding
-import fr.shining_cat.everyday.commons.extensions.animateAlpha
 import fr.shining_cat.everyday.commons.extensions.animateToTranslationX
 import java.security.InvalidParameterException
 import kotlin.math.max
@@ -40,18 +39,14 @@ class FabWithSpeedDial @kotlin.jvm.JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
-) : ConstraintLayout(
-    context,
-    attrs,
-    defStyle
+): ConstraintLayout(
+    context, attrs, defStyle
 ) {
 
     private val LOG_TAG = FabWithSpeedDial::class.java.name
 
     private val layoutWidgetFabSpeedDialBinding: LayoutWidgetFabSpeedDialBinding = LayoutWidgetFabSpeedDialBinding.inflate(
-        LayoutInflater.from(context),
-        this,
-        true
+        LayoutInflater.from(context), this, true
     )
 
     private var speedDialItemViews = mutableListOf<FabSpeedDialItemView>()
@@ -66,8 +61,7 @@ class FabWithSpeedDial @kotlin.jvm.JvmOverloads constructor(
         }
         // set fab initial icon
         layoutWidgetFabSpeedDialBinding.fab.icon = ContextCompat.getDrawable(
-            context,
-            R.drawable.plus
+            context, R.drawable.plus
         )
         layoutWidgetFabSpeedDialBinding.fab.setOnClickListener {
             if (!isExpandingOrExpanded) expand() else collapse()
@@ -96,11 +90,9 @@ class FabWithSpeedDial @kotlin.jvm.JvmOverloads constructor(
             // create
             val speedDialItemView = FabSpeedDialItemView(context)
             speedDialItemView.setup(
-                item,
-                FAST_ANIMATION_DURATION_MILLIS,
+                item, FAST_ANIMATION_DURATION_MILLIS,
                 //auto-collapse SpeedDial when clicking on any item
-                { collapse() },
-                logger
+                {collapse()}, logger
             )
             // store
             speedDialItemViews.add(speedDialItemView)
@@ -116,23 +108,21 @@ class FabWithSpeedDial @kotlin.jvm.JvmOverloads constructor(
                 // appearing from bottom to top => tie the apparition effect of this item to the appear-complete of the previous one in the list
                 precedingItem.setListenerAppear {
                     appearOneItem(
-                        item,
-                        precedingItem
+                        item, precedingItem
                     )
                 }
                 // disappearing from top to bottom => tie the disappearing effect of this item to the disappear-complete of the previous one in the list
                 item.setListenerDisappear {
                     onSpeedDialItemViewDisappearComplete(item)
                     horizontalTranslationEffect(
-                        precedingItem,
-                        false
+                        precedingItem, false
                     )
                     precedingItem.disappear()
                 }
             }
             else {
                 // plug listener to last disappearing item
-                item.setListenerDisappear { onSpeedDialItemViewDisappearComplete(item) }
+                item.setListenerDisappear {onSpeedDialItemViewDisappearComplete(item)}
             }
         }
     }
@@ -158,8 +148,7 @@ class FabWithSpeedDial @kotlin.jvm.JvmOverloads constructor(
         // force reset of item horizontal position
         item.translationX = 0F
         horizontalTranslationEffect(
-            item,
-            true
+            item, true
         )
         //
         item.appear()
@@ -182,46 +171,16 @@ class FabWithSpeedDial @kotlin.jvm.JvmOverloads constructor(
         else {
             itemPosX + 100F
         }
-        item.animateToTranslationX(
-            toPosition = startEffectAt,
-            duration = 0L,
-            onStart = null,
-            onEnd = {
-                item.animateToTranslationX(
-                    toPosition = endEffectAt,
-                    duration = SUPER_FAST_ANIMATION_DURATION_MILLIS
-                ).start()
-            }
-        ).start()
+        item.animateToTranslationX(toPosition = startEffectAt, duration = 0L, onStart = null, onEnd = {
+            item.animateToTranslationX(
+                toPosition = endEffectAt, duration = SUPER_FAST_ANIMATION_DURATION_MILLIS
+            ).start()
+        }).start()
     }
 
     private fun onSpeedDialItemViewDisappearComplete(item: FabSpeedDialItemView) {
         layoutWidgetFabSpeedDialBinding.fabContainer.removeView(item)
         speedDialVisibleItemViews.remove(item)
-    }
-
-    private fun instantCollapse() {
-        // TODO: build instant collapse
-        collapse()
-    }
-
-    fun appear() {
-        this.rootView.animateAlpha(
-            fromAlpha = 0f,
-            toAlpha = 1f,
-            duration = FAST_ANIMATION_DURATION_MILLIS
-        ).start()
-    }
-
-    fun disappear() {
-        if (isExpandingOrExpanded) {
-            instantCollapse()
-        }
-        this.rootView.animateAlpha(
-            fromAlpha = 1f,
-            toAlpha = 0f,
-            duration = FAST_ANIMATION_DURATION_MILLIS
-        ).start()
     }
 
     private fun expand() {
@@ -230,8 +189,7 @@ class FabWithSpeedDial @kotlin.jvm.JvmOverloads constructor(
         launchAppearingCascade()
         // set fab icon and launch animation
         layoutWidgetFabSpeedDialBinding.fab.icon = ContextCompat.getDrawable(
-            context,
-            R.drawable.animated_plus
+            context, R.drawable.animated_plus
         )
         animateFab()
         //expand container to whole parent to capture touch events for the "click-outside" collapse
@@ -247,8 +205,7 @@ class FabWithSpeedDial @kotlin.jvm.JvmOverloads constructor(
     private fun launchAppearingCascade() {
         // if there are already visible speed dial items, prepare cascade from the first non-visible one
         val startingIndex = max(
-            0,
-            speedDialVisibleItemViews.size - 1
+            0, speedDialVisibleItemViews.size - 1
         )
         val referentViewForVerticalPosition = if (startingIndex == 0) {
             layoutWidgetFabSpeedDialBinding.fab // start up positioning reference is the main fab
@@ -258,8 +215,7 @@ class FabWithSpeedDial @kotlin.jvm.JvmOverloads constructor(
         }
         if (startingIndex < speedDialItemViews.size) {
             appearOneItem(
-                speedDialItemViews[startingIndex],
-                referentViewForVerticalPosition
+                speedDialItemViews[startingIndex], referentViewForVerticalPosition
             )
         }
     }
@@ -274,15 +230,13 @@ class FabWithSpeedDial @kotlin.jvm.JvmOverloads constructor(
         // the first item that should disappear is the top-most one
         if (speedDialVisibleItemViews.isNotEmpty()) {
             horizontalTranslationEffect(
-                speedDialVisibleItemViews.last(),
-                false
+                speedDialVisibleItemViews.last(), false
             )
             speedDialVisibleItemViews.last().disappear()
         }
         // set fab icon and launch animation
         layoutWidgetFabSpeedDialBinding.fab.icon = ContextCompat.getDrawable(
-            context,
-            R.drawable.animated_minus
+            context, R.drawable.animated_minus
         )
         animateFab()
     }

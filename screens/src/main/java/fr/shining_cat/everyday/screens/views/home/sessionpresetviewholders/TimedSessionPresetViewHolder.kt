@@ -44,18 +44,25 @@ class TimedSessionPresetViewHolder(
             resources.getString(R.string.duration_format_seconds_short)
         )
         //
-        itemTimedSessionPresetViewHolderBinding.timedSessionIntervalValue.text = if (sessionPreset.intermediateIntervalLength == 0L) {
-            resources.getString(R.string.generic_string_NONE)
-        }
-        else {
-            sessionPreset.intermediateIntervalLength.autoFormatDurationMsAsSmallestHhMmSsString(
-                resources.getString(R.string.duration_format_hours_minutes_seconds_short),
-                resources.getString(R.string.duration_format_hours_minutes_no_seconds_short),
-                resources.getString(R.string.duration_format_hours_no_minutes_no_seconds_short),
-                resources.getString(R.string.duration_format_minutes_seconds_short),
-                resources.getString(R.string.duration_format_minutes_no_seconds_short),
-                resources.getString(R.string.duration_format_seconds_short)
-            )
+        itemTimedSessionPresetViewHolderBinding.timedSessionIntervalValue.text = when {
+            sessionPreset.intermediateIntervalRandom -> {
+                resources.getString(R.string.interval_random_short)
+            }
+
+            sessionPreset.intermediateIntervalLength == 0L -> {
+                resources.getString(R.string.generic_string_NONE)
+            }
+
+            else -> {
+                sessionPreset.intermediateIntervalLength.autoFormatDurationMsAsSmallestHhMmSsString(
+                    resources.getString(R.string.duration_format_hours_minutes_seconds_short),
+                    resources.getString(R.string.duration_format_hours_minutes_no_seconds_short),
+                    resources.getString(R.string.duration_format_hours_no_minutes_no_seconds_short),
+                    resources.getString(R.string.duration_format_minutes_seconds_short),
+                    resources.getString(R.string.duration_format_minutes_no_seconds_short),
+                    resources.getString(R.string.duration_format_seconds_short)
+                )
+            }
         }
     }
 }
