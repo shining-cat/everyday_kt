@@ -19,12 +19,17 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkStatic
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 
+@ExperimentalCoroutinesApi
+@RunWith(JUnit4::class)
 class AudioSessionPresetViewModelTest {
 
     @get:Rule
@@ -77,178 +82,6 @@ class AudioSessionPresetViewModelTest {
             mockMetadataRetrieveUseCase,
             mockLogger
         )
-    }
-
-    /////////////////////////
-    // tests on saveSessionPreset
-    @Test
-    fun `test saveSessionPreset new sessionPreset success`() {
-        coEvery { mockCreateSessionPresetUseCase.execute(any()) } returns Result.Success(45L)
-        val inputSessionPreset = SessionPreset.AudioSessionPreset(
-            id = -1L,
-            startCountdownLength = 345L,
-            startAndEndSoundUriString = "specific uri string",
-            startAndEndSoundName = "specific sound name",
-            duration = 234L,
-            audioGuideSoundUriString = "specific audio guide uri string",
-            audioGuideSoundArtistName = "specific artist name string",
-            audioGuideSoundAlbumName = "specific album name string",
-            audioGuideSoundTitle = "specific audio guide title string",
-            vibration = true,
-            sessionTypeId = 345,
-            lastEditTime = 4567L,
-        )
-        runBlocking {
-            audioSessionPresetViewModel.saveSessionPreset(inputSessionPreset)
-        }
-
-        //checking
-        coVerify(exactly = 1) { mockCreateSessionPresetUseCase.execute(inputSessionPreset) }
-        assertEquals(true, audioSessionPresetViewModel.successLiveData.getValueForTest())
-    }
-
-    @Test
-    fun `test saveSessionPreset new sessionPreset failure`() {
-        coEvery { mockCreateSessionPresetUseCase.execute(any()) } returns Result.Error(
-            123,
-            "error message",
-            Exception("exception")
-        )
-        val inputSessionPreset = SessionPreset.AudioSessionPreset(
-            id = -1L,
-            startCountdownLength = 345L,
-            startAndEndSoundUriString = "specific uri string",
-            startAndEndSoundName = "specific sound name",
-            duration = 234L,
-            audioGuideSoundUriString = "specific audio guide uri string",
-            audioGuideSoundArtistName = "specific artist name string",
-            audioGuideSoundAlbumName = "specific album name string",
-            audioGuideSoundTitle = "specific audio guide title string",
-            vibration = true,
-            sessionTypeId = 345,
-            lastEditTime = 4567L,
-        )
-        runBlocking {
-            audioSessionPresetViewModel.saveSessionPreset(inputSessionPreset)
-        }
-
-        //checking
-        coVerify(exactly = 1) { mockCreateSessionPresetUseCase.execute(inputSessionPreset) }
-        assertEquals("error message", audioSessionPresetViewModel.errorLiveData.getValueForTest())
-    }
-
-    @Test
-    fun `test saveSessionPreset existing sessionPreset success`() {
-        coEvery { mockUpdateSessionPresetUseCase.execute(any()) } returns Result.Success(45)
-        val inputSessionPreset = SessionPreset.AudioSessionPreset(
-            id = 1234L,
-            startCountdownLength = 345L,
-            startAndEndSoundUriString = "specific uri string",
-            startAndEndSoundName = "specific sound name",
-            duration = 234L,
-            audioGuideSoundUriString = "specific audio guide uri string",
-            audioGuideSoundArtistName = "specific artist name string",
-            audioGuideSoundAlbumName = "specific album name string",
-            audioGuideSoundTitle = "specific audio guide title string",
-            vibration = true,
-            sessionTypeId = 345,
-            lastEditTime = 4567L,
-        )
-        runBlocking {
-            audioSessionPresetViewModel.saveSessionPreset(inputSessionPreset)
-        }
-
-        //checking
-        coVerify(exactly = 1) { mockUpdateSessionPresetUseCase.execute(inputSessionPreset) }
-        assertEquals(true, audioSessionPresetViewModel.successLiveData.getValueForTest())
-    }
-
-    @Test
-    fun `test saveSessionPreset existing sessionPreset failure`() {
-        coEvery { mockUpdateSessionPresetUseCase.execute(any()) } returns Result.Error(
-            123,
-            "error message",
-            Exception("exception")
-        )
-        val inputSessionPreset = SessionPreset.AudioSessionPreset(
-            id = 1234L,
-            startCountdownLength = 345L,
-            startAndEndSoundUriString = "specific uri string",
-            startAndEndSoundName = "specific sound name",
-            duration = 234L,
-            audioGuideSoundUriString = "specific audio guide uri string",
-            audioGuideSoundArtistName = "specific artist name string",
-            audioGuideSoundAlbumName = "specific album name string",
-            audioGuideSoundTitle = "specific audio guide title string",
-            vibration = true,
-            sessionTypeId = 345,
-            lastEditTime = 4567L,
-        )
-        runBlocking {
-            audioSessionPresetViewModel.saveSessionPreset(inputSessionPreset)
-        }
-
-        //checking
-        coVerify(exactly = 1) { mockUpdateSessionPresetUseCase.execute(inputSessionPreset) }
-        assertEquals("error message", audioSessionPresetViewModel.errorLiveData.getValueForTest())
-    }
-
-    /////////////////////////
-    // tests on deleteSessionPreset
-    @Test
-    fun `test deleteSessionPreset success`() {
-        coEvery { mockDeleteSessionPresetUseCase.execute(any()) } returns Result.Success(45)
-        val inputSessionPreset = SessionPreset.AudioSessionPreset(
-            id = 1234L,
-            startCountdownLength = 345L,
-            startAndEndSoundUriString = "specific uri string",
-            startAndEndSoundName = "specific sound name",
-            duration = 234L,
-            audioGuideSoundUriString = "specific audio guide uri string",
-            audioGuideSoundArtistName = "specific artist name string",
-            audioGuideSoundAlbumName = "specific album name string",
-            audioGuideSoundTitle = "specific audio guide title string",
-            vibration = true,
-            sessionTypeId = 345,
-            lastEditTime = 4567L,
-        )
-        runBlocking {
-            audioSessionPresetViewModel.deleteSessionPreset(inputSessionPreset)
-        }
-
-        //checking
-        coVerify(exactly = 1) { mockDeleteSessionPresetUseCase.execute(inputSessionPreset) }
-        assertEquals(true, audioSessionPresetViewModel.successLiveData.getValueForTest())
-    }
-
-    @Test
-    fun `test deleteSessionPreset failure`() {
-        coEvery { mockDeleteSessionPresetUseCase.execute(any()) } returns Result.Error(
-            123,
-            "error message",
-            Exception("exception")
-        )
-        val inputSessionPreset = SessionPreset.AudioSessionPreset(
-            id = 1234L,
-            startCountdownLength = 345L,
-            startAndEndSoundUriString = "specific uri string",
-            startAndEndSoundName = "specific sound name",
-            duration = 234L,
-            audioGuideSoundUriString = "specific audio guide uri string",
-            audioGuideSoundArtistName = "specific artist name string",
-            audioGuideSoundAlbumName = "specific album name string",
-            audioGuideSoundTitle = "specific audio guide title string",
-            vibration = true,
-            sessionTypeId = 345,
-            lastEditTime = 4567L,
-        )
-        runBlocking {
-            audioSessionPresetViewModel.deleteSessionPreset(inputSessionPreset)
-        }
-
-        //checking
-        coVerify(exactly = 1) { mockDeleteSessionPresetUseCase.execute(inputSessionPreset) }
-        assertEquals("error message", audioSessionPresetViewModel.errorLiveData.getValueForTest())
     }
 
     /////////////////////////
@@ -540,99 +373,175 @@ class AudioSessionPresetViewModelTest {
     }
 
     /////////////////////////
-    // tests on updatePresetDuration
+    // tests on saveSessionPreset
     @Test
-    fun `test updatePresetDuration valid value`() {
-        //initializing with a raw SessionPreset
-        runBlocking {
-            audioSessionPresetViewModel.init(
-                mockContext,
-                null,
-                deviceDefaultRingtoneUriString,
-                deviceDefaultRingtoneName
-            )
-        }
-        val startSessionPreset = SessionPreset.AudioSessionPreset(
+    fun `test saveSessionPreset new sessionPreset success`() {
+        coEvery { mockCreateSessionPresetUseCase.execute(any()) } returns Result.Success(45L)
+        val inputSessionPreset = SessionPreset.AudioSessionPreset(
             id = -1L,
-            startCountdownLength = Constants.DEFAULT_SESSION_COUNTDOWN_MILLIS,
-            startAndEndSoundUriString = deviceDefaultRingtoneUriString,
-            startAndEndSoundName = deviceDefaultRingtoneName,
-            duration = -1L,
-            audioGuideSoundUriString = "",
-            audioGuideSoundArtistName = "",
-            audioGuideSoundAlbumName = "",
-            audioGuideSoundTitle = "",
-            vibration = false,
-            sessionTypeId = -1,
-            lastEditTime = -1L,
-        )
-        assertEquals(startSessionPreset, audioSessionPresetViewModel.sessionPresetUpdatedLiveData.getValueForTest())
-        //modifying
-        audioSessionPresetViewModel.updatePresetDuration(234L)
-        //checking
-        val updatedSessionPreset = SessionPreset.AudioSessionPreset(
-            id = -1L,
-            startCountdownLength = Constants.DEFAULT_SESSION_COUNTDOWN_MILLIS,
-            startAndEndSoundUriString = deviceDefaultRingtoneUriString,
-            startAndEndSoundName = deviceDefaultRingtoneName,
+            startCountdownLength = 345L,
+            startAndEndSoundUriString = "specific uri string",
+            startAndEndSoundName = "specific sound name",
             duration = 234L,
-            audioGuideSoundUriString = "",
-            audioGuideSoundArtistName = "",
-            audioGuideSoundAlbumName = "",
-            audioGuideSoundTitle = "",
-            vibration = false,
-            sessionTypeId = -1,
-            lastEditTime = -1L,
+            audioGuideSoundUriString = "specific audio guide uri string",
+            audioGuideSoundArtistName = "specific artist name string",
+            audioGuideSoundAlbumName = "specific album name string",
+            audioGuideSoundTitle = "specific audio guide title string",
+            vibration = true,
+            sessionTypeId = 345,
+            lastEditTime = 4567L,
         )
-        assertEquals(updatedSessionPreset, audioSessionPresetViewModel.sessionPresetUpdatedLiveData.getValueForTest())
+        runBlocking {
+            audioSessionPresetViewModel.saveSessionPreset(inputSessionPreset)
+        }
+
+        //checking
+        coVerify(exactly = 1) { mockCreateSessionPresetUseCase.execute(inputSessionPreset) }
+        assertEquals(true, audioSessionPresetViewModel.successLiveData.getValueForTest())
     }
 
     @Test
-    fun `test updatePresetDuration invalid value`() {
-        //initializing with a raw SessionPreset
+    fun `test saveSessionPreset new sessionPreset failure`() {
+        coEvery { mockCreateSessionPresetUseCase.execute(any()) } returns Result.Error(
+            123,
+            "error message",
+            Exception("exception")
+        )
+        val inputSessionPreset = SessionPreset.AudioSessionPreset(
+            id = -1L,
+            startCountdownLength = 345L,
+            startAndEndSoundUriString = "specific uri string",
+            startAndEndSoundName = "specific sound name",
+            duration = 234L,
+            audioGuideSoundUriString = "specific audio guide uri string",
+            audioGuideSoundArtistName = "specific artist name string",
+            audioGuideSoundAlbumName = "specific album name string",
+            audioGuideSoundTitle = "specific audio guide title string",
+            vibration = true,
+            sessionTypeId = 345,
+            lastEditTime = 4567L,
+        )
         runBlocking {
-            audioSessionPresetViewModel.init(
-                mockContext,
-                null,
-                deviceDefaultRingtoneUriString,
-                deviceDefaultRingtoneName
-            )
+            audioSessionPresetViewModel.saveSessionPreset(inputSessionPreset)
         }
-        val startSessionPreset = SessionPreset.AudioSessionPreset(
-            id = -1L,
-            startCountdownLength = Constants.DEFAULT_SESSION_COUNTDOWN_MILLIS,
-            startAndEndSoundUriString = deviceDefaultRingtoneUriString,
-            startAndEndSoundName = deviceDefaultRingtoneName,
-            duration = -1L,
-            audioGuideSoundUriString = "",
-            audioGuideSoundArtistName = "",
-            audioGuideSoundAlbumName = "",
-            audioGuideSoundTitle = "",
-            vibration = false,
-            sessionTypeId = -1,
-            lastEditTime = -1L,
-        )
-        assertEquals(startSessionPreset, audioSessionPresetViewModel.sessionPresetUpdatedLiveData.getValueForTest())
-        //modifying
-        audioSessionPresetViewModel.updatePresetDuration(0L)
+
         //checking
-        val updatedSessionPreset = SessionPreset.AudioSessionPreset(
-            id = -1L,
-            startCountdownLength = Constants.DEFAULT_SESSION_COUNTDOWN_MILLIS,
-            startAndEndSoundUriString = deviceDefaultRingtoneUriString,
-            startAndEndSoundName = deviceDefaultRingtoneName,
-            duration = 0L,
-            audioGuideSoundUriString = "",
-            audioGuideSoundArtistName = "",
-            audioGuideSoundAlbumName = "",
-            audioGuideSoundTitle = "",
-            vibration = false,
-            sessionTypeId = -1,
-            lastEditTime = -1L,
+        coVerify(exactly = 1) { mockCreateSessionPresetUseCase.execute(inputSessionPreset) }
+        assertEquals("error message", audioSessionPresetViewModel.errorLiveData.getValueForTest())
+    }
+
+    @Test
+    fun `test saveSessionPreset existing sessionPreset success`() {
+        coEvery { mockUpdateSessionPresetUseCase.execute(any()) } returns Result.Success(45)
+        val inputSessionPreset = SessionPreset.AudioSessionPreset(
+            id = 1234L,
+            startCountdownLength = 345L,
+            startAndEndSoundUriString = "specific uri string",
+            startAndEndSoundName = "specific sound name",
+            duration = 234L,
+            audioGuideSoundUriString = "specific audio guide uri string",
+            audioGuideSoundArtistName = "specific artist name string",
+            audioGuideSoundAlbumName = "specific album name string",
+            audioGuideSoundTitle = "specific audio guide title string",
+            vibration = true,
+            sessionTypeId = 345,
+            lastEditTime = 4567L,
         )
-        assertEquals(false, audioSessionPresetViewModel.verifyPresetValidity())
-        assertEquals(false, audioSessionPresetViewModel.invalidDurationLiveData.getValueForTest())
-        assertEquals(updatedSessionPreset, audioSessionPresetViewModel.sessionPresetUpdatedLiveData.getValueForTest())
+        runBlocking {
+            audioSessionPresetViewModel.saveSessionPreset(inputSessionPreset)
+        }
+
+        //checking
+        coVerify(exactly = 1) { mockUpdateSessionPresetUseCase.execute(inputSessionPreset) }
+        assertEquals(true, audioSessionPresetViewModel.successLiveData.getValueForTest())
+    }
+
+    @Test
+    fun `test saveSessionPreset existing sessionPreset failure`() {
+        coEvery { mockUpdateSessionPresetUseCase.execute(any()) } returns Result.Error(
+            123,
+            "error message",
+            Exception("exception")
+        )
+        val inputSessionPreset = SessionPreset.AudioSessionPreset(
+            id = 1234L,
+            startCountdownLength = 345L,
+            startAndEndSoundUriString = "specific uri string",
+            startAndEndSoundName = "specific sound name",
+            duration = 234L,
+            audioGuideSoundUriString = "specific audio guide uri string",
+            audioGuideSoundArtistName = "specific artist name string",
+            audioGuideSoundAlbumName = "specific album name string",
+            audioGuideSoundTitle = "specific audio guide title string",
+            vibration = true,
+            sessionTypeId = 345,
+            lastEditTime = 4567L,
+        )
+        runBlocking {
+            audioSessionPresetViewModel.saveSessionPreset(inputSessionPreset)
+        }
+
+        //checking
+        coVerify(exactly = 1) { mockUpdateSessionPresetUseCase.execute(inputSessionPreset) }
+        assertEquals("error message", audioSessionPresetViewModel.errorLiveData.getValueForTest())
+    }
+
+    /////////////////////////
+    // tests on deleteSessionPreset
+    @Test
+    fun `test deleteSessionPreset success`() {
+        coEvery { mockDeleteSessionPresetUseCase.execute(any()) } returns Result.Success(45)
+        val inputSessionPreset = SessionPreset.AudioSessionPreset(
+            id = 1234L,
+            startCountdownLength = 345L,
+            startAndEndSoundUriString = "specific uri string",
+            startAndEndSoundName = "specific sound name",
+            duration = 234L,
+            audioGuideSoundUriString = "specific audio guide uri string",
+            audioGuideSoundArtistName = "specific artist name string",
+            audioGuideSoundAlbumName = "specific album name string",
+            audioGuideSoundTitle = "specific audio guide title string",
+            vibration = true,
+            sessionTypeId = 345,
+            lastEditTime = 4567L,
+        )
+        runBlocking {
+            audioSessionPresetViewModel.deleteSessionPreset(inputSessionPreset)
+        }
+
+        //checking
+        coVerify(exactly = 1) { mockDeleteSessionPresetUseCase.execute(inputSessionPreset) }
+        assertEquals(true, audioSessionPresetViewModel.successLiveData.getValueForTest())
+    }
+
+    @Test
+    fun `test deleteSessionPreset failure`() {
+        coEvery { mockDeleteSessionPresetUseCase.execute(any()) } returns Result.Error(
+            123,
+            "error message",
+            Exception("exception")
+        )
+        val inputSessionPreset = SessionPreset.AudioSessionPreset(
+            id = 1234L,
+            startCountdownLength = 345L,
+            startAndEndSoundUriString = "specific uri string",
+            startAndEndSoundName = "specific sound name",
+            duration = 234L,
+            audioGuideSoundUriString = "specific audio guide uri string",
+            audioGuideSoundArtistName = "specific artist name string",
+            audioGuideSoundAlbumName = "specific album name string",
+            audioGuideSoundTitle = "specific audio guide title string",
+            vibration = true,
+            sessionTypeId = 345,
+            lastEditTime = 4567L,
+        )
+        runBlocking {
+            audioSessionPresetViewModel.deleteSessionPreset(inputSessionPreset)
+        }
+
+        //checking
+        coVerify(exactly = 1) { mockDeleteSessionPresetUseCase.execute(inputSessionPreset) }
+        assertEquals("error message", audioSessionPresetViewModel.errorLiveData.getValueForTest())
     }
 
     /////////////////////////
@@ -878,7 +787,7 @@ class AudioSessionPresetViewModelTest {
     /////////////////////////
     // tests on updatePresetIntermediateIntervalRandom
     @Test
-    fun `test updatePresetIntermediateIntervalRandom`() {
+    fun `test updatePresetIntermediateIntervalRandom changes nothing`() {
         //initializing with a raw SessionPreset
         runBlocking {
             audioSessionPresetViewModel.init(
@@ -909,9 +818,10 @@ class AudioSessionPresetViewModelTest {
         assertEquals(startSessionPreset, audioSessionPresetViewModel.sessionPresetUpdatedLiveData.getValueForTest())
     }
 
+    /////////////////////////
     // tests on updatePresetIntermediateIntervalLength
     @Test
-    fun `test updatePresetIntermediateIntervalLength`() {
+    fun `test updatePresetIntermediateIntervalLength changes nothing`() {
         //initializing with a raw SessionPreset
         runBlocking {
             audioSessionPresetViewModel.init(
@@ -944,7 +854,7 @@ class AudioSessionPresetViewModelTest {
 
     // tests on updatePresetIntermediateIntervalSoundUriString
     @Test
-    fun `test updatePresetIntermediateIntervalSoundUriString`() {
+    fun `test updatePresetIntermediateIntervalSoundUriString changes nothing`() {
         //initializing with a raw SessionPreset
         runBlocking {
             audioSessionPresetViewModel.init(
@@ -977,7 +887,7 @@ class AudioSessionPresetViewModelTest {
 
     // tests on updatePresetIntermediateIntervalSoundName
     @Test
-    fun `test updatePresetIntermediateIntervalSoundName`() {
+    fun `test updatePresetIntermediateIntervalSoundName changes nothing`() {
         //initializing with a raw SessionPreset
         runBlocking {
             audioSessionPresetViewModel.init(
@@ -1008,5 +918,100 @@ class AudioSessionPresetViewModelTest {
         assertEquals(startSessionPreset, audioSessionPresetViewModel.sessionPresetUpdatedLiveData.getValueForTest())
     }
 
+    /////////////////////////
+    // tests on updatePresetDuration
+    @Test
+    fun `test updatePresetDuration valid value`() {
+        //initializing with a raw SessionPreset
+        runBlocking {
+            audioSessionPresetViewModel.init(
+                mockContext,
+                null,
+                deviceDefaultRingtoneUriString,
+                deviceDefaultRingtoneName
+            )
+        }
+        val startSessionPreset = SessionPreset.AudioSessionPreset(
+            id = -1L,
+            startCountdownLength = Constants.DEFAULT_SESSION_COUNTDOWN_MILLIS,
+            startAndEndSoundUriString = deviceDefaultRingtoneUriString,
+            startAndEndSoundName = deviceDefaultRingtoneName,
+            duration = -1L,
+            audioGuideSoundUriString = "",
+            audioGuideSoundArtistName = "",
+            audioGuideSoundAlbumName = "",
+            audioGuideSoundTitle = "",
+            vibration = false,
+            sessionTypeId = -1,
+            lastEditTime = -1L,
+        )
+        assertEquals(startSessionPreset, audioSessionPresetViewModel.sessionPresetUpdatedLiveData.getValueForTest())
+        //modifying
+        audioSessionPresetViewModel.updatePresetDuration(234L)
+        //checking
+        val updatedSessionPreset = SessionPreset.AudioSessionPreset(
+            id = -1L,
+            startCountdownLength = Constants.DEFAULT_SESSION_COUNTDOWN_MILLIS,
+            startAndEndSoundUriString = deviceDefaultRingtoneUriString,
+            startAndEndSoundName = deviceDefaultRingtoneName,
+            duration = 234L,
+            audioGuideSoundUriString = "",
+            audioGuideSoundArtistName = "",
+            audioGuideSoundAlbumName = "",
+            audioGuideSoundTitle = "",
+            vibration = false,
+            sessionTypeId = -1,
+            lastEditTime = -1L,
+        )
+        assertEquals(updatedSessionPreset, audioSessionPresetViewModel.sessionPresetUpdatedLiveData.getValueForTest())
+    }
+
+    @Test
+    fun `test updatePresetDuration invalid value`() {
+        //initializing with a raw SessionPreset
+        runBlocking {
+            audioSessionPresetViewModel.init(
+                mockContext,
+                null,
+                deviceDefaultRingtoneUriString,
+                deviceDefaultRingtoneName
+            )
+        }
+        val startSessionPreset = SessionPreset.AudioSessionPreset(
+            id = -1L,
+            startCountdownLength = Constants.DEFAULT_SESSION_COUNTDOWN_MILLIS,
+            startAndEndSoundUriString = deviceDefaultRingtoneUriString,
+            startAndEndSoundName = deviceDefaultRingtoneName,
+            duration = -1L,
+            audioGuideSoundUriString = "",
+            audioGuideSoundArtistName = "",
+            audioGuideSoundAlbumName = "",
+            audioGuideSoundTitle = "",
+            vibration = false,
+            sessionTypeId = -1,
+            lastEditTime = -1L,
+        )
+        assertEquals(startSessionPreset, audioSessionPresetViewModel.sessionPresetUpdatedLiveData.getValueForTest())
+        //modifying
+        audioSessionPresetViewModel.updatePresetDuration(0L)
+        //checking
+        val updatedSessionPreset = SessionPreset.AudioSessionPreset(
+            id = -1L,
+            startCountdownLength = Constants.DEFAULT_SESSION_COUNTDOWN_MILLIS,
+            startAndEndSoundUriString = deviceDefaultRingtoneUriString,
+            startAndEndSoundName = deviceDefaultRingtoneName,
+            duration = 0L,
+            audioGuideSoundUriString = "",
+            audioGuideSoundArtistName = "",
+            audioGuideSoundAlbumName = "",
+            audioGuideSoundTitle = "",
+            vibration = false,
+            sessionTypeId = -1,
+            lastEditTime = -1L,
+        )
+        assertEquals(false, audioSessionPresetViewModel.verifyPresetValidity())
+        assertEquals(false, audioSessionPresetViewModel.invalidDurationLiveData.getValueForTest())
+        assertEquals(updatedSessionPreset, audioSessionPresetViewModel.sessionPresetUpdatedLiveData.getValueForTest())
+    }
 
 }

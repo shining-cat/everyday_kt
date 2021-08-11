@@ -16,8 +16,13 @@
 - [x] upgrade LongExtensions duration formatting
 - [x] tests on LongExtensions
 - [x] modification on LongExtensions duration parsing: remove modulo on 24 hours, allow forms like 127h 23mn 07s.update tests, simplify params with identical default values...
-- [ ] use said icon to build a splashscreen, see: https://medium.com/geekculture/implementing-the-perfect-splash-screen-in-android-295de045a8dc 
+- [x] update dependencies, kotlin, gradle and AGP
+- [ ] remove jacoco, ktlint and detekt as we don't use them yet, static analysis will be implemented later on, through a github CI
+- [ ] prevent buildconfig generation for all modules except App: https://medium.com/dipien/stop-generating-the-buildconfig-on-your-android-modules-7d82dd7f20f1
+- [ ] move from livedata used as events to recommended observable objects now available in kotlin (SingleLiveEvent) or even move completely from livedata to StateFlow + ShareFlow?
+- [ ] add language setting to allow change without following the OS language
 - [ ] build launch icon from rewards assets, insert as vector adaptive icon (see https://medium.com/androiddevelopers/vectordrawable-adaptive-icons-3fed3d3205b5)
+- [ ] use launch icon to build a splashscreen, see: https://medium.com/geekculture/implementing-the-perfect-splash-screen-in-android-295de045a8dc
 - [ ] write about text
 - [ ] add custom rules to detekt to put else, catch, finally on new line => this seems quite heavy work, we may skip this, but the pb is that ktlint rules contradict our own
 - [ ] decide how to handle remaining errors reported by detekt (too many functions in SharedPrefsHelper is ok, too many parameters in method, etc.)
@@ -60,19 +65,15 @@
   - [x] include implementation AndroidLibraries.lifecycle_viewmodel_ktx and switch every mainScope.launch { ... ioscope.async{...}.await} to viewModelScope.launch{ ...withContext(Dispatchers.IO){..}}, and remove all appDispatchers
   - [x] fix tests broken by sessionPreset division into dedicated types: createSessionPresetUsecase, UpdateSessionPresetUsecase, RewardRepositoryImpl, SessionPresetRepositoryImpl, SessionPresetRepositoryImpl
   - [x] fix test in HomeViewModelTest not passing when running the whole jacoco testing gradle task, but passing individually
-  - [ ] tests on
-         - [x] HomeViewModel
-         - [x] SplashScreenViewModel
-         - [-] AbstractSessionPresetViewModel => no, test concrete methods of this abstract class inside each of its concrete implementation, this will ensure that the end-of-the-line implementation is tested
+  - [x] tests on
+     - [x] HomeViewModel
+     - [x] SplashScreenViewModel
+     - [x] AbstractSessionPresetViewModel => no, test concrete methods of this abstract class inside each of its concrete implementation, this will ensure that the end-of-the-line implementation is tested
          - [x] AudioFreeSessionPresetViewModel
-         - [ ] AudioSessionPresetViewModel
-         - [ ] TimedFreeSessionPresetViewModel
-         - [ ] TimedSessionPresetViewModel
-  - [ ] update gradle files, eventually switch to dsl
-  - [ ] prevent buildconfig generation for all modules except App: https://medium.com/dipien/stop-generating-the-buildconfig-on-your-android-modules-7d82dd7f20f1
-  - [ ] move from livedata used as events to recommended observable objects now available in kotlin (SingleLiveEvent) or even move completely from livedata to StateFlow + ShareFlow?
+         - [x] AudioSessionPresetViewModel
+         - [x] TimedFreeSessionPresetViewModel
+         - [x] TimedSessionPresetViewModel
   - [ ] find a way to animate hide/show "add session preset" fab when scroll detected, show again on release
-  - [ ] add language setting to allow change without following the OS language
 
 ### launch session
   - [ ] launchSessionUseCase (SessionViewModel) => don't know yet how to do this: need something capable of running in the background whatever happens to process
