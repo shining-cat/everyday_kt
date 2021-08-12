@@ -17,17 +17,15 @@
 - [x] tests on LongExtensions
 - [x] modification on LongExtensions duration parsing: remove modulo on 24 hours, allow forms like 127h 23mn 07s.update tests, simplify params with identical default values...
 - [x] update dependencies, kotlin, gradle and AGP
-- [ ] remove jacoco, ktlint and detekt as we don't use them yet, static analysis will be implemented later on, through a github CI
+- [x] remove jacoco, ktlint and detekt as we don't use them yet, static analysis will be implemented later on, through a github CI
 - [ ] prevent buildconfig generation for all modules except App: https://medium.com/dipien/stop-generating-the-buildconfig-on-your-android-modules-7d82dd7f20f1
 - [ ] move from livedata used as events to recommended observable objects now available in kotlin (SingleLiveEvent) or even move completely from livedata to StateFlow + ShareFlow?
 - [ ] add language setting to allow change without following the OS language
 - [ ] build launch icon from rewards assets, insert as vector adaptive icon (see https://medium.com/androiddevelopers/vectordrawable-adaptive-icons-3fed3d3205b5)
 - [ ] use launch icon to build a splashscreen, see: https://medium.com/geekculture/implementing-the-perfect-splash-screen-in-android-295de045a8dc
 - [ ] write about text
-- [ ] add custom rules to detekt to put else, catch, finally on new line => this seems quite heavy work, we may skip this, but the pb is that ktlint rules contradict ours
-- [ ] decide how to handle remaining errors reported by detekt (too many functions in SharedPrefsHelper is ok, too many parameters in method, etc.)
+- [ ] Implement CI with github actions, condition merge on unit tests passing, and code formatting, detect code smells... (jacoco, ktlint, detekt..) (see: https://proandroiddev.com/continuous-integration-delivery-for-android-with-github-actions-part-2-ec69b6980389 and: https://medium.com/google-developer-experts/github-actions-for-android-developers-6b54c8a32f55)
 - [ ] find info on building optional feature: rewards mechanism and statistics will only be added as a feature later, in order to be able to build a working version faster => we may have to split the screens module up to dissociate "bonus" features from "core" features, question is where to put the associated models, dto, repos, if not in the corresponding modules?
-- [ ] check if possible to set github actions up, have some kind of simple CI/CD running maybe? (see: https://medium.com/google-developer-experts/github-actions-for-android-developers-6b54c8a32f55)
 
 ##  roadmap:
 ### launching app
