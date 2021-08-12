@@ -14,31 +14,27 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Everyday.  If not, see <https://www.gnu.org/licenses/>.
  */
-object ApplicationSpecs {
 
-    const val id = "fr.shining_cat.everyday"
-    const val compileSdk = 30
-    const val minSdk = 21
-    const val targetSdk = 28
+apply plugin: 'com.android.library'
+apply from: "$project.rootDir/common.gradle"
+
+android {
+    //including this option through common.gradle seems to cause a conflict with its inclusion into the app level build.gradle
+    // => it should only be included in modules that need it, directly in their gradle file
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
-object Releases {
+dependencies {
 
-    const val versionCode = 1
-    const val versionName = "1.0"
-}
 
-object Modules {
+    implementation AndroidLibraries.appCompat
+    implementation AndroidLibraries.constraintLayout
+    implementation AndroidLibraries.material
 
-    const val app = ":app"
-    const val locale = ":locale"
-    const val models = ":models"
-    const val repositories = ":repositories"
-    const val commons = ":commons"
-    const val interModulesNavigation = ":navigation"
-    const val screens = ":screens"
-    const val domain = ":domain"
-    const val settings = ":settings"
-    const val session = ":session"
-    const val testutils = ":testutils"
+    implementation project(Modules.models)
+    implementation project(Modules.commons)
+    implementation project(Modules.domain)
+    implementation project(Modules.interModulesNavigation)
 }

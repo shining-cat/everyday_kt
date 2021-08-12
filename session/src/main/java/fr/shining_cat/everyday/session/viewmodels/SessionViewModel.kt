@@ -14,31 +14,16 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Everyday.  If not, see <https://www.gnu.org/licenses/>.
  */
-object ApplicationSpecs {
 
-    const val id = "fr.shining_cat.everyday"
-    const val compileSdk = 30
-    const val minSdk = 21
-    const val targetSdk = 28
-}
+package fr.shining_cat.everyday.session.viewmodels
 
-object Releases {
+import fr.shining_cat.everyday.commons.Logger
+import fr.shining_cat.everyday.commons.viewmodels.AbstractViewModels
 
-    const val versionCode = 1
-    const val versionName = "1.0"
-}
+class SessionViewModel(
+    private val logger: Logger
+) : AbstractViewModels() {
 
-object Modules {
+    private val LOG_TAG = SessionViewModel::class.java.name
 
-    const val app = ":app"
-    const val locale = ":locale"
-    const val models = ":models"
-    const val repositories = ":repositories"
-    const val commons = ":commons"
-    const val interModulesNavigation = ":navigation"
-    const val screens = ":screens"
-    const val domain = ":domain"
-    const val settings = ":settings"
-    const val session = ":session"
-    const val testutils = ":testutils"
 }

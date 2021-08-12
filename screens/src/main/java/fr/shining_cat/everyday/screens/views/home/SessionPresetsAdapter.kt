@@ -19,10 +19,15 @@ import fr.shining_cat.everyday.screens.views.home.sessionpresetviewholders.Timed
 import fr.shining_cat.everyday.screens.views.home.sessionpresetviewholders.UnknownSessionPresetViewHolder
 
 class SessionPresetsAdapter(
+    private val sessionPresetsAdapterListener:SessionPresetsAdapterListener,
     private val logger: Logger
-) : ListAdapter<SessionPreset, AbstractSessionPresetViewHolder>(SessionPresetDiffCallback()) {
+): ListAdapter<SessionPreset, AbstractSessionPresetViewHolder>(SessionPresetDiffCallback()) {
 
     private val LOG_TAG = SessionPresetsAdapter::class.java.name
+
+    interface SessionPresetsAdapterListener{
+        fun onSessionPresetSelected(sessionPreset: SessionPreset)
+    }
 
     private enum class SessionPresetViewType(val value: Int) {
         AUDIO_SESSION(0),
@@ -50,55 +55,43 @@ class SessionPresetsAdapter(
             SessionPresetViewType.TIMED_SESSION.value -> {
                 TimedSessionPresetViewHolder(
                     ItemTimedSessionPresetViewHolderBinding.inflate(
-                        LayoutInflater.from(parent.context),
-                        parent,
-                        false
-                    ),
-                    logger
+                        LayoutInflater.from(parent.context), parent, false
+                    ), logger
                 )
             }
+
             SessionPresetViewType.AUDIO_SESSION.value -> {
                 AudioSessionPresetViewHolder(
                     ItemAudioSessionPresetViewHolderBinding.inflate(
-                        LayoutInflater.from(parent.context),
-                        parent,
-                        false
-                    ),
-                    logger
+                        LayoutInflater.from(parent.context), parent, false
+                    ), logger
                 )
             }
+
             SessionPresetViewType.TIMED_FREE_SESSION.value -> {
                 TimedFreeSessionPresetViewHolder(
                     ItemTimedFreeSessionPresetViewHolderBinding.inflate(
-                        LayoutInflater.from(parent.context),
-                        parent,
-                        false
-                    ),
-                    logger
+                        LayoutInflater.from(parent.context), parent, false
+                    ), logger
                 )
             }
+
             SessionPresetViewType.AUDIO_FREE_SESSION.value -> {
                 AudioFreeSessionPresetViewHolder(
                     ItemAudioFreeSessionPresetViewHolderBinding.inflate(
-                        LayoutInflater.from(parent.context),
-                        parent,
-                        false
-                    ),
-                    logger
+                        LayoutInflater.from(parent.context), parent, false
+                    ), logger
                 )
             }
+
             else -> {
                 logger.e(
-                    LOG_TAG,
-                    "onCreateViewHolder::invalid module type"
+                    LOG_TAG, "onCreateViewHolder::invalid module type"
                 )
                 UnknownSessionPresetViewHolder(
                     ItemUnknownSessionPresetViewHolderBinding.inflate(
-                        LayoutInflater.from(parent.context),
-                        parent,
-                        false
-                    ),
-                    logger
+                        LayoutInflater.from(parent.context), parent, false
+                    ), logger
                 )
             }
         }
@@ -108,11 +101,14 @@ class SessionPresetsAdapter(
         holder: AbstractSessionPresetViewHolder,
         position: Int
     ) {
-        val cornerStripHolder = getItem(position)
-        holder.bindView(cornerStripHolder)
+        val sessionPreset = getItem(position)
+        holder.bindView(sessionPreset)
+        holder.itemView.setOnClickListener {
+            sessionPresetsAdapterListener.onSessionPresetSelected(sessionPreset)
+        }
     }
 
-    private class SessionPresetDiffCallback : DiffUtil.ItemCallback<SessionPreset>() {
+    private class SessionPresetDiffCallback: DiffUtil.ItemCallback<SessionPreset>() {
 
         override fun areItemsTheSame(
             oldItem: SessionPreset,
