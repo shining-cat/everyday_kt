@@ -51,6 +51,7 @@ dependencies {
     implementation project(Modules.screens)
     implementation project(Modules.domain)
     implementation project(Modules.settings)
+    implementation project(Modules.session)
 
     implementation Libraries.stetho
     implementation Libraries.lottie

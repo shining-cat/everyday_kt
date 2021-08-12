@@ -19,13 +19,14 @@ package fr.shining_cat.everyday
 
 import android.app.Application
 import com.facebook.stetho.Stetho
-import fr.shining_cat.everyday.commons.di.commonsModule
 import fr.shining_cat.everyday.app.di.appModule
+import fr.shining_cat.everyday.commons.di.commonsModule
 import fr.shining_cat.everyday.domain.di.domainModule
 import fr.shining_cat.everyday.locale.di.localeModule
 import fr.shining_cat.everyday.models.di.modelsModule
 import fr.shining_cat.everyday.repository.di.repositoriesModule
 import fr.shining_cat.everyday.screens.di.screensModule
+import fr.shining_cat.everyday.session.di.sessionModule
 import fr.shining_cat.everyday.settings.di.settingsModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -52,7 +53,8 @@ class EverydayApplication : Application() {
                     repositoriesModule,
                     screensModule,
                     domainModule,
-                    settingsModule
+                    settingsModule,
+                    sessionModule
                 )
             )
         }

@@ -49,6 +49,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name="fr.shining_cat.everyday.session.views.SessionActivity">
+            <intent-filter>
+                <action android:name="fr.shining_cat.everyday.session.views.SessionActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

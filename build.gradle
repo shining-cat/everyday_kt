@@ -27,6 +27,7 @@ buildscript {
         classpath KotlinLibraries.kotlinGradlePlugin
         classpath AndroidLibraries.navigation_safe_args
         classpath Libraries.gradleVersionsPlugin
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21'
     }
 }
 

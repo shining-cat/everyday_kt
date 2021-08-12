@@ -25,7 +25,7 @@
 - [ ] use launch icon to build a splashscreen, see: https://medium.com/geekculture/implementing-the-perfect-splash-screen-in-android-295de045a8dc
 - [ ] write about text
 - [ ] Implement CI with github actions, condition merge on unit tests passing, and code formatting, detect code smells... (jacoco, ktlint, detekt..) (see: https://proandroiddev.com/continuous-integration-delivery-for-android-with-github-actions-part-2-ec69b6980389 and: https://medium.com/google-developer-experts/github-actions-for-android-developers-6b54c8a32f55)
-- [ ] find info on building optional feature: rewards mechanism and statistics will only be added as a feature later, in order to be able to build a working version faster => we may have to split the screens module up to dissociate "bonus" features from "core" features, question is where to put the associated models, dto, repos, if not in the corresponding modules?
+- [ ] find info on building optional feature: rewards mechanism and detailed statistics will only be added as a feature later, in order to be able to build a working version faster => we may have to split the screens module up to dissociate "bonus" features from "core" features, question is where to put the associated models, dto, repos, if not in the corresponding modules?
 
 ##  roadmap:
 ### launching app

@@ -29,5 +29,6 @@ android {
 dependencies {
 
     implementation project(Modules.commons)
+    implementation project(Modules.models)
     implementation project(Modules.testutils)
 }

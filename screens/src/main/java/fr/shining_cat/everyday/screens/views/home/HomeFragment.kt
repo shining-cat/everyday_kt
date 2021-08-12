@@ -63,7 +63,18 @@ class HomeFragment: Fragment() {
 
     private val logger: Logger = get()
     private val homeViewModel: HomeViewModel by viewModel()
-    private val sessionPresetsAdapter = SessionPresetsAdapter(logger)
+    private val sessionPresetsAdapterListener = object: SessionPresetsAdapter.SessionPresetsAdapterListener {
+        override fun onSessionPresetSelected(sessionPreset: SessionPreset) {
+            logger.d(LOG_TAG, "onSessionPresetSelected::sessionPreset = $sessionPreset")
+            val destination = Destination.SessionDestination(sessionPreset)
+            startActivity(
+                Actions.openDestination(
+                    requireContext(), destination
+                )
+            )
+        }
+    }
+    private val sessionPresetsAdapter = SessionPresetsAdapter(sessionPresetsAdapterListener, logger)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -143,7 +154,6 @@ class HomeFragment: Fragment() {
             )
             showErrorDialog(it)
         })
-        logger.e(LOG_TAG, "homeViewModel= $homeViewModel")
         homeViewModel.sessionPresetsLiveData.observe(viewLifecycleOwner, {
             logger.d(
                 LOG_TAG, "homeViewModel.sessionPresetsLiveData::${it.size}"
@@ -294,7 +304,6 @@ class HomeFragment: Fragment() {
                 removeItemDecorationAt(0)
             }
             addItemDecoration(SessionPresetItemDecoration(resources.getDimensionPixelSize(R.dimen.three_quarter_margin)))
-            // TODO: FAB has been heavily modified, build a new way to hide it when scrolling
             // listener on scroll state to hide/show the FAB, allowing for more legibility of underlying items
             addOnScrollListener(object: RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(

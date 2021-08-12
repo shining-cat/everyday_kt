@@ -28,7 +28,7 @@ object Actions {
     ): Intent {
         return when (destination) {
             is Destination.HomeDestination -> intentForHome(context)
-            is Destination.SessionDestination -> intentForSession(context)
+            is Destination.SessionDestination -> intentForSession(context, destination)
             is Destination.SettingsDestination -> intentForSettings(context)
         }
     }
@@ -39,17 +39,22 @@ object Actions {
     ) = Intent(action).setPackage(context.packageName)
 
     private fun intentForHome(context: Context) = internalIntent(
-        context,
-        "fr.shining_cat.everyday.screens.views.ScreenActivity"
+        context, "fr.shining_cat.everyday.screens.views.ScreenActivity"
     )
 
-    private fun intentForSession(context: Context) = internalIntent(
-        context,
-        "fr.shining_cat.everyday.session.view.SessionActivity"
-    )
+    private fun intentForSession(
+        context: Context,
+        destination: Destination.SessionDestination
+    ): Intent {
+        val intent = internalIntent(
+            context, "fr.shining_cat.everyday.session.views.SessionActivity"
+        )
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.putExtras(destination.toExtra())
+        return intent
+    }
 
     private fun intentForSettings(context: Context) = internalIntent(
-        context,
-        "fr.shining_cat.everyday.settings.views.SettingsActivity"
+        context, "fr.shining_cat.everyday.settings.views.SettingsActivity"
     )
 }
