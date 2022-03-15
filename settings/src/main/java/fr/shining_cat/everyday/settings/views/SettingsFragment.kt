@@ -115,11 +115,19 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
         //
-        notificationTimePref = prefBottomDialogBuilder?.buildPrefBottomDialogNotificationTimePicker()
+        val tempNotificationTimePref = prefBottomDialogBuilder?.buildPrefBottomDialogNotificationTimePicker()
         //
-        notificationTextPref = prefBottomDialogBuilder?.buildPrefBottomDialogNotificationEditText()
+        val tempNotificationTextPref = prefBottomDialogBuilder?.buildPrefBottomDialogNotificationEditText()
         //
-        notificationSoundPref = prefBottomDialogBuilder?.buildPrefBottomDialogNotificationSoundSelect()
+        val tempNotificationSoundPref = prefBottomDialogBuilder?.buildPrefBottomDialogNotificationSoundSelect()
+        //
+        if(tempNotificationTimePref == null || tempNotificationTextPref == null || tempNotificationSoundPref == null){
+            logger.e(LOG_TAG, "setupNotificationsPreferences:: could not set preference because one of the m is null!")
+            return
+        }
+        notificationTimePref = tempNotificationTimePref
+        notificationTextPref = tempNotificationTextPref
+        notificationSoundPref = tempNotificationSoundPref
         //
         val notificationsCategory = PreferenceCategoryLongSummary(
             prefContext
@@ -130,9 +138,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
         notificationsCategory.isSingleLineTitle = false
         preferenceScreen.addPreference(notificationsCategory)
         notificationsCategory.addPreference(notificationActivatedPreference)
-        notificationsCategory.addPreference(notificationTimePref)
-        notificationsCategory.addPreference(notificationTextPref)
-        notificationsCategory.addPreference(notificationSoundPref)
+
+        notificationsCategory.addPreference(tempNotificationTimePref)
+        notificationsCategory.addPreference(tempNotificationTextPref)
+        notificationsCategory.addPreference(tempNotificationSoundPref)
         //
         updateSubNotificationPreferences(sharedPrefsHelper.getNotificationActivated())
     }
@@ -152,6 +161,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val prefContext = preferenceManager.context
         //
         val defaultNightModePreference = prefBottomDialogBuilder?.buildPrefBottomDialogDefaultNightModeSelect()
+        if(defaultNightModePreference == null){
+            logger.e(LOG_TAG, "setupCustomisationPreferences::defaultNightModePreference is null!")
+        }
         defaultNightModePreference?.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, _ ->
             // force refresh of parent activity to apply theme choice
             activity?.recreate()
@@ -159,6 +171,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
         //
         val startCountDownLengthPreference = prefBottomDialogBuilder?.buildPrefBottomDialogCountdownLengthPicker()
+        if(startCountDownLengthPreference == null){
+            logger.e(LOG_TAG, "setupCustomisationPreferences::startCountDownLengthPreference is null!")
+        }
         //
         val rewardsActivationPreference = SwitchPreferenceCompat(prefContext)
         rewardsActivationPreference.key = SharedPrefsHelperSettings.REWARDS_ACTIVATED
@@ -176,8 +191,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
         customisationCategory.title = getString(R.string.customisationPreferencesCategory_title)
         customisationCategory.isIconSpaceReserved = false
         preferenceScreen.addPreference(customisationCategory)
-        customisationCategory.addPreference(defaultNightModePreference)
-        customisationCategory.addPreference(startCountDownLengthPreference)
+        defaultNightModePreference?.let {customisationCategory.addPreference(it)}
+        startCountDownLengthPreference?.let {customisationCategory.addPreference(it)}
         customisationCategory.addPreference(rewardsActivationPreference)
         customisationCategory.addPreference(statisticsActivationPreference)
     }
@@ -187,17 +202,26 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val prefContext = preferenceManager.context
         //
         val importSessionsPreference = prefBottomDialogBuilder?.buildPrefBottomDialogImportData()
+        if(importSessionsPreference == null){
+            logger.e(LOG_TAG, "setupDataManagementPreferences::importSessionsPreference is null!")
+        }
         //
         val exportSessionsPreference = prefBottomDialogBuilder?.buildPrefBottomDialogExportData()
+        if(exportSessionsPreference == null){
+            logger.e(LOG_TAG, "setupDataManagementPreferences::exportSessionsPreference is null!")
+        }
         //
         val eraseDataPreference = prefBottomDialogBuilder?.buildPrefBottomDialogEraseAllData()
+        if(eraseDataPreference == null){
+            logger.e(LOG_TAG, "setupDataManagementPreferences::eraseDataPreference is null!")
+        }
         //
         val dataManagementCategory = PreferenceCategory(prefContext)
         dataManagementCategory.title = getString(R.string.dataManagementPreferencesCategory_title)
         dataManagementCategory.isIconSpaceReserved = false
         preferenceScreen.addPreference(dataManagementCategory)
-        dataManagementCategory.addPreference(importSessionsPreference)
-        dataManagementCategory.addPreference(exportSessionsPreference)
-        dataManagementCategory.addPreference(eraseDataPreference)
+        importSessionsPreference?.let {dataManagementCategory.addPreference(it)}
+        exportSessionsPreference?.let {dataManagementCategory.addPreference(it)}
+        eraseDataPreference?.let {dataManagementCategory.addPreference(it)}
     }
 }

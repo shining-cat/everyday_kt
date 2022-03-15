@@ -26,9 +26,9 @@ class PreferenceCategoryLongSummary(
     context: Context
 ) : PreferenceCategory(context) {
 
-    override fun onBindViewHolder(holder: PreferenceViewHolder?) {
+    override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
-        val summary = holder?.findViewById(android.R.id.summary) as TextView
+        val summary = holder.findViewById(android.R.id.summary) as TextView
         summary.isSingleLine = false
         summary.maxLines = 5
     }
