@@ -29,7 +29,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.EveryDay">
-        <activity android:name="fr.shining_cat.everyday.app.views.SplashScreenActivity">
+        <activity
+            android:name="fr.shining_cat.everyday.app.views.SplashScreenActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -37,19 +39,22 @@
         </activity>
         <activity
             android:name="fr.shining_cat.everyday.screens.views.ScreenActivity"
-            android:screenOrientation="sensorPortrait">
+            android:screenOrientation="sensorPortrait"
+            android:exported="false">
             <intent-filter>
                 <action android:name="fr.shining_cat.everyday.screens.views.ScreenActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="fr.shining_cat.everyday.settings.views.SettingsActivity">
+        <activity android:name="fr.shining_cat.everyday.settings.views.SettingsActivity"
+            android:exported="false">
             <intent-filter>
                 <action android:name="fr.shining_cat.everyday.settings.views.SettingsActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="fr.shining_cat.everyday.session.views.SessionActivity">
+        <activity android:name="fr.shining_cat.everyday.session.views.SessionActivity"
+            android:exported="false">
             <intent-filter>
                 <action android:name="fr.shining_cat.everyday.session.views.SessionActivity" />
                 <category android:name="android.intent.category.DEFAULT" />

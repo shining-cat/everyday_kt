@@ -18,6 +18,8 @@
 - [x] modification on LongExtensions duration parsing: remove modulo on 24 hours, allow forms like 127h 23mn 07s.update tests, simplify params with identical default values...
 - [x] update dependencies, kotlin, gradle and AGP
 - [x] remove jacoco, ktlint and detekt as we don't use them yet, static analysis will be implemented later on, through a github CI
+- [x] update dependencies, kotlin, gradle and AGP
+- [ ] switch tests to JUnit5 and parameterised tests
 - [ ] prevent buildconfig generation for all modules except App: https://medium.com/dipien/stop-generating-the-buildconfig-on-your-android-modules-7d82dd7f20f1
 - [ ] move from livedata used as events to recommended observable objects now available in kotlin (SingleLiveEvent) or even move completely from livedata to StateFlow + ShareFlow?
 - [ ] add language setting to allow change without following the OS language
