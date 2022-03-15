@@ -17,11 +17,11 @@
 
 object Versions {
 
-    const val kotlin = "1.5.21"//stay at 1.4.32 ?
-    const val koin = "3.1.2"
-    const val room = "2.3.0" //stay at 2.2.6 -> upgrading to 2.3.0 causes duplicate classes errors!
-    const val lifecycle = "2.3.1"
-    const val navigation = "2.3.5"
+    const val kotlin = "1.6.10"
+    const val koin = "3.1.5"
+    const val room = "2.4.2"
+    const val lifecycle = "2.4.1"
+    const val navigation = "2.4.1"
 }
 
 object Libraries {
@@ -36,7 +36,7 @@ object Libraries {
     const val stetho = "com.facebook.stetho:stetho:1.6.0"
 
     //AirBnB Lottie
-    const val lottie = "com.airbnb.android:lottie:4.0.0"
+    const val lottie = "com.airbnb.android:lottie:5.0.3"
 }
 
 object KotlinLibraries {
@@ -55,10 +55,10 @@ object AndroidLibraries {
     const val coreRunTime = "androidx.arch.core:core-runtime:2.1.0"
 
     //
-    const val appCompat = "androidx.appcompat:appcompat:1.3.1"
+    const val appCompat = "androidx.appcompat:appcompat:1.4.1"
     const val activity_ktx = "androidx.activity:activity-ktx:1.2.0"
     const val fragment_ktx = "androidx.fragment:fragment-ktx:1.3.0"
-    const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.0"
+    const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.3"
 
     // ROOM
     const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
@@ -73,7 +73,7 @@ object AndroidLibraries {
     const val navigation_safe_args = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
 
     //Material
-    const val material = "com.google.android.material:material:1.4.0"
+    const val material = "com.google.android.material:material:1.5.0"
 
     //Lifecycle
     const val lifecycle_commons_java8 = "androidx.lifecycle:lifecycle-common-java8:${Versions.lifecycle}"
@@ -81,7 +81,7 @@ object AndroidLibraries {
     const val lifecycle_viewmodel_ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
 
     //preferences
-    const val jetpack_preferences = "androidx.preference:preference-ktx:1.1.1"
+    const val jetpack_preferences = "androidx.preference:preference-ktx:1.2.0"
 
     //Java 8+ API desugaring support
     const val desugaring_support = "com.android.tools:desugar_jdk_libs:1.1.5"
@@ -89,10 +89,10 @@ object AndroidLibraries {
 
 object TestLibraries {
 
-    const val mockk = "io.mockk:mockk:1.12.0"
+    const val mockk = "io.mockk:mockk:1.12.3"
     const val junit = "junit:junit:4.13.2"
-    const val coroutines_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.1"
-    const val robolectric = "org.robolectric:robolectric:4.6.1"
+    const val coroutines_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0"
+    const val robolectric = "org.robolectric:robolectric:4.7.3"
 }
 
 object AndroidTestLibraries {
